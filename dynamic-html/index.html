@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Quran Project</title>
+	<meta name="keywords" content="keywords, here" />
+	<meta name="description" content="your description here" />
+
+	<link rel="stylesheet" href="images/quran.css" media="screen" />
+	<!-- <link href="images/themes/base/jquery.ui.all.cs" rel="stylesheet" /> -->
+</head>
+<body>
+<div class="header">
+	<h1>Quran</h1>
+	<div class="options">
+		<div class="searchBox">
+			<input class="search" value="" placeholder="Search..." /> <a href="#">Tips</a> <br />
+			
+			Font size: <button>-</button> <button>+</button>
+		</div>
+		
+		<div class="arabicOptionBox">
+			Arabic text: <br /><select class="quranBy" id="quranByQuran" name="quranBy" multiple="multiple"><option selected="selected">Word by Word</option><option>Tajweed</option><option>Image version</option><option>uthmani</option><option>other tanzil list</option></select><br />
+			(options) <br />
+			Arabic Font: <select id="font"><option selected="selected" value='auto'>Auto Select</option><option value="me_quran">Me-Quran</option> <option value="Scheherazade">Scheherazade</option><option value="_PDMS_Saleem_QuranFont">PDMS Saleem Quran</option><option value="KFGQPC Uthman Taha Naskh">KFGQPC Uthman Taha Naskh</option><option value="Traditional Arabic">Traditional Arabic</option><option value="Arabic Typesetting">Arabic Typesetting</option><option value="Sakkal Majalla">Sakkal Majalla</option><option value="MS Uighur">MS Uighur</option><option value="Arial">Arial</option><option value="Custom">Custom</option></select> <br />
+			<input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks <br />
+			<input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef
+		</div>
+		<div class="translationBox">
+			Translation: <br />
+			<select class="quranBy"  id="quranByTranslation" name="quranBy" multiple="multiple"><option selected="selected">English: picktall muhammad</option></select><br />
+			View: <a href="#">inline</a> | <a href="#">bookStyle</a>  | <a href="#">page style</a>
+		</div>
+		<button class="prevPage">Previous Page</button>
+		<button class="prevSurah">Previous Surah</button>
+		<button class="prevAyah">Previous Ayah</button> 
+		<b>||||||</b>
+		<button class="nextAyah">Next Ayah</button>
+		<button class="nextSurah">Next Surah</button>
+		<button class="nextPage">Next Page</button>
+		<br />
+		Surah: 
+		<select class="customSurah"><option selected="selected" value="1">1. الفاتحة</option><option value="2">2. البقرة</option><option value="3">3. آل عمران</option><option value="4">4. النساء</option><option value="5">5. المائدة</option><option value="6">6. الأنعام</option><option value="7">7. الأعراف</option><option value="8">8. الأنفال</option><option value="9">9. التوبة</option><option value="10">10. يونس</option><option value="11">11. هود</option><option value="12">12. يوسف</option><option value="13">13. الرعد</option><option value="14">14. ابراهيم</option><option value="15">15. الحجر</option><option value="16">16. النحل</option><option value="17">17. الإسراء</option><option value="18">18. الكهف</option><option value="19">19. مريم</option><option value="20">20. طه</option><option value="21">21. الأنبياء</option><option value="22">22. الحج</option><option value="23">23. المؤمنون</option><option value="24">24. النور</option><option value="25">25. الفرقان</option><option value="26">26. الشعراء</option><option value="27">27. النمل</option><option value="28">28. القصص</option><option value="29">29. العنكبوت</option><option value="30">30. الروم</option><option value="31">31. لقمان</option><option value="32">32. السجدة</option><option value="33">33. الأحزاب</option><option value="34">34. سبإ</option><option value="35">35. فاطر</option><option value="36">36. يس</option><option value="37">37. الصافات</option><option value="38">38. ص</option><option value="39">39. الزمر</option><option value="40">40. غافر</option><option value="41">41. فصلت</option><option value="42">42. الشورى</option><option value="43">43. الزخرف</option><option value="44">44. الدخان</option><option value="45">45. الجاثية</option><option value="46">46. الأحقاف</option><option value="47">47. محمد</option><option value="48">48. الفتح</option><option value="49">49. الحجرات</option><option value="50">50. ق</option><option value="51">51. الذاريات</option><option value="52">52. الطور</option><option value="53">53. النجم</option><option value="54">54. القمر</option><option value="55">55. الرحمن</option><option value="56">56. الواقعة</option><option value="57">57. الحديد</option><option value="58">58. المجادلة</option><option value="59">59. الحشر</option><option value="60">60. الممتحنة</option><option value="61">61. الصف</option><option value="62">62. الجمعة</option><option value="63">63. المنافقون</option><option value="64">64. التغابن</option><option value="65">65. الطلاق</option><option value="66">66. التحريم</option><option value="67">67. الملك</option><option value="68">68. القلم</option><option value="69">69. الحاقة</option><option value="70">70. المعارج</option><option value="71">71. نوح</option><option value="72">72. الجن</option><option value="73">73. المزمل</option><option value="74">74. المدثر</option><option value="75">75. القيامة</option><option value="76">76. الانسان</option><option value="77">77. المرسلات</option><option value="78">78. النبإ</option><option value="79">79. النازعات</option><option value="80">80. عبس</option><option value="81">81. التكوير</option><option value="82">82. الإنفطار</option><option value="83">83. المطففين</option><option value="84">84. الإنشقاق</option><option value="85">85. البروج</option><option value="86">86. الطارق</option><option value="87">87. الأعلى</option><option value="88">88. الغاشية</option><option value="89">89. الفجر</option><option value="90">90. البلد</option><option value="91">91. الشمس</option><option value="92">92. الليل</option><option value="93">93. الضحى</option><option value="94">94. الشرح</option><option value="95">95. التين</option><option value="96">96. العلق</option><option value="97">97. القدر</option><option value="98">98. البينة</option><option value="99">99. الزلزلة</option><option value="100">100. العاديات</option><option value="101">101. القارعة</option><option value="102">102. التكاثر</option><option value="103">103. العصر</option><option value="104">104. الهمزة</option><option value="105">105. الفيل</option><option value="106">106. قريش</option><option value="107">107. الماعون</option><option value="108">108. الكوثر</option><option value="109">109. الكافرون</option><option value="110">110. النصر</option><option value="111">111. المسد</option><option value="112">112. الإخلاص</option><option value="113">113. الفلق</option><option value="114">114. الناس</option></select>,
+		Ayah:
+		<select class="customAyah"><option selected="selected" value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select>
+		in Juz:
+		<select class="customJuz"><option selected="selected" value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option></select>
+		on Page:
+		<input class="customPage" value="" /> <br />
+		<br />
+		<div class="recitationBox">
+			<b>Recitation</b>			
+			 <br />
+			<select class="quranByRecitor"  id="quranByRecitor" name="quranByRecitor"  multiple="multiple"><option value="auto">Auto Select</option></select> 
+			<br>
+
+		<span id="currentTime"></span>/<span id="duration"></span>
+		 <span class="mouseOverTime"></span>
+		
+		<div class="progressBar">
+			<span class="buffer" style="width:0%;"></span>
+		</div>
+		
+		<div style="float: right; margin-right:4em;">
+			<div class="volumeBar"></div>
+		</div>
+		<select class="quranByRecitorBitrate"  id="quranByRecitorBitrate" name="quranByRecitorBitrate"></select>
+			<br />(options) <br />
+			<select><option selected="selected">x1</option></select>
+			play: <select><option selected="selected">Continuous</option></select>
+			delay: <select><option selected="selected">0 sec</option></select>
+			
+		</div>
+	</div>
+	
+</div>
+
+<div class="quran"></div>
+
+
+
+
+<input class="pageUrl" value="http://page+ayah-link-with-selected-languages" style="width:300px;" /><br />
+<input class="ayahUrl" value="http://ayah-link-with-selected-languages" style="width:300px;" /><br />
+
+
+<div class="footer">
+	<a href="#">Home</a> | <a href="#">Audio</a> | <a href="#">PDF</a> | <a href="#">Download</a> | <a href="#">API + Code</a> | <a href="#">News</a> | <a href="#">About</a> | <a href="#">Contact US</a>
+</div>
+<script src="javascript/jquery.js"></script>
+<script src="javascript/jquery-ui-1.8.15.custom.min.js"></script>
+<script src="javascript/jquery.jplayer.js"></script>
+<script src="javascript/Quran.js"></script>
+<script src="javascript/QuranNavigator.js"></script>
+<script src="javascript/Layout.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	layout.init();
+//]]>
+</script>
+</body>
+</html>

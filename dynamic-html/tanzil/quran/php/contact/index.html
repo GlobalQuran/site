@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="ajax.js" type="text/javascript"></script>
+	<title>Tanzil : Contact </title>
+</head>
+
+<style type="text/css">
+	.fieldset {font-family: arial; font-size: 10px; padding: 5px; background: #f4f4ff; border: 1px solid #ccf;}
+	.label {text-align: right; vertical-align: top; padding-top: 5px;}
+	.gray {color: gray;}
+	body {margin: 10px;}
+	input, textarea {padding: 1px 2px;}
+	#loadingText, #loadingImage {font-size: 12px; padding: 0px 5px; }
+	.hidden {display: none}
+</style>
+
+<body>
+
+<div>
+
+<form method="post" id="form" action="javascript:submitComments();">
+
+  <div class="fieldset">
+
+  <table border=0 cellpadding=2 cellspacing=1>
+    <tr>
+      <td class="label">Name:</td>
+      <td><input type="text" id="Name" name="Name" size="20" value=""></td>
+    </tr>
+
+    <tr>
+      <td class="label">Email:</td>
+      <td><input type="text" name="Email" size="30" value=""> <span class="gray">(optional)</span></td>
+    </tr>
+
+    <tr>
+      <td class="label">Subject:</td>
+      <td><input type="text" name="Subject" size="30" value=""> <span class="gray">(optional)</span></td>
+    </tr>
+
+    <tr>
+      <td class="label">Comments:</td>
+      <td><textarea rows="8" cols="50" id="Comments" name="Comments"></textarea></td>
+    </tr>
+
+    <tr>
+      <td align=right></td>
+      <td>
+		<input id="submit-button" type="submit" value="Submit" />
+		<!--<input id="back-button" type="button" value="Back" class="hidden" onclick="history.back();" />-->
+		<input id="confirm" name="Confirm" size="30" type="hidden" value="" />
+		<img id="loadingImage" class="hidden" src="../../img/ajax-loader.gif" width="16" height="16" />
+		<label id="loadingText"></label>
+	  </td>
+    </tr>
+  </table>
+
+  </div>
+
+</form>
+</div>
+
+<script type="text/javascript">
+
+	//---------------------- Comments Dialog -----------------------
+
+	// submit comment form 
+	function submitComments()
+	{
+		if (/^\s*$/.test($('Name').value)){
+			alert('Please enter your name');
+			return;
+		}
+		if (/^\s*$/.test($('Comments').value)) {
+			alert('Please enter your comment');
+			return;
+		}
+		$('loadingText').innerHTML = ' Submitting...';
+		$('loadingImage').style.display = 'inline'; 
+		$('confirm').value = $('Name').value+ 'inline';
+		var ajax = new AJAX();
+		ajax.formRequest('receive.php', 'form', procResponse);
+		//setTimeout("procResponse('OK')", 1000);
+	}
+
+	// process comment form response
+	function procResponse(response)
+	{
+		$('loadingImage').style.display = 'none';
+		if (response == "OK")
+		{
+			$('loadingText').innerHTML = 'Comment submitted successfully.';
+			$('submit-button').style.display = 'none';
+			//$('back-button').style.display = 'inline';
+		}
+		else
+			$('loadingText').innerHTML = 'Connection Error...';
+	}
+
+	// get element 
+	function $(element) 
+	{
+		if (typeof element == "string")
+			element = document.getElementById(element);
+		return element;
+	}
+
+</script>
+
+</body>
+</html>

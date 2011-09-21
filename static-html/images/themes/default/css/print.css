@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+#globalHeader, #infoSidebar, #globalFooter, .tajweedQuickHelp {
+	display:none;
+}
+#contentArea  {
+	width:100%;
+}

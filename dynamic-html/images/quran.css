@@ -1,0 +1,262 @@
+@CHARSET "UTF-8";
+.selected {
+		background-color: lightBlue;
+	}
+	
+	.mouseOver {
+		background-color: lightGreen;	
+	}
+.header {
+	margin:0px;
+	padding: 1em;
+	width:100%;
+	top: 0;
+	z-index:9999;
+}
+h1 {
+	float: left;
+}
+body {
+	margin:0;		
+}
+.quran {
+	
+	font-size: 40px;
+	padding: 1em;
+}
+.options {
+	margin-left:120px;
+}
+.customPage {
+	width: 30px;	
+}
+.searchBox, .arabicOptionBox, .translationBox {
+	float: right;
+	margin-right:2em;			
+}
+.footer {
+	clear: both;
+	position: relative;
+	padding: 1em;
+}
+		
+/* quran signs */
+.sign {
+	font-family: Times New Roman;
+	color: #FB7600;
+	/* font-size: 0.9em; */
+	font-size: 2em;
+}
+
+.internal-sign {
+	font-family: Times New Roman;
+	color: green;
+	/* font-size: 0.65em; */
+	font-size: 2em;
+}
+
+.juz-sign {
+	width: 16px;
+	height: 16px;
+	background-position: 0 -80px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: 3px;
+}
+
+/* tajweed colors */
+.ghn {
+    color: #FF7E1E;
+}
+.qlq {
+    color: #DD0008;
+}
+.qlq:hover {
+    background-color: #F3A6A9;
+    color: #DD0008;
+    cursor: pointer;
+}
+.idgh_ghn {
+    color: #169200;
+}
+.idgh_ghn:hover {
+    background-color: #9CE58E;
+    color: #169200;
+    cursor: pointer;
+}
+.idgh_w_ghn {
+    color: #169200;
+}
+.idgh_w_ghn:hover {
+    background-color: #9CE58E;
+    color: #169200;
+    cursor: pointer;
+}
+.iqlb {
+    color: #26BFFD;
+}
+.iqlb:hover {
+    background-color: #92E5FF;
+    color: #0099C5;
+    cursor: pointer;
+}
+.ikhf {
+    color: #9400A8;
+}
+.ikhf:hover {
+    background-color: #DAA6E1;
+    color: #9400A8;
+    cursor: pointer;
+}
+.ikhf_shfw {
+    color: #D500B7;
+}
+.ikhf_shfw:hover {
+    background-color: #F0A6E6;
+    color: #D500B7;
+    cursor: pointer;
+}
+.idghm_shfw {
+    color: #58B800;
+}
+.idghm_shfw:hover {
+    background-color: #BAE890;
+    color: #58B800;
+    cursor: pointer;
+}
+.slnt {
+    color: #AAAAAA;
+}
+.ham_wasl {
+    color: #AAAAAA;
+}
+.ham_wasl:hover {
+    background-color: #D7D7D7;
+}
+.madda_necessary {
+    color: #000EBC;
+}
+.madda_obligatory {
+    color: #2144C1;
+}
+.madda_permissible {
+    color: #4050FF;
+}
+.madda_normal {
+    color: #537FFF;
+}
+.idgh_mus {
+    color: #A1A1A1;
+}
+.idgh_mus:hover {
+    background-color: #D7D7D7;
+}
+
+/* required fonts */
+@font-face {
+    font-family: 'me_quran';
+    src: url('fonts/me_quran-webfont.eot');
+    src: url('fonts/me_quran-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/me_quran-webfont.woff') format('woff'),
+         url('fonts/me_quran-webfont.ttf') format('truetype'),
+         url('fonts/me_quran-webfont.svg#mequranRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: '_PDMS_Saleem_QuranFont';
+    src: url('fonts/pdms_saleem-webfont.eot');
+    src: url('fonts/pdms_saleem-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/pdms_saleem-webfont.woff') format('woff'),
+         url('fonts/pdms_saleem-webfont.ttf') format('truetype'),
+         url('fonts/pdms_saleem-webfont.svg#') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'KFGQPC Uthman Taha Naskh';
+    src: url('fonts/kfc_naskh-webfont.eot');
+    src: url('fonts/kfc_naskh-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/kfc_naskh-webfont.woff') format('woff'),
+         url('fonts/kfc_naskh-webfont.ttf') format('truetype'),
+         url('fonts/kfc_naskh-webfont.svg#KFGQPCUthmanTahaNaskhRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Scheherazade';
+    src: url('fonts/scheherazade-webfont.eot');
+    src: url('fonts/scheherazade-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/scheherazade-webfont.woff') format('woff'),
+         url('fonts/scheherazade-webfont.ttf') format('truetype'),
+         url('fonts/scheherazade-webfont.svg#ScheherazadeRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.img {
+	width: 16px;
+	height: 16px;
+	background: transparent url(sprites-8.png) no-repeat 0 0;
+	text-indent:-7000px;
+	overflow:hidden;
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	 /* for ie7 */
+    *text-indent: 0;
+    *font-size: 0;
+    *line-height: 0;
+}
+
+.progressBar {
+	width: 500px;
+}
+.buffer {
+	display: inline-block;
+	background-color: #ddd;
+	height: 100%;
+	position: absolute;
+}
+.audioLoading {
+	background-color:red;
+	background: url("pbar-ani.gif");
+}
+
+/* Component containers
+----------------------------------*/
+.ui-widget-content { background-color: #eeeeee/*{bgColorContent}*/; color: #222222/*{fcContent}*/; }
+.ui-widget-content a { color: #222222/*{fcContent}*/; }
+.ui-widget-header { background-color: #3B5998/*{bgColorHeader}*/; color: #222222/*{fcHeader}*/; }
+.ui-widget-header a { color: #222222/*{fcHeader}*/; }
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {background-color: #e6e6e6/*{bgColorDefault}*/; font-weight: normal/*{fwDefault}*/; color: #555555/*{fcDefault}*/; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555/*{fcDefault}*/; text-decoration: none; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { background-color: #dadada/*{bgColorHover}*/; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcHover}*/; }
+.ui-state-hover a, .ui-state-hover a:hover { color: #212121/*{fcHover}*/; text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {background-color: #ffffff/*{bgColorActive}*/; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcActive}*/; }
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121/*{fcActive}*/; text-decoration: none; }
+.ui-widget :active { outline: none; }
+.ui-state-disabled { cursor: default !important; }
+
+/* slider */
+.ui-slider { position: relative; text-align: left; cursor: pointer;}
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: pointer; }
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+.ui-slider .ui-slider-handle { width: 19px; background-position:-305px -128px; background-color:transparent;}
+.ui-slider .ui-state-hover { background-position:-324px -128px; }
+.ui-slider .ui-state-active { background-position:-342px -128px; }
+.ui-slider-horizontal { height: .8em; }
+.ui-slider-horizontal .ui-slider-handle { top: -.1em; margin-left: -.6em; }
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+.ui-slider-horizontal .ui-slider-range-min { left: 0; }
+.ui-slider-horizontal .ui-slider-range-max { right: 0; }
+
+.ui-slider-vertical { width: .8em; height: 100px; }
+.ui-slider-vertical .ui-slider-handle { left: -.2em; margin-left: 0; margin-bottom: -.6em; }
+.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
+.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }
