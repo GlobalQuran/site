@@ -204,7 +204,7 @@ var layout = {
 				$('#quranByRecitor').val(by);
 			QuranNavigator.quranByRecitor(by, kbs);
 			layout.displayRecitorBitrates(by);
-		});;
+		});
 		
 		$('.prevAyah').live('click', function() {
 			$('.quran').trigger('prevAyah');
@@ -244,6 +244,16 @@ var layout = {
 
 		$('.customJuz').live('change', function() {
 			$('.quran').trigger('customJuz', $(this).val());
+		});
+		
+		$('.play').live('click', function() {
+			layout.play();
+			return false;
+		});
+		
+		$('.pause').live('click', function() {
+			layout.pause();
+			return false;
 		});
 		
 		$('#showSigns, #showAlef').live('click', function() {			
@@ -290,6 +300,14 @@ var layout = {
 			var keyCode = e.keyCode || e.which,
 			
 			key = {left: 37, up: 38, right: 39, down: 40, space: 32, home: 36, end: 35, f2: 113, zoomIN: 107, zoomOUT: 109, r: 82, '<': 60, '>': 62, ',': 44, '.': 46};
+			
+			if ($('body').hasClass('rtl') && (keyCode == 37 || keyCode == 39)) // switch arrow keyCode, if direction is right to left
+			{
+				if (keyCode == 37)
+					keyCode = 39;
+				else
+					keyCode = 37;
+			}
 			
 			switch (keyCode)
 			{
@@ -353,12 +371,28 @@ var layout = {
 		return QuranNavigator.verseParse(quranBy, text);
 	},
 	
+	play: function ()
+	{
+		QuranNavigator.player.play();
+		$('.play, .pause').removeClass('play').addClass('pause');
+	},
+	
+	pause: function ()
+	{
+		QuranNavigator.player.pause();
+		$('.play, .pause').removeClass('pause').addClass('play');
+	},
+	
 	togglePlay: function ()
 	{
 		if (QuranNavigator.player.isPlaying())
-			QuranNavigator.player.pause();
+		{
+			this.pause();
+		}
 		else
-			QuranNavigator.player.play();
+		{
+			this.play();
+		}
 		
 		return false;
 	}

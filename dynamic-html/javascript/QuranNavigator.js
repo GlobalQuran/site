@@ -659,45 +659,38 @@ var QuranNavigator = {
 				},
 				loadstart: function (event)
 				{
-					console.log('loadStart');
 					if (QuranNavigator.player.status().seekPercent != 100)
 					{
 						$(".progressBar").addClass("audioLoading");
-						console.log('loadStart:'+QuranNavigator.player.status().seekPercent);
 					}
 				},
 				loadeddata: function ()
 				{
-					console.log('loadedData');
 					$(".progressBar").removeClass("audioLoading");
 				},
 				seeking: function()
 				{
-					console.log('seeking');
 					$(".progressBar").addClass("audioLoading");
 				},
 				seeked: function()
 				{
-					console.log('seeked');
 					$(".progressBar").removeClass("audioLoading");
 				},
 				progress: function (event)
 				{
-					console.log('progress');
-					console.log(QuranNavigator.player.status().seekPercent);
 					$('.buffer').css('width', QuranNavigator.player.status().seekPercent+'%');
 				},
 				play: function (event)
 				{
 					$(this).jPlayer("pauseOthers"); // pause all players except this one.
-					$("#currentTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
-					$("#duration").text($.jPlayer.convertTime(event.jPlayer.status.duration));
+					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
+					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
 				},
 				timeupdate: function (event)
 				{
-					$("#currentTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
-					$("#duration").text($.jPlayer.convertTime(event.jPlayer.status.duration));
+					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
+					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
 				}
 				/*, //TODO do this function properly
@@ -755,9 +748,9 @@ var QuranNavigator = {
 				var percent = 100*x/w;
 				var duration = QuranNavigator.player.duration();
 				var time = percent * duration / 100;
-				$('.mouseOverTime').text($.jPlayer.convertTime(time));
+				$('.progressBar').attr('title', $.jPlayer.convertTime(time));
 			})
-			.find('.ui-slider-handle').addClass('img');
+			.find('.ui-slider-handle').addClass('icon');
 			
 			$( ".volumeBar" ).slider({
 				orientation: "vertical",
@@ -770,7 +763,7 @@ var QuranNavigator = {
 					QuranNavigator.player.volume(ui.value);
 				}
 			})
-			.find('.ui-slider-handle').addClass('img');;
+			.find('.ui-slider-handle').addClass('icon');;
 			
 			$.jPlayer.timeFormat.padMin = false;
 		},
@@ -824,7 +817,7 @@ var QuranNavigator = {
 			}
 			
 			if (QuranNavigator.settings.playing) // if playing, auto play
-				this.play();
+				layout.play();
 		},
 		
 		_getPlayerID: function ()

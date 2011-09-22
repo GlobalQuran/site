@@ -34,6 +34,7 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 
+####### This has commented out, because this is beta release and not final yet.. else this caching is must for need for speed.
 #header expires
 <IfModule mod_expires.c>
 ##	ExpiresActive on
