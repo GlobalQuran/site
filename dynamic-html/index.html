@@ -58,8 +58,8 @@
 			<div id="playerNavBox">
 				<ul id="pageNav">
 					<li class="page"><span class="pageOn">1</span> <span class="sep">of</span> <span class="totalPages">604</span></li>
-					<li class="arrowLeft"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="prevPage button rndL tips" data-tips-position="left center"><span class="icon arrowLeft">Previous Page</span></a></li>
-					<li class="arrowRight"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="nextPage button rndR tips" data-tips-position="right center"><span class="icon arrowRight">Next Page</span></a></li>
+					<li id="prevPage"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="prevPage button rndL tips" data-tips-position="left center"><span class="icon prevPage">Previous Page</span></a></li>
+					<li id="nextPage"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="nextPage button rndR tips" data-tips-position="right center"><span class="icon nextPage">Next Page</span></a></li>
 				</ul>
 				<ul id="playerNav">
 					<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center"><span class="icon recitor">Select Recitor</span></a>
@@ -84,12 +84,13 @@
 							<li><a href="#" class="txt">Mishary</a></li>
 						</ul>
 					</li>
-					<li id="arrowLeftMedia"><a href="#" class="icon arrowLeftMedia">Previous Ayah</a></li>
-					<li id="arrowRightMedia"><a href="#" class="icon arrowRightMedia">Next Ayah</a></li>
+					<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
+					<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
 					<li id="play"><a href="#" class="icon play">play</a></li>
 					<li id="progressBar">
 						<div class="progressBar" title="0:00"><span class="buffer" style="width: 0%;"></span></div>
 					</li>
+					<li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
 					<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
 						<ul class="bandwidthList">
 							<li><a href="#" class="txt">32 kbs</a></li>
@@ -98,7 +99,6 @@
 							<li><a href="#" class="txt active">192 kbs</a></li>
 						</ul>
 					</li>
-					<li id="time"><span class="playingTime">0:00</span> <span class="sep">/</span> <span class="totalTime">0:00</span></li>
 					<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
 						<ul>
 							<li class="volumePercent">68%</li>

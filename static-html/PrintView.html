@@ -51,34 +51,34 @@
 			<div id="playerNavBox">
 				<ul id="pageNav">
 					<li class="page"><span class="pageOn">1</span> <span class="sep">of</span> <span class="totalPages">604</span></li>
-					<li class="arrowLeft"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="prevPage button rndL tips" data-tips-position="left center"><span class="icon arrowLeft">Previous Page</span></a></li>
-					<li class="arrowRight"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="nextPage button rndR tips" data-tips-position="right center"><span class="icon arrowRight">Next Page</span></a></li>
+					<li id="prevPage"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="prevPage button rndL tips" data-tips-position="left center"><span class="icon prevPage">Previous Page</span></a></li>
+					<li id="nextPage"><a href="#!/ur.junagarhi|quran-tajweed/1:1" class="nextPage button rndR tips" data-tips-position="right center"><span class="icon nextPage">Next Page</span></a></li>
 				</ul>
 				<ul id="playerNav">
 					<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center"><span class="icon recitor">Select Recitor</span></a>
 						<ul class="recitorList">
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit (mujawwad)</a></li>
-							<li><a href="#" class="txt active">Ahmed Ibn Ali Al-Ajamy</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt active">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt active">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit (mujawwad)</a></li>
+							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Ahmed Ibn Ali Al-Ajamy</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Abdul Basit</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Default</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
 						</ul>
 					</li>
-					<li id="arrowLeftMedia"><a href="#" class="icon arrowLeftMedia">Previous Ayah</a></li>
-					<li id="arrowRightMedia"><a href="#" class="icon arrowRightMedia">Next Ayah</a></li>
+					<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
+					<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
 					<li id="play"><a href="#" class="icon play">play</a></li>
 					<li id="progressBar">
 						<div class="progressBar ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all audioLoading" title="0:00">
@@ -86,6 +86,7 @@
 							<div style="width: 7%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div><a style="left: 7%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
 						</div>
 					</li>
+					<li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
 					<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
 						<ul class="bandwidthList">
 							<li><a href="#" class="txt">32 kbs</a></li>
@@ -94,7 +95,6 @@
 							<li><a href="#" class="txt active">192 kbs</a></li>
 						</ul>
 					</li>
-					<li id="time"><span class="playingTime">0:00</span> <span class="sep">/</span> <span class="totalTime">0:00</span></li>
 					<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
 						<ul>
 							<li class="volumePercent">68%</li>
@@ -192,24 +192,24 @@
 		</div>
 		<div id="contentArea" class="contentHalfSidebar single medium">
 			<div class="ayahs rtl" dir="rtl">
-				<p class="ayah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah selected">ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">مَٰلِكِ يَوْمِ ٱلدِّينِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <a href="#" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah selected">ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">مَٰلِكِ يَوْمِ ٱلدِّينِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <a href="#" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
 			</div>
 			<div class="surahTitle">
-				<a href="#!/ur.junagarhi|quran-tajweed/102:1" class="icon arrowLeft3 tips" data-tips-position="left center">Previous Surah</a>
+				<a href="#!/ur.junagarhi|quran-tajweed/102:1" data-verse="verseNoHere" class="icon prevSurah tips" data-tips-position="left center">Previous Surah</a>
 				<span class="title">Al Baqarah <span class="sep">-</span> <span class="meaning">The Cow (meaning also)</span></span>
-				<a href="#!/ur.junagarhi|quran-tajweed/104:1" class="icon arrowRight3 tips" data-tips-position="right center">Next Surah</a>
+				<a href="#!/ur.junagarhi|quran-tajweed/104:1" data-verse="verseNoHere" class="icon nextSurah tips" data-tips-position="right center">Next Surah</a>
 			</div>
-			<a href="#!/ur.junagarhi|quran-tajweed/1:1" class="icon bismillah">Bismillah</a>
+			<a href="#!/ur.junagarhi|quran-tajweed/1:1" class="icon bismillah" data-verse="1">Bismillah</a>
 			<div class="ayahs ltr" dir="ltr">
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah mouseOver">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah mouseOver">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
 			</div>
 		</div>
 	</div>

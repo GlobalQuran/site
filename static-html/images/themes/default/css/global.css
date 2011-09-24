@@ -549,13 +549,13 @@ table th, table td {
 	#topNav .recitor {
 		margin-top: -2px;
 	}
-	#topNav .arrowLeft a, #topNav .arrowRight a {
+	#topNav #prevPage a, #topNav #nextPage a {
 		margin:0;
 	}
-	#topNav .arrowLeft a {
+	#topNav #prevPage a {
 		margin-right:-4px;		
 	}
-	.rtl #topNav .arrowLeft a {
+	.rtl #topNav #prevPage a {
 		margin-right:0px;
 		margin-left:-4px;
 	}
@@ -588,11 +588,15 @@ table th, table td {
 		.rtl #pageNav {
 			float:left;
 		}	
-		.pageOn, .totalPages, .currentAyah, .sep {
+		.pageOn, .totalPages{
 			font-size:120%;
 			font-weight:bold;
 			margin-left: 3px;
 			margin-right: 6px;
+		}
+		.currentAyah, .sep {
+			margin-left: 2px;
+			margin-right: 2px;
 		}
 		.recitorList {
 			display:block;
@@ -617,14 +621,17 @@ table th, table td {
 				padding-right: 4px;
 				overflow:hidden;
 			}
-			.recitorList a:hover, .recitorList a:focus {
+			.recitorList a:hover {
 				background-color:#F2F2F2;
+				text-decoration: none;
+			}
+			.recitorList a:focus {
 				text-decoration: none;
 			}
 			.recitorList .txt {
 				color: #333;
 			}
-			.recitorList a.active, .recitorList a.active:hover, .recitorList a.focus, .recitorList a.active:visited, .recitorList a.active:active {
+			.recitorList a.active, .recitorList a.active:hover, .recitorList a.active:focus, .recitorList a.active:visited, .recitorList a.active:active {
 				background-color: #F2F2F2;
 				font-weight:bold;
 			}
@@ -639,14 +646,17 @@ table th, table td {
 			padding-right: 4px;
 			overflow:hidden;
 		}
-			.bandwidthList a:hover, .bandwidthList a:focus {
+			.bandwidthList a:hover {
 				background-color:#F2F2F2;
+				text-decoration: none;
+			}
+			.bandwidthList a:focus {
 				text-decoration: none;
 			}
 			.bandwidthList .txt {
 				color: #333;
 			}
-			.bandwidthList a.active, .bandwidthList a.active:hover, .bandwidthList a.focus, .recitorList a.active:visited, .bandwidthList a.active:active {
+			.bandwidthList a.active, .bandwidthList a.active:hover, .bandwidthList a.active:focus, .recitorList a.active:visited, .bandwidthList a.active:active {
 				background-color: #F2F2F2;
 				font-weight:bold;
 			}
@@ -1238,40 +1248,40 @@ table th, table td {
 .pause:active {
 	background-position:-80px -128px;
 }
-.arrowLeftMedia {
+.prevAyah {
 	background-position:-96px -128px;	
 }
-.arrowLeftMedia:hover, .arrowLeftMedia:focus {
+.prevAyah:hover, .prevAyah:focus {
 	background-position:-112px -128px;
 }
-.arrowLeftMedia:active {
+.prevAyah:active {
 	background-position:-128px -128px;
 }
-.arrowRightMedia {
+.nextAyah {
 	background-position:-144px -128px;	
 }
-.arrowRightMedia:hover, .arrowRightMedia:focus {
+.nextAyah:hover, .nextAyah:focus {
 	background-position:-160px -128px;
 }
-.arrowRightMedia:active {
+.nextAyah:active {
 	background-position:-176px -128px;
 }
-	.rtl .arrowLeftMedia {
+	.rtl .prevAyah {
 		background-position:-144px -128px;
 	}
-	.rtl .arrowLeftMedia:hover, .rtl .arrowLeftMedia:focus {
+	.rtl .prevAyah:hover, .rtl .prevAyah:focus {
 		background-position:-160px -128px;
 	}
-	.rtl .arrowLeftMedia:active {
+	.rtl .prevAyah:active {
 		background-position:-176px -128px;
 	}
-	.rtl .arrowRightMedia {
+	.rtl .nextAyah {
 		background-position:-96px -128px;	
 	}
-	.rtl .arrowRightMedia:hover, .rtl .arrowRightMedia:focus {
+	.rtl .nextAyah:hover, .rtl .nextAyah:focus {
 		background-position:-112px -128px;
 	}
-	.rtl .arrowRightMedia:active {
+	.rtl .nextAyah:active {
 		background-position:-128px -128px;
 	}
 .volume, .volume.full {
@@ -1320,46 +1330,46 @@ table th, table td {
 	height: 7px;
 	background-position:-100px -151px;
 }
-.arrowLeft {
+.prevPage {
 	background-position:-112px -144px;
 }
-.arrowRight {
+.nextPage {
 	background-position:-128px -144px;
 }
-.arrowLeft .disable .arrowLeft {
+#prevPage .disable .prevPage {
 	background-position:-144px -144px;
 	cursor:default;
 }
-.arrowRight .disable .arrowRight {
+#nextPage .disable .nextPage {
 	background-position:-160px -144px;
 	cursor:default;
 }
-	.rtl .arrowLeft {
+	.rtl .prevPage {
 		background-position:-128px -144px;
 	}
-	.rtl .arrowRight {
+	.rtl .nextPage {
 		background-position:-112px -144px;
 	}
-	.rtl .arrowLeft .disable .arrowLeft {
+	.rtl #prevPage .disable .prevPage {
 		background-position:-144px -144px;
 	}
-	.rtl .arrowRight .disable .arrowRight {
+	.rtl #nextPage .disable .nextPage {
 		background-position:-160px -144px;
 	}
-.arrowLeft .button, .arrowRight .button {
+#prevPage .button, #nextPage .button {
 	padding: .2em .3em .2em .3em;
 	*padding-top: .1em;
 }
-.arrowLeft .disable, .arrowRight .disable, .arrowLeft .disable:hover, .arrowRight .disable:hover { /* button */
+.prevPage .disable, .nextPage .disable, .prevPage .disable:hover, .nextPage .disable:hover { /* button */
 	color:#F4F4F4;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#F4F4F4));
 	background: -moz-linear-gradient(top, #fff, #F4F4F4);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#F4F4F4');
 }
-.arrowLeft2 {
+.prevSurah {
 	background-position:-144px -144px;
 }
-.arrowRight2 {
+.nextSurah {
 	background-position:-160px -144px;
 }
 .arrowLeft3 {
@@ -1368,10 +1378,10 @@ table th, table td {
 .arrowRight3 {
 	background-position:-192px -144px;
 }
-	.rtl .arrowLeft2 {
+	.rtl .prevSurah {
 		background-position:-160px -144px;
 	}
-	.rtl .arrowRight2 {
+	.rtl .nextSurah {
 		background-position:-144px -144px;
 	}
 	.rtl .arrowLeft3 {
@@ -1464,7 +1474,7 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
     padding: 0;
 	margin:0;
 }
-	button:hover, .button:hover {
+	button:hover, .button:hover, .button:focus, .button:active, .button:visited, .button:link {
 		text-decoration: none;
 	}
 	button:active, .button:active {
@@ -1675,6 +1685,9 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
 /* progress bar css */
 .volumeBar {
 	margin: .5em;
+}
+.volumePercent {
+	height: 20px;
 }
 .progressBar {
 	top:6px;

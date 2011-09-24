@@ -138,6 +138,7 @@ var QuranNavigator = {
 				this.settings.selectedRecitorBytes = kbs;
 			
 			this.player.load('new');
+			this.save();
 		}
 		
 		return this.settings.selectedRecitor;
@@ -213,11 +214,13 @@ var QuranNavigator = {
 	setFontFamily: function (fontFamily)
 	{
 		this.settings.font = fontFamily;
+		this.save();
 	},
 	
 	setFontSize: function (size)
 	{
 		this.settings.fontSize = size;
+		this.save();
 	},
 	
 	getFontFamily: function (by)
@@ -317,7 +320,7 @@ var QuranNavigator = {
 				this.settings.surah = surah;
 				this.settings.ayah = ayah;
 				this.player.load('new'); //TODO check on this
-				this._cookieSave();
+				this.save();
 			}
 		}
 		
@@ -385,6 +388,10 @@ var QuranNavigator = {
 		return this.data.ayahList;
 	},
 	
+	save: function () {
+		this._cookieSave(); // save settings
+	},
+	
 	load: function (surah, ayah)
 	{		
 		firstLoad = false;
@@ -423,7 +430,7 @@ var QuranNavigator = {
 			this._urlSave();
 		}
 		
-		this._cookieSave();
+		this.save();
 		
 		if (notCachedQuranID)
 		{
@@ -982,14 +989,14 @@ var QuranNavigator = {
 		{	
 			$(this._getPlayerID()).jPlayer('play');
 			QuranNavigator.settings.playing = true;
-			QuranNavigator._cookieSave();
+			QuranNavigator.save();
 		},
 		
 		pause: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('pause');
 			QuranNavigator.settings.playing = false;
-			QuranNavigator._cookieSave();
+			QuranNavigator.save();
 		},
 		
 		stop: function ()
@@ -1252,7 +1259,7 @@ var QuranNavigator = {
 			$(this.id).jPlayer('volume', volume);
 			$(this.id2).jPlayer('volume', volume);
 			QuranNavigator.settings.volume = volume;
-			QuranNavigator._cookieSave();
+			QuranNavigator.save();
 		},
 		
 		mute: function ()
@@ -1260,7 +1267,7 @@ var QuranNavigator = {
 			$(this.id).jPlayer('mute');
 			$(this.id2).jPlayer('mute');
 			QuranNavigator.settings.muted = true;
-			QuranNavigator._cookieSave();
+			QuranNavigator.save();
 		},
 		
 		unmute: function ()
@@ -1268,7 +1275,7 @@ var QuranNavigator = {
 			$(this.id).jPlayer('unmute');
 			$(this.id2).jPlayer('unmute');
 			QuranNavigator.settings.muted = false;
-			QuranNavigator._cookieSave();
+			QuranNavigator.save();
 		},
 		
 		duration: function ()
