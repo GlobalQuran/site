@@ -87,10 +87,10 @@
 					<li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
 					<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
 						<ul class="bandwidthList">
-							<li><a href="#" class="txt">32 kbs</a></li>
-							<li><a href="#" class="txt">64 kbs</a></li>
-							<li><a href="#" class="txt">128 kbs</a></li>
-							<li><a href="#" class="txt active">192 kbs</a></li>
+							<li><a href="#" class="txt" data-kbs="32">32 kbs</a></li>
+							<li><a href="#" class="txt" data-kbs="64">64 kbs</a></li>
+							<li><a href="#" class="txt" data-kbs="128">128 kbs</a></li>
+							<li><a href="#" class="txt active" data-kbs="192">192 kbs</a></li>
 						</ul>
 					</li>
 					<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
@@ -101,9 +101,9 @@
 					</li>
 					<li id="repeat" class="dropOption"><a href="#" class="dropLink active tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
 						<ul class="repeatOptions">
-							<li><label>Repeat Each</label> <select name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
-							<li><label>Repeat Times</label> <select name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
-							<li><label>Delay</label> <select name="repeatDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
+							<li><label>Repeat Each</label> <select class="repeatEach" name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
+							<li><label>Repeat Times</label> <select class="repeatTimes" name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
+							<li><label>Delay</label> <select class="repeatDelay" name="repeatDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
 						</ul>
 					</li>
 				</ul>				
@@ -120,7 +120,7 @@
 			</div>
 			<div id="surahBox">
 				<form action="#" method="post">
-					<select name="surah" id="surah"/>
+					<select name="surah" id="surah" class="customSurah">
 						<option value="">Surah  First</option>
 					</select>
 					<input type="submit" name="surahSubmit" id="surahSubmit" value="Submit" />

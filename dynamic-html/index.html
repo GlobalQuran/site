@@ -9,8 +9,10 @@
 	<meta property="og:title" content="GlobalQuran.com : Quran Navigator" />
 	<meta property="og:description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
 	<meta property="og:url" content="http://GlobalQuran.com" />
-	<meta property="og:image" content="http://GlobalQuran.com/quran/img/logo-4.png?v2" />
+	
 	<meta property="og:site_name" content="GlobalQuran.com" />
+	<meta property="og:image" content="http://GlobalQuran.com/quran/img/logo-4.png?v2" />
+	<meta property="og:type" content="book" />
 
 	<link rel="stylesheet" href="../static-html/images/themes/default/css/global.css" media="screen,print" />
 	<link rel="stylesheet" href="../static-html/images/themes/default/css/print.css" media="print" />
@@ -87,11 +89,11 @@
 					<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
 					<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
 					<li id="play"><a href="#" class="icon play">play</a></li>
-					<li id="progressBar">
+					<li id="progressBar" style="display:none;">
 						<div class="progressBar" title="0:00"><span class="buffer" style="width: 0%;"></span></div>
 					</li>
-					<li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
-					<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
+					<li id="time" style="display:none;"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
+					<li id="bandwidthOption" class="dropOption" style="display:none;"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
 						<ul class="bandwidthList">
 							<li><a href="#" class="txt">32 kbs</a></li>
 							<li><a href="#" class="txt">64 kbs</a></li>
@@ -99,17 +101,17 @@
 							<li><a href="#" class="txt active">192 kbs</a></li>
 						</ul>
 					</li>
-					<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
+					<li id="volume" class="dropOption" style="display:none;"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
 						<ul>
 							<li class="volumePercent">68%</li>
 							<li><div class="volumeBar"></div></li>
 						</ul>
 					</li>
-					<li id="repeat" class="dropOption"><a href="#" class="dropLink active tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
+					<li id="repeat" class="dropOption" style="display:none;"><a href="#" class="dropLink active tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
 						<ul class="repeatOptions">
-							<li><label>Repeat Each</label> <select name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
-							<li><label>Repeat Times</label> <select name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
-							<li><label>Delay</label> <select name="repeatDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
+							<li><label>Repeat Each</label> <select class="repeatEach" name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
+							<li><label>Repeat Times</label> <select class="repeatTimes" name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
+							<li><label>Delay</label> <select class="repeatDelay" name="repeatDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
 						</ul>
 					</li>
 				</ul>				
@@ -119,14 +121,14 @@
 			</div>	
 			<div id="searchBox">
 				<form action="#" method="post">
-					<input type="text" name="search" id="search" value="" placeholder="Search..." />
+					<input type="text" name="search" id="search" value="" placeholder="Search coming soon..." />
 					<a href="#" class="searchTips">Tips</a>
 					<input type="submit" name="searchSubmit" id="searchSubmit" value="Submit" />
 				</form>
 			</div>
 			<div id="surahBox">
 				<form action="#" method="post">
-					<select name="surah" id="surah"/>
+					<select name="surah" id="surah" class="customSurah">
 						<option value="">Surah  First</option>
 					</select>
 					<input type="submit" name="surahSubmit" id="surahSubmit" value="Submit" />
@@ -144,6 +146,7 @@
 	</div>	
 	<div id="content">
 		<div id="infoSidebar">
+			<!-- 
 			<div class="headerTitle">
 				<h4>Pakistan</h4>
 				<img src="images/flags/pe.png" class="sideLink">
@@ -152,7 +155,7 @@
 				<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
 				<li class="active"><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
 			</ul>
-			
+			 -->
 			<div class="headerTitle">
 				<h4>Quran</h4>
 				<a href="#" class="sideLink quranSettings">Settings</a>
@@ -195,26 +198,7 @@
 			</ul>
 		</div>
 		<div id="contentArea" class="contentHalfSidebar single medium">
-			<div class="ayahs rtl" dir="rtl">
-				<p class="ayah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah selected">ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">مَٰلِكِ يَوْمِ ٱلدِّينِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <a href="#" class="ayahNumber"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-			</div>
-			<div class="surahTitle">
-				<a href="#!/ur.junagarhi|quran-tajweed/102:1" class="icon arrowLeft3 tips" data-tips-position="left center">Previous Surah</a>
-				<span class="title">Al Baqarah <span class="sep">-</span> <span class="meaning">The Cow (meaning also)</span></span>
-				<a href="#!/ur.junagarhi|quran-tajweed/104:1" class="icon arrowRight3 tips" data-tips-position="right center">Next Surah</a>
-			</div>
-			<a href="#!/ur.junagarhi|quran-tajweed/1:1" class="icon bismillah">Bismillah</a>
-			<div class="ayahs ltr" dir="ltr">
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah mouseOver">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>
-			</div>
+			<img src="images/themes/default/ajax-loader-large.gif" />
 		</div>
 	</div>
 	<div class="tajweedQuickHelp">
@@ -228,10 +212,10 @@
 	</div>
 	<!-- end content -->
 	<div id="globalFooter">
-		<div class="copyright"> GlobalQuran.com © 2011 ·</div>
+		<div class="copyright"> GlobalQuran.com © 2006 - 2011 ·</div>
 		<div class="globalLanguage">
 			<ul>
-				<li><a href="#change_language" title="Use this site in another language.">English (US)</a></li>
+				<li><a href="#change_language" title="Use this site in another language.">English (US)</a> coming soon)</li>
 			</ul>
 		</div>
 		<div class="socialLike">
@@ -242,11 +226,13 @@
 		</div>
 		<div class="nav">
 			<ul>
-				<li>Home (<a href="Default.html">left</a> | <a href="Default-Right.html">right</a>)</li><li>·</li>
-				<li>List view (<a href="ListView.html">left</a> | <a href="ListView-Right.html">right</a>)</li><li>·</li>
-								<li>Search View (<a href="SearchView.html">left</a> | <a href="SearchView-Right.html">right</a>)</li><li>·</li>
-				<li><a href="DoubleView.html">Double View</a></li><li>·</li>
-				<li><a href="PrintView.html">Print View</a> </li>
+				<li><a href="#">Home</a></li><li>·</li>
+				<li>Download - coming soon</li><li>·</li>
+				<li>API - writing documentation</li><li>·</li>
+				<li><a href="#">code</a></li><li>·</li>
+				<li><a href="#">blog</a></li><li>·</li>
+				<li><a href="#">about us</a></li><li>·</li>
+				<li><a href="#">contact us</a> </li>
 			</ul>
 		</div>
 	</div>

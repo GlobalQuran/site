@@ -595,6 +595,8 @@ table th, table td {
 			margin-right: 6px;
 		}
 		.currentAyah, .sep {
+			font-size:120%;
+			font-weight:bold;
 			margin-left: 2px;
 			margin-right: 2px;
 		}
@@ -1057,6 +1059,7 @@ table th, table td {
 	#content .bismillah {
 		display:block;
 		margin:auto;
+		margin-bottom: 1em;
 	}
 	
 	.surahTitle {		
@@ -1066,6 +1069,7 @@ table th, table td {
 		margin-bottom: 1em;
 		padding-top: 10px;
 		padding-bottom: 10px;
+		display:-moz-inline-stack;
 		display:inline-block;
 		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
 		*display: inline;
@@ -1083,7 +1087,8 @@ table th, table td {
 	.surahTitle .title {
 		padding-left:1em;
 		padding-right:1em;
-		color: #999999;		
+		color: #999999;
+		display:-moz-inline-stack;
 		display:inline-block;
 		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
 		*display: inline;
@@ -1105,7 +1110,9 @@ table th, table td {
 		background-color: #f1f6ff;
 	}
 	.single .ayah, .book .ayah {
-		display: inline;		
+		text-align:justify;
+		display:inline;
+		line-height: 1.5em;		
 	}
 	.book .ayahs {
 		width: 49%;

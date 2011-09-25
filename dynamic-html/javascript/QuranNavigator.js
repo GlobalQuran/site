@@ -38,7 +38,8 @@ var QuranNavigator = {
 		font: 'auto',
 		fontSize: 'medium',
 		
-		fullScreen: false
+		fullScreen: false,
+		view: ''
 	},
 		
 	data: {		
@@ -123,6 +124,16 @@ var QuranNavigator = {
 		}
 		
 		return this.settings.selectedBy;
+	},
+	
+	quranByDetail: function (by) {
+		return this.quranList()[by];
+	},
+	
+	quranByDirection: function (by)	{
+		
+		languageCode = this.quranByDetail(by).language_code;
+		return  this.languageList()[languageCode].dir || 'left';
 	},
 	
 	quranByRecitor: function (by, kbs) {
@@ -211,6 +222,13 @@ var QuranNavigator = {
 		return found;
 	},
 	
+	quranBySelectedCount: function ()
+	{
+		by = this.settings.selectedBy;
+		var selectedArray = by.split('|');
+		return selectedArray.length;
+	},
+	
 	setFontFamily: function (fontFamily)
 	{
 		this.settings.font = fontFamily;
@@ -245,6 +263,12 @@ var QuranNavigator = {
 	getFontSize: function ()
 	{
 		return this.settings.fontSize;
+	},
+	
+	setFullScreen: function (enable)
+	{
+		this.settings.fullScreen = enable;
+		this.save();
 	},
 	
 	juz: function (juz)
@@ -768,6 +792,7 @@ var QuranNavigator = {
 				animate: true,
 				slide: function( event, ui ) {
 					QuranNavigator.player.volume(ui.value);
+					layout.volume(ui.value);
 				}
 			})
 			.find('.ui-slider-handle').addClass('icon');;
@@ -880,7 +905,7 @@ var QuranNavigator = {
 			if (recitor.ogg)
 				files.oga = this.audioPath+recitor.name+'/ogg/'+recitor.kbs+'kbs/'+verse+'.ogg';
 						
-			return files;			
+			return files;
 		},
 		
 		_recitorReset: function ()
@@ -978,6 +1003,16 @@ var QuranNavigator = {
 				ogg: media['ogg-'+kbs] ? true : false,
 				auz: auz
 			};
+		},
+		
+		recitorBy: function ()
+		{
+			return this._recitor['row'+this._recitor.position].name;
+		},
+		
+		recitorKbs: function ()
+		{
+			return this._recitor['row'+this._recitor.position].kbs;
 		},
 		
 		isPlaying: function ()
@@ -1275,6 +1310,30 @@ var QuranNavigator = {
 			$(this.id).jPlayer('unmute');
 			$(this.id2).jPlayer('unmute');
 			QuranNavigator.settings.muted = false;
+			QuranNavigator.save();
+		},
+		
+		repeat: function (bool)
+		{
+			QuranNavigator.settings.repeat = bool;
+			QuranNavigator.save();
+		},
+		
+		repeatEach: function (repeat)
+		{
+			QuranNavigator.settings.repeatEach = repeat;
+			QuranNavigator.save();
+		},
+		
+		repeatTimes: function (times)
+		{
+			QuranNavigator.settings.repeatTimes = times;
+			QuranNavigator.save();
+		},
+		
+		repeatDelay: function (delay)
+		{
+			QuranNavigator.settings.repeatDelay = delay;
 			QuranNavigator.save();
 		},
 		
