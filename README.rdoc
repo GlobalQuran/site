@@ -18,7 +18,7 @@ we will be adding more scripts to help you build your own Quran project.
 * static-html [Testing] - if you plan to change css only, then you can use this for testing only. complete javascript code is not included in this.
 * PSD-html [Designer] - if you are designer and want to change/create site/icons.
 
-=== Installation
+=== Installation 
 * auto-html - if you choose to use this.
     edit index.php and change following settings:
     * $api_url = 'http://GlobalQuran.com/'; -- pointing to main site. 
