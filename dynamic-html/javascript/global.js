@@ -164,8 +164,7 @@ jQuery(function($) {
            }
        }
     );
-
-	
+		
 	globalRun();
 	
 	// place holder crossBrowser fix by hagenBurger - http://www.hagenburger.net/BLOG/HTML5-Input-Placeholder-Fix-With-jQuery.html
@@ -209,7 +208,8 @@ function liveTips ()
 {
 	if ($('body').hasClass('rtl') && $.browser.msie && $.browser.version < 8) // ie6+ fix for right to left direction only
 		return false;
-// Define corners opposites
+	
+	// Define corners opposites
 	var tipsPositionOpposites = {
 		'bottom left': 'top right', 
 		'bottom right': 'top left', 
@@ -226,13 +226,14 @@ function liveTips ()
 	};
 	
 	// start assinging tips to the containers
-	$('.tips').each(function()
+	$('.tips').live('mouseenter', function()
 	{
 		var positionTooptip = ($(this).attr('data-tips-position') == null) ? tipsPositionOpposites['top center'] : tipsPositionOpposites[$(this).attr('data-tips-position')];
 		var positionTarget = ($(this).attr('data-tips-position') == null) ? 'top center' : $(this).attr('data-tips-position');
 		var x = 0;
 		var y = 0;
 		
+		// switch values for right to left html direction (arabic, hebrew, urdu, farsi....)
 		if ($('body').hasClass('rtl') && (positionTooptip == 'left top' || positionTooptip == 'left center' || positionTooptip == 'left bottom' || positionTooptip == 'right top' || positionTooptip == 'right center' || positionTooptip == 'right bottom')) // right to left direction, make switch
 		{
 			var tempPositionTooptip = positionTooptip;
@@ -245,7 +246,7 @@ function liveTips ()
 		if (positionTooptip == 'top right' || positionTooptip == 'top left' || positionTooptip == 'top center')
 			y = 0;
 		else if (positionTooptip == 'bottom left' || positionTooptip == 'bottom right' || positionTooptip == 'bottom center')
-			y = -4
+			y = -4;
 		else if (positionTooptip == 'left top' || positionTooptip == 'left center' || positionTooptip == 'left bottom')
 			x = 4;
 		else
@@ -256,6 +257,10 @@ function liveTips ()
 			content: {
 				text: $(this).attr('title') || $(this).text()
 			},
+			show: {
+				ready: true
+			},
+		
 			position: {
 				my: positionTooptip,
 				at: positionTarget,

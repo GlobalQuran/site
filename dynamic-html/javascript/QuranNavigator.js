@@ -5,7 +5,8 @@
 
 var QuranNavigator = {
 	
-	apiURL: 'http://api.globalquran.im/',
+	apiURL: 'http://api.globalquran.com/',
+	googleAnalyticsID: '',
 	
 	/**
 	 * object contains selected page info
@@ -33,7 +34,7 @@ var QuranNavigator = {
 		ignoreInternalSigns: false,
 		
 		wbwDirection: 'arabic2english', // if change, then it will be english2arabic
-		wbwMouseOver: false,
+		wbwMouseOver: true,
 		
 		font: 'auto',
 		fontSize: 'medium',
@@ -41,6 +42,9 @@ var QuranNavigator = {
 		fullScreen: false,
 		view: ''
 	},
+	
+	_gaID: 'UA-1019966-3',
+	
 		
 	data: {		
 		ayahList: {},
@@ -56,6 +60,8 @@ var QuranNavigator = {
 		
 		for (var i in Quran._data.UGroups)
 	        Quran._data.UGroups[i] = this._verse.regTrans(Quran._data.UGroups[i]);
+		
+		this.googleAnalytics();
 	},
 	
 	quranText: function ()
@@ -130,10 +136,13 @@ var QuranNavigator = {
 		return this.quranList()[by];
 	},
 	
-	quranByDirection: function (by)	{
+	quranByDirection: function (by)
+	{		
+		if (by == 'quran-wordbyword')
+			return (this.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
 		
 		languageCode = this.quranByDetail(by).language_code;
-		return  this.languageList()[languageCode].dir || 'left';
+		return  (typeof(this.languageList()[languageCode]) !== 'undefined') ? this.languageList()[languageCode].dir : 'left';
 	},
 	
 	quranByRecitor: function (by, kbs) {
@@ -343,7 +352,7 @@ var QuranNavigator = {
 			{
 				this.settings.surah = surah;
 				this.settings.ayah = ayah;
-				this.player.load('new'); //TODO check on this
+				this.player.load('new');
 				this.save();
 			}
 		}
@@ -455,7 +464,8 @@ var QuranNavigator = {
 		}
 		
 		this.save();
-		
+		this._gaqPush(['_trackPageview', '/#!'+this.urlPage()]);
+
 		if (notCachedQuranID)
 		{
 			$jsonp = $.support.cors ? '' : '.jsonp?callback=?';
@@ -567,12 +577,21 @@ var QuranNavigator = {
 				if (verse)
 				{
 					var verse = verse.split('|');
-					var display = QuranNavigator.settings.wbwMouseOver ? 'style="display:none;"' : '';
 				    
 					if (QuranNavigator.settings.wbwDirection == 'english2arabic')
-						verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar" '+display+'>'+verse[0]+'</span></span>';
+					{
+						if (QuranNavigator.settings.wbwMouseOver)
+							verse_html += '<span class="word"><span class="en tips" title="'+verse[0]+'">'+verse[1]+'</span></span>';
+						else
+							verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
+					}
 					else
-						verse_html = '<span class="word"><span class="en" '+display+'>'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+					{
+						if (QuranNavigator.settings.wbwMouseOver)
+							verse_html += '<span class="word"><span class="ar tips" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+						else
+							verse_html = '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+					}
 				}
 			});
 			
@@ -643,7 +662,7 @@ var QuranNavigator = {
 		off: false,
 		id: '#audioPlayer',
 		id2: '#audioPlayer2',
-		swfPath: 'http://quran.im/images',
+		swfPath: 'http://globalquran.com/images',
 		audioPath: 'http://audio.globalquran.com/',
 		preload: true, // true (two players playing continuesly), false (play with one and load with one) or -1 (just play only, no preload)
 		autoBitrate: 'high', // high, low
@@ -1007,7 +1026,7 @@ var QuranNavigator = {
 		
 		recitorBy: function ()
 		{
-			return this._recitor['row'+this._recitor.position].name;
+			return (typeof(this._recitor.position) !== 'undefined') ? this._recitor['row'+this._recitor.position].name : 'undefined';
 		},
 		
 		recitorKbs: function ()
@@ -1025,6 +1044,7 @@ var QuranNavigator = {
 			$(this._getPlayerID()).jPlayer('play');
 			QuranNavigator.settings.playing = true;
 			QuranNavigator.save();
+			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Play', this.recitorBy()]);
 		},
 		
 		pause: function ()
@@ -1032,11 +1052,13 @@ var QuranNavigator = {
 			$(this._getPlayerID()).jPlayer('pause');
 			QuranNavigator.settings.playing = false;
 			QuranNavigator.save();
+			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Pause', this.recitorBy()]);
 		},
 		
 		stop: function ()
 		{			
 			$(this._getPlayerID()).jPlayer('stop');
+			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
 		},
 		
 		next: function ()
@@ -1464,5 +1486,35 @@ var QuranNavigator = {
         date.setTime(date.getTime()+(365*24*60*60*1000)); // expire in 1 year
         var expires = "; expires="+date.toGMTString();
         document.cookie = "settings="+settings+expires+"; path=/";   
+	},
+	
+	googleAnalytics: function ()
+	{
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	    
+	    var _gaq = _gaq || [];
+	    
+	    if (this.googleAnalyticsID)
+	    {
+	    	_gaq.push(['b._setAccount', this.googleAnalyticsID]);
+	    }
+	    
+	    _gaq.push(['_setAccount', this._gaID]);
+	    this._gaqPush(['_setSessionCookieTimeout', 360000000]);
+	    this._gaqPush(['_trackPageview']);   
+	},
+	
+	_gaqPush: function(arrayValue)
+	{
+		var _gaq = _gaq || [];
+		
+		_gaq.push(arrayValue);
+		if (this.googleAnalyticsID)
+		{
+			arrayValue['0'] = 'b.'+arrayValue['0'];
+			_gaq.push(arrayValue);
+		}
 	}
 };

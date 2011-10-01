@@ -8,6 +8,7 @@ var layout = {
 	
 	quranContent: '#contentArea',
 	pageTitle: '', // if left empty, it will get html title - surah title will be prepended with this title
+	scrollOffset: -100,
 	
 	beforeLoad: function () {},
 	afterLoad: function () {},
@@ -30,6 +31,8 @@ var layout = {
 	loading: function () {}, //TODO
 	unLoading: function () {}, //TODO
 	
+	_autoScrollOnStart: false,
+	
 	displayStartup: function (success)
 	{
 		if (this.pageTitle == '')
@@ -37,27 +40,22 @@ var layout = {
 		
 		this.recitorList();
 		this.quranList();
+		this.translationList(false, ($('#languageSearch').val() != $('#languageSearch').attr('placeholder')) ? $('#languageSearch').val() : '');
 		this.surahList();
 		this.volume(QuranNavigator.settings.volume, QuranNavigator.settings.muted);
 		this.repeat(QuranNavigator.settings.repeat, true);
 		this.fullScreen(QuranNavigator.settings.fullScreen);
 		this.fontSize(false, QuranNavigator.settings.fontSize);
+		this.quranFontSettings();
 		this.display(success);
 	},
 	
 	display: function (success)
 	{
 		$(this.quranContent).html('');
-		
-		fontFamily = QuranNavigator.getFontFamily();// TODO check on this
-		if (fontFamily)
-			$(layout.quranContent).css('font-family', fontFamily);
-		$('#font').val(QuranNavigator.settings.font);
-		
-		
+				
 		by = QuranNavigator.quranBy();
 		byCount = by.split('|').length;
-console.log(byCount);
 
 		if (byCount == 1)
 			this.singleView(QuranNavigator.quranText());
@@ -65,19 +63,26 @@ console.log(byCount);
 		{
 			this.listView(QuranNavigator.quranText());
 		}
-						
+		
+		if (QuranNavigator.surah() != 1 || QuranNavigator.ayah() != 1)
+			this._autoScrollOnStart = true;
+		
 		this.ayahChanged(); // change the values to selected ayah
 		this.unLoading();
+		this._autoScrollOnStart = true;
 	},
 	
 	singleView: function(quranArray)
 	{
+		$(layout.quranContent).removeClass('list').removeClass('book').addClass('single');
+		
 		var head = '';
 		var body = '';
 		var lastSurahTitle = '';
 		
 		$.each(quranArray, function(quranBy, text)
 		{
+			fontFamily = (QuranNavigator.quranByDetail(quranBy).type == 'quran') ?  "style=\"font-family: '"+QuranNavigator.getFontFamily()+"';\"" : '';
 			direction = (QuranNavigator.quranByDirection(quranBy) == 'right') ? 'rtl' : 'ltr';
 			head += '<div class="ayahs '+direction+'" dir="'+direction+'">';
 			$.each(text, function(verseNo, val)
@@ -94,7 +99,7 @@ console.log(byCount);
 					lastSurahTitle = val.surah;
 				}
 				
-				body += '<p class="ayah '+val.surah+'-'+val.ayah+'">'+layout.verseParse(quranBy, val.verse)+'<a href="'+QuranNavigator.urlHashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+				body += '<p class="ayah quranText '+val.surah+'-'+val.ayah+'" '+fontFamily+'>'+layout.verseParse(quranBy, val.verse)+'<a href="'+QuranNavigator.urlHashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
 			});
 			body += '</div>';
 		});
@@ -104,71 +109,78 @@ console.log(byCount);
 	
 	listView: function (quranArray)
 	{
+		$(layout.quranContent).removeClass('single').removeClass('book').addClass('list');
+		
 		ayahList = QuranNavigator.ayahs();
 		byList = QuranNavigator.quranList('text');
 		
-		$.each(ayahList, function(i, aboutAyah) {
-	
-			var verseNo = aboutAyah['verseNo'];			
+		var head = '';
+		var body = '';
+		var lastSurahTitle = '';
+		var verseNo = '';
+		var val = '';
+		var by = '';
+		var name = '';
+		
+		head += '<div class="ayahs">';
+		
+		$.each(ayahList, function(i, aboutAyah)
+		{
+			verseNo = aboutAyah['verseNo'];
+			val = Quran.ayah.fromVerse(verseNo);
+			
+			
+			if (val.ayah == 1 && lastSurahTitle != val.surah)
+			{
+				
+				if (lastSurahTitle != '')
+				{
+					$(layout.quranContent).append(head+body+'</div>');
+					body = '';
+				}
+				
+				$(layout.quranContent).append(layout.getSurahTitle(val.surah, val.ayah));
+				lastSurahTitle = val.surah;
+			}
+			
+			body += '<div class="group '+val.surah+'-'+val.ayah+'">';
+			body += '<a href="'+QuranNavigator.urlHashless()+'#!/'+QuranNavigator.quranBy()+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a>';
 			
 			// loop this for putting quran on top
-			$.each(quranArray, function(quranBy, text) {
-				var val = text[verseNo];
+			$.each(quranArray, function(quranBy, text) 
+			{
+				val = text[verseNo];
 				if (byList[quranBy].type == 'quran' && val !== undefined)
 				{
-					var html = '<div class="'+val.surah+'-'+val.ayah+'">'+layout.verseParse(quranBy, val.verse)+'</div>';
-					$(layout.quranContent).append(html);
-					//$('.quran > div:last').data(val);
+					by = QuranNavigator.quranByDetail(quranBy);
+					name = by.native_name || by.english_name;
+					direction = (QuranNavigator.quranByDirection(quranBy) == 'right') ? 'rtl' : 'ltr';
+					fontFamily = "style=\"font-family: '"+QuranNavigator.getFontFamily()+"';\"";
+					body += '<p class="ayah quranText '+direction+'" dir="'+direction+'" '+fontFamily+'><a href="'+QuranNavigator.urlHashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, val.verse)+'</p>';
 				}
 				
 			});
 			
 			// loop again to put translation under quran
-			$.each(quranArray, function(quranBy, text) {
-				var val = text[verseNo];
+			$.each(quranArray, function(quranBy, text)
+			{
+				val = text[verseNo];
 				if (byList[quranBy].type != 'quran' && val !== undefined)
 				{					
-					var html = '<div class="'+val.surah+'-'+val.ayah+'">'+layout.verseParse(quranBy, val.verse)+'</div>';
-					$(layout.quranContent).append(html);
-					//$('.quran > div:last').data(val);
+					by = QuranNavigator.quranByDetail(quranBy);
+					name = by.native_name || by.english_name;
+					direction = (QuranNavigator.quranByDirection(quranBy) == 'right') ? 'rtl' : 'ltr';
+					body += '<p class="ayah '+direction+'" dir="'+direction+'"><a href="'+QuranNavigator.urlHashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, val.verse)+'</p>';
 				}				
 			});
-		});	
-		
-		var head = '';
-		var body = '';
-		var lastSurahTitle = '';
-		
-		$.each(quranArray, function(quranBy, text)
-		{
-			direction = (QuranNavigator.quranByDirection(quranBy) == 'right') ? 'rtl' : 'ltr';
-			head += '<div class="ayahs '+direction+'" dir="'+direction+'">';
-			$.each(text, function(verseNo, val)
-			{
-				if (val.ayah == 1 && lastSurahTitle != val.surah)
-				{
-					
-					if (lastSurahTitle != '')
-					{
-						$(layout.quranContent).append(head+body+'</div>');
-						body = '';
-					}
-					
-					$(layout.quranContent).append(layout.getSurahTitle(val.surah, val.ayah));
-					lastSurahTitle = val.surah;
-				}
-				/*<div class="group">
-					<a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber"><span class="icon leftBracket"></span>٥٣٣<span class="icon rightBracket"> </span></a>
-					<p class="ayah rtl" dir="rtl"><a href="#!/ur.junagarhi/103:3" class="quranID">Urdu</a> بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Sahih International</a> Im suppose to be right to left direction</p>
-				</div>*/
-				body += '<p class="ayah '+val.surah+'-'+val.ayah+'">'+layout.verseParse(quranBy, val.verse)+'<a href="'+QuranNavigator.urlHashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
-			});
-			body += '</div>';
+			
+			body += '</div>'; // closing group
 		});
+		body += '</div>'; // closing ayah
 		
 		$(this.quranContent).append(head+body);
-	}, //TODO
+	},
+	
 	searchView: function (quranArray) {}, //TODO
 	bookView: function (quranArray) {}, //TODO
 	
@@ -230,27 +242,126 @@ console.log(byCount);
 			$('.bandwidthOption').text('auto');
 	},
 	
-	quranList: function ()
+	quranList: function (showAll)
 	{
+		var maxChar = 25;
+		var showOnList = 3;
+		var totalCount = 0;
 		var list = QuranNavigator.quranList('text');
-		
+		var active = '';
+		var html = '';
+		var $list = $('#quranList');
+				
 		//clean the rows, if already there
-		$('#quranByQuran').html('');
-		$('#quranByTranslation').html('');
-		$.each(list, function (quranByID, by) {
-			name = by.native_name || by.english_name;
-			selected = QuranNavigator.isQuranBySelected(quranByID, (by.format == 'audio') ? QuranNavigator.settings.selectedRecitor : false) ? 'selected="selected"' : '';
+		$list.html('');
 		
+		$.each(list, function (quranByID, by)
+		{
 			if (by.type == 'quran')
-			{				
-				$('#quranByQuran').append('<option '+selected+' value="'+quranByID+'">'+by.english_name+' '+by.native_name+'</option>');
-			}
-			else if (by.format == 'text')
 			{
-				$('#quranByTranslation').append('<option '+selected+' value="'+quranByID+'">'+name+'</option>');
+				//name = by.native_name || by.english_name;
+				name = by.english_name;
+				fullName = name;
+				charTips = (name.length > maxChar) ? 'tips' : '';
+				if (name.length > maxChar)
+					name = name.substr(0, (maxChar-3))+'...';
+				
+				doubleLanguage = '';
+				if (quranByID == 'quran-wordbyword')
+					doubleLanguage = (QuranNavigator.settings.wbwDirection == 'arabic2english') ?  '<span class="countValue rnd wbwDirection tips" title="change arabic to english" data-tips-position="left center">EN</span>' :  '<span class="countValue rnd wbwDirection tips" title="change english to arabic" data-tips-position="left center">AR</span>';
+				
+				active = QuranNavigator.isQuranBySelected(quranByID, false) ? 'active' : '';
+				html = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span>'+doubleLanguage+'<span class="loadingIndicator"></span></a></li>';
+				
+				if (active)
+					$list.prepend(html);				
+				else
+					$list.append(html);
+				
+				totalCount++;
 			}
 		});
-	}, //TODO
+		
+		if (showAll)
+			return;
+		
+		if ($list.find('a.active').length > showOnList)
+			showOnList = $list.find('a.active').length;
+		
+		i = 0;
+		$list.find('a').each(function() {
+			i++;
+			
+			if (i > showOnList)
+				$(this).parent('li').remove();
+		});
+		
+		if (i > showOnList)
+			$list.append('<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">'+(i-showOnList)+'</span></a></li>');
+	},
+	
+	translationList: function (showAll, filter)
+	{
+		showAll = showAll || false;
+		filter = filter || '';
+		filter = $.trim(filter).toLowerCase();
+		var maxChar = 25;
+		var showOnList = 8;
+		var totalCount = 0;
+		var list = QuranNavigator.quranList('text');
+		var active = '';
+		var html = '';
+		var $list = $('#translationList');
+		
+		//clean the rows, if already there
+		$list.html('');
+		
+		$.each(list, function (quranByID, by)
+		{
+			searchString = by.native_name+' '+by.english_name+' '+by.language_code+' ';
+			
+			if (QuranNavigator.languageList()[by.language_code])
+				searchString += QuranNavigator.languageList()[by.language_code].english_name+' '+QuranNavigator.languageList()[by.language_code].native_name;
+			
+			searchString = searchString.toLowerCase();
+			
+			if (by.type != 'quran' && (filter == '' || searchString.indexOf(filter) != -1))
+			{
+				name = by.native_name || by.english_name;
+				fullName = name;
+				charTips = (name.length > maxChar) ? 'tips' : '';
+				if (name.length > maxChar)
+					name = name.substr(0, (maxChar-3))+'...';
+				
+				active = QuranNavigator.isQuranBySelected(quranByID, false) ? 'active' : '';
+				html = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span><span class="loadingIndicator"></span></a></li>';
+				
+				if (active)
+					$list.prepend(html);				
+				else
+					$list.append(html);
+				
+				totalCount++;
+			}
+		});
+		
+		if (showAll)
+			return;
+		
+		if ($list.find('a.active').length > showOnList)
+			showOnList = $list.find('a.active').length;
+		
+		i = 0;
+		$list.find('a').each(function() {
+			i++;
+			
+			if (i > showOnList)
+				$(this).parent('li').remove();
+		});
+		
+		if (i > showOnList)
+			$list.append('<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">'+(i-showOnList)+'</span></a></li>');
+	},
 	
 	surahList: function ()
 	{
@@ -330,18 +441,27 @@ console.log(byCount);
 			if (!optionDropDisable)
 				$('.repeat').parents('.dropOption').trigger('dropOption', 'show');
 			QuranNavigator.player.repeat(true);
+			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'repeatOn', QuranNavigator.player.recitorBy()]);
 		}
 		else
 		{
 			$('.repeat').removeClass('active');
 			$('.repeat').parents('.dropOption').trigger('dropOption', 'hide');
 			QuranNavigator.player.repeat(false);
+			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'repeatOff', QuranNavigator.player.recitorBy()]);
 		}
 		
 		// update repeat settings, must for start run
 		$('.repeatEach').val(QuranNavigator.settings.repeatEach);
 		$('.repeatTimes').val(QuranNavigator.settings.repeatTimes);
 		$('.repeatDelay').val(QuranNavigator.settings.repeatDelay);
+	},
+	
+	quranFontSettings: function () // for startup only
+	{
+		$('#showSigns').attr('checked', QuranNavigator.settings.showSigns);
+		$('#showAlef').attr('checked', QuranNavigator.settings.showAlef);
+		$('#quranFont').val(QuranNavigator.settings.font);
 	},
 	
 	fullScreen: function (enable)
@@ -457,6 +577,8 @@ console.log(byCount);
 		// select verse
 		$(this.quranContent+' .selected').removeClass('selected');
 		$('.'+QuranNavigator.surah()+'-'+QuranNavigator.ayah()).addClass('selected');
+		if (this._autoScrollOnStart)
+			$('.'+QuranNavigator.surah()+'-'+QuranNavigator.ayah()).scrollTo(1000, this.scrollOffset);
 		$('.customSurah').val(QuranNavigator.surah());
 		
 		if (QuranNavigator.quranBySelectedCount() == 1 && QuranNavigator.quranByDetail(by).language_code == 'ar')
@@ -614,22 +736,41 @@ console.log(byCount);
 		});
 		
 		$('#showSigns, #showAlef').live('click', function()
-		{			
-			QuranNavigator.settings.showAlef = $('#showAlef:checked').val() ? true : false;
-			QuranNavigator.settings.showSigns = $('#showSigns:checked').val() ? true : false;
+		{	
+			QuranNavigator.settings.showAlef = $('#showAlef').is(':checked');
+			QuranNavigator.settings.showSigns = $('#showSigns').is(':checked');
 			QuranNavigator.load(QuranNavigator.surah(), QuranNavigator.ayah());
-			return false;
 		});
 		
-		$('.quranBy').live('change', function() {
-			var by = $('#quranByTranslation').val() || [];
-			var quranByQuran = $('#quranByQuran').val() || [];
-
-			for (var i = 0; i < quranByQuran.length; i++) {
-			    by.push(quranByQuran[i]);
-			};
+		$('#quranFont').live('change', function() {
+			QuranNavigator.setFontFamily($(this).val());
+			QuranNavigator.load(QuranNavigator.surah(), QuranNavigator.ayah());
+		});
+		
+		$('a[data-quranid]').live('click', function()
+		{			
+			if ($(this).hasClass('active'))
+			{
+				$(this).removeClass('active');
+				QuranNavigator._gaqPush(['_trackEvent', 'QuranBy', 'remove',  $(this).text()]);
+			}
+			else
+			{
+				$(this).addClass('active');
+				QuranNavigator._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
+			}
 			
+			var by = [];
+			
+			$('a[data-quranid]').each(function() {
+				if ($(this).hasClass('active'))
+					by.push($(this).attr('data-quranid'));
+			});
+			
+
 			$(layout.quranContent).trigger('quranBy', by.join('|'));
+			
+			return false;
 		});
 		
 		$('.recitorList a').live('click', function()
@@ -640,9 +781,15 @@ console.log(byCount);
 				$(this).addClass('active');
 			}
 			else if ($(this).hasClass('active'))
+			{
 				$(this).removeClass('active');
+				QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'recitorRemove', $(this).text()]);
+			}
 			else
+			{
 				$(this).addClass('active');
+				QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'recitorAdd', $(this).text()]);
+			}
 			
 			if ($('.recitorList .active').length == 0) // if none selected, select auto
 				$('.recitorList [data-recitor-id="auto"]').addClass('active');
@@ -671,11 +818,7 @@ console.log(byCount);
 			$(this).addClass('active');
 					
 			$(layout.quranContent).trigger('quranByRecitor', [QuranNavigator.settings.selectedRecitor, $(this).attr('data-kbs')]);
-		});
-		
-		$('#font').live('change', function() {
-			QuranNavigator.setFontFamily($(this).val());
-			QuranNavigator.load(QuranNavigator.surah(), QuranNavigator.ayah());
+			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'bandwidth',  $(this).attr('data-kbs')]);
 		});
 		
 		//full screen
@@ -696,8 +839,51 @@ console.log(byCount);
 			return false;
 		});
 		
+		// langauge search
+		$('#languageSearch').live('keyup', function() {
+			layout.translationList(false, ($('#languageSearch').val() != $('#languageSearch').attr('placeholder')) ? $('#languageSearch').val() : '');
+			return false;
+		});
+		
+		// show more quran, langauge list
+		$('#quranList .more, #translationList .more').live('click', function() {
+			$list = $(this).parents('ul');
+			if ($list.attr('id') == 'quranList')
+				layout.quranList(true);
+			else
+				layout.translationList(true, ($('#languageSearch').val() != $('#languageSearch').attr('placeholder')) ? $('#languageSearch').val() : '');
+			
+			$list.append('<li><a href="#" class="less"><span class="txt">Less &uArr;</span></a></li>');
+			
+			return false;
+		});
+		// show less quran, langauge list
+		$('#quranList .less, #translationList .less').live('click', function() {
+			$list = $(this).parents('ul');
+			if ($list.attr('id') == 'quranList')
+				layout.quranList(false);
+			else
+				layout.translationList(false, ($('#languageSearch').val() != $('#languageSearch').attr('placeholder')) ? $('#languageSearch').val() : '');
+			
+			return false;
+		});
+		
+		$('.wbwDirection').live('click', function() 
+		{
+			var languageTo = $(this).text();
+			var languageFrom = (languageTo == 'EN') ? 'AR' : 'EN'; 
+			$(this).text(languageFrom);			
+			QuranNavigator.settings.wbwDirection = (languageTo == 'EN') ? 'english2arabic' : 'arabic2english';
+			QuranNavigator.load(QuranNavigator.surah(), QuranNavigator.ayah());
+			
+			return false;
+		});
+		
 		$(document).keydown(function (e)
 		{
+			if ($(document.activeElement).attr('type')) // dont do anything if input box is selected
+				return;
+
 			var keyCode = e.keyCode || e.which,
 			
 			key = {left: 37, up: 38, right: 39, down: 40, space: 32, home: 36, end: 35, f2: 113, zoomIN: 107, zoomOUT: 109, r: 82, '<': 60, '>': 62, ',': 44, '.': 46};
@@ -775,6 +961,27 @@ console.log(byCount);
 	}
 };
 
+jQuery.fn.extend({
+	scrollTo : function(speed, offset, easing) {
+		offset = offset || 0;
+		return this.each(function() {
+			var targetOffset = $(this).offset().top+offset;
+			$('html,body').animate({scrollTop: targetOffset}, speed, easing);
+		});
+	}
+});	
+/*
+var contentHeight = contentWrapper.outerHeight(true);
+var scrollableHeight = scrollable.outerHeight();
+var targetTop = target.offset().top;
+var offset = targetTop;
+
+if ((contentHeight - targetTop) < scrollableHeight)
+{
+	// scrollbar will reach the bottom before the scrollTop will reach the target top
+	offset = contentHeight - scrollableHeight;
+}
+*/
 $.ajaxSetup({"error":function(XMLHttpRequest,textStatus, errorThrown) {   
     alert(textStatus);
     alert(errorThrown);

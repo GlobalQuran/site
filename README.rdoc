@@ -10,7 +10,7 @@ we will be adding more scripts to help you build your own Quran project.
 
 == Features
 
-complete list of {features}[http://blog.globalquran.com].
+complete list of {features}[http://blog.globalquran.com/feature-list].
 
 
 == Getting Started
@@ -27,7 +27,7 @@ complete list of {features}[http://blog.globalquran.com].
 * dynamic-html [Live (we use this)] - you can modify complete layout through html/css/javascript. full control for any kind of developers.
 * static-html [Testing] - if you plan to change css only, then you can use this for testing only. complete javascript code is not included in this.
 * PSD-html [Designer] - if you are designer and want to change/create site/icons.
-* CHANGELOG.rdoc - history list of changes
+* plugins - Helps you extend the features of your site. developers are welcome to add there own plugins here.
 
 
 === Installation 
@@ -77,11 +77,25 @@ static-html - use this for css testing only. for creating new css or modifing ol
     * fancyDesign/css - all the css files here
     * fancyDesign/css/global.css - complete css
     * fancyDesign/css/print.css - printing version
+
+
+=== Plugins
+
+{Plugins}[https://github.com/imegah/GlobalQuran.com-code/tree/master/Plugins] are great way to extend the site features. we welcome all the developers to add there own plugins here and so people can 
+use it for there sites/applications. if you know any muslim developer, then feel free to share this area with them, so they can
+add there own plugins here.
     
 
 == Help
 
 Help {Forum}[http://groups.google.com/group/globalquran] - Search forum for Q&A or just Ask one.
+
+
+=== FeedBack and Bug reports
+
+If you use this library and find yourself missing any functionality I have missed, please {let me know}[mailto:i@Basit.me].
+
+Bug reports and Feature suggestions {are welcomed}[https://github.com/imegah/GlobalQuran.com-code/issues].
 
     
 == Author
@@ -93,17 +107,10 @@ Author:: {Basit}[http://www.Basit.me/] <i@Basit.me>
 
 Everyone {in this list}[http://blog.globalquran.com/about-us/].
 
-
-== FeedBack and Bug reports
-
-If you use this library and find yourself missing any functionality I have missed, please {let me know}[mailto:i@Basit.me].
-
-Bug reports and Feature suggestions {are welcomed}[https://github.com/imegah/GlobalQuran.com-code/issues].
-
     
 == Changelog
 
-See the CHANGELOG.rdoc file for details.
+See the {CHANGELOG.rdoc}[https://github.com/imegah/GlobalQuran.com-code/blob/master/CHANGELOG.rdoc] file for details.
 
 
 == License

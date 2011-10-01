@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" dir="lrt">
 <head>
+	<script>
+		var apiURL = 'http://api.globalquran.im/'; 	// remove this line
+		var swfPath = 'http://quran.im/images'; 	// remove this line
+		var googleAnalyticsID = '';					// add your google analytics id here
+	</script>
 	<meta charset="utf-8">
-	<title>GlobalQuran.com</title>
+	<title>GlobalQuran.com (Beta)</title>
 	<meta name="description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
 	<meta name="keywords" content="Quran, Quran Text, Translation, Recitation, Authentic, Precise, Accurate, Verified, Qur'an, Al-Qur'an, Kuran, Koran, Search Quran, Roots, Recite, Tartil, Tarteel, ????, ?????, ?????, ?????, ????? ????, ???? ????, ?????, ?????, ????" />
 	
@@ -11,9 +16,10 @@
 	<meta property="og:url" content="http://GlobalQuran.com" />
 	
 	<meta property="og:site_name" content="GlobalQuran.com" />
-	<meta property="og:image" content="http://GlobalQuran.com/quran/img/logo-4.png?v2" />
+	<meta property="og:image" content="http://GlobalQuran.com/images/logo.png" />
 	<meta property="og:type" content="book" />
-
+	
+	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="../static-html/images/themes/default/css/global.css" media="screen,print" />
 	<link rel="stylesheet" href="../static-html/images/themes/default/css/print.css" media="print" />
 </head>
@@ -26,11 +32,14 @@
 			<div id="statusNav">
 				<span class="currentAyah tips" title="Surah Al Nas"  data-tips-position="bottom center">00:00</span>
 				<ul>
+					<li><a href="http://blog.globalquran.com/feature-list/" class="gq spotLight">Feature List</a></li>
+					<!--
 					<li class="dropOption"><a href="#" class="dropLink">Tag</a>
 						<ul>
 							<li><span style="white-space:nowrap;">Tags coming very soon insha'Allah</span></li>
 						</ul>
 					</li>
+					 -->
 					<li><a href="#" class="print">Print</a></li>
 					<li class="dropOption"><a href="#" class="dropLink">Share</a>
 						<ul id="share">
@@ -65,26 +74,7 @@
 				</ul>
 				<ul id="playerNav">
 					<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center"><span class="icon recitor">Select Recitor</span></a>
-						<ul class="recitorList">
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit (mujawwad)</a></li>
-							<li><a href="#" class="txt active">Ahmed Ibn Ali Al-Ajamy</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt active">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt active">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-							<li><a href="#" class="txt">Default</a></li>
-							<li><a href="#" class="txt">Abdul Basit</a></li>
-							<li><a href="#" class="txt">Mishary</a></li>
-						</ul>
+						<ul class="recitorList"></ul>
 					</li>
 					<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
 					<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
@@ -94,12 +84,7 @@
 					</li>
 					<li id="time" style="display:none;"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
 					<li id="bandwidthOption" class="dropOption" style="display:none;"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
-						<ul class="bandwidthList">
-							<li><a href="#" class="txt">32 kbs</a></li>
-							<li><a href="#" class="txt">64 kbs</a></li>
-							<li><a href="#" class="txt">128 kbs</a></li>
-							<li><a href="#" class="txt active">192 kbs</a></li>
-						</ul>
+						<ul class="bandwidthList"></ul>
 					</li>
 					<li id="volume" class="dropOption" style="display:none;"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
 						<ul>
@@ -122,15 +107,13 @@
 			<div id="searchBox">
 				<form action="#" method="post">
 					<input type="text" name="search" id="search" value="" placeholder="Search coming soon..." />
-					<a href="#" class="searchTips">Tips</a>
+					<!-- TODO <a href="#" class="searchTips">Tips</a> -->
 					<input type="submit" name="searchSubmit" id="searchSubmit" value="Submit" />
 				</form>
 			</div>
 			<div id="surahBox">
 				<form action="#" method="post">
-					<select name="surah" id="surah" class="customSurah">
-						<option value="">Surah  First</option>
-					</select>
+					<select name="surah" id="surah" class="customSurah"></select>
 					<input type="submit" name="surahSubmit" id="surahSubmit" value="Submit" />
 				</form>
 			</div>
@@ -146,16 +129,6 @@
 	</div>	
 	<div id="content">
 		<div id="infoSidebar">
-			<!-- 
-			<div class="headerTitle">
-				<h4>Pakistan</h4>
-				<img src="images/flags/pe.png" class="sideLink">
-			</div>			
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li class="active"><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
-			</ul>
-			 -->
 			<div class="headerTitle">
 				<h4>Quran</h4>
 				<a href="#" class="sideLink quranSettings">Settings</a>
@@ -165,42 +138,29 @@
 				<li><label>Quran Fonts [ <a href="#" class="lighter tips" title="Quran fonts are applied to quran text only">?</a> ]</label>
 					<select id="quranFont"><option selected="selected" value='auto'>Auto Select [Recommanded]</option><option value="me_quran">Me-Quran</option> <option value="Scheherazade">Scheherazade</option><option value="_PDMS_Saleem_QuranFont">PDMS Saleem Quran</option><option value="KFGQPC Uthman Taha Naskh">KFGQPC Uthman Taha Naskh</option><option value="Traditional Arabic">Traditional Arabic</option><option value="Arabic Typesetting">Arabic Typesetting</option><option value="Sakkal Majalla">Sakkal Majalla</option><option value="MS Uighur">MS Uighur</option><option value="Arial">Arial</option><option value="Custom">Custom</option></select>
 				</li>
-				<li><label><input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks</label></li>
-				<li><label><input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef</label></li>
+				<li><label><input type="checkbox" id="showSigns" value='yes'> Show Pause Marks</label></li>
+				<li><label><input type="checkbox" id="showAlef" value='yes'> Show Small-Alef</label></li>
 			</ul>
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
-			</ul>
+			<ul class="sideNav" id="quranList"></ul>
 			
 			<div class="headerTitle">
 				<h4>All Languages</h4>
 			</div>
 			<input type="text" id="languageSearch" name="languageSearch" value="" placeholder="Search..." />
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="loading"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a>
-					<ul>
-						<li><a href="#"><span class="txt">Friends Events</span><span class="countValue rnd">2</span><span class="loadingIndicator"></span></a></li>
-						<li><a href="#"><span class="txt">Birthday</span><span class="loadingIndicator"></span></a></li>
-					</ul>
-				</li>
-				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
-			</ul>
-			
+			<ul class="sideNav" id="translationList"></ul>
+		<!-- 	
 			<ul class="sideHelpLinks">
 				<li><a href="#">How to use the site [video]</a></li>
 				<li><a href="#">Keyboard Shortcuts</a></li>
 				<li><a href="#">Tajweed Rules</a></li>
 			</ul>
+		-->
 		</div>
 		<div id="contentArea" class="contentHalfSidebar single medium">
 			<img src="images/themes/default/ajax-loader-large.gif" />
 		</div>
 	</div>
+	<!-- 
 	<div class="tajweedQuickHelp">
 		<ul>
 			<li><span class="color ikhf"></span> <span class="txt">ikhafa</span></li>
@@ -210,6 +170,7 @@
 			<li><a href="#">learn'em</a></li>
 		</ul>
 	</div>
+	 -->
 	<!-- end content -->
 	<div id="globalFooter">
 		<div class="copyright"> GlobalQuran.com © 2006 - 2011 ·</div>
@@ -224,15 +185,15 @@
 			<a href="https://twitter.com/GlobalQuran" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow</a>
 			<div class="supportMsg">click on like to support our project.</div>
 		</div>
-		<div class="nav">
+		<div class="gq nav">
 			<ul>
-				<li><a href="#">Home</a></li><li>·</li>
+				<li><a href="/">Home</a></li><li>·</li>
 				<li>Download - coming soon</li><li>·</li>
 				<li>API - writing documentation</li><li>·</li>
-				<li><a href="#">code</a></li><li>·</li>
-				<li><a href="#">blog</a></li><li>·</li>
-				<li><a href="#">about us</a></li><li>·</li>
-				<li><a href="#">contact us</a> </li>
+				<li><a href="https://github.com/imegah/GlobalQuran.com-code">code</a></li><li>·</li>
+				<li><a href="http://blog.globalquran.com">blog</a></li><li>·</li>
+				<li><a href="http://blog.globalquran.com/about-us">about us</a></li><li>·</li>
+				<li><a href="http://blog.globalquran.com/contact-us">contact us</a> </li>
 			</ul>
 		</div>
 	</div>
@@ -242,12 +203,18 @@
 <script src="javascript/jquery/jquery.qtip.min.js"></script>
 <script src="javascript/jquery/jquery-ui-1.8.15.custom.min.js"></script>
 <script src="javascript/jquery/jquery.jplayer.js"></script>
-<script src="javascript/global.js"></script>
 <script src="javascript/Quran.js"></script>
 <script src="javascript/QuranNavigator.js"></script>
 <script src="javascript/Layout.js"></script>
+<script src="javascript/global.js"></script>
 <script type="text/javascript">
 //<![CDATA[
+	if (apiURL)
+		QuranNavigator.apiURL = apiURL;
+	if (swfPath)
+		QuranNavigator.player.swfPath = swfPath;
+	if (googleAnalyticsID)
+		QuranNavigator.googleAnalyticsID = googleAnalyticsID;
 	layout.init();
 //]]>
 </script>

@@ -5,6 +5,7 @@
 <title>List View - English View</title>
 <meta name="keywords" content="keywords, here" />
 <meta name="description" content="your description here" />
+<link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" href="images/themes/default/css/global.css" media="screen" />
 </head>
 <body class="ltr gq">
@@ -130,8 +131,8 @@
 			<div id="extraTools">
 				<a href="#" class="sideLink active">Highlight On</a>
 				<ul>
-					<li><a href="#" class="icon book tips" data-tips-position="left center">Book View</a></li>
-					<li><a href="#" class="icon book active tips" style="display:none;" data-tips-position="left center">Book View</a></li>
+					<li class="book"><a href="#" class="icon book tips" data-tips-position="left center">Book View</a></li>
+					<li class="book"><a href="#" class="icon book active tips" style="display:none;" data-tips-position="left center">Book View</a></li>
 					<li class="zoomOUT"><a href="#" class="icon zoomOUT tips" data-tips-position="left center">Smaller Fonts</a></li>
 					<li class="zoomIN"><a href="#" class="icon zoomIN tips" data-tips-position="left center">Bigger Fonts</a></li>
 					<li class="fullScreen"><a href="#" class="icon fullScreen tips" data-tips-position="left center">Full Screen</a></li>
@@ -147,7 +148,7 @@
 			</div>			
 			<ul class="sideNav">
 				<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li class="active"><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
+				<li><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
 			</ul>
 			
 			<div class="headerTitle">
@@ -162,10 +163,10 @@
 				<li><label><input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks</label></li>
 				<li><label><input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef</label></li>
 			</ul>
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
+			<ul class="sideNav" id="quranList">
+				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
+				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
 				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
 			</ul>
 			
@@ -173,15 +174,10 @@
 				<h4>All Languages</h4>
 			</div>
 			<input type="text" id="languageSearch" name="languageSearch" value="" placeholder="Search..." />
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="loading"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a>
-					<ul>
-						<li><a href="#"><span class="txt">Friends Events</span><span class="countValue rnd">2</span><span class="loadingIndicator"></span></a></li>
-						<li><a href="#"><span class="txt">Birthday</span><span class="loadingIndicator"></span></a></li>
-					</ul>
-				</li>
+			<ul class="sideNav" id="translationList">
+				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+				<li><a href="#" class="loading" data-quranid="ar.idHERE"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a></li>
 				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
 			</ul>
 			
@@ -199,11 +195,11 @@
 			</div>
 			<a href="#!/ur.junagarhi|quran-tajweed/1:1" class="icon bismillah" data-verse="1">Bismillah</a>
 			<div class="ayahs rtl" dir="rtl">
-				<p class="ayah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah selected">ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">مَٰلِكِ يَوْمِ ٱلدِّينِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
-				<p class="ayah">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <a href="#" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah quranText">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah quranText">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah quranText selected">ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah quranText">مَٰلِكِ يَوْمِ ٱلدِّينِ <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
+				<p class="ayah quranText">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <a href="#" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣<span class="icon rightBracket">.</span></a></p>
 			</div>
 			<div class="ayahs ltr" dir="ltr">
 				<p class="ayah">Im suppose to be right to left direction <a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>45<span class="icon rightBracket">.</span></a></p>

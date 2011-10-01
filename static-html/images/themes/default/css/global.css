@@ -78,7 +78,6 @@ input, select {
 :focus, :active, ::-moz-focus-inner {outline:none; border:0;}
 * {
 	outline: none;
-	font-family: 'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
 	font-size:100%;
 }
 body {
@@ -171,6 +170,9 @@ ul.inline li {
 }
 .darker {
 	color:#333;
+}
+.spotLight {
+	color:#900;
 }
 a, .link {
 	color:#3b5998;
@@ -451,6 +453,12 @@ table th, table td {
 }
 .icon:hover, .icon:focus {
 	text-decoration:none;
+}
+body  .gq {
+	display:none !important;
+}
+.gq .gq {
+	display: inherit !important;
 }
 #main {
 	width: 98%;
@@ -960,7 +968,7 @@ table th, table td {
 			background-color: #d4dae8;
 			font-weight:bold;
 		}
-		.sideNav .more .txt {
+		.sideNav .more .txt, .sideNav .less .txt {
 			color:#3b5998;
 		}
 		.sideNav .loading {
@@ -1056,6 +1064,28 @@ table th, table td {
 	#content .larger-xx {
 		font-size:500%;
 	}
+		/* quran shows smaller font, make them bigger then normal size */
+		#content .smaller .quranText {
+			font-size:80%;
+		}
+		#content .small .quranText  {
+			font-size:110%;
+		}
+		#content .medium .quranText {
+			font-size:125%;
+		}
+		#content .large .quranText  {
+			font-size:130%;	
+		}
+		#content .larger .quranText  {
+			font-size:135%;
+		}
+		#content .larger-x .quranText  {
+			font-size:140%;
+		}
+		#content .larger-xx .quranText  {
+			font-size:150%;
+		}
 	#content .bismillah {
 		display:block;
 		margin:auto;
@@ -1143,6 +1173,20 @@ table th, table td {
 		line-height:normal;
 		color:#6699cc;
 	}
+	.word {
+		margin-left: 8px;
+		margin-right: 8px;
+		cursor:help;
+		display:-moz-inline-stack;
+		display:inline-block;
+		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+		*display: inline;
+	}
+	.word:hover {
+		color: #3B5998;
+		text-decoration:overline;
+	}
+
 	
 .tajweedQuickHelp {
 	clear:both;
@@ -1429,7 +1473,7 @@ table th, table td {
 .book {
 	background-position:-383px -144px;
 }
-.book.active {
+.book .active {
 	background-position:-399px -144px;
 }
 .recitor {
@@ -1443,19 +1487,19 @@ table th, table td {
 #recitor .click {
 	background-position:-46px -160px;
 }
-#contentArea .ltr .leftBracket {
+.ltr .leftBracket, #contentArea .ltr .leftBracket {
 	height:22px;
 	background-position:-80px -160px;
 }
-#contentArea .ltr .rightBracket {
+.ltr .rightBracket, #contentArea .ltr .rightBracket {
 	height:22px;
 	background-position:-96px -160px;	
 }
-	#contentArea .rtl .leftBracket {
+	.rtl .leftBracket, #contentArea .rtl .leftBracket {
 		height:22px;
 		background-position:-96px -160px;	
 	}
-	#contentArea .rtl .rightBracket {
+	.rtl .rightBracket, #contentArea .rtl .rightBracket {
 		height:22px;
 		background-position:-80px -160px;
 	}
