@@ -91,7 +91,7 @@
 					<li id="play"><a href="#" class="icon play">play</a></li>
 					<li id="progressBar">
 						<div class="progressBar ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all audioLoading" title="0:00">
-							<span class="buffer" style="width: 100%;"></span>
+							<span class="buffer" style="width: 70%;"></span>
 							<div style="width: 7%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div><a style="left: 7%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
 						</div>
 					</li>
@@ -110,8 +110,8 @@
 							<li><div class="volumeBar ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div style="height: 60%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div><a style="bottom: 60%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></li>
 						</ul>
 					</li>
-					<li id="repeat" class="dropOption"><a href="#" class="dropLink active tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
-						<ul class="repeatOptions">
+					<li id="repeat" class="dropOption active"><a href="#" class="dropLink active tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
+						<ul class="repeatOptions active">
 							<li><label>Repeat Each</label> <select class="repeatEach" name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
 							<li><label>Repeat Times</label> <select class="repeatTimes" name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
 							<li><label>Delay</label> <select class="repeatDelay" name="repeatDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
@@ -146,7 +146,7 @@
 				</ul>
 			</div>
 		</div>		
-	</div>	
+	</div>
 	<div id="content">
 		<div id="infoSidebar">
 			<div class="headerTitle">
@@ -267,7 +267,7 @@
 			</ul>
 		</div>
 		<div class="socialLike">
-			<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FQuran-GlobalQurancom%2F192781430775518&layout=button&show_faces=false&width=50&action=like&colorscheme=light&height=24" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:50px; height:24px;" allowTransparency="true"></iframe> 
+			<!--<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FQuran-GlobalQurancom%2F192781430775518&layout=button&show_faces=false&width=50&action=like&colorscheme=light&height=24" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:50px; height:24px;" allowTransparency="true"></iframe> -->
 			<div class="g-plusone" data-annotation="none" data-href="http://GlobalQuran.com"></div>
 			<a href="https://twitter.com/GlobalQuran" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow</a>
 			<div class="supportMsg">click on like to support our project.</div>
@@ -287,6 +287,7 @@
 <!-- compress the javascript files, before using it in production -->
 <script src="javascript/jquery/jquery.qtip.min.js"></script>
 <script src="javascript/global.js"></script>
+<!--
 <script type="text/javascript">
   (function() {
 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -311,7 +312,7 @@
   js.src = "//connect.facebook.net/en_US/all.js#appId=291496434200831&xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<!-- AddThis Button BEGIN -->
+<!-- AddThis Button BEGIN -- >
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e753ce6632eaacf"></script>
 <!-- AddThis Button END -->
 </body>

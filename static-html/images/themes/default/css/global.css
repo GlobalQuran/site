@@ -460,6 +460,14 @@ body  .gq {
 .gq .gq {
 	display: inherit !important;
 }
+noscript p { 
+	margin: 10px; 
+	padding: 10px; 
+	border: 1px solid #cc3; 
+	background: #ff9;
+	font-size: 200%;
+	font-weight: bold; 
+}
 #main {
 	width: 98%;
 	margin: 0 auto;
@@ -522,6 +530,8 @@ body  .gq {
 		background-color:#fff;
 		z-index:1;
 	}
+	.rtl #topNav ul ul {		
+	}
 	#topNav ul ul.active {
 		display:block;
 	}
@@ -540,7 +550,6 @@ body  .gq {
 		height: 36px;
 		line-height: 36px;
 		margin: -6px 3px;
-		-margin-top: 0px;
 		vertical-align: middle;
 		text-decoration:none;
 		display: inline-block;
@@ -684,6 +693,7 @@ body  .gq {
 	#statusNav {		
 		width: 230px;
 		height:36px;
+		-margin-bottom:-5px;
 		float: right;
 		overflow:inherit;
 		/* shadow, border, background */
@@ -718,7 +728,8 @@ body  .gq {
 		.rtl #statusNav ul ul  {
 			right:auto;
 			left: -7px;
-			*left: -14px;
+			*left: 0px;
+			-margin-top:-6px;
 		}		
 			#statusNav ul ul span {
 				display:block;
@@ -816,7 +827,7 @@ body  .gq {
 		float: right;
 		clear:right;
 		width: 230px;
-		margin-top:-46px;
+		margin-top:-43px;
 		overflow:hidden;
 		background-color:#fff;
 	}
@@ -840,7 +851,7 @@ body  .gq {
 		width: 220px;	
 		float: right;
 		clear:right;
-		margin-top:-14px;
+		margin-top:-11px;
 		background-color:#fff;
 	}
 	.rtl #extraTools {

@@ -20,14 +20,19 @@ jQuery(function($) {
 		}
 	};		
 	
-	// menu drop options
+	/* menu drop options */
 	$('.dropOption').bind('dropOption', function(e, force)
 	{
 		var force = force || 'toggle';
-
+//console.log($(this));
 		if ($(this).attr('id') == 'repeat' && !$(this).find('.repeat').hasClass('active') && force == 'show')
 			return false; // dont show or hide, if repeat button is not clicked yet.
-		
+		//else if ($(this).attr('id') == 'repeat' && $(this).find('.repeat').hasClass('active') && force == 'hide')
+			//return false; // drop down select option fix - dont hide, if mouse is still over it
+
+//console.log($(this));
+//console.log($(this).find('.repeatOptions').hasClass('active')+' '+force);	
+
 		var $subOption = $(this).find('ul'); // for <li>...
 		if ($subOption.length == 0)// if not found, then check for next - for <li><a>
 			$subOption = $(this).next('ul');
@@ -38,7 +43,7 @@ jQuery(function($) {
 		var isActive = $(this).hasClass('active');
 		
 		if ((isActive && force != 'show') || (force && force == 'hide'))
-		{	
+		{
 			$(this).removeClass('active');
 			if ($(this).attr('id') != 'repeat')
 				$(this).find('a:first > span').removeClass('active');
@@ -62,18 +67,20 @@ jQuery(function($) {
 					$('#surahBox, #extraTools').hide();
 			}
 			else
-			{
-				if ($.browser.msie && $.browser.version < 8) // ie6+ fix
-					$subOption.css('right',position.left-260+'px');
+			{	
+				if ($.browser.msie && $.browser.version < 8 && $('body').hasClass('rtl')) // ie6+ fix
+					$subOption.css('right', position.left-260+'px');
 				else
-					$subOption.css('left',position.left-6+'px');
+					$subOption.css('left', position.left-6+'px');
+				
 			}
 		}		
 	});
-	$('.dropOption').hover(function() {
+	$('.dropOption').hover(function(e) {
 		$(this).trigger('dropOption', 'show');
-	},function() {
-		$(this).trigger('dropOption', 'hide');
+	},function(e) {
+		if (e.relatedTarget != null) // drop down select box fix
+			$(this).trigger('dropOption', 'hide');
 	});
 	
 	$('.repeat').click(function()
