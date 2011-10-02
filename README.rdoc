@@ -51,15 +51,7 @@ auto-html - if you choose to use this.
 
 dynamic-html - if you choose to use this.
   
-    1. edit index.html
-
-    remove following lines from index.html
-    <!--  REMOVE this script tag code, all of this section, its for testing only. -->
-    <script>
-        var apiURL = 'http://api.globalquran.im/';
-        var swfPath = 'http://quran.im/images';
-    </script>
-    
+    1. edit index.html (optional)    
     2. save the file. 
     3. upload the dynamic-html directory to any directory you wish to use it at (ex: www or www/quran)
     

@@ -1,6 +1,14 @@
 /**
  * Quran Navigator object to navigate through quran.
  * @author Basit (i@basit.me || http://Basit.me)
+ *
+ * Online Quran Project
+ * http://GlobalQuran.com/
+ *
+ * Copyright 2011, imegah.com
+ * Simple Public License (Simple-2.0)
+ * http://www.opensource.org/licenses/Simple-2.0
+ * 
  */
 
 var QuranNavigator = {
@@ -714,9 +722,10 @@ var QuranNavigator = {
 						$(".progressBar").addClass("audioLoading");
 					}
 				},
-				loadeddata: function ()
+				loadeddata: function (event)
 				{
 					$(".progressBar").removeClass("audioLoading");
+					QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'load', event.jPlayer.status.src]);
 				},
 				seeking: function()
 				{
@@ -742,6 +751,11 @@ var QuranNavigator = {
 					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
 					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
+				}
+				/*,
+				error: function(event)
+				{
+					QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
 				}
 				/*, //TODO do this function properly
 				error: function (event) {
@@ -820,7 +834,7 @@ var QuranNavigator = {
 		},
 		
 		load: function (action)
-		{
+		{			
 			if (this.off)
 				return; // player is off
 			
@@ -899,7 +913,7 @@ var QuranNavigator = {
 			}
 			
 			//single recitor
-			recitor = this._recitor['row'+rPos];
+			var recitor = this._recitor['row'+rPos];
 			
 			if (rPos == 1 && recitor.lastLoad == verse && ((this.preload == true && this._currentPlayer != 0) || get == 'next')) // increment, sence its same ayah
 			{
@@ -968,7 +982,8 @@ var QuranNavigator = {
 			}
 			
 			// setting the recitor array
-			recitor = {auz: true, position: 1, length: recitorArray.length};
+			var recitor = {auz: true, position: 1, length: recitorArray.length};
+			
 			$.each(recitorArray, function(i, recitorName) {
 				++i; // increment on start, because i starts with 0
 				recitorInfo = QuranNavigator.player._recitorInfo(recitorName);
@@ -1031,7 +1046,7 @@ var QuranNavigator = {
 		
 		recitorKbs: function ()
 		{
-			return this._recitor['row'+this._recitor.position].kbs;
+			return (typeof(this._recitor.position) !== 'undefined') ? this._recitor['row'+this._recitor.position].kbs  : 'undefined';
 		},
 		
 		isPlaying: function ()
@@ -1494,7 +1509,9 @@ var QuranNavigator = {
 	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	    
-	    var _gaq = _gaq || [];
+	    if (typeof(_gaq) == 'undefined')
+	    	_gaq = [];	    
+	    window._gaq = _gaq || [];
 	    
 	    if (this.googleAnalyticsID)
 	    {
@@ -1507,13 +1524,11 @@ var QuranNavigator = {
 	},
 	
 	_gaqPush: function(arrayValue)
-	{
-		var _gaq = _gaq || [];
-		
+	{		
 		_gaq.push(arrayValue);
 		if (this.googleAnalyticsID)
 		{
-			arrayValue['0'] = 'b.'+arrayValue['0'];
+			arrayValue[0] = 'b.'+arrayValue[0];
 			_gaq.push(arrayValue);
 		}
 	}
