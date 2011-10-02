@@ -2,6 +2,14 @@
  * Layout object contains all the visual functionalities of the site.
  * if you want to change any html functionality, then this is the object you should be looking into. 
  * @author Basit (i@basit.me || http://Basit.me)
+ * 
+ * Online Quran Project
+ * http://GlobalQuran.com/
+ *
+ * Copyright 2011, imegah.com
+ * Simple Public License (Simple-2.0)
+ * http://www.opensource.org/licenses/Simple-2.0
+ * 
  */
 
 var layout = {
@@ -23,6 +31,7 @@ var layout = {
 	
 	init: function ()
 	{
+		$('#main').show();
 		QuranNavigator.init();
 		QuranNavigator.load(); // display default languages
 		this.binds();
@@ -34,7 +43,7 @@ var layout = {
 	_autoScrollOnStart: false,
 	
 	displayStartup: function (success)
-	{
+	{		
 		if (this.pageTitle == '')
 			this.pageTitle = $('title').text();
 		
@@ -611,7 +620,9 @@ var layout = {
 	},	
 	
 	binds: function ()
-	{		
+	{	
+		this.bindExtra();
+		
 		$(layout.quranContent).live('prevAyah', function() {
 			QuranNavigator.prevAyah();
 			layout.ayahChanged();
@@ -674,16 +685,6 @@ var layout = {
 
 		$('.prevPage').live('click', function() {
 			$(layout.quranContent).trigger('prevPage');
-			return false;
-		});
-
-		$('.nextSurah').live('click', function() {
-			$(layout.quranContent).trigger('nextSurah');
-			return false;
-		});
-
-		$('.prevSurah').live('click', function() {
-			$(layout.quranContent).trigger('prevSurah');
 			return false;
 		});
 
@@ -957,6 +958,285 @@ var layout = {
 		
 		$(window).bind('hashchange', function(e) {
 			QuranNavigator.urlRead(true);
+		});
+	},
+	
+	bindExtra: function ()
+	{
+		// topNav scroll
+		var navPos = $("#topNav").position().top;
+		scrollNav();
+		$(window).scroll(function() {
+			scrollNav();
+		});	
+		function scrollNav ()
+		{		
+			var scrollPos = $(window).scrollTop();
+			if(scrollPos >= navPos)
+			{
+				$("#globalHeader").addClass('sticky');
+			}
+			else
+			{
+				$("#globalHeader").removeClass('sticky');
+			}
+		};		
+		
+		// menu drop options
+		$('.dropOption').bind('dropOption', function(e, force)
+		{
+			var force = force || 'toggle';
+
+			if ($(this).attr('id') == 'repeat' && !$(this).find('.repeat').hasClass('active') && force == 'show')
+				return false; // dont show or hide, if repeat button is not clicked yet.
+			
+			var $subOption = $(this).find('ul'); // for <li>...
+			if ($subOption.length == 0)// if not found, then check for next - for <li><a>
+				$subOption = $(this).next('ul');
+			if ($subOption.length == 0)// if not found, then check for parent next - for <li><a><span>
+				$subOption = $(this).parent.next('ul');
+			var position = $(this).position();
+			position.top = navPos;
+			var isActive = $(this).hasClass('active');
+			
+			if ((isActive && force != 'show') || (force && force == 'hide'))
+			{	
+				$(this).removeClass('active');
+				if ($(this).attr('id') != 'repeat')
+					$(this).find('a:first > span').removeClass('active');
+				$subOption.removeClass('active');
+				
+				if ($subOption.parents('#statusNav').length != 0)
+				{
+					if ($.browser.msie && $.browser.version < 8)
+						$('#surahBox, #extraTools').show();
+				}
+			}
+			else
+			{
+				$(this).addClass('active');
+				$(this).find('a:first > span').addClass('active');
+				$subOption.addClass('active');
+				
+				if ($subOption.parents('#statusNav').length != 0)
+				{
+					if ($.browser.msie && $.browser.version < 8)
+						$('#surahBox, #extraTools').hide();
+				}
+				else
+				{
+					if ($.browser.msie && $.browser.version < 8 && $('body').hasClass('rtl')) // ie6+ fix
+						$subOption.css('right', position.left-260+'px');
+					else
+						$subOption.css('left', position.left-6+'px');
+				}
+			}		
+		});
+		$('.dropOption').hover(function(e) {
+			$(this).trigger('dropOption', 'show');
+		},function(e) {
+			if (e.relatedTarget != null) // drop down select box fix
+				$(this).trigger('dropOption', 'hide');
+		});
+		
+		// link share inputBox selection
+		$('.pageUrl, .ayahUrl').click(function() {
+			$(this).select();
+		});
+		
+		//print page
+		$('.print').click(function() {
+			window.print();
+			return false;
+		});
+		
+		//bookmark page
+		$("a.bookmark").click(function(e)
+		{
+			e.preventDefault(); // this will prevent the anchor tag from going the user off to the link
+			var bookmarkUrl = this.href;
+			var bookmarkTitle = this.title;
+			
+			if (window.sidebar) { // For Mozilla Firefox Bookmark
+				window.sidebar.addPanel(bookmarkTitle, bookmarkUrl,"");
+			} else if( window.external || document.all) { // For IE Favorite
+				window.external.AddFavorite( bookmarkUrl, bookmarkTitle);
+			} else if(window.opera) { // For Opera Browsers
+				$("a.jQueryBookmark").attr("href",bookmarkUrl);
+				$("a.jQueryBookmark").attr("title",bookmarkTitle);
+				$("a.jQueryBookmark").attr("rel","sidebar");
+			} else { // for other browsers which does not support
+				alert('Your browser does not support this bookmark action');
+				return false;
+			}
+		});
+		
+		// quran settings
+		$('a.quranSettings').toggle(function()
+		{
+			$('#quranSettings').slideDown('slow');
+		},
+		function()
+		{
+			$('#quranSettings').slideUp('slow');
+		});	
+		$('#quranSettings').find('.close').click(function() {
+			$('a.quranSettings').trigger('click');
+		});
+		
+		// window resize change progress bar size also
+		$(window).resize(function() {
+			progressBarResize();
+		});
+		progressBarResize();
+		function progressBarResize ()
+		{		
+			var width = $(window).width();
+			
+			if (width <= 800)
+				$('.progressBar').css('width', '15%');
+			else
+			{
+				width = (width-800)/10;
+				width = width+15; // add 10% for each 100 pixel extra after 800px + 15% on top so for 900px window it will be 25% in final result
+				if (width > 60)
+					width = 60;
+				$('.progressBar').css('width', width+'%');
+			}
+			
+			
+		}
+		
+		// mouse over
+		$(".ayah").live({
+	        mouseenter:
+	           function()
+	           {
+					if ($(this).parent('.group').length != 0)
+						$(this).parent('.group').addClass('mouseOver');
+					else
+						$(this).addClass('mouseOver');
+	           },
+	        mouseleave:
+	           function()
+	           {
+					if ($(this).parent('.group').length != 0)
+						$(this).parent('.group').removeClass('mouseOver');
+					else
+						$(this).removeClass('mouseOver');
+	           }
+	       }
+	    );
+			
+		// start assinging tips to the containers
+		$('.tips').live('mouseenter', function()
+		{
+			if ($('body').hasClass('rtl') && $.browser.msie && $.browser.version < 8) // ie6+ fix for right to left direction only
+				return false;
+			
+			// Define corners opposites
+			var tipsPositionOpposites = {
+				'bottom left': 'top right', 
+				'bottom right': 'top left', 
+				'bottom center': 'top center',
+				'top right': 'bottom left', 
+				'top left': 'bottom right', 
+				'top center': 'bottom center',
+				'left center': 'right center', 
+				'left top': 'right bottom', 
+				'left bottom': 'right top',
+				'right center': 'left center', 
+				'right bottom': 'left top', 
+				'right top': 'left bottom'
+			};
+			
+			var positionTooptip = ($(this).attr('data-tips-position') == null) ? tipsPositionOpposites['top center'] : tipsPositionOpposites[$(this).attr('data-tips-position')];
+			var positionTarget = ($(this).attr('data-tips-position') == null) ? 'top center' : $(this).attr('data-tips-position');
+			var x = 0;
+			var y = 0;
+			
+			// switch values for right to left html direction (arabic, hebrew, urdu, farsi....)
+			if ($('body').hasClass('rtl') && (positionTooptip == 'left top' || positionTooptip == 'left center' || positionTooptip == 'left bottom' || positionTooptip == 'right top' || positionTooptip == 'right center' || positionTooptip == 'right bottom')) // right to left direction, make switch
+			{
+				var tempPositionTooptip = positionTooptip;
+				var tempPositionTarget = positionTarget;
+				positionTooptip = tempPositionTarget;
+				positionTarget = tempPositionTooptip;
+			}
+			
+			// dynamic arrow sizes
+			if (positionTooptip == 'top right' || positionTooptip == 'top left' || positionTooptip == 'top center')
+				y = 0;
+			else if (positionTooptip == 'bottom left' || positionTooptip == 'bottom right' || positionTooptip == 'bottom center')
+				y = -4;
+			else if (positionTooptip == 'left top' || positionTooptip == 'left center' || positionTooptip == 'left bottom')
+				x = 4;
+			else
+				x = -4;
+			
+			$(this).qtip(
+			{
+				content: {
+					text: $(this).attr('title') || $(this).text()
+				},
+				show: {
+					ready: true
+				},
+			
+				position: {
+					my: positionTooptip,
+					at: positionTarget,
+					adjust: {
+						x: x, y: y
+					}
+				},	
+	 			style: {
+					tip: true,
+					classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
+				}
+			});
+		});
+		
+		$('.progressBar').qtip(
+		{
+			position: {
+				my: 'top center',
+				at: 'bottom center',
+				target: 'mouse',
+				adjust: {
+					x: 0, y: 16,
+					mouse: true  // Can be ommited (e.g. default behaviour)
+				}
+			},
+			style: {
+				tip: true,
+				classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
+			}			
+		});
+		
+		// place holder crossBrowser fix by hagenBurger - http://www.hagenburger.net/BLOG/HTML5-Input-Placeholder-Fix-With-jQuery.html
+		$('[placeholder]').focus(function()
+		{
+			var input = $(this);
+			if (input.val() == input.attr('placeholder')) {
+				input.val('');
+				input.removeClass('placeholder');
+			}
+		})
+		.blur(function()
+		{
+			var input = $(this);
+			if (input.val() == '' || input.val() == input.attr('placeholder')) {
+				input.addClass('placeholder');
+				input.val(input.attr('placeholder'));
+			}
+		}).blur().parents('form').submit(function() {
+			$(this).find('[placeholder]').each(function() {
+				var input = $(this);
+				if (input.val() == input.attr('placeholder')) {
+					input.val('');
+				}
+			});
 		});
 	}
 };

@@ -1,3 +1,14 @@
+/**
+ * @author Basit (i@basit.me || http://Basit.me)
+ * 
+ * Online Quran Project
+ * http://GlobalQuran.com/
+ *
+ * Copyright 2011, imegah.com
+ * Simple Public License (Simple-2.0)
+ * http://www.opensource.org/licenses/Simple-2.0
+ * 
+ */
 @charset "utf-8";
 /* 
 Reset the style
@@ -78,7 +89,6 @@ input, select {
 :focus, :active, ::-moz-focus-inner {outline:none; border:0;}
 * {
 	outline: none;
-	font-family: 'Lucida Grande',Tahoma,Verdana,Arial,sans-serif;
 	font-size:100%;
 }
 body {
@@ -171,6 +181,9 @@ ul.inline li {
 }
 .darker {
 	color:#333;
+}
+.spotLight {
+	color:#900;
 }
 a, .link {
 	color:#3b5998;
@@ -452,6 +465,20 @@ table th, table td {
 .icon:hover, .icon:focus {
 	text-decoration:none;
 }
+body  .gq {
+	display:none !important;
+}
+.gq .gq {
+	display: inherit !important;
+}
+noscript p { 
+	margin: 10px; 
+	padding: 10px; 
+	border: 1px solid #cc3; 
+	background: #ff9;
+	font-size: 200%;
+	font-weight: bold; 
+}
 #main {
 	width: 98%;
 	margin: 0 auto;
@@ -514,6 +541,8 @@ table th, table td {
 		background-color:#fff;
 		z-index:1;
 	}
+	.rtl #topNav ul ul {		
+	}
 	#topNav ul ul.active {
 		display:block;
 	}
@@ -532,7 +561,6 @@ table th, table td {
 		height: 36px;
 		line-height: 36px;
 		margin: -6px 3px;
-		-margin-top: 0px;
 		vertical-align: middle;
 		text-decoration:none;
 		display: inline-block;
@@ -676,6 +704,7 @@ table th, table td {
 	#statusNav {		
 		width: 230px;
 		height:36px;
+		-margin-bottom:-5px;
 		float: right;
 		overflow:inherit;
 		/* shadow, border, background */
@@ -710,7 +739,8 @@ table th, table td {
 		.rtl #statusNav ul ul  {
 			right:auto;
 			left: -7px;
-			*left: -14px;
+			*left: 0px;
+			-margin-top:-6px;
 		}		
 			#statusNav ul ul span {
 				display:block;
@@ -808,7 +838,7 @@ table th, table td {
 		float: right;
 		clear:right;
 		width: 230px;
-		margin-top:-46px;
+		margin-top:-43px;
 		overflow:hidden;
 		background-color:#fff;
 	}
@@ -832,7 +862,7 @@ table th, table td {
 		width: 220px;	
 		float: right;
 		clear:right;
-		margin-top:-14px;
+		margin-top:-11px;
 		background-color:#fff;
 	}
 	.rtl #extraTools {
@@ -1056,6 +1086,28 @@ table th, table td {
 	#content .larger-xx {
 		font-size:500%;
 	}
+		/* quran shows smaller font, make them bigger then normal size */
+		#content .smaller .quranText {
+			font-size:80%;
+		}
+		#content .small .quranText  {
+			font-size:110%;
+		}
+		#content .medium .quranText {
+			font-size:125%;
+		}
+		#content .large .quranText  {
+			font-size:130%;	
+		}
+		#content .larger .quranText  {
+			font-size:135%;
+		}
+		#content .larger-x .quranText  {
+			font-size:140%;
+		}
+		#content .larger-xx .quranText  {
+			font-size:150%;
+		}
 	#content .bismillah {
 		display:block;
 		margin:auto;
@@ -1143,6 +1195,20 @@ table th, table td {
 		line-height:normal;
 		color:#6699cc;
 	}
+	.word {
+		margin-left: 8px;
+		margin-right: 8px;
+		cursor:help;
+		display:-moz-inline-stack;
+		display:inline-block;
+		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+		*display: inline;
+	}
+	.word:hover {
+		color: #3B5998;
+		text-decoration:overline;
+	}
+
 	
 .tajweedQuickHelp {
 	clear:both;
@@ -1429,7 +1495,7 @@ table th, table td {
 .book {
 	background-position:-383px -144px;
 }
-.book.active {
+.book .active {
 	background-position:-399px -144px;
 }
 .recitor {
