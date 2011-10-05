@@ -1,0 +1,54 @@
+= بسم الله الرحمن الرحيم - In the name of Allah, Most Gracious, Most Merciful
+
+
+== quran-js-api-navigator
+
+This plugin helps you navigate through quran data api. we are using these objects in our {main site}[http://GlobalQuran.com] and in {dynamic-html}[https://github.com/imegah/GlobalQuran.com-code/tree/master/dynamic-html]. 
+
+
+== Getting Started
+
+=== Download Files
+
+Download following files.
+
+* {Quran.js}[https://github.com/imegah/GlobalQuran.com-code/blob/master/dynamic-html/javascript/Quran.js] - Helps navigate Quran data.
+* {QuranNavigator.js}[https://github.com/imegah/GlobalQuran.com-code/blob/master/dynamic-html/javascript/QuranNavigator.js] - Helps navigate Quran data api. 
+* {layout.js}[https://github.com/imegah/GlobalQuran.com-code/blob/master/dynamic-html/javascript/Layout.js] - Putting the layout togather for the html page.
+
+
+=== Installation 
+
+1. include the downloaded files in your html file.
+    <script src="javascript/Quran.js"></script>
+    <script src="javascript/QuranNavigator.js"></script>
+    <script src="javascript/Layout.js"></script>
+
+2. run the layout.init(); function.
+    <script type="text/javascript">layout.init();</script>
+    
+Your Done!
+
+
+=== Changing Settings & Documentation 
+
+coming soon...
+
+
+    
+== Author
+
+Author:: {Basit}[http://www.Basit.me/] <i@Basit.me>
+
+    
+== Changelog
+
+See the {CHANGELOG.rdoc}[https://github.com/imegah/GlobalQuran.com-code/blob/master/plugins/quran-tool/CHANGELOG.rdoc] file for details.
+
+
+== License
+
+Copyright (c) 2006-2011 GlobalQuran.com
+
+GlobalQuran.com-code is free software released under the {Simple Public License (Simple-2.0)}[http://www.opensource.org/licenses/Simple-2.0].
+    
