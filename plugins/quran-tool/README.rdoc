@@ -1,0 +1,46 @@
+= بسم الله الرحمن الرحيم - In the name of Allah, Most Gracious, Most Merciful
+
+
+== quran-tool
+
+This tool is build in php ({javascript version}[https://github.com/imegah/GlobalQuran.com-code/blob/master/dynamic-html/javascript/Quran.js]) for quran projects in php. 
+
+This Quran class has every method to help easily navigate through Quran data. following are some examples:
+
+    quran::init();
+
+    print('verse number from ayah: '.verseNo::ayah(2, 1)); 	// 8
+    print('verse number from juz: '.verseNo::juz(2)); 		// 149
+    print('verse number from page: '.verseNo::page(2));		// 8
+    print('verse number from surah: '.verseNo::surah(2)); 	// 8
+    print('ayah from juz: '); print_r(ayah::fromJuz(2));	// array(surah = 2, ayah = 142)
+    print('ayah from page: '); print_r(ayah::fromPage(2));	// array(surah = 2, ayah = 1)
+    print('ayah next: '); print_r(ayah::next(2, 1));		// array(surah = 2, ayah = 2)
+    print('ayah prev: '); print_r(ayah::prev(2, 1));		// array(surah = 1, ayah = 7)
+    print('ayah from verse: ');	print_r(ayah::fromVerse(147));// array(surah = 2, ayah = 140)
+    print('juz number from ayah: '.ayah::juz(2, 143)); 		// 2
+    print('page number from ayah: '.ayah::page(2, 5));		// 2
+
+
+
+
+== Installation 
+
+just include the quran.class.php in your file and run only once quran::init(); it will parse all the quran array and will be ready to use after it.
+    
+== Author
+
+Author:: {Basit}[http://www.Basit.me/] <i@Basit.me>
+
+    
+== Changelog
+
+See the {CHANGELOG.rdoc}[https://github.com/imegah/GlobalQuran.com-code/blob/master/plugins/quran-tool/CHANGELOG.rdoc] file for details.
+
+
+== License
+
+Copyright (c) 2006-2011 GlobalQuran.com
+
+GlobalQuran.com-code is free software released under the {Simple Public License (Simple-2.0)}[http://www.opensource.org/licenses/Simple-2.0].
+    
