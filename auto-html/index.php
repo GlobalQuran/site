@@ -4,7 +4,7 @@ $api_url = 'http://GlobalQuran.com/';
 $api_key = '';
 
 ################## DO NOT EDIT BELOW THIS ###################################
-if (!$api_url || !$api_key)
+if (!$api_url)
 {
 	die('missing vaules, please fill the configuration values and try again!');
 }
