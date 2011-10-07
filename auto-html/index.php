@@ -18,7 +18,6 @@ curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $urlstring);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-curl_setopt($ch, CURLOPT_REFERER, $_REQUEST['domain']);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $data = curl_exec($ch);
 curl_close($ch);
