@@ -412,6 +412,13 @@ var layout = {
 		QuranNavigator.player.pause();		
 	},
 	
+	stop: function()
+	{
+		$('.play, .pause').removeClass('pause').addClass('play');
+		$('#progressBar, #time, #bandwidthOption, #volume, #repeat').hide();
+		QuranNavigator.player.stop();
+	},
+	
 	togglePlay: function ()
 	{
 		if (QuranNavigator.player.isPlaying())
@@ -635,44 +642,64 @@ var layout = {
 		this.bindExtra();
 		
 		$(layout.quranContent).live('prevAyah', function() {
-			QuranNavigator.prevAyah();
-			layout.ayahChanged();
+			if (QuranNavigator.settings.playing)
+				QuranNavigator.player.prev();
+			else
+			{	
+				QuranNavigator.prevAyah();
+				layout.ayahChanged();
+			}
 		}).live('nextAyah', function() {
-			QuranNavigator.nextAyah();
-			layout.ayahChanged();
+			if (QuranNavigator.settings.playing)
+				QuranNavigator.player.next();
+			else
+			{	
+				QuranNavigator.nextAyah();
+				layout.ayahChanged();
+			}
 		}).live('nextPage', function() {
+			QuranNavigator.player.reset();
 			QuranNavigator.nextPage();
 			layout.ayahChanged();
 		}).live('prevPage', function() {
+			QuranNavigator.player.reset();
 			QuranNavigator.prevPage();
 			layout.ayahChanged();
 		}).live('nextSurah', function() {
+			QuranNavigator.player.reset();
 			QuranNavigator.nextSurah();
 			layout.ayahChanged();				
 		}).live('prevSurah', function() {
+			QuranNavigator.player.reset();
 			QuranNavigator.prevSurah();
 			layout.ayahChanged();
 		}).live('customAyah', function(e, surah_no, ayah_no) {
+			QuranNavigator.player.reset();
 			QuranNavigator.ayah(surah_no, ayah_no);
 			layout.ayahChanged();
 		}).live('customSurah', function(e, surah_no) {
+			QuranNavigator.player.reset();
 			QuranNavigator.surah(surah_no);
 			layout.ayahChanged();
 		}).live('customPage', function(e, page_no) {
+			QuranNavigator.player.reset();
 			QuranNavigator.page(page_no);
 			layout.ayahChanged();
 		}).live('customJuz', function(e, juz_no) {
+			QuranNavigator.player.reset();
 			QuranNavigator.juz(juz_no);
 			layout.ayahChanged();
 		}).live('quranBy', function(e, by) {
 			QuranNavigator.quranBy(by);
 		}).live('quranByRecitor', function(e, by, kbs)
 		{
+			QuranNavigator.player.reset();
 			QuranNavigator.quranByRecitor(by, kbs);
 			layout.recitorKbs(by);
 		});
 		
 		$('.ayahNumber, .bismillah, .prevSurah, .nextSurah').live('click', function() {
+			QuranNavigator.player.reset();
 			var verse = Quran.ayah.fromVerse($(this).attr('data-verse'));
 			QuranNavigator.ayah(verse.surah, verse.ayah);
 			layout.ayahChanged();
@@ -821,6 +848,7 @@ var layout = {
 				$('.recitorList').find('[data-recitor-id="auto"]').removeClass('active');
 			}
 			
+			
 			$(layout.quranContent).trigger('quranByRecitor', by);
 		});
 		
@@ -915,9 +943,7 @@ var layout = {
 						$(layout.quranContent).trigger('prevSurah');
 					else if (e.ctrlKey)
 						$(layout.quranContent).trigger('prevPage');
-					else if (QuranNavigator.settings.playing)
-						QuranNavigator.player.prev();
-					else
+					else 
 						$(layout.quranContent).trigger('prevAyah');
 				break;
 				case key.right:
@@ -925,8 +951,6 @@ var layout = {
 						$(layout.quranContent).trigger('nextSurah');
 					else if (e.ctrlKey)
 						$(layout.quranContent).trigger('nextPage');
-					else if (QuranNavigator.settings.playing)
-						QuranNavigator.player.next();
 					else
 						$(layout.quranContent).trigger('nextAyah');				  
 				break;
@@ -934,7 +958,7 @@ var layout = {
 					$(layout.quranContent).trigger('customAyah', [1, 1]);
 				break;
 				case key.end:
-					$(layout.quranContent).trigger('customAyah', [114, 6]);
+					$(layout.quranContent).trigger('customAyah', [114, 1]);
 				break;
 				case key.space:
 					layout.togglePlay();
@@ -1097,12 +1121,18 @@ var layout = {
 		
 		// window resize change progress bar size also
 		$(window).resize(function() {
+			toolBarResize();
 			progressBarResize();
 		});
+		toolBarResize();
 		progressBarResize();
+		function toolBarResize ()
+		{
+			$('#topNav').css('width', $('#main').width());
+		}		
 		function progressBarResize ()
 		{		
-			var width = $(window).width();
+			var width = $('#main').width();
 			
 			if (width <= 800)
 				$('.progressBar').css('width', '15%');
@@ -1113,9 +1143,7 @@ var layout = {
 				if (width > 60)
 					width = 60;
 				$('.progressBar').css('width', width+'%');
-			}
-			
-			
+			}			
 		}
 		
 		// mouse over

@@ -112,10 +112,10 @@ var QuranNavigator = {
 	
 	language: function (language_code) {
 		
-		if (language_code)
+		/*if (language_code)
 		{
 			//TODO load language pack here and refresh the page.
-		}
+		}*/
 		
 		return this.settings.selectedLanguage;
 	},
@@ -683,9 +683,16 @@ var QuranNavigator = {
 			if (this.off)
 				return; // player is off
 			
+			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
+			{
+				QuranNavigator.settings.playing = false; // cant auto play in iphone
+				QuranNavigator.player.preload = -1;  // cant load two instance in iphone
+			}
+			
 			settings = {
 				swfPath: this.swfPath,
 				supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
+				wmode: "window",
 				volume: QuranNavigator.settings.volume,
 				muted: QuranNavigator.settings.muted,
 				preload: 'auto',
@@ -751,8 +758,7 @@ var QuranNavigator = {
 					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
 					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
-				}
-				/*,
+				},
 				error: function(event)
 				{
 					QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
@@ -838,23 +844,23 @@ var QuranNavigator = {
 			if (this.off)
 				return; // player is off
 			
-			conf = QuranNavigator.settings;
 			if (action == 'new') // check if its new recitor or new bitrate, before reseting the settings.
 			{
-				this._recitorReset();
-				this._i = 0;
-				this._currentPlayer = 0;
+				this.reset();
 			}
 
 			if (!this.preload || this.preload == -1)
 			{
 				current = this._getFiles('current');
-				$(this.id).jPlayer("setMedia", current).jPlayer('play');
+				$(this.id).jPlayer("setMedia", current);
 				
 				if (this.preload != -1)
 				{
 					next = this._getFiles('next');
-					$(this.id2).jPlayer("setMedia", next); // just load only
+					if (!next) // if reached to 6237 
+						this.reset();
+					else
+						$(this.id2).jPlayer("setMedia", next); // just load only
 				}
 				
 				this._currentPlayer = 1;
@@ -865,22 +871,32 @@ var QuranNavigator = {
 				next = this._getFiles('next');
 				
 				$(this.id).jPlayer("setMedia", current);
-				$(this.id2).jPlayer("setMedia", next);
+				if (!next) // if reached to 6237 
+					this.reset();
+				else
+					$(this.id2).jPlayer("setMedia", next);
+				
 				this._currentPlayer = 1;
 			}
 			else if (this._currentPlayer == 1) // player 1
 			{
 				next = this._getFiles('next');
-				$(this.id).jPlayer("setMedia", next);
+				if (next) // dont need NOT here, like others. also plays player 1 again, if set this.reset();
+					$(this.id).jPlayer("setMedia", next);
+				
 				this._currentPlayer = 2; // play player 2, while 1 gets load
 			}
 			else // player 2
 			{
 				next = this._getFiles('next');
-				$(this.id2).jPlayer("setMedia", next);
+				if (!next) // if reached to 6237 
+					this.reset();
+				else
+					$(this.id2).jPlayer("setMedia", next);
+				
 				this._currentPlayer = 1; // play player 1, while 2 gets load
 			}
-			
+		
 			if (QuranNavigator.settings.playing) // if playing, auto play
 				layout.play();
 		},
@@ -896,14 +912,14 @@ var QuranNavigator = {
 		_getFiles: function (get)
 		{
 			get = get || 'current';
-			files = {};
-			rPos = this._recitor.position;
-			rLen = this._recitor.length;
+			var files = {};
+			var rPos = this._recitor.position;
+			var rLen = this._recitor.length;
 			
-			surah = QuranNavigator.surah();
-			ayah = QuranNavigator.ayah();
-			verse = QuranNavigator.verse();
-			
+			var surah = QuranNavigator.surah();
+			var ayah = QuranNavigator.ayah();
+			var verse = QuranNavigator.verse();
+
 			if (get == 'next' && rLen > 1 && rPos <= rLen)
 			{
 				if (rPos == rLen) // reached the last position
@@ -929,10 +945,14 @@ var QuranNavigator = {
 				verse = 0;
 			else if (surah != 115 && surah != 9 && surah != 1 && ayah == 1 && recitor.lastLoad != verse && recitor.lastLoad != 1) // play bis
 				verse = 1;
-						
+
+			
 			if (this.preload == true || ((!this.preload || this.preload == -1) && get != 'next'))
 				this._recitor['row'+rPos].lastLoad = verse;
-
+		
+			if (verse == 6237)
+				return false; // there is no verse 6237
+			
 			if (recitor.mp3)
 				files.mp3 = this.audioPath+recitor.name+'/mp3/'+recitor.kbs+'kbs/'+verse+'.mp3';
 			if (recitor.ogg)
@@ -943,7 +963,7 @@ var QuranNavigator = {
 		
 		_recitorReset: function ()
 		{
-			recitorArray = QuranNavigator.settings.selectedRecitor.split('|');
+			var recitorArray = QuranNavigator.settings.selectedRecitor.split('|');
 			
 			if (recitorArray['0'] == 'auto')
 			{
@@ -1054,6 +1074,14 @@ var QuranNavigator = {
 			return !this.status().paused;
 		},
 		
+		reset: function (from)
+		{
+			this._recitorReset();
+			this._recitor.position = 1;
+			this._i = 0;
+			this._currentPlayer = 0;
+		},
+		
 		play: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('play');
@@ -1071,24 +1099,26 @@ var QuranNavigator = {
 		},
 		
 		stop: function ()
-		{			
+		{	
 			$(this._getPlayerID()).jPlayer('stop');
+			this.reset();
 			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
 		},
 		
 		next: function ()
 		{
-			rPos = this._recitor.position;
-			rLen = this._recitor.length;
-			lastLoad = this._recitor['row'+rPos].lastLoad;
+			var rPos = this._recitor.position;
+			var rLen = this._recitor.length;
+			var lastLoad = this._recitor['row'+rPos].lastLoad;
 			
-			next = Quran.ayah.next(QuranNavigator.surah(), QuranNavigator.ayah());
-			page = Quran.ayah.page(next.surah, next.ayah);
-			juz  = Quran.ayah.juz(next.surah, next.ayah);
-			surah = next.surah;
-			ayah  =  next.ayah;
-			verse = Quran.verseNo.ayah(next.surah, next.ayah);
-			
+			var next = Quran.ayah.next(QuranNavigator.surah(), QuranNavigator.ayah());
+			var page = Quran.ayah.page(next.surah, next.ayah);
+			var juz  = Quran.ayah.juz(next.surah, next.ayah);
+			var surah = next.surah;
+			var ayah  =  next.ayah;
+			var verse = Quran.verseNo.ayah(next.surah, next.ayah);
+			var conf = QuranNavigator.settings;
+	
 			if (rLen > 1 && rPos != rLen)
 			{
 				this._recitor.position++;
@@ -1154,8 +1184,13 @@ var QuranNavigator = {
 			}
 			else
 			{
+				
 				if (verse == Quran.verseNo.ayah(QuranNavigator.surah(), QuranNavigator.ayah()) && verse >= 6236)
+				{
+					if (QuranNavigator.settings.playing && verse >= 6236)
+						layout.stop();
 					return;
+				}
 				
 				QuranNavigator.load(surah, ayah);
 				this._i = 0;
@@ -1165,16 +1200,17 @@ var QuranNavigator = {
 		
 		prev: function ()
 		{
-			rPos = this._recitor.position;
-			rLen = this._recitor.length;
-			lastLoad = this._recitor['row'+rPos].lastLoad;
+			var rPos = this._recitor.position;
+			var rLen = this._recitor.length;
+			var lastLoad = this._recitor['row'+rPos].lastLoad;
 			
-			prev = Quran.ayah.prev(QuranNavigator.surah(), QuranNavigator.ayah());
-			page = Quran.ayah.page(prev.surah, prev.ayah);
-			juz  = Quran.ayah.juz(prev.surah, prev.ayah);
-			surah = prev.surah;
-			ayah  =  prev.ayah;
-			verse = Quran.verseNo.ayah(prev.surah, prev.ayah);
+			var prev = Quran.ayah.prev(QuranNavigator.surah(), QuranNavigator.ayah());
+			var page = Quran.ayah.page(prev.surah, prev.ayah);
+			var juz  = Quran.ayah.juz(prev.surah, prev.ayah);
+			var surah = prev.surah;
+			var ayah  =  prev.ayah;
+			var verse = Quran.verseNo.ayah(prev.surah, prev.ayah);
+			var conf = QuranNavigator.settings;
 			
 			this._currentPlayer = 0;
 			this._i = 0;
@@ -1318,7 +1354,6 @@ var QuranNavigator = {
 			}
 			else
 			{
-				console.log('in seconds');
 				if (this.isPlaying())
 					$(this._getPlayerID()).jPlayer('play', seconds);
 				else
@@ -1388,6 +1423,12 @@ var QuranNavigator = {
 		{
 			var playerID = playerID || this._getPlayerID();
 			return $(playerID).data("jPlayer").status;
+		},
+		
+		data: function (playerID)
+		{
+			var playerID = playerID || this._getPlayerID();
+			return $(playerID).data("jPlayer");
 		}
 	},
 	
@@ -1455,6 +1496,8 @@ var QuranNavigator = {
 				this.settings.surah = verse.surah;
 				this.settings.ayah = verse.ayah;
 			}		
+			
+			this.player.reset();
 			
 			if (load)
 				this.load(this.settings.surah, this.settings.ayah);

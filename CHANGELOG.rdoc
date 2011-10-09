@@ -1,3 +1,17 @@
 = Changelog
-== Release 3.0.0
+
+== current working - not official release yet (no tag yet!)
+
+== Release v3.0.1
+
+* NEW: prev & next recitation if playing.
+* NEW: stop function
+* FIX: jump on new audio verse, if selection was jump also (ex: changing surah, juz, page and ayah).
+* FIX: modified auto-html file.
+* FIX: stop's at the end of last verse of last surah (114:6) 
+* Fix: tool bar resize for smaller having it inside a smaller div - auto-html
+* CHANGED: end (keyboard) will go to 114:1 ayah - the last surah, but first ayah of surah.
+
+== Release v3.0.0
+
 * NEW: our first official release

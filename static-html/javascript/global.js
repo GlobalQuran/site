@@ -237,11 +237,17 @@ jQuery(function($) {
 	// window resize change progress bar size also
 	$(window).resize(function() {
 		progressBarResize();
+		toolBarResize();
 	});
 	progressBarResize();
+	toolBarResize();
+	function toolBarResize ()
+	{
+		$('#topNav').css('width', $('#main').width());
+	}
 	function progressBarResize ()
 	{		
-		var width = $(window).width();
+		var width = $('#main').width();
 		
 		if (width <= 800)
 			$('.progressBar').css('width', '15%');
