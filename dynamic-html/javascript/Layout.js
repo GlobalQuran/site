@@ -35,6 +35,18 @@ var layout = {
 		
 		if ($.browser.msie && $.browser.version < 8)
 			$('#progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //ie fix
+				
+		QuranNavigator.displayStartup = function (success)
+		{
+			layout.displayStartup(success);
+		};
+		QuranNavigator.display = function (success)
+		{
+			if (QuranNavigator.noData)
+				layout.playerOnly(success);
+			else
+				layout.display(success);
+		};
 		
 		QuranNavigator.init();
 		QuranNavigator.load(); // display default languages
@@ -61,6 +73,11 @@ var layout = {
 		this.fontSize(false, QuranNavigator.settings.fontSize);
 		this.quranFontSettings();
 		this.display(success);
+	},
+	
+	playerOnly: function () // this function runs only, if QuranNavigator.noData was true. will show player only 
+	{
+		this.ayahChanged();
 	},
 	
 	display: function (success)
@@ -477,7 +494,7 @@ var layout = {
 		// update repeat settings, must for start run
 		$('.repeatEach').val(QuranNavigator.settings.repeatEach);
 		$('.repeatTimes').val(QuranNavigator.settings.repeatTimes);
-		$('.repeatDelay').val(QuranNavigator.settings.repeatDelay);
+		$('.audioDelay').val(QuranNavigator.settings.audioDelay);
 	},
 	
 	quranFontSettings: function () // for startup only
@@ -641,7 +658,7 @@ var layout = {
 	{	
 		this.bindExtra();
 		
-		$(layout.quranContent).live('prevAyah', function() {
+		$('body').live('prevAyah', function() {
 			if (QuranNavigator.settings.playing)
 				QuranNavigator.player.prev();
 			else
@@ -707,39 +724,39 @@ var layout = {
 		});
 		
 		$('.prevAyah').live('click', function() {
-			$(layout.quranContent).trigger('prevAyah');
+			$('body').trigger('prevAyah');
 			return false;
 		});
 		
 		$('.nextAyah').live('click', function() {
-			$(layout.quranContent).trigger('nextAyah');
+			$('body').trigger('nextAyah');
 			return false;
 		});
 
 		$('.nextPage').live('click', function() {
-			$(layout.quranContent).trigger('nextPage');
+			$('body').trigger('nextPage');
 			return false;
 		});
 
 		$('.prevPage').live('click', function() {
-			$(layout.quranContent).trigger('prevPage');
+			$('body').trigger('prevPage');
 			return false;
 		});
 
 		$('.customAyah').live('change', function() {
-			$(layout.quranContent).trigger('customAyah', [$('.customSurah').val(), $(this).val()]);
+			$('body').trigger('customAyah', [$('.customSurah').val(), $(this).val()]);
 		});
 
 		$('.customSurah').live('change', function() {
-			$(layout.quranContent).trigger('customSurah', $(this).val());
+			$('body').trigger('customSurah', $(this).val());
 		});
 
 		$('.customPage').live('change', function() {
-			$(layout.quranContent).trigger('customPage', $(this).val());
+			$('body').trigger('customPage', $(this).val());
 		});
 
 		$('.customJuz').live('change', function() {
-			$(layout.quranContent).trigger('customJuz', $(this).val());
+			$('body').trigger('customJuz', $(this).val());
 		});
 		
 		$('.volume').live('click', function() {
@@ -770,8 +787,8 @@ var layout = {
 			QuranNavigator.player.repeatTimes($(this).val());
 		});
 		
-		$('.repeatDelay').live('change', function() {
-			QuranNavigator.player.repeatDelay($(this).val());
+		$('.audioDelay').live('change', function() {
+			QuranNavigator.player.audioDelay($(this).val());
 		});
 		
 		$('#showSigns, #showAlef').live('click', function()
@@ -807,7 +824,7 @@ var layout = {
 			});
 			
 
-			$(layout.quranContent).trigger('quranBy', by.join('|'));
+			$('body').trigger('quranBy', by.join('|'));
 			
 			return false;
 		});
@@ -849,7 +866,7 @@ var layout = {
 			}
 			
 			
-			$(layout.quranContent).trigger('quranByRecitor', by);
+			$('body').trigger('quranByRecitor', by);
 		});
 		
 		$('.bandwidthList a').live('click', function()
@@ -857,7 +874,7 @@ var layout = {
 			$('.bandwidthList .active').removeClass('active');
 			$(this).addClass('active');
 					
-			$(layout.quranContent).trigger('quranByRecitor', [QuranNavigator.settings.selectedRecitor, $(this).attr('data-kbs')]);
+			$('body').trigger('quranByRecitor', [QuranNavigator.settings.selectedRecitor, $(this).attr('data-kbs')]);
 			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'bandwidth',  $(this).attr('data-kbs')]);
 		});
 		
@@ -940,25 +957,25 @@ var layout = {
 			{
 				case key.left:
 					if (e.ctrlKey && e.shiftKey)
-						$(layout.quranContent).trigger('prevSurah');
+						$('body').trigger('prevSurah');
 					else if (e.ctrlKey)
-						$(layout.quranContent).trigger('prevPage');
+						$('body').trigger('prevPage');
 					else 
-						$(layout.quranContent).trigger('prevAyah');
+						$('body').trigger('prevAyah');
 				break;
 				case key.right:
 					if (e.ctrlKey && e.shiftKey)
-						$(layout.quranContent).trigger('nextSurah');
+						$('body').trigger('nextSurah');
 					else if (e.ctrlKey)
-						$(layout.quranContent).trigger('nextPage');
+						$('body').trigger('nextPage');
 					else
-						$(layout.quranContent).trigger('nextAyah');				  
+						$('body').trigger('nextAyah');				  
 				break;
 				case key.home:
-					$(layout.quranContent).trigger('customAyah', [1, 1]);
+					$('body').trigger('customAyah', [1, 1]);
 				break;
 				case key.end:
-					$(layout.quranContent).trigger('customAyah', [114, 1]);
+					$('body').trigger('customAyah', [114, 1]);
 				break;
 				case key.space:
 					layout.togglePlay();
