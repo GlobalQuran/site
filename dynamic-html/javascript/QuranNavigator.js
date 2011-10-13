@@ -14,6 +14,8 @@
 var QuranNavigator = {
 	
 	apiURL: 'http://api.globalquran.com/',
+	noData: false, // switch to true, if you want to have audio only.
+	
 	googleAnalyticsID: '',
 	
 	/**
@@ -35,7 +37,7 @@ var QuranNavigator = {
 		repeat: false,
 		repeatEach: 'ayah',
 		repeatTimes: 0,
-		repeatDelay: 0,
+		audioDelay: 0,
 		
 		showAlef: true,
 		showSigns: true,
@@ -452,7 +454,7 @@ var QuranNavigator = {
 	
 			url = this.apiURL+'all/page/'+this.settings.page;
 			
-			if (this.settings.selectedBy)
+			if (this.settings.selectedBy)// TODO add this.noData for getting no quran text from server.
 				url += '/'+this.settings.selectedBy;
 			if (this.settings.selectedLanguage)
 				url += '/'+this.settings.selectedLanguage;
@@ -473,6 +475,9 @@ var QuranNavigator = {
 		
 		this.save();
 		this._gaqPush(['_trackPageview', '/#!'+this.urlPage()]);
+		
+		if (this.noData && !firstLoad) // if no data need to be output, then run request only once
+			notCachedQuranID = false;
 
 		if (notCachedQuranID)
 		{
@@ -488,8 +493,8 @@ var QuranNavigator = {
 			});
 		}
 		else
-		{
-			layout.display(true);
+		{			
+			QuranNavigator.display(true);	
 			QuranNavigator.player.load('play');
 		}
 		
@@ -515,11 +520,16 @@ var QuranNavigator = {
 				this._urlSave(); // cause defaultQuranBy set here
 			}
 
-			layout.displayStartup((typeof(response) == 'object'));
+			QuranNavigator.displayStartup((typeof(response) == 'object'));
 		}
 		else
-			layout.display((typeof(response) == 'object'));
+			QuranNavigator.display((typeof(response) == 'object'));
 	},
+	
+	displayStartup: function (success) {}, // replace this function with yours
+	display: function (success) {}, // replace this function with yours
+	
+	
 	
 	verseParse: function (quranBy, text) {
 		return this._verse.parse(quranBy, text);
@@ -677,6 +687,7 @@ var QuranNavigator = {
 		_recitor: {},
 		_currentPlayer: 0,
 		_i: 0, // repeat counter
+		_delayID: '',
 				
 		init: function () 
 		{
@@ -689,6 +700,11 @@ var QuranNavigator = {
 				QuranNavigator.player.preload = -1;  // cant load two instance in iphone
 			}
 			
+			this.setup();
+		},
+		
+		setup: function ()
+		{
 			settings = {
 				swfPath: this.swfPath,
 				supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
@@ -716,10 +732,22 @@ var QuranNavigator = {
 				  cssClass: ""
 				},
 				ready: function (event) {
-					QuranNavigator.player.load('new'); // already getting load from recitation change					
+					QuranNavigator.player.load('new'); // already getting load from recitation change
 				},				
-				ended: function (event) {
-					QuranNavigator.player.next();
+				ended: function (event)
+				{
+					if (QuranNavigator.settings.audioDelay && (QuranNavigator.settings.audioDelay > 0 || QuranNavigator.settings.audioDelay != false))
+					{
+						var delay = (QuranNavigator.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : QuranNavigator.settings.audioDelay;
+						delay = delay * 1000;
+						clearTimeout(QuranNavigator.player._delayID);
+						QuranNavigator.player._delayID = setTimeout('QuranNavigator.player.next()', delay);
+					}
+					else
+					{					        
+						QuranNavigator.player.next();
+					}
+					
 					$('.buffer').css('width', '0%');
 				},
 				loadstart: function (event)
@@ -744,7 +772,28 @@ var QuranNavigator = {
 				},
 				progress: function (event)
 				{
-					$('.buffer').css('width', QuranNavigator.player.status().seekPercent+'%');
+					var percent = 0;
+					var audio = QuranNavigator.player.data().htmlElement.audio;
+					
+					if((typeof audio.buffered === "object") && (audio.buffered.length > 0))
+					{
+						if(audio.duration > 0)
+						{
+							var bufferTime = 0;
+							for(var i = 0; i < audio.buffered.length; i++)
+							{
+								bufferTime += audio.buffered.end(i) - audio.buffered.start(i);
+								 //console.log(i + " | start = " + audio.buffered.start(i) + " | end = " + audio.buffered.end(i) + " | bufferTime = " + bufferTime + " | duration = " + audio.duration);
+							}
+							percent = 100 * bufferTime / audio.duration;
+						} // else the Metadata has not been read yet.
+						//console.log("percent = " + percent);
+					} else { // Fallback if buffered not supported
+						// percent = event.jPlayer.status.seekPercent;
+						percent = 100; // Cleans up the inital conditions on all browsers, since seekPercent defaults to 100 when object is undefined.
+					}
+					
+					$('.buffer').css('width', percent+'%');
 				},
 				play: function (event)
 				{
@@ -1403,9 +1452,9 @@ var QuranNavigator = {
 			QuranNavigator.save();
 		},
 		
-		repeatDelay: function (delay)
+		audioDelay: function (delay)
 		{
-			QuranNavigator.settings.repeatDelay = delay;
+			QuranNavigator.settings.audioDelay = delay;
 			QuranNavigator.save();
 		},
 		

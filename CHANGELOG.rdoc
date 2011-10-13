@@ -1,6 +1,19 @@
 = Changelog
 
-== current working - not official release yet (no tag yet!)
+To download stable release, please use "switch tags" button and point to the latest release link.
+
+== Head - unstable
+
+== Release v3.0.2
+
+* NEW: QuranNavigator.js made independent (removed layout requirement from it)
+* NEW: QuranNavigator.displayStartup & QuranNavigator.display added for overwriting in your own javascript functions.
+* NEW: QuranNavigator.noData added for using the player only - Quran text will not be pulled on navigation value changes (ex: next page, next surah...)
+* NEW: QuranNavigator.setup added for making your own custom player with your own function (replace it).
+* NEW: added demo folder
+* NEW: added audioOnly demo
+* NEW: delay added on audio recitations.
+* FIX: buffer fixed for html5 solution.
 
 == Release v3.0.1
 
