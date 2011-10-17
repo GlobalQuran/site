@@ -479,7 +479,7 @@ noscript p {
 	font-size: 200%;
 	font-weight: bold; 
 }
-#main {
+#gqMain {
 	width: 98%;
 	margin: 0 auto;
 	background-color: #fff;
@@ -491,9 +491,9 @@ noscript p {
 	height:100px;	
 	clear:both;
 }
-	#main .sticky {
+	#gqMain .sticky {
 	}
-	#main .sticky #topNav {
+	#gqMain .sticky #topNav {
 		position:fixed;
 		top:0;
 		/* ie6 fix, Thanks to Achernar http://www.webmasterworld.com/css/3592524.htm */
@@ -502,7 +502,7 @@ noscript p {
  		-top: expression(0+((e=document.documentElement.scrollTop)?e:document.body.scrollTop)+'px'); 
 		-left: expression(0+((e=document.documentElement.scrollLeft)?e:document.body.scrollLeft)+'px');
 	}
-	#main .sticky .logo {
+	#gqMain .sticky .logo {
 	}
 #topNav {
 	width:98%;
@@ -894,7 +894,7 @@ noscript p {
 		float:right;
 		margin-top: 6px;
 	}
-#content {
+#gqContent {
 	width:100%;
 	min-height:600px;
 	display:table;	
@@ -1050,65 +1050,65 @@ noscript p {
 			.rtl #quranSettings .closeButton {
 				float:left;
 			}
-#contentArea {
+#quranContentArea {
 	padding-top: 20px;
 	margin-left: 4px;
 	text-align:center;
 }
-	#content .contentFull {
+	#gqContent .contentFull {
 		/*width: 100%;*/
 	}
-	#content .contentHalfSidebar {
+	#gqContent .contentHalfSidebar {
 		margin-right: 260px;
 	}
-	.rtl #content .contentHalfSidebar {
+	.rtl #gqContent .contentHalfSidebar {
 		margin-right: 4px;
 		margin-left: 260px;	
 	}
-	#content .smaller {
+	#gqContent .smaller {
 		font-size:120%;
 	}
-	#content .small {
+	#gqContent .small {
 		font-size:150%;
 	}
-	#content .medium {
+	#gqContent .medium {
 		font-size:200%;
 	}
-	#content .large {
+	#gqContent .large {
 		font-size:250%;	
 	}
-	#content .larger {
+	#gqContent .larger {
 		font-size:300%;
 	}
-	#content .larger-x {
+	#gqContent .larger-x {
 		font-size:400%;
 	}
-	#content .larger-xx {
+	#gqContent .larger-xx {
 		font-size:500%;
 	}
 		/* quran shows smaller font, make them bigger then normal size */
-		#content .smaller .quranText {
+		#gqContent .smaller .quranText {
 			font-size:80%;
 		}
-		#content .small .quranText  {
+		#gqContent .small .quranText  {
 			font-size:110%;
 		}
-		#content .medium .quranText {
+		#gqContent .medium .quranText {
 			font-size:125%;
 		}
-		#content .large .quranText  {
+		#gqContent .large .quranText  {
 			font-size:130%;	
 		}
-		#content .larger .quranText  {
+		#gqContent .larger .quranText  {
 			font-size:135%;
 		}
-		#content .larger-x .quranText  {
+		#gqContent .larger-x .quranText  {
 			font-size:140%;
 		}
-		#content .larger-xx .quranText  {
+		#gqContent .larger-xx .quranText  {
 			font-size:150%;
 		}
-	#content .bismillah {
+	#gqContent .bismillah {
 		display:block;
 		margin:auto;
 		margin-bottom: 1em;
@@ -1509,19 +1509,19 @@ noscript p {
 #recitor .click {
 	background-position:-46px -160px;
 }
-.ltr .leftBracket, #contentArea .ltr .leftBracket {
+.ltr .leftBracket, #quranContentArea .ltr .leftBracket {
 	height:22px;
 	background-position:-80px -160px;
 }
-.ltr .rightBracket, #contentArea .ltr .rightBracket {
+.ltr .rightBracket, #quranContentArea .ltr .rightBracket {
 	height:22px;
 	background-position:-96px -160px;	
 }
-	.rtl .leftBracket, #contentArea .rtl .leftBracket {
+	.rtl .leftBracket, #quranContentArea .rtl .leftBracket {
 		height:22px;
 		background-position:-96px -160px;	
 	}
-	.rtl .rightBracket, #contentArea .rtl .rightBracket {
+	.rtl .rightBracket, #quranContentArea .rtl .rightBracket {
 		height:22px;
 		background-position:-80px -160px;
 	}

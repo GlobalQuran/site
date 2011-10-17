@@ -4,6 +4,10 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+== Release v3.1.0
+
+* CHANGE: major css id name changes for removing the conflict with other systems
+
 == Release v3.0.2
 
 * NEW: QuranNavigator.js made independent (removed layout requirement from it)

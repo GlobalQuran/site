@@ -16,7 +16,7 @@ complete list of {features}[http://blog.globalquran.com/feature-list].
 == Getting Started
 
 * {Online Demo}[http://GlobalQuran.com] - Live Online Demo
-* {Blog}[http://blog.globalquran.com/] - Get to know whats new coming or has been came.
+* {Blog}[http://blog.globalquran.com/] - Get to know what's new coming or has been came.
 * {About us}[http://blog.globalquran.com/about-us/] - About the project and people who are behind it.
 * Documentation & Tutorials (writing documentation - coming soon) - Learn about code and also use our Quran data through REST API.
 
@@ -45,7 +45,7 @@ auto-html - if you choose to use this.
     3. upload directly where you want to host it (ex: www). you can even change the file name from index.php to any name
     (ex: quran.php).
     
-    [Tip] if you want to change css for this dynamicly fetching html, then you have to edit index.php, once it gets 
+    [Tip] if you want to change css for this dynamically fetching html, then you have to edit index.php, once it gets 
     the html from site, then just find global.css and replace it with your own. 
 
 
@@ -58,12 +58,12 @@ dynamic-html - if you choose to use this.
     [Note] you can edit any file in it and check it with online preview. - you can test it on local-server as well.
     
 
-static-html - use this for css testing only. for creating new css or modifing old one.
+static-html - use this for css testing only. for creating new css or modifying old one.
 
    [Note] once you download this folder, you can test it without even putting on server.
     
     if you are creating new css layout called 'fancyDesign', then create new sub-folder at images/themes/fancyDesign and put
-    all your css files and images in this folder, following is recommanded settings for this folder.
+    all your css files and images in this folder, following is recommended settings for this folder.
 
     * fancyDesign/ - images/css files and folders here.
     * fancyDesign/css - all the css files here

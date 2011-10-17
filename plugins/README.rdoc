@@ -8,8 +8,10 @@ This folder holds all the plugins which can be used for the Quran project. plugi
 
 == List of available plugins:
 
+* {wordpress plugin}[https://github.com/imegah/GlobalQuran.com-code/tree/master/plugins/wordpress-plugin] by Basit  - You can easily integrate complete site in your wordpress site/blog with your layout. Please download this plugin directly from wordpress plugin area. {How to install?}[http://blog.globalquran.com/help/wordpress-plugin/]
 * {quran-tool}[https://github.com/imegah/GlobalQuran.com-code/tree/master/plugins/quran-tool] by Basit - php ({javascript version}[https://github.com/imegah/GlobalQuran.com-code/blob/master/dynamic-html/javascript/Quran.js]) class to help navigate through quran data.
 * {quran-js-api-navigator}[https://github.com/imegah/GlobalQuran.com-code/tree/master/plugins/quran-js-api-navigator] by Basit - javascript object to help navigate through quran api.
+ 
 
 
 == Requirement
