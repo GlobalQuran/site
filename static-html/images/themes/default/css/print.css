@@ -15,7 +15,7 @@
 #globalHeader, #infoSidebar, #globalFooter, .tajweedQuickHelp {
 	display:none;
 }
-#contentArea  {
+#quranContentArea  {
 	width:98%;
 	position:absolute;
 	top: 0px;

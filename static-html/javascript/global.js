@@ -106,13 +106,13 @@ jQuery(function($) {
 		{
 			$(this).addClass('active');
 			$('#infoSidebar').addClass('hide');
-			$('#contentArea').removeClass('contentHalfSidebar').addClass('contentFull');
+			$('#quranContentArea').removeClass('contentHalfSidebar').addClass('contentFull');
 		}
 		else
 		{
 			$(this).removeClass('active');
 			$('#infoSidebar').removeClass('hide');
-			$('#contentArea').removeClass('contentFull').addClass('contentHalfSidebar');	
+			$('#quranContentArea').removeClass('contentFull').addClass('contentHalfSidebar');	
 		}
 		
 		return false;	
@@ -122,7 +122,7 @@ jQuery(function($) {
 	$('a.zoomIN, a.zoomOUT').click(function()
 	{
 		var zoom = $(this).hasClass('zoomIN');
-		var zoomContent = $('#contentArea');
+		var zoomContent = $('#quranContentArea');
 		
 		if ($(this).hasClass('disable'))
 			return false;
@@ -243,11 +243,11 @@ jQuery(function($) {
 	toolBarResize();
 	function toolBarResize ()
 	{
-		$('#topNav').css('width', $('#main').width());
+		$('#topNav').css('width', $('#gqMain').width());
 	}
 	function progressBarResize ()
 	{		
-		var width = $('#main').width();
+		var width = $('#gqMain').width();
 		
 		if (width <= 800)
 			$('.progressBar').css('width', '15%');

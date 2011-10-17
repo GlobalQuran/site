@@ -4,7 +4,7 @@ Donate link: http://blog.globalquran.com/help/wordpress-plugin/
 Tags: quran, quraan, koran, islam, deen, read, listen, audio
 Requires at least: 2.0.2
 Tested up to: 3.2.1
-Stable tag: 1.0
+Stable tag: 2.0
 
 Easily add Quran on your website. This plugin let's you easily add 100+ Quran text translation and audio on your site.Demo http://GlobalQuran.com
 

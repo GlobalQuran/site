@@ -14,7 +14,7 @@
 
 var layout = {
 	
-	quranContent: '#contentArea',
+	quranContent: '#quranContentArea',
 	pageTitle: '', // if left empty, it will get html title - surah title will be prepended with this title
 	scrollOffset: -100,
 	
@@ -31,7 +31,7 @@ var layout = {
 	
 	init: function ()
 	{
-		$('#main').show();
+		$('#gqMain').show();
 		
 		if ($.browser.msie && $.browser.version < 8)
 			$('#progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //ie fix
@@ -1145,11 +1145,11 @@ var layout = {
 		progressBarResize();
 		function toolBarResize ()
 		{
-			$('#topNav').css('width', $('#main').width());
+			$('#topNav').css('width', $('#gqMain').width());
 		}		
 		function progressBarResize ()
 		{		
-			var width = $('#main').width();
+			var width = $('#gqMain').width();
 			
 			if (width <= 800)
 				$('.progressBar').css('width', '15%');
