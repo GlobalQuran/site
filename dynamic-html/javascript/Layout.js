@@ -56,12 +56,15 @@ var layout = {
 	loading: function () {}, //TODO
 	unLoading: function () {}, //TODO
 	
-	_autoScrollOnStart: false,
+	_autoScroll: false,
 	
 	displayStartup: function (success)
 	{		
 		if (this.pageTitle == '')
 			this.pageTitle = $('title').html();
+
+		if (QuranNavigator.surah() != 1 || QuranNavigator.ayah() != 1)
+			this._autoScroll = true;
 		
 		this.recitorList();
 		this.quranList();
@@ -94,13 +97,10 @@ var layout = {
 			this.listView(QuranNavigator.quranText());
 		}
 		
-		if (QuranNavigator.surah() != 1 || QuranNavigator.ayah() != 1)
-			this._autoScrollOnStart = true;
-		
 		this.ayahChanged(); // change the values to selected ayah
 		this.unLoading();
 		
-		this._autoScrollOnStart = true;
+		this._autoScroll = true;
 	},
 	
 	singleView: function(quranArray)
@@ -241,16 +241,25 @@ var layout = {
 	{
 		var list = QuranNavigator.quranList('audio');
 		var active = QuranNavigator.isQuranBySelected('auto', QuranNavigator.settings.selectedRecitor) ? 'active' : '';
+		var maxChar = 22;
 
 		//clean the rows, if already there
 		$('.recitorList').html('');
 		$('.recitorList').append('<li><a href="#" class="txt '+active+'" data-recitor-id="auto">Default</a></li>');
 		
 		$.each(list, function (quranByID, by)
-		{			
+		{
+			languageName = (QuranNavigator.languageList()[by.language_code]) ? QuranNavigator.languageList()[by.language_code].native_name || QuranNavigator.languageList()[by.language_code].english_name : null;
 			name = by.native_name || by.english_name;
+			fullName = name;
+			if (by.language_code != 'ar' && languageName != null)
+				name = languageName;
+			charTips = (name.length > maxChar || (by.language_code != 'ar' && languageName != null)) ? 'tips' : '';
+			if (name.length > maxChar)
+				name = name.substr(0, (maxChar-3))+'...';
+			
 			active = QuranNavigator.isQuranBySelected(quranByID, QuranNavigator.settings.selectedRecitor) ? 'active' : '';
-			$('.recitorList').append('<li><a href="#" class="txt '+active+'" data-recitor-id="'+quranByID+'">'+name+'</a></li>');
+			$('.recitorList').append('<li><a href="#" class="txt '+active+' '+charTips+'" title="'+fullName+'" data-recitor-id="'+quranByID+'">'+name+'</a></li>');
 		});
 	},
 	
@@ -281,6 +290,7 @@ var layout = {
 		var list = QuranNavigator.quranList('text');
 		var active = '';
 		var html = '';
+		var htmlActive = '';
 		var $list = $('#quranList');
 				
 		//clean the rows, if already there
@@ -305,13 +315,15 @@ var layout = {
 				html = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span>'+doubleLanguage+'<span class="loadingIndicator"></span></a></li>';
 				
 				if (active)
-					$list.prepend(html);				
+					htmlActive += html;				
 				else
-					$list.append(html);
+					$list.prepend(html);
 				
 				totalCount++;
 			}
 		});
+		
+		$list.prepend(htmlActive);
 		
 		if (showAll)
 			return;
@@ -349,10 +361,14 @@ var layout = {
 		
 		$.each(list, function (quranByID, by)
 		{
+			languageName = null;
 			searchString = by.native_name+' '+by.english_name+' '+by.language_code+' ';
 			
 			if (QuranNavigator.languageList()[by.language_code])
+			{
 				searchString += QuranNavigator.languageList()[by.language_code].english_name+' '+QuranNavigator.languageList()[by.language_code].native_name;
+				languageName = QuranNavigator.languageList()[by.language_code].native_name || QuranNavigator.languageList()[by.language_code].english_name;
+			}
 			
 			searchString = searchString.toLowerCase();
 			
@@ -366,10 +382,16 @@ var layout = {
 				
 				active = QuranNavigator.isQuranBySelected(quranByID, false) ? 'active' : '';
 				html = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span><span class="loadingIndicator"></span></a></li>';
+				if (languageName != null)
+					htmlLanguage = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" data-lang="'+by.language_code+'" data-quranid="'+quranByID+'"><span class="txt">'+languageName+'</span><span class="loadingIndicator"></span></a></li>';
+				else
+					htmlLanguage = html;
 				
 				if (active)
 					$list.prepend(html);				
-				else
+				else if (filter == '' && !$('[data-lang="'+by.language_code+'"]').length)
+					$list.append(htmlLanguage);
+				else if (filter != '')
 					$list.append(html);
 				
 				totalCount++;
@@ -617,8 +639,10 @@ var layout = {
 		// select verse
 		$(this.quranContent+' .selected').removeClass('selected');
 		$('.'+QuranNavigator.surah()+'-'+QuranNavigator.ayah()).addClass('selected');
-		if (this._autoScrollOnStart)
+		
+		if (this._autoScroll)
 			$('.'+QuranNavigator.surah()+'-'+QuranNavigator.ayah()).scrollTo(1000, this.scrollOffset);
+		
 		$('.customSurah').val(QuranNavigator.surah());
 		
 		if (QuranNavigator.quranBySelectedCount() == 1 && QuranNavigator.quranByDetail(QuranNavigator.settings.selectedBy).language_code == 'ar')
@@ -708,6 +732,7 @@ var layout = {
 			layout.ayahChanged();
 		}).live('quranBy', function(e, by) {
 			QuranNavigator.quranBy(by);
+			layout._autoScroll = false;
 		}).live('quranByRecitor', function(e, by, kbs)
 		{
 			QuranNavigator.player.reset();
@@ -814,6 +839,12 @@ var layout = {
 			{
 				$(this).addClass('active');
 				QuranNavigator._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
+			}
+			
+			if ($(this).attr('data-lang'))
+			{
+				$('#languageSearch').val($(this).text()).trigger('keyup').removeClass('placeholder');;
+				return false;
 			}
 			
 			var by = [];
@@ -1185,10 +1216,18 @@ var layout = {
 	    );
 			
 		// start assinging tips to the containers
-		$('.tips').live('mouseenter', function()
+		$('.tips, .tipsWord').live('mouseenter', function()
 		{
 			if ($('body').hasClass('rtl') && $.browser.msie && $.browser.version < 8) // ie6+ fix for right to left direction only
 				return false;
+			
+			if($(this).data('qtip'))
+			{
+				if ($(this).attr('data-tips-dynamic') == 'true')
+					$(this).qtip('api').set('content.text', $(this).attr('title') || $(this).text()); 
+				
+				return true;
+			}
 			
 			// Define corners opposites
 			var tipsPositionOpposites = {
@@ -1230,6 +1269,11 @@ var layout = {
 			else
 				x = -4;
 			
+			if ($(this).hasClass('tipsWord'))
+				classes = 'ui-tooltip-word';
+			else
+				classes = ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube';
+			
 			$(this).qtip(
 			{
 				content: {
@@ -1248,7 +1292,7 @@ var layout = {
 				},	
 	 			style: {
 					tip: true,
-					classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
+					classes: classes
 				}
 			});
 		});
@@ -1276,8 +1320,9 @@ var layout = {
 			var input = $(this);
 			if (input.val() == input.attr('placeholder')) {
 				input.val('');
-				input.removeClass('placeholder');
 			}
+			else
+				input.removeClass('placeholder');
 		})
 		.blur(function()
 		{
@@ -1319,7 +1364,7 @@ if ((contentHeight - targetTop) < scrollableHeight)
 }
 */
 $.ajaxSetup({"error":function(XMLHttpRequest,textStatus, errorThrown) {   
-    alert(textStatus);
-    alert(errorThrown);
+    //alert(textStatus);
+    //alert(errorThrown);
     alert(XMLHttpRequest.responseText);
 }});

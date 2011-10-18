@@ -30,7 +30,7 @@
 		<!-- nav here -->
 		<div id="topNav">
 			<div id="statusNav">
-				<span class="currentAyah tips" title="Surah Al Nas"  data-tips-position="bottom center">00:00</span>
+				<span class="currentAyah tips" title="Surah Al Nas"  data-tips-position="bottom center" data-tips-dynamic="true">00:00</span>
 				<ul>
 					<li><a href="http://blog.globalquran.com/feature-list/" class="gq spotLight">Feature List</a></li>
 					<!--
@@ -198,11 +198,14 @@
 		</div>
 	</div>
 </div>
+<script src="javascript/jqueryWithTools.pack.js"></script>
+<!-- development use only
 <script src="javascript/jquery/jquery.js"></script>
-<!-- compress the javascript files, before using it in production -->
 <script src="javascript/jquery/jquery.qtip.min.js"></script>
 <script src="javascript/jquery/jquery-ui-1.8.15.custom.min.js"></script>
 <script src="javascript/jquery/jquery.jplayer.js"></script>
+ -->
+<!-- for production - use GlobalQuran.js and remove following three js files -->
 <script src="javascript/Quran.js"></script>
 <script src="javascript/QuranNavigator.js"></script>
 <script src="javascript/Layout.js"></script>

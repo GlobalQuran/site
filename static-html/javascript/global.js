@@ -329,6 +329,8 @@ function liveTips ()
 	if ($('body').hasClass('rtl') && $.browser.msie && $.browser.version < 8) // ie6+ fix for right to left direction only
 		return false;
 	
+	
+	
 	// Define corners opposites
 	var tipsPositionOpposites = {
 		'bottom left': 'top right', 
@@ -346,8 +348,16 @@ function liveTips ()
 	};
 	
 	// start assinging tips to the containers
-	$('.tips').live('mouseenter', function()
+	$('.tips, .tipsWord').live('mouseenter', function()
 	{
+		if($(this).data('qtip'))
+		{
+			if ($(this).attr('data-tips-dynamic') == 'true')
+				$(this).qtip('api').set('content.text', $(this).attr('title') || $(this).text()); 
+			
+			return true;
+		}
+		
 		var positionTooptip = ($(this).attr('data-tips-position') == null) ? tipsPositionOpposites['top center'] : tipsPositionOpposites[$(this).attr('data-tips-position')];
 		var positionTarget = ($(this).attr('data-tips-position') == null) ? 'top center' : $(this).attr('data-tips-position');
 		var x = 0;
@@ -372,6 +382,11 @@ function liveTips ()
 		else
 			x = -4;
 		
+		if ($(this).hasClass('tipsWord'))
+			classes = 'ui-tooltip-word';
+		else
+			classes = ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube';
+		
 		$(this).qtip(
 		{
 			content: {
@@ -390,7 +405,7 @@ function liveTips ()
 			},	
  			style: {
 				tip: true,
-				classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
+				classes: classes
 			}
 		});
 	});

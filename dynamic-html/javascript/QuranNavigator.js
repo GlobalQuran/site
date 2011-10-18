@@ -599,14 +599,14 @@ var QuranNavigator = {
 					if (QuranNavigator.settings.wbwDirection == 'english2arabic')
 					{
 						if (QuranNavigator.settings.wbwMouseOver)
-							verse_html += '<span class="word"><span class="en tips" title="'+verse[0]+'">'+verse[1]+'</span></span>';
+							verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 						else
 							verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
 					}
 					else
 					{
 						if (QuranNavigator.settings.wbwMouseOver)
-							verse_html += '<span class="word"><span class="ar tips" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+							verse_html += '<span class="word"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 						else
 							verse_html = '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
 					}

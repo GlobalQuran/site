@@ -4,6 +4,14 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* FIX: Quran signs with proper font fize and font family
+* FIX: no scroll on language selection
+* FIX: tips duplicate fixes
+* CHANGED: langauges into groups by there name
+* CHANGED: audio translations by the language name
+* CHANGED: word by word mouse over words made it bigger and nicer
+
+
 == Release v3.1.0
 
 * CHANGE: major css id name changes for removing the conflict with other systems

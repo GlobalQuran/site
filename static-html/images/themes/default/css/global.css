@@ -1827,23 +1827,23 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
 
 /* quran signs */
 .sign {
-	font-family: Times New Roman;
+	font-family: me_quran,meQuran,Times New Roman;
 	color: #FB7600;
 	/* font-size: 0.9em; TODO*/
-	font-size: 2em;
+	font-size: 70%;
 }
 
 .internal-sign {
-	font-family: Times New Roman;
+	font-family: me_quran,meQuran,Times New Roman;
 	color: green;
 	/* font-size: 0.65em; TODO*/
-	font-size: 2em;
+	font-size: 70%;
 }
 
 .juz-sign {
 	width: 16px;
 	height: 16px;
-	background-position: 0 -80px;
+	background-position: 0 -80px;/* TODO juz sign in images */
 	display: inline-block;
 	vertical-align: middle;
 	margin-top: 3px;
@@ -2226,6 +2226,26 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
 		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	}
 
+/*! WordbyWord tooltip style */
+.ui-tooltip-word {
+	font-size:225%;
+	max-width:none;
+	line-height: 1.5em;
+}
+.ui-tooltip-word .ui-tooltip-titlebar,
+.ui-tooltip-word .ui-tooltip-content{
+	border-color: #E2E2E2;
+	color: #454545;
+}
+
+	.ui-tooltip-word .ui-tooltip-content{
+		background-color: white;
+	}
+
+	.ui-tooltip-word .ui-tooltip-titlebar{
+		background-color: #f1f1f1;
+	}
+	
 /*! Light tooltip style */
 .ui-tooltip-light .ui-tooltip-titlebar,
 .ui-tooltip-light .ui-tooltip-content{
