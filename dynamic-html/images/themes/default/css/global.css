@@ -998,7 +998,7 @@ noscript p {
 			-position:relative;
 			-background-image:none;
 		}
-		.sideNav .loading .countValue {
+		.sideNav .loading .countValue, .sideNav .loading .sideInfo {
 			display:none;
 		}
 		.sideNav .loadingIndicator {
@@ -1015,6 +1015,13 @@ noscript p {
 			background-color:#d4dae8;
 			float:right;
 			margin-top: 2px;
+			margin-right:6px;
+		}
+		.sideNav .sideInfo {
+			color: #3b5998;
+			font-weight:bold;
+			text-align:center;
+			float:right;
 			margin-right:6px;
 		}
 		.sideHelpLinks li {
@@ -1497,6 +1504,16 @@ noscript p {
 }
 .book .active {
 	background-position:-399px -144px;
+}
+.tajweed {
+	background-position:-416px -144px;
+}
+.kidsWordByWord {
+	background-position:-432px -144px;
+}
+.keyboard {
+	width: 20px;
+	background-position:-448px -144px;
 }
 .recitor {
 	width: 23px;
@@ -2231,10 +2248,12 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
 	font-size:225%;
 	max-width:none;
 	line-height: 1.5em;
+	white-space:nowrap;
 }
 .ui-tooltip-word .ui-tooltip-titlebar,
 .ui-tooltip-word .ui-tooltip-content{
-	border-color: #E2E2E2;
+	border-width: 3px;
+	border-color: #3B5998;
 	color: #454545;
 }
 

@@ -100,6 +100,20 @@ var layout = {
 		this.ayahChanged(); // change the values to selected ayah
 		this.unLoading();
 		
+		// tajweed helper
+		if (QuranNavigator.isQuranBySelected('quran-tajweed'))
+		{
+			$('.tajweedQuickHelp').removeClass('hide');
+			
+			if (!$.browser.mozilla)
+				$('#messageBox').html('<span class="error">Tajweed fonts best displayed in <a href="http://FireFox.com">FireFox</a> browser.</span> <a href="#" class="icon close tips">close</a>').show();
+		}
+		else if (!$('.tajweedQuickHelp').hasClass('hide'))
+		{
+			$('.tajweedQuickHelp').addClass('hide');
+		}
+			
+		
 		this._autoScroll = true;
 	},
 	
@@ -185,6 +199,8 @@ var layout = {
 				{
 					by = QuranNavigator.quranByDetail(quranBy);
 					name = by.native_name || by.english_name;
+					if(quranBy == 'quran-wordbyword' && QuranNavigator.settings.wbwDirection == 'english2arabic')
+						name = by.english_name;
 					direction = (QuranNavigator.quranByDirection(quranBy) == 'right') ? 'rtl' : 'ltr';
 					fontFamily = "style=\"font-family: '"+QuranNavigator.getFontFamily()+"';\"";
 					body += '<p class="ayah quranText '+direction+'" dir="'+direction+'" '+fontFamily+'><a href="'+QuranNavigator.urlHashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, val.verse)+'</p>';
@@ -307,12 +323,14 @@ var layout = {
 				if (name.length > maxChar)
 					name = name.substr(0, (maxChar-3))+'...';
 				
-				doubleLanguage = '';
+				sideOption = '';
 				if (quranByID == 'quran-wordbyword')
-					doubleLanguage = (QuranNavigator.settings.wbwDirection == 'arabic2english') ?  '<span class="countValue rnd wbwDirection tips" title="change arabic to english" data-tips-position="left center">EN</span>' :  '<span class="countValue rnd wbwDirection tips" title="change english to arabic" data-tips-position="left center">AR</span>';
+					sideOption = (QuranNavigator.settings.wbwDirection == 'arabic2english') ?  '<span class="countValue rnd wbwDirection tips" title="change arabic to english" data-tips-position="left center">EN</span>' :  '<span class="countValue rnd wbwDirection tips" title="change english to arabic" data-tips-position="left center">AR</span>';
+				else if (quranByID == 'quran-tajweed')
+					sideOption = '<span class="sideInfo"><i class="icon tajweed"></i></span>';
 				
 				active = QuranNavigator.isQuranBySelected(quranByID, false) ? 'active' : '';
-				html = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span>'+doubleLanguage+'<span class="loadingIndicator"></span></a></li>';
+				html = '<li><a href="'+QuranNavigator.urlHashless()+'#!/'+quranByID+'/'+QuranNavigator.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span>'+sideOption+'<span class="loadingIndicator"></span></a></li>';
 				
 				if (active)
 					htmlActive += html;				
@@ -1120,6 +1138,12 @@ var layout = {
 		},function(e) {
 			if (e.relatedTarget != null) // drop down select box fix
 				$(this).trigger('dropOption', 'hide');
+		});
+		
+		// message box hide
+		$('#messageBox .close').live('click', function() {
+			$('#messageBox').hide();
+			return false;
 		});
 		
 		// link share inputBox selection

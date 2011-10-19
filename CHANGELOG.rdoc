@@ -4,13 +4,16 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+== Release v3.1.1
+
 * FIX: Quran signs with proper font fize and font family
 * FIX: no scroll on language selection
 * FIX: tips duplicate fixes
+* Fix: tajweed title on list view - if english, then title will be english too.
 * CHANGED: langauges into groups by there name
 * CHANGED: audio translations by the language name
 * CHANGED: word by word mouse over words made it bigger and nicer
-
+* ADDED: Tajweed icons and mini guide with warning message about browser font render issue
 
 == Release v3.1.0
 
