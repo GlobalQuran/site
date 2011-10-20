@@ -4,6 +4,10 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+== Release v3.1.2
+
+* NEW: Quran for kids added - to help them learn quran
+
 == Release v3.1.1
 
 * FIX: Quran signs with proper font fize and font family

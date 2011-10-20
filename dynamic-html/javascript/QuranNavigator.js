@@ -150,6 +150,8 @@ var QuranNavigator = {
 	{		
 		if (by == 'quran-wordbyword')
 			return (this.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
+		else if (by == 'quran-kids')
+			return (this.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
 		
 		languageCode = this.quranByDetail(by).language_code;
 		return  (typeof(this.languageList()[languageCode]) !== 'undefined') ? this.languageList()[languageCode].dir : 'left';
@@ -545,6 +547,8 @@ var QuranNavigator = {
 				return this.parseTajweed(quranBy, text);
 			else if (type == 'quran' && /wordbyword/.test(quranBy))
 				return this.parseWordByWord(quranBy, text);
+			else if (type == 'quran' && /kids/.test(quranBy))
+				return this.parseKidsWordByWord(quranBy, text);
 			else if (type == 'quran')
 				return this.parseQuran(quranBy, text);
 			else
@@ -615,6 +619,43 @@ var QuranNavigator = {
 			
 			return verse_html;
 		},
+		
+		parseKidsWordByWord: function (quranBy, text)
+		{
+			var words = text.split('$');
+			var verse_html = '';
+			var color = this._color;
+			$.each(words, function(i, verse) {
+				if (verse)
+				{
+					var verse = verse.split('|');
+				    
+					if (QuranNavigator.settings.wbwDirection == 'english2arabic')
+					{
+						if (QuranNavigator.settings.wbwMouseOver)
+							verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
+						else
+							verse_html += '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
+					}
+					else
+					{
+						if (QuranNavigator.settings.wbwMouseOver)
+							verse_html += '<span class="word wordColor'+color+'"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+						else
+							verse_html = '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+					}
+				}
+				
+				if (color == 10)
+					color = 1;
+				++color;
+			});
+			
+			this._color = color;
+			
+			return verse_html;
+		},
+		_color: 1,
 		
 		parseTajweed: function (quranBy, text)
 		{

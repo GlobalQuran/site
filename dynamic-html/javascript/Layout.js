@@ -31,6 +31,8 @@ var layout = {
 	
 	init: function ()
 	{
+		this.beforeLoad();
+		
 		$('#gqMain').show();
 		
 		if ($.browser.msie && $.browser.version < 8)
@@ -51,6 +53,8 @@ var layout = {
 		QuranNavigator.init();
 		QuranNavigator.load(); // display default languages
 		this.binds();
+		
+		this.afterLoad();
 	},
 	
 	loading: function () {}, //TODO
@@ -85,6 +89,7 @@ var layout = {
 	
 	display: function (success)
 	{
+		this.beforeDisplay();
 		$(this.quranContent).html('');
 				
 		by = QuranNavigator.quranBy();
@@ -112,9 +117,9 @@ var layout = {
 		{
 			$('.tajweedQuickHelp').addClass('hide');
 		}
-			
 		
 		this._autoScroll = true;
+		this.afterDisplay();
 	},
 	
 	singleView: function(quranArray)
@@ -199,7 +204,7 @@ var layout = {
 				{
 					by = QuranNavigator.quranByDetail(quranBy);
 					name = by.native_name || by.english_name;
-					if(quranBy == 'quran-wordbyword' && QuranNavigator.settings.wbwDirection == 'english2arabic')
+					if((quranBy == 'quran-wordbyword' || quranBy == 'quran-kids') && QuranNavigator.settings.wbwDirection == 'english2arabic')
 						name = by.english_name;
 					direction = (QuranNavigator.quranByDirection(quranBy) == 'right') ? 'rtl' : 'ltr';
 					fontFamily = "style=\"font-family: '"+QuranNavigator.getFontFamily()+"';\"";
@@ -301,14 +306,14 @@ var layout = {
 	quranList: function (showAll)
 	{
 		var maxChar = 25;
-		var showOnList = 3;
+		var showOnList = 4;
 		var totalCount = 0;
 		var list = QuranNavigator.quranList('text');
 		var active = '';
 		var html = '';
 		var htmlActive = '';
 		var $list = $('#quranList');
-				
+		
 		//clean the rows, if already there
 		$list.html('');
 		
@@ -325,7 +330,9 @@ var layout = {
 				
 				sideOption = '';
 				if (quranByID == 'quran-wordbyword')
-					sideOption = (QuranNavigator.settings.wbwDirection == 'arabic2english') ?  '<span class="countValue rnd wbwDirection tips" title="change arabic to english" data-tips-position="left center">EN</span>' :  '<span class="countValue rnd wbwDirection tips" title="change english to arabic" data-tips-position="left center">AR</span>';
+					sideOption = (QuranNavigator.settings.wbwDirection == 'arabic2english') ?  '<span class="countValue rnd wbwDirection tips" title="change arabic to english" data-tips-dynamic="true" data-tips-position="left center">EN</span>' :  '<span class="countValue rnd wbwDirection tips" title="change english to arabic" data-tips-dynamic="true" data-tips-position="left center">AR</span>';
+				else if (quranByID == 'quran-kids')
+					sideOption = '<span class="sideInfo"><i class="icon kidsWordByWord"></i></span>';
 				else if (quranByID == 'quran-tajweed')
 					sideOption = '<span class="sideInfo"><i class="icon tajweed"></i></span>';
 				
@@ -454,6 +461,7 @@ var layout = {
 	
 	play: function ()
 	{
+		this.beforePlay();
 		$('.play, .pause').removeClass('play').addClass('pause');
 		$('#progressBar, #time, #bandwidthOption, #volume, #repeat').show();
 		
@@ -461,12 +469,15 @@ var layout = {
 			QuranNavigator.player.play();
 		
 		this.recitorKbs(QuranNavigator.player.recitorBy());	
+		this.afterPlay();
 	},
 	
 	pause: function ()
 	{
+		this.beforePause();
 		$('.play, .pause').removeClass('pause').addClass('play');
-		QuranNavigator.player.pause();		
+		QuranNavigator.player.pause();	
+		this.afterPlay();
 	},
 	
 	stop: function()
@@ -654,6 +665,7 @@ var layout = {
 	
 	ayahChanged: function ()
 	{
+		this.beforeAyahChanged();
 		// select verse
 		$(this.quranContent+' .selected').removeClass('selected');
 		$('.'+QuranNavigator.surah()+'-'+QuranNavigator.ayah()).addClass('selected');
@@ -690,6 +702,7 @@ var layout = {
 		/* facebook meta update */
 		$('meta[property="og:title"]').attr('content', title);
 		$('meta[property="og:url"]').attr('content', QuranNavigator.urlHashless()+'#!'+QuranNavigator.urlPage());
+		this.afterAyahChanged();
 	},
 	
 	verseParse: function (quranBy, text) {
