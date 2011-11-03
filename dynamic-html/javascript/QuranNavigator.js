@@ -10,8 +10,8 @@
  * http://www.opensource.org/licenses/Simple-2.0
  * 
  */
-
-var QuranNavigator = {
+var QuranNavigator = (function() {
+var self = {
 	
 	apiURL: 'http://api.globalquran.com/',
 	noData: false, // switch to true, if you want to have audio only.
@@ -28,6 +28,7 @@ var QuranNavigator = {
 		juz: 1,
 		selectedBy: '',
 		selectedLanguage: '',
+		selectedSearchBy: null,
 		
 		selectedRecitor: 'auto',
 		selectedRecitorBytes: 'auto',
@@ -82,13 +83,12 @@ var QuranNavigator = {
 		var toVerseNo = Quran.verseNo.page(this.settings.page+1)-1;
 		
 		var selectedArray = selected.split('|');
-		var $this = this;
 				
 		$.each(selectedArray, function(i, quranBy) {
 			text[quranBy] = {};
 			for (var i = fromVerseNo; i <= toVerseNo; i++)
 			{
-				text[quranBy][i] = $this.data.quran[quranBy][i];
+				text[quranBy][i] = self.data.quran[quranBy][i];
 			}
 		});
 		
@@ -129,7 +129,6 @@ var QuranNavigator = {
 	languageCountryList: function () {
 		return this.data.languageCountryList;
 	},
-	
 	
 	quranBy: function (by) {
 
@@ -223,7 +222,7 @@ var QuranNavigator = {
 	
 	isQuranBySelectedType: function (type, by)
 	{
-		if (by && by != this.settings.selectedBy && QuranNavigator.data.quranList[by].type == type)
+		if (by && by != this.settings.selectedBy && self.data.quranList[by].type == type)
 			return true;
 		
 		by = by || this.settings.selectedBy;
@@ -233,7 +232,7 @@ var QuranNavigator = {
 		
 		$.each(selectedArray, function(i, quranBy) {
 				
-			if (QuranNavigator.data.quranList[quranBy].type == type)
+			if (self.data.quranList[quranBy].type == type)
 			{
 				found = true;
 				return true;
@@ -290,6 +289,151 @@ var QuranNavigator = {
 	{
 		this.settings.fullScreen = enable;
 		this.save();
+	},
+	
+	search: {
+		
+		_keyword: '',
+		_position: 0,
+		_positionStartVerse: 0,
+		_loading: false,
+		
+		init: function ()
+		{
+			if (typeof(self.settings.selectedSearchBy) == 'object' && Object.keys(self.settings.selectedSearchBy).length > 0)
+				return false;
+			
+			self.settings.selectedSearchBy = {};
+			
+			by = self.quranList('text');
+			$.each(by, function(quranBy, detail)
+			{
+				if (detail.type == 'quran')
+					self.search.addQuranBy(quranBy);
+				else if (self.data.languageCountryList[quranBy.language_code])
+					self.search.addQuranBy(quranBy);
+			});
+		},
+		
+		isActive: function ()
+		{
+			return (this._keyword != '');
+		},
+		
+		load: function (keyword, more)
+		{
+			if (more && !this.isNext())
+				return false;
+			
+			if (/^[0-9]+:?[0-9]*$/.test(keyword))
+			{
+				verse = keyword.split(':');
+				
+				if (verse.length > 1)
+				{
+					self.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+					self.settings.ayah = Quran._fixAyahNum(self.settings.surah, parseInt(verse['1']));
+				}
+				else
+				{
+					verse = Quran.ayah.fromPage(keyword);
+					self.settings.surah = verse.surah;
+					self.settings.ayah = verse.ayah;
+				}
+				
+				self.player.reset();
+				self.load(self.settings.surah, self.settings.ayah);
+				
+				return true;
+			}				
+						
+			this._keyword = keyword;
+			this._position = more ? this.next() : 0;
+			this._loading = true;
+			self.load();
+		},
+		
+		loading: function (set)
+		{
+			if (typeof set != 'undefined')
+				this._loading = set;
+			
+			return this._loading;
+		},
+			
+		stop: function ()
+		{
+			this._keyword = '';
+			this._position = 0;
+			self.load(self.surah(), self.ayah());
+		},
+		
+		text: function ()
+		{
+			return self.data.search.quran;
+		},
+		
+		keyword: function ()
+		{
+			return this._keyword;
+		},
+		
+		position: function ()
+		{
+			return this._position;
+		},
+		
+		isNext: function ()
+		{
+			return self.data.search.paging.next ? true : false;
+		},
+		
+		next: function ()
+		{
+			return self.data.search.paging.next;
+		},
+		
+		timeTook: function ()
+		{
+			return self.data.search.timeTook;
+		},
+		
+		totalRows: function ()
+		{
+			return self.data.search.paging.total_rows;
+		},
+		
+		totalShowing: function ()
+		{
+			return this.isNext() ? this.next() : this.totalRows; 
+		},
+		
+		selected: function ()
+		{
+			return self.settings.selectedSearchBy;
+		},
+				
+		isSelected: function (quranBy)
+		{
+			return self.settings.selectedSearchBy[quranBy] ? true : false;
+		},
+		
+		addQuranBy: function (quranBy)
+		{
+			self.settings.selectedSearchBy[quranBy] = quranBy;
+			self.save();
+		},
+		
+		removeQuranBy: function (quranBy)
+		{
+			delete self.settings.selectedSearchBy[quranBy];
+			self.save();
+		},
+		
+		beginVerse: function ()
+		{
+			return this._positionStartVerse;
+		}
 	},
 	
 	juz: function (juz)
@@ -413,11 +557,13 @@ var QuranNavigator = {
 			return false;
 	},
 	
-	nextPage: function () {
+	nextPage: function ()
+	{
 		return this.page(this.page()+1);
 	},
 	
-	prevPage: function () {
+	prevPage: function ()
+	{
 		return this.page(this.page()-1);
 	},
 	
@@ -438,16 +584,32 @@ var QuranNavigator = {
 	},
 	
 	load: function (surah, ayah)
-	{		
+	{
 		firstLoad = false;
 		notCachedQuranID = true;
-
-		if (!surah && !ayah)
+		
+		if (surah && ayah)
+			this.search._keyword = false;
+		
+		if (!surah && !ayah && !this.search.isActive())
 		{
 			firstLoad = true;
 			this._cookieRead();
 			this.urlRead();
+		}
+		
+		if (this.search.isActive())
+		{
+			this.search.loading(true);
+			url = this.apiURL;
 			
+			if (firstLoad)
+				url += 'all/';
+			
+			url += 'search/'+this.search.keyword()+'/'+this.search.position();
+		}
+		else if (!surah && !ayah)
+		{			
 			this.settings.surah = this.settings.surah || 1;
 			this.settings.ayah = this.settings.ayah || 1;
 			this.settings.juz =  Quran.ayah.juz(this.settings.surah, this.settings.ayah);	
@@ -486,18 +648,14 @@ var QuranNavigator = {
 			$jsonp = $.support.cors ? '' : '.jsonp?callback=?';
 			$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' });
 
-			$.getJSON(url+$jsonp, function(response) {				
-				QuranNavigator._loadResponse(response, firstLoad);
-				if (firstLoad)
-					QuranNavigator.player.init(); // player
-				else
-					QuranNavigator.player.load('play');
+			$.getJSON(url+$jsonp, function(response) {			
+				self._loadResponse(response, firstLoad);
 			});
 		}
 		else
-		{			
-			QuranNavigator.display(true);	
-			QuranNavigator.player.load('play');
+		{
+			self.display(true);	
+			self.player.load('play');
 		}
 		
 		return false;
@@ -505,34 +663,51 @@ var QuranNavigator = {
 	
 	_loadResponse: function (response, firstLoad)
 	{
-		if (typeof(response) == 'object')
-			QuranNavigator.data = $.extend(true, QuranNavigator.data, response);
+		if (typeof(response) == 'object')			
+			self.data = $.extend(true, self.data, response);
+		
+		if (self.search.isActive())
+		{
+			self.search.init();
+			self.search.loading(false);
+			if (self.search.totalRows() > 0)
+			{
+				for (var verseNo in response.search.quran)
+				{
+					self.search._positionStartVerse = verseNo;
+					break;
+				}
+			}			
+		}
 		
 		if (response.languageSelected)
-			QuranNavigator.settings.selectedLanguage = response.languageSelected;
-								
+			self.settings.selectedLanguage = response.languageSelected;
+				
 		if (firstLoad) // first time loading the page
 		{
-			if (!QuranNavigator.settings.selectedBy && typeof(response) == 'object')
+			self.player.init(); // player
+			
+			if (!self.settings.selectedBy && typeof(response) == 'object')
 			{
 				for (var defaultQuranBy in response.quran) {
-					QuranNavigator.settings.selectedBy = defaultQuranBy;
+					self.settings.selectedBy = defaultQuranBy;
 				}
 				
 				this._urlSave(); // cause defaultQuranBy set here
 			}
 
-			QuranNavigator.displayStartup((typeof(response) == 'object'));
+			self.displayStartup((typeof(response) == 'object'));
 		}
 		else
-			QuranNavigator.display((typeof(response) == 'object'));
+		{
+			self.display((typeof(response) == 'object'));
+			self.player.load('play');
+		}
 	},
 	
 	displayStartup: function (success) {}, // replace this function with yours
 	display: function (success) {}, // replace this function with yours
-	
-	
-	
+		
 	verseParse: function (quranBy, text) {
 		return this._verse.parse(quranBy, text);
 	},
@@ -541,7 +716,7 @@ var QuranNavigator = {
 		
 		parse: function (quranBy, text)
 		{	
-			type = QuranNavigator.data.quranList[quranBy].type;
+			type = self.data.quranList[quranBy].type;
 			
 			if (type == 'quran' && /tajweed/.test(quranBy))
 				return this.parseTajweed(quranBy, text);
@@ -557,19 +732,19 @@ var QuranNavigator = {
 		
 		parseQuran: function (quranBy, text)
 		{
-			if (QuranNavigator.settings.showSigns)
+			if (self.settings.showSigns)
 		    {
 		        text = this.pregReplace(' ([$HIGH_SALA-$HIGH_SEEN])', '<span class="sign">&nbsp;$1</span>', text);
-		        text = this.pregReplace('($SAJDAH)', QuranNavigator.settings.ignoreInternalSigns ? '' : '<span class="internal-sign">$1</span>', text);
-		        text = this.pregReplace('$RUB_EL_HIZB', QuranNavigator.settings.ignoreInternalSigns ? '' : '<span class="icon juz-sign"></span>', text);
+		        text = this.pregReplace('($SAJDAH)', self.settings.ignoreInternalSigns ? '' : '<span class="internal-sign">$1</span>', text);
+		        text = this.pregReplace('$RUB_EL_HIZB', self.settings.ignoreInternalSigns ? '' : '<span class="icon juz-sign"></span>', text);
 		    }
 		    else
 		    	text = this.pregReplace('[$HIGH_SALA-$RUB_EL_HIZB$SAJDAH]', '', text);
 		    
-		    if (!QuranNavigator.settings.showAlef)
+		    if (!self.settings.showAlef)
 		    	text = this.pregReplace('$SUPERSCRIPT_ALEF', '', text);
 		    
-		    if (QuranNavigator.settings.font == 'me_quran')
+		    if (self.settings.font == 'me_quran')
 		    {
 		        text = this.addSpaceTatweel(text);
 		        text = this.pregReplace('($LAM$HARAKA*)$TATWEEL$HAMZA_ABOVE($HARAKA*$ALEF)', '$1$HAMZA$2', text);
@@ -582,7 +757,7 @@ var QuranNavigator = {
 		    text = this.addTatweel(text);
 		    text = this.pregReplace('$ALEF$MADDA', '$ALEF_WITH_MADDA_ABOVE', text);
 		    
-		    if (QuranNavigator.settings.font != 'me_quran')
+		    if (self.settings.font != 'me_quran')
 		    {
 		        text = this.pregReplace('($SHADDA)([$KASRA$KASRATAN])', '$2$1', text);
 		        text = this.pregReplace('($LAM$HARAKA*$LAM$HARAKA*)($HEH)', '$1$TATWEEL$2', text);
@@ -600,16 +775,16 @@ var QuranNavigator = {
 				{
 					var verse = verse.split('|');
 				    
-					if (QuranNavigator.settings.wbwDirection == 'english2arabic')
+					if (self.settings.wbwDirection == 'english2arabic')
 					{
-						if (QuranNavigator.settings.wbwMouseOver)
+						if (self.settings.wbwMouseOver)
 							verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 						else
 							verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
 					}
 					else
 					{
-						if (QuranNavigator.settings.wbwMouseOver)
+						if (self.settings.wbwMouseOver)
 							verse_html += '<span class="word"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 						else
 							verse_html = '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
@@ -630,16 +805,16 @@ var QuranNavigator = {
 				{
 					var verse = verse.split('|');
 				    
-					if (QuranNavigator.settings.wbwDirection == 'english2arabic')
+					if (self.settings.wbwDirection == 'english2arabic')
 					{
-						if (QuranNavigator.settings.wbwMouseOver)
+						if (self.settings.wbwMouseOver)
 							verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 						else
 							verse_html += '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
 					}
 					else
 					{
-						if (QuranNavigator.settings.wbwMouseOver)
+						if (self.settings.wbwMouseOver)
 							verse_html += '<span class="word wordColor'+color+'"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 						else
 							verse_html = '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
@@ -737,8 +912,8 @@ var QuranNavigator = {
 			
 			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
 			{
-				QuranNavigator.settings.playing = false; // cant auto play in iphone
-				QuranNavigator.player.preload = -1;  // cant load two instance in iphone
+				self.settings.playing = false; // cant auto play in iphone
+				self.player.preload = -1;  // cant load two instance in iphone
 			}
 			
 			this.setup();
@@ -750,8 +925,8 @@ var QuranNavigator = {
 				swfPath: this.swfPath,
 				supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
 				wmode: "window",
-				volume: QuranNavigator.settings.volume,
-				muted: QuranNavigator.settings.muted,
+				volume: self.settings.volume,
+				muted: self.settings.muted,
 				preload: 'auto',
 				cssSelectorAncestor: '',
 				cssSelector: {
@@ -773,27 +948,27 @@ var QuranNavigator = {
 				  cssClass: ""
 				},
 				ready: function (event) {
-					QuranNavigator.player.load('new'); // already getting load from recitation change
+					self.player.load('new'); // already getting load from recitation change
 				},				
 				ended: function (event)
 				{
-					if (QuranNavigator.settings.audioDelay && (QuranNavigator.settings.audioDelay > 0 || QuranNavigator.settings.audioDelay != false))
+					if (self.settings.audioDelay && (self.settings.audioDelay > 0 || self.settings.audioDelay != false))
 					{
-						var delay = (QuranNavigator.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : QuranNavigator.settings.audioDelay;
+						var delay = (self.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : self.settings.audioDelay;
 						delay = delay * 1000;
-						clearTimeout(QuranNavigator.player._delayID);
-						QuranNavigator.player._delayID = setTimeout('QuranNavigator.player.next()', delay);
+						clearTimeout(self.player._delayID);
+						self.player._delayID = setTimeout('self.player.next()', delay);
 					}
 					else
 					{					        
-						QuranNavigator.player.next();
+						self.player.next();
 					}
 					
 					$('.buffer').css('width', '0%');
 				},
 				loadstart: function (event)
 				{
-					if (QuranNavigator.player.status().seekPercent != 100)
+					if (self.player.status().seekPercent != 100)
 					{
 						$(".progressBar").addClass("audioLoading");
 					}
@@ -801,7 +976,7 @@ var QuranNavigator = {
 				loadeddata: function (event)
 				{
 					$(".progressBar").removeClass("audioLoading");
-					QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'load', event.jPlayer.status.src]);
+					self._gaqPush(['_trackEvent', 'Audio', 'load', event.jPlayer.status.src]);
 				},
 				seeking: function()
 				{
@@ -814,7 +989,7 @@ var QuranNavigator = {
 				progress: function (event)
 				{
 					var percent = 0;
-					var audio = QuranNavigator.player.data().htmlElement.audio;
+					var audio = self.player.data().htmlElement.audio;
 					
 					if((typeof audio.buffered === "object") && (audio.buffered.length > 0))
 					{
@@ -851,7 +1026,7 @@ var QuranNavigator = {
 				},
 				error: function(event)
 				{
-					QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
+					self._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
 				}
 				/*, //TODO do this function properly
 				error: function (event) {
@@ -860,7 +1035,7 @@ var QuranNavigator = {
 					{
 						case $.jPlayer.error.URL:
 							//reportBrokenMedia(event.jPlayer.error); // A function you might create to report the broken link to a server log.
-							QuranNavigator.player.next(); // A function you might create to move on to the next media item when an error occurs.
+							self.player.next(); // A function you might create to move on to the next media item when an error occurs.
 						break;
 						case $.jPlayer.error.NO_SOLUTION:
 							// Do something
@@ -898,7 +1073,7 @@ var QuranNavigator = {
 				max: 100,
 				animate: true,
 				slide: function( event, ui ) {
-					QuranNavigator.player.seek(ui.value);
+					self.player.seek(ui.value);
 				}
 			})
 			.bind('mousemove', function(e) {
@@ -906,7 +1081,7 @@ var QuranNavigator = {
 				var x = e.pageX - offset.left;
 				var w =  $(this).width();
 				var percent = 100*x/w;
-				var duration = QuranNavigator.player.duration();
+				var duration = self.player.duration();
 				var time = percent * duration / 100;
 				$('.progressBar').attr('title', $.jPlayer.convertTime(time));
 			})
@@ -917,10 +1092,10 @@ var QuranNavigator = {
 				range: "min",
 				min: 0,
 				max: 100,
-				value: QuranNavigator.settings.volume,
+				value: self.settings.volume,
 				animate: true,
 				slide: function( event, ui ) {
-					QuranNavigator.player.volume(ui.value);
+					self.player.volume(ui.value);
 					layout.volume(ui.value);
 				}
 			})
@@ -987,7 +1162,7 @@ var QuranNavigator = {
 				this._currentPlayer = 1; // play player 1, while 2 gets load
 			}
 		
-			if (QuranNavigator.settings.playing) // if playing, auto play
+			if (self.settings.playing && !self.search.isActive()) // if playing, auto play
 				layout.play();
 		},
 		
@@ -1006,9 +1181,9 @@ var QuranNavigator = {
 			var rPos = this._recitor.position;
 			var rLen = this._recitor.length;
 			
-			var surah = QuranNavigator.surah();
-			var ayah = QuranNavigator.ayah();
-			var verse = QuranNavigator.verse();
+			var surah = self.surah();
+			var ayah = self.ayah();
+			var verse = self.verse();
 
 			if (get == 'next' && rLen > 1 && rPos <= rLen)
 			{
@@ -1053,13 +1228,13 @@ var QuranNavigator = {
 		
 		_recitorReset: function ()
 		{
-			var recitorArray = QuranNavigator.settings.selectedRecitor.split('|');
+			var recitorArray = self.settings.selectedRecitor.split('|');
 			
 			if (recitorArray['0'] == 'auto')
 			{
 				selectedLanguage = {found: 0};
-				$.each(QuranNavigator.data.quranList, function(by, row) {
-					if (QuranNavigator.isQuranBySelected(by))
+				$.each(self.data.quranList, function(by, row) {
+					if (self.isQuranBySelected(by))
 					{
 						selectedLanguage[row.language_code] = true;
 						selectedLanguage.found++; 
@@ -1070,7 +1245,7 @@ var QuranNavigator = {
 					selectedLanguage['ar'] = true;
 				
 				recitorArray = [];
-				$.each(QuranNavigator.data.quranList, function(by, row) {		
+				$.each(self.data.quranList, function(by, row) {		
 					if (selectedLanguage[row.language_code] === true && row.format == 'audio')
 					{
 						selectedLanguage[row.language_code] = false;
@@ -1081,7 +1256,7 @@ var QuranNavigator = {
 				if (recitorArray.length == 0) // loop to get the arabic as default, when no recitor can be found
 				{
 					selectedLanguage['ar'] = true;
-					$.each(QuranNavigator.data.quranList, function(by, row) {		
+					$.each(self.data.quranList, function(by, row) {		
 						if (selectedLanguage[row.language_code] === true && row.format == 'audio')
 						{
 							selectedLanguage[row.language_code] = false;
@@ -1096,7 +1271,7 @@ var QuranNavigator = {
 			
 			$.each(recitorArray, function(i, recitorName) {
 				++i; // increment on start, because i starts with 0
-				recitorInfo = QuranNavigator.player._recitorInfo(recitorName);
+				recitorInfo = self.player._recitorInfo(recitorName);
 				recitor['row'+i] = recitorInfo;
 				recitor['row'+i].name = recitorName;
 				recitor['row'+i].lastLoad = -1;
@@ -1119,8 +1294,8 @@ var QuranNavigator = {
 					auz: false
 				};
 
-			row = QuranNavigator.data.quranList[recitorName];
-			kbs = QuranNavigator.settings.selectedRecitorBytes;
+			row = self.data.quranList[recitorName];
+			kbs = self.settings.selectedRecitorBytes;
 			
 			media = row.media;
 			media = media ? $.parseJSON(media) : {};
@@ -1129,7 +1304,7 @@ var QuranNavigator = {
 			{
 				$.each(media, function(key, mediaRow) {
 					kbs = mediaRow.kbs;
-					if (QuranNavigator.player.autoBitrate == 'low')
+					if (self.player.autoBitrate == 'low')
 						return; // exit loop
 				});
 			}
@@ -1151,12 +1326,12 @@ var QuranNavigator = {
 		
 		recitorBy: function ()
 		{
-			return (typeof(this._recitor.position) !== 'undefined') ? this._recitor['row'+this._recitor.position].name : 'undefined';
+			return (this._recitor.length > 0) ? this._recitor['row'+this._recitor.position].name : 'undefined';
 		},
 		
 		recitorKbs: function ()
 		{
-			return (typeof(this._recitor.position) !== 'undefined') ? this._recitor['row'+this._recitor.position].kbs  : 'undefined';
+			return (this._recitor.length > 0) ? this._recitor['row'+this._recitor.position].kbs  : 'undefined';
 		},
 		
 		isPlaying: function ()
@@ -1175,24 +1350,24 @@ var QuranNavigator = {
 		play: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('play');
-			QuranNavigator.settings.playing = true;
-			QuranNavigator.save();
-			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Play', this.recitorBy()]);
+			self.settings.playing = true;
+			self.save();
+			self._gaqPush(['_trackEvent', 'Audio', 'Play', this.recitorBy()]);
 		},
 		
 		pause: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('pause');
-			QuranNavigator.settings.playing = false;
-			QuranNavigator.save();
-			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Pause', this.recitorBy()]);
+			self.settings.playing = false;
+			self.save();
+			self._gaqPush(['_trackEvent', 'Audio', 'Pause', this.recitorBy()]);
 		},
 		
 		stop: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('stop');
 			this.reset();
-			QuranNavigator._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
+			self._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
 		},
 		
 		next: function ()
@@ -1201,13 +1376,13 @@ var QuranNavigator = {
 			var rLen = this._recitor.length;
 			var lastLoad = this._recitor['row'+rPos].lastLoad;
 			
-			var next = Quran.ayah.next(QuranNavigator.surah(), QuranNavigator.ayah());
+			var next = Quran.ayah.next(self.surah(), self.ayah());
 			var page = Quran.ayah.page(next.surah, next.ayah);
 			var juz  = Quran.ayah.juz(next.surah, next.ayah);
 			var surah = next.surah;
 			var ayah  =  next.ayah;
 			var verse = Quran.verseNo.ayah(next.surah, next.ayah);
-			var conf = QuranNavigator.settings;
+			var conf = self.settings;
 	
 			if (rLen > 1 && rPos != rLen)
 			{
@@ -1215,7 +1390,7 @@ var QuranNavigator = {
 				this.load('play');
 				return;
 			}
-			else if (QuranNavigator.surah() != 9 && QuranNavigator.ayah() == 1 && (lastLoad == 0 || (QuranNavigator.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
+			else if (self.surah() != 9 && self.ayah() == 1 && (lastLoad == 0 || (self.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
 			{
 				if (rLen > 1 && rPos == rLen) // reset to first recitor
 					this._recitor.position = 1; 
@@ -1246,43 +1421,43 @@ var QuranNavigator = {
 				this._i++;
 				return;
 			}
-			else if (surah != QuranNavigator.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (surah != self.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
 				if (this.preload != true)
 					this._recitor['row1'].lastLoad = -1;
-				QuranNavigator.load(QuranNavigator.surah(), 1);
+				self.load(self.surah(), 1);
 				this._i++;
 				return;
 			}
-			else if (page != QuranNavigator.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (page != self.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
 				if (this.preload != true)
 					this._recitor['row1'].lastLoad = -1;
-				load = Quran.ayah.fromPage(QuranNavigator.page());
-				QuranNavigator.load(load.surah, load.ayah);
+				load = Quran.ayah.fromPage(self.page());
+				self.load(load.surah, load.ayah);
 				this._i++;
 				return;
 			}
-			else if (juz != QuranNavigator.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (juz != self.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
 				if (this.preload != true)
 					this._recitor['row1'].lastLoad = -1;
-				load = Quran.ayah.fromJuz(QuranNavigator.juz());
-				QuranNavigator.load(load.surah, load.ayah);
+				load = Quran.ayah.fromJuz(self.juz());
+				self.load(load.surah, load.ayah);
 				this._i++;
 				return;
 			}
 			else
 			{
 				
-				if (verse == Quran.verseNo.ayah(QuranNavigator.surah(), QuranNavigator.ayah()) && verse >= 6236)
+				if (verse == Quran.verseNo.ayah(self.surah(), self.ayah()) && verse >= 6236)
 				{
-					if (QuranNavigator.settings.playing && verse >= 6236)
+					if (self.settings.playing && verse >= 6236)
 						layout.stop();
 					return;
 				}
 				
-				QuranNavigator.load(surah, ayah);
+				self.load(surah, ayah);
 				this._i = 0;
 				return;
 			}
@@ -1294,19 +1469,19 @@ var QuranNavigator = {
 			var rLen = this._recitor.length;
 			var lastLoad = this._recitor['row'+rPos].lastLoad;
 			
-			var prev = Quran.ayah.prev(QuranNavigator.surah(), QuranNavigator.ayah());
+			var prev = Quran.ayah.prev(self.surah(), self.ayah());
 			var page = Quran.ayah.page(prev.surah, prev.ayah);
 			var juz  = Quran.ayah.juz(prev.surah, prev.ayah);
 			var surah = prev.surah;
 			var ayah  =  prev.ayah;
 			var verse = Quran.verseNo.ayah(prev.surah, prev.ayah);
-			var conf = QuranNavigator.settings;
+			var conf = self.settings;
 			
 			this._currentPlayer = 0;
 			this._i = 0;
 			
 			//FIXME doesnt work properly on preload enabled, so for now we not repeating auz,bis for ayahs on prev
-			if (!this.preload && this.preload == -1 && QuranNavigator.surah() != 9 && QuranNavigator.ayah() == 1 && ((lastLoad != 0 && this._recitor.auz) || (lastLoad != 1 && !this._recitor.auz) || ((lastLoad == 1 && rPos > 1) || (this._recitor.auz && lastLoad == 0 && rPos > 1)))) //&& (lastLoad == QuranNavigator.verse() || (QuranNavigator.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
+			if (!this.preload && this.preload == -1 && self.surah() != 9 && self.ayah() == 1 && ((lastLoad != 0 && this._recitor.auz) || (lastLoad != 1 && !this._recitor.auz) || ((lastLoad == 1 && rPos > 1) || (this._recitor.auz && lastLoad == 0 && rPos > 1)))) //&& (lastLoad == self.verse() || (self.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
 			{
 				if (!conf.repeat || (conf.repeat && conf.repeatEach != 'ayah')) // ayah repeat on bis gives problem
 				{					
@@ -1323,17 +1498,17 @@ var QuranNavigator = {
 							this._prevRestRecitor(this._recitor.position, verse);						
 						this._recitor['row'+this._recitor.position].lastLoad = 0;
 					}
-					else if (lastLoad == QuranNavigator.verse())
+					else if (lastLoad == self.verse())
 					{
 						if (this.preload == true)
 							this._prevRestRecitor(this._recitor.position, this._recitor.auz ? 0 : 1);
 						this._recitor['row'+this._recitor.position].lastLoad = 1;
 					} 
-					else if (lastLoad > QuranNavigator.verse())
+					else if (lastLoad > self.verse())
 					{
 						if (this.preload == true)
 							this._prevRestRecitor(this._recitor.position, 1);
-						this._recitor['row'+this._recitor.position].lastLoad = QuranNavigator.verse();
+						this._recitor['row'+this._recitor.position].lastLoad = self.verse();
 					}
 					
 					this.load('play');
@@ -1344,7 +1519,7 @@ var QuranNavigator = {
 			if (rLen > 1 && rPos > 1)
 			{
 				this._recitor.position--;
-				this._recitor['row'+this._recitor.position].lastLoad = QuranNavigator.verse();
+				this._recitor['row'+this._recitor.position].lastLoad = self.verse();
 				this.load('play');
 				return;
 			}
@@ -1356,7 +1531,7 @@ var QuranNavigator = {
 						
 			if (conf.repeat && conf.repeatEach == 'ayah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				this._recitor['row'+this._recitor.position].lastLoad = QuranNavigator.verse();
+				this._recitor['row'+this._recitor.position].lastLoad = self.verse();
 				// loop through recitors, if more then one recitor is selected.
 				if (rLen > 1)
 				{
@@ -1367,48 +1542,48 @@ var QuranNavigator = {
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
-			else if (surah != QuranNavigator.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (surah != self.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				if (QuranNavigator.surah() == 114)
+				if (self.surah() == 114)
 					verse = 6236;
 				else
-					verse = Quran.verseNo.surah(QuranNavigator.surah()+1)-1;
+					verse = Quran.verseNo.surah(self.surah()+1)-1;
 				
 				this._recitor.position = this._recitor.length;
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
 				load = Quran.ayah.fromVerse(verse);
-				QuranNavigator.load(load.surah, load.ayah);
+				self.load(load.surah, load.ayah);
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
-			else if (page != QuranNavigator.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (page != self.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				if (QuranNavigator.page() == 604)
+				if (self.page() == 604)
 					verse = 6236;
 				else
-					verse = Quran.verseNo.page(QuranNavigator.page()+1)-1;
+					verse = Quran.verseNo.page(self.page()+1)-1;
 				
 				this._recitor.position = this._recitor.length;
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
 				load = Quran.ayah.fromVerse(verse);		
-				QuranNavigator.load(load.surah, load.ayah);
+				self.load(load.surah, load.ayah);
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
-			else if (juz != QuranNavigator.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (juz != self.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				if (QuranNavigator.juz() == 30)
+				if (self.juz() == 30)
 					verse = 6236;
 				else
-					verse = Quran.verseNo.juz(QuranNavigator.juz()+1)-1;
+					verse = Quran.verseNo.juz(self.juz()+1)-1;
 				
 				this._recitor.position = this._recitor.length;
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
 				load = Quran.ayah.fromVerse(verse);	
-				QuranNavigator.load(load.surah, load.ayah);
+				self.load(load.surah, load.ayah);
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
@@ -1416,10 +1591,10 @@ var QuranNavigator = {
 			{
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
-				if (verse == Quran.verseNo.ayah(QuranNavigator.surah(), QuranNavigator.ayah()) && verse == 1)
+				if (verse == Quran.verseNo.ayah(self.surah(), self.ayah()) && verse == 1)
 					return;
 
-				QuranNavigator.load(surah, ayah);
+				self.load(surah, ayah);
 				this._i = 0;
 				return;
 			}
@@ -1455,48 +1630,48 @@ var QuranNavigator = {
 		{
 			$(this.id).jPlayer('volume', volume);
 			$(this.id2).jPlayer('volume', volume);
-			QuranNavigator.settings.volume = volume;
-			QuranNavigator.save();
+			self.settings.volume = volume;
+			self.save();
 		},
 		
 		mute: function ()
 		{			
 			$(this.id).jPlayer('mute');
 			$(this.id2).jPlayer('mute');
-			QuranNavigator.settings.muted = true;
-			QuranNavigator.save();
+			self.settings.muted = true;
+			self.save();
 		},
 		
 		unmute: function ()
 		{
 			$(this.id).jPlayer('unmute');
 			$(this.id2).jPlayer('unmute');
-			QuranNavigator.settings.muted = false;
-			QuranNavigator.save();
+			self.settings.muted = false;
+			self.save();
 		},
 		
 		repeat: function (bool)
 		{
-			QuranNavigator.settings.repeat = bool;
-			QuranNavigator.save();
+			self.settings.repeat = bool;
+			self.save();
 		},
 		
 		repeatEach: function (repeat)
 		{
-			QuranNavigator.settings.repeatEach = repeat;
-			QuranNavigator.save();
+			self.settings.repeatEach = repeat;
+			self.save();
 		},
 		
 		repeatTimes: function (times)
 		{
-			QuranNavigator.settings.repeatTimes = times;
-			QuranNavigator.save();
+			self.settings.repeatTimes = times;
+			self.save();
 		},
 		
 		audioDelay: function (delay)
 		{
-			QuranNavigator.settings.audioDelay = delay;
-			QuranNavigator.save();
+			self.settings.audioDelay = delay;
+			self.save();
 		},
 		
 		duration: function ()
@@ -1528,14 +1703,12 @@ var QuranNavigator = {
 		var selected = this.quranBy();
 		var selectedArray = selected.split('|');
 		var fromVerseNo = Quran.verseNo.page(this.settings.page);
-		
-		var $this = this;
-		
+				
 		$.each(selectedArray, function(i, quranBy) {
 
-			if ($this.data.quran[quranBy])
+			if (self.data.quran[quranBy])
 			{	
-				if (!$this.data.quran[quranBy][fromVerseNo])
+				if (!self.data.quran[quranBy][fromVerseNo])
 					notCached.push(quranBy);		
 			}
 			else
@@ -1556,12 +1729,18 @@ var QuranNavigator = {
 	
 	urlPage: function ()
 	{
-		return '/'+this.settings.selectedBy+'/'+this.settings.page;
+		if (this.search.isActive())
+			return '/search/'+this.data.search.query;
+		else
+			return '/'+this.settings.selectedBy+'/'+this.settings.page;
 	},
 	
 	urlAyah: function ()
 	{
-		return '/'+this.settings.selectedBy+'/'+this.settings.surah+':'+this.settings.ayah;
+		if (this.search.isActive())
+			return '/'+this.settings.surah+':'+this.settings.ayah;
+		else
+			return '/'+this.settings.selectedBy+'/'+this.settings.surah+':'+this.settings.ayah;
 	},
 	
 	urlRead: function (load)
@@ -1570,7 +1749,15 @@ var QuranNavigator = {
 		hash = hash.split('/');
 		var count = hash.length;
 		
-		if (count > 2 && this.settings.page != hash['2'])
+		if (count > 2 && hash['1'] == 'search')
+		{
+			this.search._keyword = hash['2'];
+			this.search._position = 0;
+			
+			if (load)
+				this.load();
+		}
+		else if (count > 2 && this.settings.page != hash['2'])
 		{
 			this.settings.selectedBy = hash['1'];
 			verse = hash['2'].split(':');
@@ -1588,10 +1775,31 @@ var QuranNavigator = {
 			}		
 			
 			this.player.reset();
-			
+		
 			if (load)
 				this.load(this.settings.surah, this.settings.ayah);
-		}		
+		}
+		else if (/^[0-9]+:?[0-9]*$/.test(hash['1']))
+		{
+			verse = hash['1'].split(':');
+			
+			if (verse.length > 1)
+			{
+				this.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+				this.settings.ayah = Quran._fixAyahNum(this.settings.surah, parseInt(verse['1']));
+			}
+			else
+			{
+				verse = Quran.ayah.fromPage(hash['1']);
+				this.settings.surah = verse.surah;
+				this.settings.ayah = verse.ayah;
+			}		
+			
+			this.player.reset();
+console.log('#2 '+this.settings.surah+', '+this.settings.ayah);			
+			if (load)
+				this.load(this.settings.surah, this.settings.ayah);
+		}
 	},
 	
 	_urlSave: function ()
@@ -1618,22 +1826,36 @@ var QuranNavigator = {
 	    $.extend(true, this.settings, settings);	    
 	},
 	
-	_cookieSave: function ()
+	_cookieSave: function (data)
 	{
+		var firstRun = (typeof(data) == 'undefined'); 
 		var settings = '';
-		$.each(this.settings, function(key, val) {
-			if (typeof(val) != 'string')
+		data =  firstRun ? this.settings : data;
+		
+		if (!firstRun && data == null)
+			return '{}';
+		
+		$.each(data, function(key, val) {
+			if (typeof(val) == 'object' || typeof(val) == 'array')
+				settings += '"'+key+'":'+self._cookieSave(val)+',';
+			else if (typeof(val) != 'string')
 				settings += '"'+key+'":'+val+','; // no quote's
 			else
 				settings += '"'+key+'":"'+val+'",';
 		});
-		settings += '"none":""'; // this is here, just to remove comma
+		settings = settings.slice(0, -1); // this is here, just to remove comma
 		settings = '{'+settings+'}';
+			
+		// first time load  save only
+		if (firstRun)
+		{
+			var date = new Date();
+	        date.setTime(date.getTime()+(365*24*60*60*1000)); // expire in 1 year
+	        var expires = "; expires="+date.toGMTString();
+	        document.cookie = "settings="+settings+expires+"; path=/";
+		}
 		
-		var date = new Date();
-        date.setTime(date.getTime()+(365*24*60*60*1000)); // expire in 1 year
-        var expires = "; expires="+date.toGMTString();
-        document.cookie = "settings="+settings+expires+"; path=/";   
+		return settings;
 	},
 	
 	googleAnalytics: function ()
@@ -1666,3 +1888,23 @@ var QuranNavigator = {
 		}
 	}
 };
+QuranNavigator = self;
+return self;
+})();
+
+if (!Object.keys)
+{
+    Object.keys = function (obj)
+    {
+        var keys = [],
+            k;
+        for (k in obj)
+        {
+            if (Object.prototype.hasOwnProperty.call(obj, k))
+            {
+                keys.push(k);
+            }
+        }
+        return keys;
+    };
+}

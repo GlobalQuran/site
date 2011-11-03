@@ -15,39 +15,6 @@
 		<div class="logoBox"><a href="#link" class="icon logo gq">GlobalQuran</a></div>
 		<!-- nav here -->
 		<div id="topNav">
-			<div id="statusNav">
-				<span class="currentAyah tips" title="Surah Al Nas"  data-tips-position="bottom center">00:00</span>
-				<ul>
-					<li class="dropOption"><a href="#" class="dropLink">Tag</a>
-						<ul>
-							<li><span style="white-space:nowrap;">Tags coming very soon insha'Allah</span></li>
-						</ul>
-					</li>
-					<li><a href="#" class="print">Print</a></li>
-					<li class="dropOption"><a href="#" class="dropLink">Share</a>
-						<ul id="share">							
-							<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a></li>
-							<li><div class="g-plusone" data-size="tall" data-annotation="none"></div></li>
-							<li>
-								<div class="addthis_toolbox addthis_default_style">
-									<a class="addthis_counter addthis_pill_style"></a>
-								</div>
-							</li>
-							<li class="fbLike"><div class="fb-like" data-send="false" data-width="50" data-show-faces="false"></div></li>
-							
-						</ul>
-					</li>
-					<li class="dropOption"><a href="#" class="dropLink">Link</a>
-						<ul class="linkShare">
-							<li><span>Paste link in <b>email</b>, <b>IM</b> or <b>Facebook</b> status.</span>
-								<label>Page URL:</label> <input type="text" class="pageUrl" value="#!/ur.junagarhi|quran-tajweed/601" />
-							</li>
-							<li><label>Ayah URL:</label> <input type="text" class="ayahUrl" value="#!/ur.junagarhi|quran-tajweed/103:3" /></li>
-							<li><a href="#" class="bookmark">Bookmark</a> </li>
-						</ul>
-					</li>
-				</ul>
-			</div>
 			<div id="playerNavBox" style="display:none;">
 				<ul id="pageNav">
 					<li class="page"><span class="pageOn">1</span> <span class="sep">of</span> <span class="totalPages">604</span></li>
@@ -118,11 +85,44 @@
 					<li><a href="#" class="bold">Done Searching Go Back</a></li>
 				</ul>				
 			</div>
+			<div id="statusNav">
+				<span class="currentAyah tips" title="Surah Al Nas"  data-tips-position="bottom center">00:00</span>
+				<ul>
+					<li class="dropOption"><a href="#" class="dropLink">Tag</a>
+						<ul>
+							<li><span style="white-space:nowrap;">Tags coming very soon insha'Allah</span></li>
+						</ul>
+					</li>
+					<li><a href="#" class="print">Print</a></li>
+					<li class="dropOption"><a href="#" class="dropLink">Share</a>
+						<ul id="share">							
+							<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a></li>
+							<li><div class="g-plusone" data-size="tall" data-annotation="none"></div></li>
+							<li>
+								<div class="addthis_toolbox addthis_default_style">
+									<a class="addthis_counter addthis_pill_style"></a>
+								</div>
+							</li>
+							<li class="fbLike"><div class="fb-like" data-send="false" data-width="50" data-show-faces="false"></div></li>
+							
+						</ul>
+					</li>
+					<li class="dropOption"><a href="#" class="dropLink">Link</a>
+						<ul class="linkShare">
+							<li><span>Paste link in <b>email</b>, <b>IM</b> or <b>Facebook</b> status.</span>
+								<label>Page URL:</label> <input type="text" class="pageUrl" value="#!/ur.junagarhi|quran-tajweed/601" />
+							</li>
+							<li><label>Ayah URL:</label> <input type="text" class="ayahUrl" value="#!/ur.junagarhi|quran-tajweed/103:3" /></li>
+							<li><a href="#" class="bookmark">Bookmark</a> </li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 			<div id="messageBox">
 				<span class="error">Your javascript has been disabled, please enable the javascript.</span> <a href="#" class="icon  close tips">close</a> <a href="#" class="icon close small tips">close</a>
 			</div>	
 			<div id="searchBox">
-				<form action="#" method="post">
+				<form action="#" method="post" id="searchForm">
 					<input type="text" name="search" id="search" value="" placeholder="Search..." />
 					<a href="#" class="searchTips">Tips</a>
 					<input type="submit" name="searchSubmit" id="searchSubmit" value="Submit" />
@@ -148,58 +148,75 @@
 	</div>	
 	<div id="gqContent">
 		<div id="infoSidebar">
-			<div class="headerTitle">
-				<h4>Pakistan</h4>
-				<img src="images/flags/pe.png" class="sideLink">
-			</div>			
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
-			</ul>
-			
-			<div class="headerTitle">
-				<h4>Quran</h4>
-				<a href="#" class="sideLink quranSettings">Settings</a>
+			<div id="quranSideBar" style="display:none;">
+				<div class="headerTitle">
+					<h4>Pakistan</h4>
+					<img src="images/flags/pe.png" class="sideLink">
+				</div>			
+				<ul class="sideNav">
+					<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
+				</ul>
+				
+				<div class="headerTitle">
+					<h4>Quran</h4>
+					<a href="#" class="sideLink quranSettings">Settings</a>
+				</div>
+				<ul id="quranSettings" style="display:none;">
+					<li class="right"><a href="#" class="icon close tips">close</a>
+					<li><label>Quran Fonts [ <a href="#" class="lighter tips" title="Quran fonts are applied to quran text only">?</a> ]</label>
+						<select id="quranFont"><option selected="selected" value='auto'>Auto Select [Recommanded]</option><option value="me_quran">Me-Quran</option> <option value="Scheherazade">Scheherazade</option><option value="_PDMS_Saleem_QuranFont">PDMS Saleem Quran</option><option value="KFGQPC Uthman Taha Naskh">KFGQPC Uthman Taha Naskh</option><option value="Traditional Arabic">Traditional Arabic</option><option value="Arabic Typesetting">Arabic Typesetting</option><option value="Sakkal Majalla">Sakkal Majalla</option><option value="MS Uighur">MS Uighur</option><option value="Arial">Arial</option><option value="Custom">Custom</option></select>
+					</li>
+					<li><label><input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks</label></li>
+					<li><label><input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef</label></li>
+				</ul>
+				<ul class="sideNav" id="quranList">
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
+				</ul>
+				
+				<div class="headerTitle">
+					<h4>All Languages</h4>
+				</div>
+				<input type="text" id="languageSearch" name="languageSearch" value="" placeholder="Search..." />
+				<ul class="sideNav" id="translationList">
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="loading" data-quranid="ar.idHERE"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
+				</ul>
+				
+				<ul class="sideHelpLinks">
+					<li><a href="#">How to use the site [video]</a></li>
+					<li><a href="#">Keyboard Shortcuts</a></li>
+					<li><a href="#">Tajweed Rules</a></li>
+				</ul>
 			</div>
-			<ul id="quranSettings" style="display:none;">
-				<li class="right"><a href="#" class="icon close tips">close</a>
-				<li><label>Quran Fonts [ <a href="#" class="lighter tips" title="Quran fonts are applied to quran text only">?</a> ]</label>
-					<select id="quranFont"><option selected="selected" value='auto'>Auto Select [Recommanded]</option><option value="me_quran">Me-Quran</option> <option value="Scheherazade">Scheherazade</option><option value="_PDMS_Saleem_QuranFont">PDMS Saleem Quran</option><option value="KFGQPC Uthman Taha Naskh">KFGQPC Uthman Taha Naskh</option><option value="Traditional Arabic">Traditional Arabic</option><option value="Arabic Typesetting">Arabic Typesetting</option><option value="Sakkal Majalla">Sakkal Majalla</option><option value="MS Uighur">MS Uighur</option><option value="Arial">Arial</option><option value="Custom">Custom</option></select>
-				</li>
-				<li><label><input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks</label></li>
-				<li><label><input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef</label></li>
-			</ul>
-			<ul class="sideNav" id="quranList">
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
-			</ul>
-			
-			<div class="headerTitle">
-				<h4>All Languages</h4>
+			<div id="searchSideBar">
+				<div class="headerTitle">
+					<h4>Search Tips</h4>
+				</div>			
+				<ul class="sideNav">
+					<li><b>55</b> - jump quickly to page "55"</li>
+					<li><br /></li>
+					<li><b>114:1</b> - go to surah An-Nass 114</li>
+					<li><b>114:4</b> - go to surah An-Nass 114 and ayah 4</li>
+				</ul>
+				<div class="headerTitle">
+					<h4>got suggestions? </h4>
+				</div>			
+				<p>sent us your feedback.</p>
 			</div>
-			<input type="text" id="languageSearch" name="languageSearch" value="" placeholder="Search..." />
-			<ul class="sideNav" id="translationList">
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="loading" data-quranid="ar.idHERE"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
-			</ul>
-			
-			<ul class="sideHelpLinks">
-				<li><a href="#">How to use the site [video]</a></li>
-				<li><a href="#">Keyboard Shortcuts</a></li>
-				<li><a href="#">Tajweed Rules</a></li>
-			</ul>
 		</div>
-		<div id="quranContentArea" class="contentHalfSidebar list medium">
+		<div id="quranContentArea" class="contentHalfSidebar list search medium">
 			<div class="ayahs">
 				<div class="group">
 					<a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣٣<span class="icon rightBracket"> </span></a>
 					<p class="ayah quranText rtl" dir="rtl"><a href="#!/ur.junagarhi/103:3" class="quranID">Urdu</a> بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
 					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Sahih International</a> Im suppose to be right to left direction</p>
-					<div class="foundin">Found in: <span>Sahih International</span> / <a href="#">Muhsin Khan</a> / <a href="#">Pickthall</a> / <a href="#">Yusuf Ali</a> / <a href="#">Shakir</a> / <a href="#">Dr. Ghali</a> / <a href="#">French</a> / <a href="#">Hausa</a> / <a href="#">Indonesian</a> / <a href="#">Italian</a> / <a href="#">Malay</a> / <a href="#">Maranao</a> (<a href="#">show all</a>)</div>
+					<div class="foundin"><b>Found in:</b> <a href="#" class="active">Sahih International</a> / <a href="#">Muhsin Khan</a> / <a href="#">Pickthall</a> / <a href="#">Yusuf Ali</a> / <a href="#">Shakir</a> / <a href="#">Dr. Ghali</a> / <a href="#">French</a> / <a href="#">Hausa</a> / <a href="#">Indonesian</a> / <a href="#">Italian</a> / <a href="#">Malay</a> / <a href="#">Maranao</a> (<a href="#" class="showAll">show all</a>)</div>
 				</div>
 				<div class="group selected">
 					<a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣٣<span class="icon rightBracket"> </span></a>
@@ -207,24 +224,15 @@
 					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Sahih International</a> Im suppose to be right to left direction</p>
 					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Picktall</a> Im suppose to be right to left direction</p>
 					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Muslim</a> Im suppose to be right to left direction</p>
-					<div class="foundin">Found in: <span>Sahih International</span> / <a href="#">Muhsin Khan</a> / <a href="#">Pickthall</a> / <a href="#">Yusuf Ali</a> / <a href="#">Shakir</a> / <a href="#">Dr. Ghali</a> / <a href="#">French</a> / <a href="#">Hausa</a> / <a href="#">Indonesian</a> / <a href="#">Italian</a> / <a href="#">Malay</a> / <a href="#">Maranao</a> (<a href="#">show all</a>)</div>
+					<div class="foundin"><b>Found in:</b> <a href="#" class="active">Sahih International</a> / <a href="#">Muhsin Khan</a> / <a href="#">Pickthall</a> / <a href="#">Yusuf Ali</a> / <a href="#">Shakir</a> / <a href="#">Dr. Ghali</a> / <a href="#">French</a> / <a href="#">Hausa</a> / <a href="#">Indonesian</a> / <a href="#">Italian</a> / <a href="#">Malay</a> / <a href="#">Maranao</a> (<a href="#" class="showAll">show all</a>)</div>
 				</div>
-				<div class="group">
-					<a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣٣<span class="icon rightBracket"> </span></a>
-					<p class="ayah quranText rtl" dir="rtl"><a href="#!/ur.junagarhi/103:3" class="quranID">Urdu</a> بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Sahih International</a> Im suppose to be right to left direction</p>
-				</div>
-				<div class="group">
-					<a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣٣<span class="icon rightBracket"> </span></a>
-					<p class="ayah quranText rtl" dir="rtl"><a href="#!/ur.junagarhi/103:3" class="quranID">Urdu</a> بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Sahih International</a> Im suppose to be right to left direction</p>
-				</div>
-				<div class="group">
-					<a href="#!/ur.junagarhi|quran-tajweed/103:3" class="ayahNumber" data-verse="6223"><span class="icon leftBracket"></span>٥٣٣<span class="icon rightBracket"> </span></a>
-					<p class="ayah quranText rtl" dir="rtl"><a href="#!/ur.junagarhi/103:3" class="quranID">Urdu</a> بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-					<p class="ayah ltr" dir="ltr"><a href="#!/en.sahihInter/103:3" class="quranID">Sahih International</a> Im suppose to be right to left direction</p>
-				</div>			
-			</div>
+		</div>
+		
+		<div id="result" class="noRows">
+			<p>0 rows found</p>
+		</div>
+		<div id="result" class="loading">
+			<p>loading more...</p>
 		</div>
 	</div>
 	<div class="tajweedQuickHelp hide">

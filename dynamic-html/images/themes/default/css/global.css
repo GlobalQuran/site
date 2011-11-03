@@ -351,6 +351,11 @@ table th, table td {
 }
 .error, .notice, .info, .success {
 	padding: 4px;
+	display:-moz-inline-stack;
+	display:inline-block;
+  	*display:inline;
+	vertical-align:top;
+	zoom:1;
 }
 .error {
 	background-color:#ffebe8;
@@ -590,7 +595,6 @@ noscript p {
 	#playerNavBox {
 		height:36px;
 		margin-right: 260px;
-		*margin-top: -43px; /* ie6 shadow fix */
 		/* shadow, border, background */
 		-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
 		-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
@@ -606,6 +610,13 @@ noscript p {
 			margin-right:0px;
 			margin-left: 260px;	
 		}
+		.smallFrame #playerNavBox {
+			margin-right: 2px;
+		}
+		.rtl.smallFrame #playerNavBox {
+			margin-right: 0px;
+			margin-left: 2px;
+		}
 		.rtl #playerNav {
 			*position:static; /* ie6+ fix */
 		}
@@ -616,7 +627,7 @@ noscript p {
 		.rtl #pageNav {
 			float:left;
 		}	
-		.pageOn, .totalPages{
+		.pageOn, .totalPages, .bold {
 			font-size:120%;
 			font-weight:bold;
 			margin-left: 3px;
@@ -690,21 +701,59 @@ noscript p {
 				background-color: #F2F2F2;
 				font-weight:bold;
 			}
-	.repeatOptions {
-		
+		.repeatOptions {
+			
+		}
+			.repeatOptions li {
+				height: 30px;
+				white-space:nowrap;
+			}
+			.repeatOptions label {
+				display:inline-block;
+				width:70px;
+			}
+	#searchInfoBox {
+		height:36px;
+		margin-right: 260px;
+		/* shadow, border, background */
+		-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+		-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+		box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+		/* For IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee')";
+		/* For IE 5.5 – 7 */
+		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee');
+		border:#F7F7F7 1px solid;
+		background-color:#fff;
 	}
-		.repeatOptions li {
-			height: 30px;
-			white-space:nowrap;
+		.rtl #searchInfoBox {
+			margin-right:0px;
+			margin-left: 260px;	
 		}
-		.repeatOptions label {
-			display:inline-block;
-			width:70px;
+		.smallFrame #searchInfoBox {
+			margin-right: 2px;
 		}
-	#statusNav {		
+		.rtl.smallFrame #searchInfoBox {
+			margin-right: 0px;
+			margin-left: 2px;
+		}
+		#searchInfoBox li {
+			line-height:20px;
+		}
+		.rtl #searchInfo {
+			*position:static; /* ie6+ fix */
+		}
+		#searchNav {
+			float: right;
+			z-index: 1;
+		}
+		.rtl #searchNav {
+			float:left;
+		}		
+	#statusNav {
+		margin-top:-40px;	
 		width: 230px;
 		height:36px;
-		-margin-bottom:-5px;
 		float: right;
 		overflow:inherit;
 		/* shadow, border, background */
@@ -718,8 +767,11 @@ noscript p {
 		border:#F7F7F7 1px solid;
 		background-color:#fff;
 	}
-		.rtl #statusNav {
-			float:left;
+	.rtl #statusNav {
+		float:left;
+	}
+		.smallFrame #statusNav {
+			margin-top:0px;	
 		}
 		#statusNav ul {
 			float:right;
@@ -800,6 +852,9 @@ noscript p {
 	.rtl #messageBox {
 		float: right;
 	}
+		.smallFrame #messageBox {
+			width: 50%;
+		}
 	#searchBox {
 		display:table-cell;
 		float: right;
@@ -812,17 +867,40 @@ noscript p {
 		margin-left: 255px;
 		-margin-left: 127px; /* ie6 fix */
 	}
+		.smallFrame #searchBox {
+			background-color:#FFF;
+			margin-right: 0px;
+			margin-top:-15px;
+			clear: both;
+			/* shadow, border, background */
+			-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee')";
+			/* For IE 5.5 – 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee');
+			border:#F7F7F7 1px solid;
+			border-top-width:0px;
+			background-color:#fff;
+		}
 		#searchBox #search {
 			width: 220px;
 			height: 22px;
 			margin: 10px 4px;
 			border: #cccccc 1px solid;
 		}
+			.smallFrame #searchBox #search {
+				width:217px;
+			}
 		#searchBox .searchTips {
 			display:block;
 			margin-left: 210px;
 			margin-top: -8px;
 		}
+			.smallFrame #searchBox .searchTips {
+				display:none;
+			}
 		.rtl #searchBox .searchTips {
 			margin-left:0px;
 			margin-right: 210px;
@@ -842,9 +920,23 @@ noscript p {
 		overflow:hidden;
 		background-color:#fff;
 	}
-		.rtl #surahBox {
-			float: left;
-			clear: left;
+	.rtl #surahBox {
+		float: left;
+		clear: left;
+	}
+		.smallFrame #surahBox {
+			margin-top: -10px;
+			/* shadow, border, background */
+			-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee')";
+			/* For IE 5.5 – 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee');
+			border:#F7F7F7 1px solid;
+			border-top-width:0px;
+			background-color:#fff;
 		}
 		#surahBox #surah {
 			width: 220px;
@@ -869,6 +961,21 @@ noscript p {
 		float: left;
 		clear: left;
 	}
+		.smallFrame #extraTools {
+			width: 230px;
+			margin-top: -10px;
+			/* shadow, border, background */
+			-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee')";
+			/* For IE 5.5 – 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee');
+			border:#F7F7F7 1px solid;
+			border-top-width:0px;
+			background-color:#fff;
+		}
 	#extraTools ul {
 		float: right;
 	}
@@ -894,6 +1001,15 @@ noscript p {
 		float:right;
 		margin-top: 6px;
 	}
+	#extraTools .on {
+		display: none;
+	}
+	#extraTools .active .on {
+		display: inline;
+	}
+	#extraTools .active .off {
+		display: none;
+	}
 #gqContent {
 	width:100%;
 	min-height:600px;
@@ -913,8 +1029,27 @@ noscript p {
 .rtl #infoSidebar {
 	float:left;
 }
+	.smallFrame #infoSidebar {
+		width:220px;
+		position: absolute;
+		background-color: #fff;
+		margin-top:90px;
+		border-left:#3B5998 thick solid;
+		
+		padding-left:1em;
+		z-index:0;
+	}
+		.ltr .smallFrame #infoSidebar {
+			right: 0;		
+		}
+		.rtl .smallFrame #infoSidebar {
+			border-left:#3B5998 0px solid;
+			padding-left:0px;
+			border-right:#3B5998 thick solid;
+			padding-right:1em;
+		}
 	#infoSidebar.hide {
-		display:none;	
+		display:none;
 	}
 	#infoSidebar .headerTitle {
 		height: 20px;
@@ -1062,6 +1197,9 @@ noscript p {
 	margin-left: 4px;
 	text-align:center;
 }
+	.smallFrame #quranContentArea {
+		margin-top:100px;
+	}
 	#gqContent .contentFull {
 		/*width: 100%;*/
 	}
@@ -1179,6 +1317,10 @@ noscript p {
 		margin-left: 4px;
 		margin-right: 4px;
 	}
+	.group {
+		margin-bottom:.5em;
+		padding: .5em .2em .5em .3em;
+	}
 	.group .ayah {
 		margin-bottom: 12px;
 	}
@@ -1196,6 +1338,28 @@ noscript p {
 		float: left;
 		color:#999;
 	}
+	.ltr .ltr .foundin, .ltr .rtl .foundin, .foundin {
+		text-align:left;
+		font-size:60%;
+		color:#999;
+		margin-top:.5em;
+		margin-bottom:.5em;
+	}
+		.rtl .ltr .foundin, .ltr .rtl .foundin {
+			text-align:right;
+		}
+		.foundin .active {
+			border-bottom:#999 1px dotted;
+		}
+		.foundin a, .foundin a:active, .foundin a:focus, .foundin a:visited {
+			color:#999;
+		}
+		.foundin a:hover, .foundin .showAll, .foundin .hideAll {
+			color:#6699cc !important;
+		}
+		.foundin .showAll, .foundin .hideAll {
+			font-weight: bold;
+		}
 	a.quranID {
 		display:block;
 		font-size:70%;
@@ -1215,7 +1379,28 @@ noscript p {
 		color: #3B5998;
 		text-decoration:overline;
 	}
-
+	
+#result {
+	height:auto;		
+	margin:auto;
+	margin-top:1em;
+	margin-bottom: 1em;
+	padding: 10px;
+	display:-moz-inline-stack;
+	display:inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	/* shadow, border, background */
+	-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+	-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee')";
+	/* For IE 5.5 – 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee');
+	border:#F7F7F7 1px solid;
+	background-color:#fff;
+}
 	
 .tajweedQuickHelp {
 	clear:both;
@@ -1274,6 +1459,9 @@ noscript p {
 	.rtl #globalFooter .nav {
 		float:left;
 	}
+		.smallFrame #globalFooter .nav {
+			display:none;
+		}
 	#globalFooter .twitter-follow-button {
 		width:68px !important;
 	}

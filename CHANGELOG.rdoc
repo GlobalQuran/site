@@ -4,6 +4,9 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* NEW: search added
+* NEW: small frame layout added for smaller window or embeded quran window
+
 == Release v3.1.2
 
 * NEW: Quran for kids added - to help them learn quran

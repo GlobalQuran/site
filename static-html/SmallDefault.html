@@ -11,7 +11,7 @@
 <meta property="og:description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
 <meta property="og:type" content="book" />
 <meta property="og:url" content="http://GlobalQuran.com" />
-<meta property="og:image" content="http://GlobalQuran.com/quran/img/logo-4.png?v2" />
+<meta property="og:image" content="http://GlobalQuran.com/images/logo.png" />
 <meta property="og:site_name" content="GlobalQuran.com" />
 
 <link rel="shortcut icon" href="favicon.ico" />
@@ -124,7 +124,7 @@
 				<span class="error">Your javascript has been disabled, please enable the javascript.</span> <a href="#" class="icon  close tips">close</a> <a href="#" class="icon close small tips">close</a>
 			</div>	
 			<div id="searchBox">
-				<form action="#" method="post">
+				<form action="#" method="post" id="searchForm">
 					<input type="text" name="search" id="search" value="" placeholder="Search..." />
 					<a href="#" class="searchTips">Tips</a>
 					<input type="submit" name="searchSubmit" id="searchSubmit" value="Submit" />
@@ -150,50 +150,67 @@
 	</div>
 	<div id="gqContent">
 		<div id="infoSidebar">
-			<div class="headerTitle">
-				<h4>Pakistan</h4>
-				<img src="images/flags/pe.png" class="sideLink">
-			</div>			
-			<ul class="sideNav">
-				<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
-			</ul>
-			
-			<div class="headerTitle">
-				<h4>Quran</h4>
-				<a href="#" class="sideLink quranSettings">Settings</a>
+			<div id="quranSideBar">
+				<div class="headerTitle">
+					<h4>Pakistan</h4>
+					<img src="images/flags/pe.png" class="sideLink">
+				</div>			
+				<ul class="sideNav">
+					<li><a href="#"><span class="txt">Urdu</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="active"><span class="txt">English</span><span class="loadingIndicator"></span></a></li>
+				</ul>
+				
+				<div class="headerTitle">
+					<h4>Quran</h4>
+					<a href="#" class="sideLink quranSettings">Settings</a>
+				</div>
+				<ul id="quranSettings" style="display:none;">
+					<li class="right"><a href="#" class="icon close tips">close</a>
+					<li><label>Quran Fonts [ <a href="#" class="lighter tips" title="Quran fonts are applied to quran text only">?</a> ]</label>
+						<select id="quranFont"><option selected="selected" value='auto'>Auto Select [Recommanded]</option><option value="me_quran">Me-Quran</option> <option value="Scheherazade">Scheherazade</option><option value="_PDMS_Saleem_QuranFont">PDMS Saleem Quran</option><option value="KFGQPC Uthman Taha Naskh">KFGQPC Uthman Taha Naskh</option><option value="Traditional Arabic">Traditional Arabic</option><option value="Arabic Typesetting">Arabic Typesetting</option><option value="Sakkal Majalla">Sakkal Majalla</option><option value="MS Uighur">MS Uighur</option><option value="Arial">Arial</option><option value="Custom">Custom</option></select>
+					</li>
+					<li><label><input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks</label></li>
+					<li><label><input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef</label></li>
+				</ul>
+				<ul class="sideNav" id="quranList">
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
+				</ul>
+				
+				<div class="headerTitle">
+					<h4>All Languages</h4>
+				</div>
+				<input type="text" id="languageSearch" name="languageSearch" value="" placeholder="Search..." />
+				<ul class="sideNav" id="translationList">
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" data-quranid="ar.idHERE"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="loading" data-quranid="ar.idHERE"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a></li>
+					<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
+				</ul>
+				
+				<ul class="sideHelpLinks">
+					<li><a href="#">How to use the site [video]</a></li>
+					<li><a href="#">Keyboard Shortcuts</a></li>
+					<li><a href="#">Tajweed Rules</a></li>
+				</ul>
 			</div>
-			<ul id="quranSettings" style="display:none;">
-				<li class="right"><a href="#" class="icon close tips">close</a>
-				<li><label>Quran Fonts [ <a href="#" class="lighter tips" title="Quran fonts are applied to quran text only">?</a> ]</label>
-					<select id="quranFont"><option selected="selected" value='auto'>Auto Select [Recommanded]</option><option value="me_quran">Me-Quran</option> <option value="Scheherazade">Scheherazade</option><option value="_PDMS_Saleem_QuranFont">PDMS Saleem Quran</option><option value="KFGQPC Uthman Taha Naskh">KFGQPC Uthman Taha Naskh</option><option value="Traditional Arabic">Traditional Arabic</option><option value="Arabic Typesetting">Arabic Typesetting</option><option value="Sakkal Majalla">Sakkal Majalla</option><option value="MS Uighur">MS Uighur</option><option value="Arial">Arial</option><option value="Custom">Custom</option></select>
-				</li>
-				<li><label><input type="checkbox" checked="checked" id="showSigns" value='yes'> Show Pause Marks</label></li>
-				<li><label><input type="checkbox" checked="checked" id="showAlef" value='yes'> Show Small-Alef</label></li>
-			</ul>
-			<ul class="sideNav" id="quranList">
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Word by Word</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Tajweed</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Uthmani</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
-			</ul>
-			
-			<div class="headerTitle">
-				<h4>All Languages</h4>
+			<div id="searchSideBar" style="display:none;">
+				<div class="headerTitle">
+					<h4>Search Tips</h4>
+				</div>			
+				<ul class="sideNav">
+					<li><b>55</b> - jump quickly to page "55"</li>
+					<li><br /></li>
+					<li><b>114:1</b> - go to surah An-Nass 114</li>
+					<li><b>114:4</b> - go to surah An-Nass 114 and ayah 4</li>
+				</ul>
+				<div class="headerTitle">
+					<h4>got suggestions? </h4>
+				</div>			
+				<p>sent us your feedback.</p>
 			</div>
-			<input type="text" id="languageSearch" name="languageSearch" value="" placeholder="Search..." />
-			<ul class="sideNav" id="translationList">
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">Arabic</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" data-quranid="ar.idHERE"><span class="txt">English Picktal</span><span class="countValue rnd hide">0</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="loading" data-quranid="ar.idHERE"><span class="txt">Hindi</span><span class="countValue rnd">1</span><span class="loadingIndicator"></span></a></li>
-				<li><a href="#" class="more"><span class="txt">More &dArr;</span><span class="countValue rnd">5</span></a></li>
-			</ul>
-			
-			<ul class="sideHelpLinks">
-				<li><a href="#">How to use the site [video]</a></li>
-				<li><a href="#">Keyboard Shortcuts</a></li>
-				<li><a href="#">Tajweed Rules</a></li>
-			</ul>
 		</div>
 		<div id="quranContentArea" class="contentHalfSidebar single medium">
 			<div class="ayahs rtl" dir="rtl">
