@@ -4,6 +4,8 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+== Release v3.2.0
+
 * FIX: player start bug fix
 * NEW: search added
 * NEW: small frame layout added for smaller window or embeded quran window
