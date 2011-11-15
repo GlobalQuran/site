@@ -26,12 +26,12 @@ var self = {
 		surah: 1,
 		page: 1,
 		juz: 1,
-		selectedBy: '',
-		selectedLanguage: '',
-		selectedSearchBy: null,
+		selectedBy: null,
+		selectedLanguage: null,
+		selectedSearchBy: null,		
 		
-		selectedRecitor: 'auto',
-		selectedRecitorBytes: 'auto',
+		selectedRecitor: null,
+		selectedLastRecitorBytes: '',
 		playing: true,
 		volume: 100,
 		muted: false,
@@ -57,7 +57,8 @@ var self = {
 	_gaID: 'UA-1019966-3',
 	
 		
-	data: {		
+	data: {
+		loaded: false,
 		ayahList: {},
 		quranList: {},
 		quran: {},		
@@ -70,225 +71,362 @@ var self = {
 		Quran.init();
 		
 		for (var i in Quran._data.UGroups)
-	        Quran._data.UGroups[i] = this._verse.regTrans(Quran._data.UGroups[i]);
+	        Quran._data.UGroups[i] = this.quran.parse.regTrans(Quran._data.UGroups[i]);
 		
 		this.googleAnalytics();
 	},
 	
-	quranText: function ()
-	{
-		var text = {};
-		var selected = this.quranBy();
-		var fromVerseNo = Quran.verseNo.page(this.settings.page);
-		var toVerseNo = Quran.verseNo.page(this.settings.page+1)-1;
+	language: {
 		
-		var selectedArray = selected.split('|');
-				
-		$.each(selectedArray, function(i, quranBy) {
-			text[quranBy] = {};
-			for (var i = fromVerseNo; i <= toVerseNo; i++)
-			{
-				text[quranBy][i] = self.data.quran[quranBy][i];
-			}
-		});
+		load: function () {},
 		
-		return text;
+		list: function ()
+		{
+			return self.data.languageList;
+		},
+		
+		countryList: function ()
+		{
+			return self.data.languageCountryList;
+		},
+		
+		selected: function ()
+		{
+			return self.settings.selectedLanguage;
+		}
 	},
 	
-	quranList: function (format)
-	{
-		if (!format)
-			return this.data.quranList;
-		else
+	quran: {
+		
+		init: function ()
 		{
-			list = {};
-			$.each(this.data.quranList, function(i, info) {
-				if (format == info['format'])
-					list[i] = info;
+			if (self.settings.selectedBy && typeof(self.settings.selectedBy) == 'object' && this.length() > 0)
+				return false;
+			
+			//backward compatibility
+			if (self.settings.selectedBy && typeof(self.settings.selectedBy) != 'object')
+			{
+				by = self.settings.selectedBy;
+				self.quran.reset();
+				var selectedArray = by.split('|');
+				$.each(selectedArray, function(a, quranBy) {
+					self.quran.add(quranBy);					
+				});
+			}
+			else
+				self.quran.reset();
+		},
+		
+		load: function () {
+			self.load(self.settings.surah, self.settings.ayah);
+		},
+		
+		text: function ()
+		{
+			var text = {};
+			var selected = this.selected();
+			var fromVerseNo = Quran.verseNo.page(self.settings.page);
+			var toVerseNo = Quran.verseNo.page(self.settings.page+1)-1;
+
+			if (typeof selected == 'object')
+			{					
+				$.each(selected, function(a, quranBy) {
+					text[quranBy] = {};
+					for (var i = fromVerseNo; i <= toVerseNo; i++)
+					{
+						if (self.data.quran[quranBy])
+							text[quranBy][i] = self.data.quran[quranBy][i];
+						else
+						{
+							self.quran.remove(quranBy);
+							self._gaqPush(['_trackEvent', 'Text', 'Error::`'+quranBy+'` not loaded in text']);
+						}
+					}
+				});
+			}
+			
+			return text;
+		},
+		
+		textNotCached: function ()
+		{
+			var notCached = [];
+			var selected = this.selected();
+			var fromVerseNo = Quran.verseNo.page(self.settings.page);
+					
+			$.each(selected, function(i, quranBy) {
+
+				if (self.data.quran[quranBy])
+				{	
+					if (!self.data.quran[quranBy][fromVerseNo])
+						notCached.push(quranBy);		
+				}
+				else
+					notCached.push(quranBy);	
 			});
 			
-			return list;
-		}
-	},
-	
-	
-	language: function (language_code) {
+			return notCached.join('|');
+		},
 		
-		/*if (language_code)
+		list: function (format)
 		{
-			//TODO load language pack here and refresh the page.
-		}*/
-		
-		return this.settings.selectedLanguage;
-	},
-	
-	languageList: function () {
-		return this.data.languageList;
-	},
-	
-	languageCountryList: function () {
-		return this.data.languageCountryList;
-	},
-	
-	quranBy: function (by) {
-
-		if (by)
-		{
-			this.settings.selectedBy = by;
-			this.load(this.settings.surah, this.settings.ayah);
-		}
-		
-		return this.settings.selectedBy;
-	},
-	
-	quranByDetail: function (by) {
-		return this.quranList()[by];
-	},
-	
-	quranByDirection: function (by)
-	{		
-		if (by == 'quran-wordbyword')
-			return (this.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
-		else if (by == 'quran-kids')
-			return (this.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
-		
-		languageCode = this.quranByDetail(by).language_code;
-		return  (typeof(this.languageList()[languageCode]) !== 'undefined') ? this.languageList()[languageCode].dir : 'left';
-	},
-	
-	quranByRecitor: function (by, kbs) {
-
-		if (by)
-		{
-			if (by != 'auto' && by.search(/auto/i) >= 0) // remove auto from other selection
-				by = by.replace(/auto\|/i, '');
-			
-			this.settings.selectedRecitor = by;
-			
-			if (kbs)
-				this.settings.selectedRecitorBytes = kbs;
-			
-			this.player.load('new');
-			this.save();
-		}
-		
-		return this.settings.selectedRecitor;
-	},
-	
-	quranByRecitorBitrateList: function (by)
-	{			
-		byArray = by.split('|');
-		by = byArray['0'];
-		
-		if (by == 'auto' && by.length > 1) // ignore first if its auto
-			by = byArray['1'];
-		
-		row = this.data.quranList[by];
-		
-		if (!row)
-			return {'auto': 'mp3,ogg'};
-				
-		media = row.media;
-		media = media ? $.parseJSON(media) : {};
-		
-		bitrate = {'auto': 'mp3,ogg'};
-		$.each(media, function (id, mediaRow) {
-			if (bitrate[mediaRow.kbs])
-				bitrate[mediaRow.kbs] += ','+mediaRow.type;
+			if (!format)
+				return self.data.quranList;
 			else
-				bitrate[mediaRow.kbs] = mediaRow.type;
-		});
-		
-		return bitrate;
-	},
-	
-	isQuranBySelected: function (by, selectedBy)
-	{
-		var selected = selectedBy || this.settings.selectedBy;
-		var selectedArray = selected.split('|');
-		var found = false;
-		
-		$.each(selectedArray, function(i, quranBy) {
-		
-			if ($.trim(quranBy.toLowerCase()) == $.trim(by.toLowerCase()))
 			{
-				found = true;
-				return true;
-			}
-		});
-		
-		return found;
-	},	
-	
-	isQuranBySelectedType: function (type, by)
-	{
-		if (by && by != this.settings.selectedBy && self.data.quranList[by].type == type)
-			return true;
-		
-		by = by || this.settings.selectedBy;
-		
-		var selectedArray = by.split('|');
-		var found = false;
-		
-		$.each(selectedArray, function(i, quranBy) {
+				list = {};
+				$.each(self.data.quranList, function(i, info) {
+					if (format == info['format'])
+						list[i] = info;
+				});
 				
-			if (self.data.quranList[quranBy].type == type)
-			{
-				found = true;
-				return true;
+				return list;
 			}
-		});
+		},
 		
-		return found;
-	},
-	
-	quranBySelectedCount: function ()
-	{
-		by = this.settings.selectedBy;
-		var selectedArray = by.split('|');
-		return selectedArray.length;
-	},
-	
-	setFontFamily: function (fontFamily)
-	{
-		this.settings.font = fontFamily;
-		this.save();
-	},
-	
-	setFontSize: function (size)
-	{
-		this.settings.fontSize = size;
-		this.save();
-	},
-	
-	getFontFamily: function (by)
-	{
-		by = by || this.settings.selectedBy;
-		
-		if (this.settings.font == 'auto' && this.isQuranBySelectedType('quran', by))
+		detail: function (by)
 		{
-			if (/mac/i.test(navigator.platform)) // isMac
-					return 'Scheherazade';
-			if (/uthmani/.test(by)) // isUthamani
-				return 'me_quran';
-			else if (/tajweed/.test(by)) // isTajweed
-				return '_PDMS_Saleem_QuranFont';
-			else
-				return 'KFGQPC Uthman Taha Naskh';
-		}
+			return this.list()[by];
+		},
 		
-		return (this.settings.font != 'auto') ? this.settings.font : '';			
-	},
-	
-	getFontSize: function ()
-	{
-		return this.settings.fontSize;
-	},
-	
-	setFullScreen: function (enable)
-	{
-		this.settings.fullScreen = enable;
-		this.save();
+		direction: function (by)
+		{
+			if (by == 'quran-wordbyword')
+				return (self.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
+			else if (by == 'quran-kids')
+				return (self.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
+			
+			languageCode = this.detail(by).language_code;
+			return  (typeof(self.language.list()[languageCode]) !== 'undefined') ? self.language.list()[languageCode].dir : 'left';
+		},
+		
+		selected: function ()
+		{
+			return self.settings.selectedBy;
+		},
+		
+		selectedString: function ()
+		{
+			var by = [];
+			var selected = this.selected();
+					
+			$.each(selected, function(i, quranBy) {
+				by.push(quranBy);	
+			});
+			
+			return by.join('|');
+		},
+		
+		reset: function ()
+		{
+			self.settings.selectedBy = {};
+			self.save();
+		},
+		
+		length: function ()
+		{
+			if (!self.settings.selectedBy || typeof(self.settings.selectedBy) != 'object')
+				return 0;
+			
+			return Object.keys(self.settings.selectedBy).length;
+		},
+		
+		isSelected: function (quranBy)
+		{
+			return self.settings.selectedBy[quranBy] ? true : false;
+		},
+		
+		add: function (quranBy)
+		{
+			self.settings.selectedBy[quranBy] = quranBy;
+			self.save();
+		},
+		
+		remove: function (quranBy)
+		{
+			delete self.settings.selectedBy[quranBy];
+			self.save();
+		},
+		
+		parse: {
+			
+			load: function (quranBy, text)
+			{	
+				type = self.data.quranList[quranBy].type;
+				
+				if (type == 'quran' && /tajweed/.test(quranBy))
+					return this.parseTajweed(quranBy, text);
+				else if (type == 'quran' && /wordbyword/.test(quranBy))
+					return this.parseWordByWord(quranBy, text);
+				else if (type == 'quran' && /kids/.test(quranBy))
+					return this.parseKidsWordByWord(quranBy, text);
+				else if (type == 'quran')
+					return this.parseQuran(quranBy, text);
+				else
+					return this.parseTranslation(quranBy, text);
+			},
+			
+			parseQuran: function (quranBy, text)
+			{
+				if (self.settings.showSigns)
+			    {
+			        text = this.pregReplace(' ([$HIGH_SALA-$HIGH_SEEN])', '<span class="sign">&nbsp;$1</span>', text);
+			        text = this.pregReplace('($SAJDAH)', self.settings.ignoreInternalSigns ? '' : '<span class="internal-sign">$1</span>', text);
+			        text = this.pregReplace('$RUB_EL_HIZB', self.settings.ignoreInternalSigns ? '' : '<span class="icon juz-sign"></span>', text);
+			    }
+			    else
+			    	text = this.pregReplace('[$HIGH_SALA-$RUB_EL_HIZB$SAJDAH]', '', text);
+			    
+			    if (!self.settings.showAlef)
+			    	text = this.pregReplace('$SUPERSCRIPT_ALEF', '', text);
+			    
+			    if (self.settings.font == 'me_quran')
+			    {
+			        text = this.addSpaceTatweel(text);
+			        text = this.pregReplace('($LAM$HARAKA*)$TATWEEL$HAMZA_ABOVE($HARAKA*$ALEF)', '$1$HAMZA$2', text);
+			    }
+			    else if (/uthmani/.test(quranBy))
+			    {
+			        text = this.removeExtraMeems(text);
+			    }
+			    
+			    text = this.addTatweel(text);
+			    text = this.pregReplace('$ALEF$MADDA', '$ALEF_WITH_MADDA_ABOVE', text);
+			    
+			    if (self.settings.font != 'me_quran')
+			    {
+			        text = this.pregReplace('($SHADDA)([$KASRA$KASRATAN])', '$2$1', text);
+			        text = this.pregReplace('($LAM$HARAKA*$LAM$HARAKA*)($HEH)', '$1$TATWEEL$2', text);
+			    }
+			    
+			    return text;
+			},
+			
+			parseWordByWord: function (quranBy, text)
+			{
+				var words = text.split('$');
+				var verse_html = '';
+				$.each(words, function(i, verse) {
+					if (verse)
+					{
+						var verse = verse.split('|');
+					    
+						if (self.settings.wbwDirection == 'english2arabic')
+						{
+							if (self.settings.wbwMouseOver)
+								verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
+							else
+								verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
+						}
+						else
+						{
+							if (self.settings.wbwMouseOver)
+								verse_html += '<span class="word"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+							else
+								verse_html = '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+						}
+					}
+				});
+				
+				return verse_html;
+			},
+			
+			parseKidsWordByWord: function (quranBy, text)
+			{
+				var words = text.split('$');
+				var verse_html = '';
+				var color = this._color;
+				$.each(words, function(i, verse) {
+					if (verse)
+					{
+						var verse = verse.split('|');
+					    
+						if (self.settings.wbwDirection == 'english2arabic')
+						{
+							if (self.settings.wbwMouseOver)
+								verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
+							else
+								verse_html += '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
+						}
+						else
+						{
+							if (self.settings.wbwMouseOver)
+								verse_html += '<span class="word wordColor'+color+'"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+							else
+								verse_html = '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+						}
+					}
+					
+					if (color == 10)
+						color = 1;
+					++color;
+				});
+				
+				this._color = color;
+				
+				return verse_html;
+			},
+			_color: 1,
+			
+			parseTajweed: function (quranBy, text)
+			{
+				return text.replace(/\[h/g, '<span class="ham_wasl" title="Hamzat Wasl" alt="').replace(/\[s/g, '<span class="slnt" title="Silent" alt="').replace(/\[l/g, '<span class="slnt" title="Lam Shamsiyyah" alt="').replace(/\[n/g, '<span class="madda_normal" title="Normal Prolongation: 2 Vowels" alt="').replace(/\[p/g, '<span class="madda_permissible" title="Permissible Prolongation: 2, 4, 6 Vowels" alt="').replace(/\[m/g, '<span class="madda_necessary" title="Necessary Prolongation: 6 Vowels" alt="').replace(/\[q/g, '<span class="qlq" title="Qalqalah" alt="').replace(/\[o/g, '<span class="madda_obligatory" title="Obligatory Prolongation: 4-5 Vowels" alt="').replace(/\[c/g, '<span class="ikhf_shfw" title="Ikhfa\' Shafawi - With Meem" alt="').replace(/\[f/g, '<span class="ikhf" title="Ikhfa\'" alt="').replace(/\[w/g, '<span class="idghm_shfw" title="Idgham Shafawi - With Meem" alt="').replace(/\[i/g, '<span class="iqlb" title="Iqlab" alt="').replace(/\[a/g, '<span class="idgh_ghn" title="Idgham - With Ghunnah" alt="').replace(/\[u/g, '<span class="idgh_w_ghn" title="Idgham - Without Ghunnah" alt="').replace(/\[d/g, '<span class="idgh_mus" title="Idgham - Mutajanisayn" alt="').replace(/\[b/g, '<span class="idgh_mus" title="Idgham - Mutaqaribayn" alt="').replace(/\[g/g, '<span class="ghn" title="Ghunnah: 2 Vowels" alt="').replace(/\[/g, '" >').replace(/\]/g, '</span>');
+			},
+			
+			parseTranslation: function (quranBy, text)
+			{
+				text = text.replace(/\]\]/g, '$').replace(/ *\[\[[^$]*\$/g, '');
+				return text;
+			},
+		
+			addSpaceTatweel: function (text)
+			{
+			    text = this.pregReplace('($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)', '$1$TATWEEL$2', text);
+			    text = this.pregReplace('([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)', '$1$ZWNJ$2', text);
+			    return text;
+			},
+			
+			addTatweel: function (text)
+			{
+			    text = this.pregReplace('($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)', '$1$TATWEEL$2', text);
+			    text = this.pregReplace('([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)', '$1$2', text);
+			    return text;
+			},
+			
+			removeExtraMeems: function (text)
+			{
+			    text = this.pregReplace('([$FATHATAN$DAMMATAN])$LOW_MEEM', '$1', text);
+			    text = this.pregReplace('($KASRATAN)$HIGH_MEEM', '$1', text);
+			    return text;
+			},
+			
+			highlight: function (pattern, str)
+			{
+			    pattern = new RegExp('(' + pattern + ')', 'g');
+			    str = str.replace(pattern, '◄$1►');
+			    str = str.replace(/◄\s/g, ' ◄').replace(/\s►/g, '► ');
+			    str = str.replace(/([^\s]*)◄/g, '◄$1').replace(/►([^\s]*)/g, '$1►');
+			    
+			    while (/◄[^\s]*◄/.test(str))
+			    	str = str.replace(/(◄[^\s]*)◄/g, '$1').replace(/►([^\s]*►)/g, '$1');
+			    
+			    str = str.replace(/◄/g, '<span class="highlight">').replace(/►/g, '</span>');
+			    return str;
+			},
+			
+			pregReplace: function (fromExp, toExp, str)
+			{
+			    fromExp = new RegExp(this.regTrans(fromExp), 'g');
+			    toExp = this.regTrans(toExp);
+			    return str.replace(fromExp, toExp);
+			},
+			
+			regTrans: function (str) {
+			    return str.replace(/\$([A-Z_]+)/g, function (s, i, ofs, all) {
+			        return Quran._data.UGroups[i] || Quran._data.UChars[i] || '';
+			    });
+			}
+		}
 	},
 	
 	search: {
@@ -305,7 +443,7 @@ var self = {
 			
 			self.settings.selectedSearchBy = {};
 			
-			by = self.quranList('text');
+			by = self.quran.list('text');
 			$.each(by, function(quranBy, detail)
 			{
 				if (detail.type == 'quran')
@@ -436,460 +574,101 @@ var self = {
 		}
 	},
 	
-	juz: function (juz)
-	{		
-		if (juz)
-		{
-			juz = Quran._fixJuzNum(juz);
-			var verse = Quran.ayah.fromJuz(juz);
-			
-			if (this.page() != Quran.ayah.page(verse.surah, verse.ayah))
-			{
-				this.load(verse.surah, verse.ayah);
-				return false;
-			}
-		}
+	recitor: {
 		
-		return this.settings.juz;
-	},
-	
-	page: function (page)
-	{		
-		if (page)
+		init: function()
 		{
-			page = Quran._fixPageNum(page);
-			var verse = Quran.ayah.fromPage(page);
-			
-			if (this.page() != Quran.ayah.page(verse.surah, verse.ayah))
-			{
-				this.load(verse.surah, verse.ayah);
+			if (self.settings.selectedRecitor && typeof(self.settings.selectedRecitor) == 'object' && this.length() > 0)
 				return false;
-			}
-		}
-		
-		return this.settings.page;
-	},
-	
-	surah: function (surah)
-	{		
-		if (surah)
-		{
-			surah = Quran._fixSurahNum(surah);
-			var ayah = 1;
 			
-			if (this.page() != Quran.ayah.page(surah, ayah))
+			//backward compatibility
+			if (self.settings.selectedRecitor && typeof(self.settings.selectedRecitor) != 'object')
 			{
-				this.load(surah, ayah);
-				return false;
+				by = self.settings.selectedRecitor;
+				this.reset();
+				var selectedArray = by.split('|');
+				$.each(selectedArray, function(a, quranBy) {
+					self.recitor.add(quranBy);					
+				});
 			}
 			else
-			{
-				this.settings.surah = surah;
-				this.settings.ayah = 1;
-			}
-		}
+				this.reset();
+		},
 		
-		return this.settings.surah;
-	},
-	
-	ayah: function (surah, ayah)
-	{		
-		if (surah)
+		load: function ()
 		{
-			surah = Quran._fixSurahNum(surah);
-			ayah  = Quran._fixAyahNum(surah, ayah);
-			
-			if (this.page() != Quran.ayah.page(surah, ayah))
-			{
-				this.load(surah, ayah);
-				return false;
-			}
-			else
-			{
-				this.settings.surah = surah;
-				this.settings.ayah = ayah;
-				this.player.load('new');
-				this.save();
-			}
-		}
+			self.player.load('new');
+		},
 		
-		return this.settings.ayah;
-	},
-	
-	verse: function (surah, ayah)
-	{
-		surah = surah ? Quran._fixSurahNum(surah) : this.settings.surah;
-		ayah  = ayah ? Quran._fixAyahNum(surah, ayah) : this.settings.ayah;
-	
-		return Quran.verseNo.ayah(surah, ayah);
-	},
-	
-
-	nextAyah: function ()
-	{
-		var verse = Quran.ayah.next(this.surah(), this.ayah());
-		
-		if (verse.surah == this.surah() && verse.ayah == this.ayah())
-			return verse; // ayah already exist on the page
-	
-		this.settings.surah = verse.surah;
-		this.settings.ayah = verse.ayah;
-				
-		if (this.ayah(verse.surah, verse.ayah))
-			return verse; // ayah already exist on the page
-		else
-			return false;	
-	},
-	
-	prevAyah: function ()
-	{
-		var verse = Quran.ayah.prev(this.surah(), this.ayah());
-		
-		if (verse.surah == this.surah() && verse.ayah == this.ayah())
-			return verse; // ayah already exist on the page
-
-		this.settings.surah = verse.surah;
-		this.settings.ayah = verse.ayah;
-				
-		if (this.ayah(verse.surah, verse.ayah))
-			return verse; // ayah already exist on the page
-		else
-			return false;
-	},
-	
-	nextPage: function ()
-	{
-		return this.page(this.page()+1);
-	},
-	
-	prevPage: function ()
-	{
-		return this.page(this.page()-1);
-	},
-	
-	nextSurah: function () {
-		return this.surah(this.surah()+1);
-	},
-	
-	prevSurah: function () {
-		return this.surah(this.surah()-1);
-	},
-	
-	ayahs: function () {	
-		return this.data.ayahList;
-	},
-	
-	save: function () {
-		this._cookieSave(); // save settings
-	},
-	
-	load: function (surah, ayah)
-	{
-		firstLoad = false;
-		notCachedQuranID = true;
-		
-		if (surah && ayah)
-			this.search._keyword = false;
-		
-		if (!surah && !ayah && !this.search.isActive())
+		list: function()
 		{
-			firstLoad = true;
-			this._cookieRead();
-			this.urlRead();
-		}
+			return self.quran.list('audio');
+		},
 		
-		if (this.search.isActive())
-		{
-			this.search.loading(true);
-			url = this.apiURL;
-			
-			if (firstLoad)
-				url += 'all/';
-			
-			url += 'search/'+this.search.keyword()+'/'+this.search.position();
-		}
-		else if (!surah && !ayah)
+		bitrateList: function (by)
 		{			
-			this.settings.surah = this.settings.surah || 1;
-			this.settings.ayah = this.settings.ayah || 1;
-			this.settings.juz =  Quran.ayah.juz(this.settings.surah, this.settings.ayah);	
-			this.settings.page = Quran.ayah.page(this.settings.surah, this.settings.ayah);		
-			this.data.ayahList = Quran.ayah.listFromPage(this.settings.page);
-	
-			url = this.apiURL+'all/page/'+this.settings.page;
+			row = self.quran.detail(by);
 			
-			if (this.settings.selectedBy)// TODO add this.noData for getting no quran text from server.
-				url += '/'+this.settings.selectedBy;
-			if (this.settings.selectedLanguage)
-				url += '/'+this.settings.selectedLanguage;
-		}//TODO add other methods too ex: search and language pack
-		else
-		{
-			this.settings.surah = surah;
-			this.settings.ayah = ayah;
-			this.settings.juz = Quran.ayah.juz(surah, ayah);
-			this.settings.page = Quran.ayah.page(surah, ayah);		
-			this.data.ayahList = Quran.ayah.listFromPage(this.settings.page);
-						
-			notCachedQuranID = this._quranByNotCached();			
+			if (!row)
+				return {'auto': 'mp3,ogg'};
+					
+			media = row.media;
+			media = media ? $.parseJSON(media) : {};
 			
-			url = this.apiURL+'page/'+this.settings.page+'/'+notCachedQuranID;
-			this._urlSave();
-		}
-		
-		this.save();
-		this._gaqPush(['_trackPageview', '/#!'+this.urlPage()]);
-		
-		if (this.noData && !firstLoad) // if no data need to be output, then run request only once
-			notCachedQuranID = false;
-
-		if (notCachedQuranID)
-		{
-			$jsonp = $.support.cors ? '' : '.jsonp?callback=?';
-			$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' });
-
-			$.getJSON(url+$jsonp, function(response) {			
-				self._loadResponse(response, firstLoad);
+			bitrate = {'auto': 'mp3,ogg'};
+			$.each(media, function (id, mediaRow) {
+				if (bitrate[mediaRow.kbs])
+					bitrate[mediaRow.kbs] += ','+mediaRow.type;
+				else
+					bitrate[mediaRow.kbs] = mediaRow.type;
 			});
-		}
-		else
-		{
-			self.display(true);	
-			self.player.load('play');
-		}
-		
-		return false;
-	},
-	
-	_loadResponse: function (response, firstLoad)
-	{
-		if (typeof(response) == 'object')			
-			self.data = $.extend(true, self.data, response);
-		
-		if (self.search.isActive())
-		{
-			self.search.init();
-			self.search.loading(false);
-			if (self.search.totalRows() > 0)
-			{
-				for (var verseNo in response.search.quran)
-				{
-					self.search._positionStartVerse = verseNo;
-					break;
-				}
-			}			
-		}
-		
-		if (response.languageSelected)
-			self.settings.selectedLanguage = response.languageSelected;
-				
-		if (firstLoad) // first time loading the page
-		{
-			self.player.init(); // player
 			
-			if (!self.settings.selectedBy && typeof(response) == 'object')
-			{
-				for (var defaultQuranBy in response.quran) {
-					self.settings.selectedBy = defaultQuranBy;
-				}
-				
-				this._urlSave(); // cause defaultQuranBy set here
-			}
-
-			self.displayStartup((typeof(response) == 'object'));
-		}
-		else
+			return bitrate;
+		},
+		
+		selected: function ()
 		{
-			self.display((typeof(response) == 'object'));
-			self.player.load('play');
-		}
-	},
-	
-	displayStartup: function (success) {}, // replace this function with yours
-	display: function (success) {}, // replace this function with yours
+			return self.settings.selectedRecitor;
+		},
 		
-	verseParse: function (quranBy, text) {
-		return this._verse.parse(quranBy, text);
-	},
-	
-	_verse: {
+		selectedKbs: function (quranBy)
+		{
+			return self.settings.selectedRecitor[quranBy];
+		},
 		
-		parse: function (quranBy, text)
+		reset: function ()
+		{
+			self.settings.selectedRecitor = {};
+			self.save();
+		},
+		
+		length: function ()
+		{
+			if (!self.settings.selectedRecitor || typeof(self.settings.selectedRecitor) != 'object')
+				return 0;
+			
+			return Object.keys(self.settings.selectedRecitor).length;
+		},
+		
+		isSelected: function (quranBy)
+		{			
+			return self.settings.selectedRecitor[quranBy] ? true : false;
+		},
+		
+		add: function (quranBy, kbs)
 		{	
-			type = self.data.quranList[quranBy].type;
+			if (kbs)
+				self.settings.selectedLastRecitorBytes = kbs;
 			
-			if (type == 'quran' && /tajweed/.test(quranBy))
-				return this.parseTajweed(quranBy, text);
-			else if (type == 'quran' && /wordbyword/.test(quranBy))
-				return this.parseWordByWord(quranBy, text);
-			else if (type == 'quran' && /kids/.test(quranBy))
-				return this.parseKidsWordByWord(quranBy, text);
-			else if (type == 'quran')
-				return this.parseQuran(quranBy, text);
-			else
-				return this.parseTranslation(quranBy, text);
+			self.settings.selectedRecitor[quranBy] = kbs || 'auto';
+			self.save();
 		},
 		
-		parseQuran: function (quranBy, text)
+		remove: function (quranBy)
 		{
-			if (self.settings.showSigns)
-		    {
-		        text = this.pregReplace(' ([$HIGH_SALA-$HIGH_SEEN])', '<span class="sign">&nbsp;$1</span>', text);
-		        text = this.pregReplace('($SAJDAH)', self.settings.ignoreInternalSigns ? '' : '<span class="internal-sign">$1</span>', text);
-		        text = this.pregReplace('$RUB_EL_HIZB', self.settings.ignoreInternalSigns ? '' : '<span class="icon juz-sign"></span>', text);
-		    }
-		    else
-		    	text = this.pregReplace('[$HIGH_SALA-$RUB_EL_HIZB$SAJDAH]', '', text);
-		    
-		    if (!self.settings.showAlef)
-		    	text = this.pregReplace('$SUPERSCRIPT_ALEF', '', text);
-		    
-		    if (self.settings.font == 'me_quran')
-		    {
-		        text = this.addSpaceTatweel(text);
-		        text = this.pregReplace('($LAM$HARAKA*)$TATWEEL$HAMZA_ABOVE($HARAKA*$ALEF)', '$1$HAMZA$2', text);
-		    }
-		    else if (/uthmani/.test(quranBy))
-		    {
-		        text = this.removeExtraMeems(text);
-		    }
-		    
-		    text = this.addTatweel(text);
-		    text = this.pregReplace('$ALEF$MADDA', '$ALEF_WITH_MADDA_ABOVE', text);
-		    
-		    if (self.settings.font != 'me_quran')
-		    {
-		        text = this.pregReplace('($SHADDA)([$KASRA$KASRATAN])', '$2$1', text);
-		        text = this.pregReplace('($LAM$HARAKA*$LAM$HARAKA*)($HEH)', '$1$TATWEEL$2', text);
-		    }
-		    
-		    return text;
-		},
-		
-		parseWordByWord: function (quranBy, text)
-		{
-			var words = text.split('$');
-			var verse_html = '';
-			$.each(words, function(i, verse) {
-				if (verse)
-				{
-					var verse = verse.split('|');
-				    
-					if (self.settings.wbwDirection == 'english2arabic')
-					{
-						if (self.settings.wbwMouseOver)
-							verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
-						else
-							verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
-					}
-					else
-					{
-						if (self.settings.wbwMouseOver)
-							verse_html += '<span class="word"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
-						else
-							verse_html = '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
-					}
-				}
-			});
-			
-			return verse_html;
-		},
-		
-		parseKidsWordByWord: function (quranBy, text)
-		{
-			var words = text.split('$');
-			var verse_html = '';
-			var color = this._color;
-			$.each(words, function(i, verse) {
-				if (verse)
-				{
-					var verse = verse.split('|');
-				    
-					if (self.settings.wbwDirection == 'english2arabic')
-					{
-						if (self.settings.wbwMouseOver)
-							verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
-						else
-							verse_html += '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
-					}
-					else
-					{
-						if (self.settings.wbwMouseOver)
-							verse_html += '<span class="word wordColor'+color+'"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
-						else
-							verse_html = '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
-					}
-				}
-				
-				if (color == 10)
-					color = 1;
-				++color;
-			});
-			
-			this._color = color;
-			
-			return verse_html;
-		},
-		_color: 1,
-		
-		parseTajweed: function (quranBy, text)
-		{
-			return text.replace(/\[h/g, '<span class="ham_wasl" title="Hamzat Wasl" alt="').replace(/\[s/g, '<span class="slnt" title="Silent" alt="').replace(/\[l/g, '<span class="slnt" title="Lam Shamsiyyah" alt="').replace(/\[n/g, '<span class="madda_normal" title="Normal Prolongation: 2 Vowels" alt="').replace(/\[p/g, '<span class="madda_permissible" title="Permissible Prolongation: 2, 4, 6 Vowels" alt="').replace(/\[m/g, '<span class="madda_necessary" title="Necessary Prolongation: 6 Vowels" alt="').replace(/\[q/g, '<span class="qlq" title="Qalqalah" alt="').replace(/\[o/g, '<span class="madda_obligatory" title="Obligatory Prolongation: 4-5 Vowels" alt="').replace(/\[c/g, '<span class="ikhf_shfw" title="Ikhfa\' Shafawi - With Meem" alt="').replace(/\[f/g, '<span class="ikhf" title="Ikhfa\'" alt="').replace(/\[w/g, '<span class="idghm_shfw" title="Idgham Shafawi - With Meem" alt="').replace(/\[i/g, '<span class="iqlb" title="Iqlab" alt="').replace(/\[a/g, '<span class="idgh_ghn" title="Idgham - With Ghunnah" alt="').replace(/\[u/g, '<span class="idgh_w_ghn" title="Idgham - Without Ghunnah" alt="').replace(/\[d/g, '<span class="idgh_mus" title="Idgham - Mutajanisayn" alt="').replace(/\[b/g, '<span class="idgh_mus" title="Idgham - Mutaqaribayn" alt="').replace(/\[g/g, '<span class="ghn" title="Ghunnah: 2 Vowels" alt="').replace(/\[/g, '" >').replace(/\]/g, '</span>');
-		},
-		
-		parseTranslation: function (quranBy, text)
-		{
-			text = text.replace(/\]\]/g, '$').replace(/ *\[\[[^$]*\$/g, '');
-			return text;
-		},
-	
-		addSpaceTatweel: function (text)
-		{
-		    text = this.pregReplace('($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)', '$1$TATWEEL$2', text);
-		    text = this.pregReplace('([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)', '$1$ZWNJ$2', text);
-		    return text;
-		},
-		
-		addTatweel: function (text)
-		{
-		    text = this.pregReplace('($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)', '$1$TATWEEL$2', text);
-		    text = this.pregReplace('([$HAMZA$DAL-$ZAIN$WAW][$SHADDA$FATHA]*)$TATWEEL($SUPERSCRIPT_ALEF)', '$1$2', text);
-		    return text;
-		},
-		
-		removeExtraMeems: function (text)
-		{
-		    text = this.pregReplace('([$FATHATAN$DAMMATAN])$LOW_MEEM', '$1', text);
-		    text = this.pregReplace('($KASRATAN)$HIGH_MEEM', '$1', text);
-		    return text;
-		},
-		
-		highlight: function (pattern, str)
-		{
-		    pattern = new RegExp('(' + pattern + ')', 'g');
-		    str = str.replace(pattern, '◄$1►');
-		    str = str.replace(/◄\s/g, ' ◄').replace(/\s►/g, '► ');
-		    str = str.replace(/([^\s]*)◄/g, '◄$1').replace(/►([^\s]*)/g, '$1►');
-		    
-		    while (/◄[^\s]*◄/.test(str))
-		    	str = str.replace(/(◄[^\s]*)◄/g, '$1').replace(/►([^\s]*►)/g, '$1');
-		    
-		    str = str.replace(/◄/g, '<span class="highlight">').replace(/►/g, '</span>');
-		    return str;
-		},
-		
-		pregReplace: function (fromExp, toExp, str)
-		{
-		    fromExp = new RegExp(this.regTrans(fromExp), 'g');
-		    toExp = this.regTrans(toExp);
-		    return str.replace(fromExp, toExp);
-		},
-		
-		regTrans: function (str) {
-		    return str.replace(/\$([A-Z_]+)/g, function (s, i, ofs, all) {
-		        return Quran._data.UGroups[i] || Quran._data.UChars[i] || '';
-		    });
-		}
+			delete self.settings.selectedRecitor[quranBy];
+			self.save();
+		}		
 	},
 	
 	player: {
@@ -1096,7 +875,7 @@ var self = {
 				animate: true,
 				slide: function( event, ui ) {
 					self.player.volume(ui.value);
-					layout.volume(ui.value);
+					self.layout.volume(ui.value);
 				}
 			})
 			.find('.ui-slider-handle').addClass('icon');;
@@ -1163,7 +942,7 @@ var self = {
 			}
 		
 			if (self.settings.playing && !self.search.isActive()) // if playing, auto play
-				layout.play();
+				self.layout.play();
 		},
 		
 		_getPlayerID: function ()
@@ -1228,48 +1007,35 @@ var self = {
 		
 		_recitorReset: function ()
 		{
-			var recitorArray = self.settings.selectedRecitor.split('|');
+			if (!self.data.loaded)
+				return false; // need to load data first
 			
-			if (recitorArray['0'] == 'auto')
+			var recitorArray = self.recitor.selected();
+			
+			if (self.recitor.length() == 0)
 			{
-				selectedLanguage = {found: 0};
-				$.each(self.data.quranList, function(by, row) {
-					if (self.isQuranBySelected(by))
+				self.recitor.add('ar.alafasy');
+								
+				list = self.recitor.list();
+				$.each(list, function(by, row)
+				{
+					if (self.language.selected() != 'ar' && self.language.selected() == row.language_code)
 					{
-						selectedLanguage[row.language_code] = true;
-						selectedLanguage.found++; 
+						self.recitor.add(by);
+						return true;
 					}
 				});
 				
-				if (selectedLanguage.found == 0) // default selection
-					selectedLanguage['ar'] = true;
-				
-				recitorArray = [];
-				$.each(self.data.quranList, function(by, row) {		
-					if (selectedLanguage[row.language_code] === true && row.format == 'audio')
-					{
-						selectedLanguage[row.language_code] = false;
-						recitorArray[recitorArray.length] = by;
-					}						
-				});
-				
-				if (recitorArray.length == 0) // loop to get the arabic as default, when no recitor can be found
-				{
-					selectedLanguage['ar'] = true;
-					$.each(self.data.quranList, function(by, row) {		
-						if (selectedLanguage[row.language_code] === true && row.format == 'audio')
-						{
-							selectedLanguage[row.language_code] = false;
-							recitorArray[recitorArray.length] = by;
-						}						
-					});
-				}				
-			}
+				self.layout.recitorList();
+			}			
 			
 			// setting the recitor array
-			var recitor = {auz: true, position: 1, length: recitorArray.length};
+			var recitor = {auz: true, position: 1, length: self.recitor.length()};
 			
-			$.each(recitorArray, function(i, recitorName) {
+			recitorArray = self.recitor.selected();
+
+			i = 0;
+			$.each(recitorArray, function(recitorName, kbs) {
 				++i; // increment on start, because i starts with 0
 				recitorInfo = self.player._recitorInfo(recitorName);
 				recitor['row'+i] = recitorInfo;
@@ -1279,7 +1045,7 @@ var self = {
 				if (!recitorInfo.auz) // if one of the recitor dont have auz, then turn off completely.
 					recitor.auz = false;
 			});
-			
+
 			this._recitor = recitor;
 			this._currentPlayer = 0;
 		},
@@ -1295,7 +1061,7 @@ var self = {
 				};
 
 			row = self.data.quranList[recitorName];
-			kbs = self.settings.selectedRecitorBytes;
+			kbs = self.recitor.selectedKbs(recitorName);
 			
 			media = row.media;
 			media = media ? $.parseJSON(media) : {};
@@ -1453,7 +1219,7 @@ var self = {
 				if (verse == Quran.verseNo.ayah(self.surah(), self.ayah()) && verse >= 6236)
 				{
 					if (self.settings.playing && verse >= 6236)
-						layout.stop();
+						self.layout.stop();
 					return;
 				}
 				
@@ -1697,114 +1463,446 @@ var self = {
 		}
 	},
 	
-	_quranByNotCached: function ()
+	layout: {
+		displayStartup: function (success) {}, // replace this function with yours
+		display: function (success) {}, // replace this function with yours
+		volume: function (val) {},
+		play: function () {},
+		stop: function () {},
+		recitorList: function () {}
+	},
+	
+	font: {
+		setFamily: function (fontFamily)
+		{
+			self.settings.font = fontFamily;
+			self.save();
+		},
+		
+		setSize: function (size)
+		{
+			self.settings.fontSize = size;
+			self.save();
+		},
+		
+		getFamily: function (by)
+		{			
+			if (self.settings.font == 'auto' && self.quran.isSelected(by) && self.quran.detail(by).type == 'quran')
+			{
+				if (/mac/i.test(navigator.platform)) // isMac
+						return 'Scheherazade';
+				if (/uthmani/.test(by)) // isUthamani
+					return 'me_quran';
+				else if (/tajweed/.test(by)) // isTajweed
+					return '_PDMS_Saleem_QuranFont';
+				else
+					return 'KFGQPC Uthman Taha Naskh';
+			}
+			
+			return (self.settings.font != 'auto') ? self.settings.font : '';			
+		},
+		
+		getSize: function ()
+		{
+			return self.settings.fontSize;
+		}
+	},
+	
+	
+	
+	
+	setFullScreen: function (enable)
 	{
-		var notCached = [];
-		var selected = this.quranBy();
-		var selectedArray = selected.split('|');
-		var fromVerseNo = Quran.verseNo.page(this.settings.page);
-				
-		$.each(selectedArray, function(i, quranBy) {
+		this.settings.fullScreen = enable;
+		this.save();
+	},
+	
+	
+	juz: function (juz)
+	{		
+		if (juz)
+		{
+			juz = Quran._fixJuzNum(juz);
+			var verse = Quran.ayah.fromJuz(juz);
+			
+			if (this.page() != Quran.ayah.page(verse.surah, verse.ayah))
+			{
+				this.load(verse.surah, verse.ayah);
+				return false;
+			}
+		}
+		
+		return this.settings.juz;
+	},
+	
+	page: function (page)
+	{		
+		if (page)
+		{
+			page = Quran._fixPageNum(page);
+			var verse = Quran.ayah.fromPage(page);
+			
+			if (this.page() != Quran.ayah.page(verse.surah, verse.ayah))
+			{
+				this.load(verse.surah, verse.ayah);
+				return false;
+			}
+		}
+		
+		return this.settings.page;
+	},
+	
+	surah: function (surah)
+	{		
+		if (surah)
+		{
+			surah = Quran._fixSurahNum(surah);
+			var ayah = 1;
+			
+			if (this.page() != Quran.ayah.page(surah, ayah))
+			{
+				this.load(surah, ayah);
+				return false;
+			}
+			else
+			{
+				this.settings.surah = surah;
+				this.settings.ayah = 1;
+			}
+		}
+		
+		return this.settings.surah;
+	},
+	
+	ayah: function (surah, ayah)
+	{		
+		if (surah)
+		{
+			surah = Quran._fixSurahNum(surah);
+			ayah  = Quran._fixAyahNum(surah, ayah);
+			
+			if (this.page() != Quran.ayah.page(surah, ayah))
+			{
+				this.load(surah, ayah);
+				return false;
+			}
+			else
+			{
+				this.settings.surah = surah;
+				this.settings.ayah = ayah;
+				this.player.load('new');
+				this.save();
+			}
+		}
+		
+		return this.settings.ayah;
+	},
+	
+	verse: function (surah, ayah)
+	{
+		surah = surah ? Quran._fixSurahNum(surah) : this.settings.surah;
+		ayah  = ayah ? Quran._fixAyahNum(surah, ayah) : this.settings.ayah;
+	
+		return Quran.verseNo.ayah(surah, ayah);
+	},
+	
 
-			if (self.data.quran[quranBy])
-			{	
-				if (!self.data.quran[quranBy][fromVerseNo])
-					notCached.push(quranBy);		
-			}
-			else
-				notCached.push(quranBy);	
-		});
+	nextAyah: function ()
+	{
+		var verse = Quran.ayah.next(this.surah(), this.ayah());
 		
-		return notCached.join('|'); 
-	},
+		if (verse.surah == this.surah() && verse.ayah == this.ayah())
+			return verse; // ayah already exist on the page
 	
-	urlHashless: function ()
-	{
-	    var url = window.location.href;
-	    var hash = window.location.hash;
-	    var index_of_hash = url.indexOf(hash) || url.length;
-	    var hashless_url = url.substr(0, index_of_hash);
-	    return hashless_url;
-	},
-	
-	urlPage: function ()
-	{
-		if (this.search.isActive())
-			return '/search/'+this.data.search.query;
+		this.settings.surah = verse.surah;
+		this.settings.ayah = verse.ayah;
+				
+		if (this.ayah(verse.surah, verse.ayah))
+			return verse; // ayah already exist on the page
 		else
-			return '/'+this.settings.selectedBy+'/'+this.settings.page;
+			return false;	
 	},
 	
-	urlAyah: function ()
+	prevAyah: function ()
 	{
-		if (this.search.isActive())
-			return '/'+this.settings.surah+':'+this.settings.ayah;
+		var verse = Quran.ayah.prev(this.surah(), this.ayah());
+		
+		if (verse.surah == this.surah() && verse.ayah == this.ayah())
+			return verse; // ayah already exist on the page
+
+		this.settings.surah = verse.surah;
+		this.settings.ayah = verse.ayah;
+				
+		if (this.ayah(verse.surah, verse.ayah))
+			return verse; // ayah already exist on the page
 		else
-			return '/'+this.settings.selectedBy+'/'+this.settings.surah+':'+this.settings.ayah;
+			return false;
 	},
 	
-	urlRead: function (load)
+	nextPage: function ()
 	{
-		var hash = window.location.hash;
-		hash = hash.split('/');
-		var count = hash.length;
+		return this.page(this.page()+1);
+	},
+	
+	prevPage: function ()
+	{
+		return this.page(this.page()-1);
+	},
+	
+	nextSurah: function () {
+		return this.surah(this.surah()+1);
+	},
+	
+	prevSurah: function () {
+		return this.surah(this.surah()-1);
+	},
+	
+	ayahs: function () {	
+		return this.data.ayahList;
+	},
+	
+	save: function () {
+		this._cookieSave(); // save settings
+	},
+	
+	load: function (surah, ayah)
+	{
+		firstLoad = false;
+		notCachedQuranID = true;
 		
-		if (count > 2 && hash['1'] == 'search')
-		{
-			this.search._keyword = hash['2'];
-			this.search._position = 0;
-			
-			if (load)
-				this.load();
-		}
-		else if (count > 2 && this.settings.page != hash['2'])
-		{
-			this.settings.selectedBy = hash['1'];
-			verse = hash['2'].split(':');
-			
-			if (verse.length > 1)
-			{
-				this.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
-				this.settings.ayah = Quran._fixAyahNum(this.settings.surah, parseInt(verse['1']));
-			}
-			else
-			{
-				verse = Quran.ayah.fromPage(hash['2']);
-				this.settings.surah = verse.surah;
-				this.settings.ayah = verse.ayah;
-			}		
-			
-			this.player.reset();
+		if (surah && ayah)
+			this.search._keyword = false;
 		
-			if (load)
-				this.load(this.settings.surah, this.settings.ayah);
-		}
-		else if (/^[0-9]+:?[0-9]*$/.test(hash['1']))
+		if (!surah && !ayah && !this.search.isActive())
 		{
-			verse = hash['1'].split(':');
+			firstLoad = true;
+			this._cookieRead();
+			this.url.load();
+		}
+		
+		if (this.search.isActive())
+		{
+			this.search.loading(true);
+			requestUrl = this.apiURL;
 			
-			if (verse.length > 1)
+			if (firstLoad)
+				requestUrl += 'all/';
+			
+			requestUrl += 'search/'+this.search.keyword()+'/'+this.search.position();
+		}
+		else if (!surah && !ayah)
+		{			
+			this.settings.surah = this.settings.surah || 1;
+			this.settings.ayah = this.settings.ayah || 1;
+			this.settings.juz =  Quran.ayah.juz(this.settings.surah, this.settings.ayah);	
+			this.settings.page = Quran.ayah.page(this.settings.surah, this.settings.ayah);		
+			this.data.ayahList = Quran.ayah.listFromPage(this.settings.page);
+	
+			requestUrl = this.apiURL+'all/page/'+this.settings.page;
+
+			if (this.quran.length() > 0)// TODO add this.noData for getting no quran text from server.
+				requestUrl += '/'+this.quran.selectedString();
+			/*if (this.settings.selectedLanguage) // TODO language selection here
+				requestUrl += '/'+this.settings.selectedLanguage;*/
+		}//TODO add other methods too ex: search and language pack
+		else
+		{
+			this.settings.surah = surah;
+			this.settings.ayah = ayah;
+			this.settings.juz = Quran.ayah.juz(surah, ayah);
+			this.settings.page = Quran.ayah.page(surah, ayah);		
+			this.data.ayahList = Quran.ayah.listFromPage(this.settings.page);
+						
+			notCachedQuranID = this.quran.textNotCached();			
+			
+			requestUrl = this.apiURL+'page/'+this.settings.page+'/'+notCachedQuranID;
+			this.url.save();
+		}
+		
+		this.save();
+		this._gaqPush(['_trackPageview', '/#!'+this.url.page()]);
+		
+		if (this.noData && !firstLoad) // if no data need to be output, then run request only once
+			notCachedQuranID = false;
+
+		if (notCachedQuranID)
+		{
+			$jsonp = $.support.cors ? '' : '.jsonp?callback=?';
+			$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' });
+
+			$.getJSON(requestUrl+$jsonp, function(response) {			
+				self._loadResponse(response, firstLoad);
+			});
+		}
+		else
+		{
+			self.layout.display(true);	
+			self.player.load('play');
+		}
+		
+		return false;
+	},
+	
+	_loadResponse: function (response, firstLoad)
+	{
+		if (typeof(response) == 'object')			
+		{
+			self.data = $.extend(true, self.data, response);
+			self.data.loaded = true;
+		}
+		
+		if (self.search.isActive())
+		{
+			self.search.init();
+			self.search.loading(false);
+			if (self.search.totalRows() > 0)
 			{
-				this.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
-				this.settings.ayah = Quran._fixAyahNum(this.settings.surah, parseInt(verse['1']));
+				for (var verseNo in response.search.quran)
+				{
+					self.search._positionStartVerse = verseNo;
+					break;
+				}
+			}			
+		}
+		
+		if (response.languageSelected)
+			self.settings.selectedLanguage = response.languageSelected;
+				
+		if (firstLoad) // first time loading the page
+		{
+			self.player.init(); // player
+			
+			if (!self.quran.length == 0 && typeof(response) == 'object')
+			{
+				$.each(response.quran, function(defaultQuranBy, ignore) {
+					self.quran.add(defaultQuranBy);
+				});
+				
+				this.url.save(); // cause defaultQuranBy set here
 			}
-			else
-			{
-				verse = Quran.ayah.fromPage(hash['1']);
-				this.settings.surah = verse.surah;
-				this.settings.ayah = verse.ayah;
-			}		
-			
-			this.player.reset();
-console.log('#2 '+this.settings.surah+', '+this.settings.ayah);			
-			if (load)
-				this.load(this.settings.surah, this.settings.ayah);
+
+			self.layout.displayStartup((typeof(response) == 'object'));
+		}
+		else
+		{
+			self.layout.display((typeof(response) == 'object'));
+			self.player.load('play');
 		}
 	},
 	
-	_urlSave: function ()
-	{
-		window.location.hash = '#!'+this.urlPage();
+	url: {
+		
+		load: function ()
+		{
+			var hash = window.location.hash;
+			hash = hash.split('/');
+			var count = hash.length;
+			
+			if (count > 2 && hash['1'] == 'search')
+			{
+				self.search._keyword = hash['2'];
+				self.search._position = 0;
+				
+				return true;
+			}
+			else if (count > 2 && self.settings.page != hash['2'])
+			{
+				self.quran.reset();
+				selectedBy = hash['1'].split('|');
+				
+				$.each (selectedBy, function(i, quranBy)
+				{
+					self.quran.add(quranBy);
+				});
+				
+				verse = hash['2'].split(':');
+				
+				if (verse.length > 1)
+				{
+					self.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+					self.settings.ayah = Quran._fixAyahNum(self.settings.surah, parseInt(verse['1']));
+				}
+				else
+				{
+					verse = Quran.ayah.fromPage(hash['2']);
+					self.settings.surah = verse.surah;
+					self.settings.ayah = verse.ayah;
+				}		
+				
+				self.player.reset();
+			
+				return true;
+			}
+			else if (/^[0-9]+:?[0-9]*$/.test(hash['1']))
+			{
+				verse = hash['1'].split(':');
+				
+				if (verse.length > 1)
+				{
+					self.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+					self.settings.ayah = Quran._fixAyahNum(self.settings.surah, parseInt(verse['1']));
+				}
+				else
+				{
+					verse = Quran.ayah.fromPage(hash['1']);
+					self.settings.surah = verse.surah;
+					self.settings.ayah = verse.ayah;
+				}		
+				
+				self.player.reset();
+			
+				return true;
+			}
+			
+			return false;
+		},
+		
+		save: function ()
+		{
+			window.location.hash = '#!'+this.page();
+		},
+		
+		hashless: function ()
+		{
+		    var url = window.location.href;
+		    var hash = window.location.hash;
+		    var index_of_hash = url.indexOf(hash) || url.length;
+		    var hashless_url = url.substr(0, index_of_hash);
+		    return hashless_url;
+		},
+		
+		page: function (page)
+		{
+			if (self.search.isActive())
+				return '/search/'+self.data.search.query;
+			else
+			{
+				url = '/';
+				by = self.quran.selectedString();
+				if (by)
+					url += by+'/';
+				url += page || self.settings.page;
+				return url;
+			}
+		},
+		
+		ayah: function (surah, ayah)
+		{
+			if (self.search.isActive())
+				return '/'+self.settings.surah+':'+self.settings.ayah;
+			else
+			{
+				url = '/';
+				by = self.quran.selectedString();
+				if (by)
+					url += by+'/';
+				if (surah)
+					url += self.settings.surah+':'+self.settings.ayah;
+				else
+					url += surah+':'+ayah;
+				return url;
+			}
+		}
 	},
 	
 	_cookieRead: function ()
@@ -1823,7 +1921,9 @@ console.log('#2 '+this.settings.surah+', '+this.settings.ayah);
 	    }
 	    
 	    settings = $.parseJSON(settings);
-	    $.extend(true, this.settings, settings);	    
+	    $.extend(true, this.settings, settings);
+	    this.quran.init();
+	    this.recitor.init();
 	},
 	
 	_cookieSave: function (data)

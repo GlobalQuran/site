@@ -4,6 +4,10 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* CHANGED: major changes in QuranNavigator class
+* CHANGED: major changes in layout class
+* NEW: select arabic & native language recitation
+
 == Release v3.2.0
 
 * FIX: player start bug fix
