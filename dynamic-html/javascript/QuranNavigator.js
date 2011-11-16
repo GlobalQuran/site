@@ -1775,7 +1775,7 @@ var self = {
 		{
 			self.player.init(); // player
 			
-			if (!self.quran.length() == 0 && typeof(response) == 'object' && response.quran)
+			if (!self.quran.length() && typeof(response) == 'object' && response.quran)
 			{
 				$.each(response.quran, function(defaultQuranBy, ignore) {
 					self.quran.add(defaultQuranBy);
