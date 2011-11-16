@@ -438,7 +438,7 @@ var self = {
 		
 		init: function ()
 		{
-			if (typeof(self.settings.selectedSearchBy) == 'object' && Object.keys(self.settings.selectedSearchBy).length > 0)
+			if (self.settings.selectedSearchBy && typeof(self.settings.selectedSearchBy) == 'object' && Object.keys(self.settings.selectedSearchBy).length > 0)
 				return false;
 			
 			self.settings.selectedSearchBy = {};
@@ -1669,7 +1669,7 @@ var self = {
 	{
 		firstLoad = false;
 		notCachedQuranID = true;
-		
+
 		if (surah && ayah)
 			this.search._keyword = false;
 		
@@ -1689,6 +1689,9 @@ var self = {
 				requestUrl += 'all/';
 			
 			requestUrl += 'search/'+this.search.keyword()+'/'+this.search.position();
+			
+			if (this.search.position() == 0)
+				this.url.save();
 		}
 		else if (!surah && !ayah)
 		{			
@@ -1772,7 +1775,7 @@ var self = {
 		{
 			self.player.init(); // player
 			
-			if (!self.quran.length == 0 && typeof(response) == 'object')
+			if (!self.quran.length() == 0 && typeof(response) == 'object' && response.quran)
 			{
 				$.each(response.quran, function(defaultQuranBy, ignore) {
 					self.quran.add(defaultQuranBy);
@@ -1800,6 +1803,9 @@ var self = {
 			
 			if (count > 2 && hash['1'] == 'search')
 			{
+				if (self.search.keyword() == hash['2'] && self.search.position() == 0)
+					return false;
+				
 				self.search._keyword = hash['2'];
 				self.search._position = 0;
 				
@@ -1874,7 +1880,7 @@ var self = {
 		page: function (page)
 		{
 			if (self.search.isActive())
-				return '/search/'+self.data.search.query;
+				return '/search/'+self.search.keyword();
 			else
 			{
 				url = '/';

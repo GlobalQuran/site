@@ -36,7 +36,7 @@ var layout = {
 		$('#gqMain').show();
 		
 		if ($.browser.msie && $.browser.version < 8)
-			$('#progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //ie fix
+			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //ie fix
 		
 		$('#quranSideBar').hide();
 		$('#searchSideBar').hide();
@@ -271,6 +271,9 @@ var layout = {
 		if (QuranNavigator.search.position() == 0)
 			$(this.quranContent).html('');
 		
+		if ($('#search').val() == '' || $('#search').val() == $('#search').attr('placeholder'))
+			$('#search').val(QuranNavigator.search.keyword());
+		
 		$(layout.quranContent).removeClass('single').removeClass('book').addClass('list').addClass('search');
 		$('#playerNavBox').hide();
 		$('#searchInfoBox').show();		
@@ -369,7 +372,7 @@ var layout = {
 					
 					if (foundDiv)
 						 foundDiv += ' / ';
-					foundDiv += show ? '<a href="#" class="active tips" title="Hide Text" data-quranBy="'+quranBy+'">'+name+'</span>' : '<a href="#" class="tips" title="Show Text"  data-quranBy="'+quranBy+'">'+name+'</a>';
+					foundDiv += show ? '<a href="#" class="active tips" title="Hide Text" data-tips-dynamic="true" data-quranBy="'+quranBy+'">'+name+'</span>' : '<a href="#" class="tips" title="Show Text" data-tips-dynamic="true" data-quranBy="'+quranBy+'">'+name+'</a>';
 				});
 				
 				if (listCount > 1)
@@ -643,7 +646,7 @@ var layout = {
 	{
 		this.beforePlay();
 		$('.play, .pause').removeClass('play').addClass('pause');
-		$('#progressBar, #time, #bandwidthOption, #volume, #repeat').show();
+		$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show();
 		
 		if (!QuranNavigator.player.isPlaying())
 			QuranNavigator.player.play();
@@ -663,7 +666,7 @@ var layout = {
 	stop: function()
 	{
 		$('.play, .pause').removeClass('pause').addClass('play');
-		$('#progressBar, #time, #bandwidthOption, #volume, #repeat').hide();
+		$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide();
 		QuranNavigator.player.stop();
 	},
 	
@@ -1063,29 +1066,32 @@ var layout = {
 				ayah.hide();
 				QuranNavigator.search.removeQuranBy(quranBy);
 				$(this).removeClass('active');
+				$(this).attr('title', 'Show Text');
 			}
 			else
 			{
 				ayah.show();
 				QuranNavigator.search.addQuranBy(quranBy);
-				$(this).addClass('active');
+				$(this).addClass('active');				
+				$(this).attr('title', 'Hide Text');
 			}
 			
 			return false;
 		});
 		
 		// search extra found rows hide/show all.
-		$('.foundin > .showAll, .foundin > .hideAll').live('click', function() {
+		$('.foundin > .showAll, .foundin > .hideAll').live('click', function()
+		{
 			if ($(this).hasClass('showAll'))
 			{
 				$(this).parents('.group').find('p').show();
-				$(this).parents('.group').find('.foundin > a').addClass('active');
+				$(this).parents('.group').find('.foundin > a').addClass('active').attr('title', 'Hide Text');
 				$(this).replaceWith('<a href="#" class="hideAll">hide all</a>');
 			}
 			else
 			{
 				$(this).parents('.group').find('p').hide();
-				$(this).parents('.group').find('.foundin > a').removeClass('active');
+				$(this).parents('.group').find('.foundin > a').removeClass('active').attr('title', 'Show Text');;
 				$(this).replaceWith('<a href="#" class="showAll">show all</a>');
 			}
 			
@@ -1095,6 +1101,12 @@ var layout = {
 		$('a[data-quranid]').live('click', function()
 		{	
 			layout._autoScroll = false;
+			
+			if ($(this).attr('data-lang'))
+			{
+				$('#languageSearch').val($(this).text()).trigger('keyup').removeClass('placeholder');
+				return false;
+			}
 			
 			if ($(this).hasClass('active'))
 			{
@@ -1111,11 +1123,8 @@ var layout = {
 				QuranNavigator._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
 			}
 			
-			if ($(this).attr('data-lang'))
-			{
-				$('#languageSearch').val($(this).text()).trigger('keyup').removeClass('placeholder');;
-				return false;
-			}
+			if ($('#languageSearch').val() != '')
+				$('#languageSearch').val('').trigger('keyup');
 						
 			return false;
 		});
