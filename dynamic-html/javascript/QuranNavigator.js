@@ -698,7 +698,7 @@ var self = {
 			this.setup();
 		},
 		
-		setup: function ()
+		setup: function (remake)
 		{
 			settings = {
 				swfPath: this.swfPath,
@@ -726,11 +726,17 @@ var self = {
 				  height: "0px",
 				  cssClass: ""
 				},
-				ready: function (event) {
-					self.player.load('new'); // already getting load from recitation change
+				ready: function (event)
+				{
+					if (remake)
+						self.player.next();
+					else
+						self.player.load('new'); // already getting load from recitation change
 				},				
 				ended: function (event)
 				{
+					//self.player.destroy();
+					//self.player.setup(true);
 					if (self.settings.audioDelay && (self.settings.audioDelay > 0 || self.settings.audioDelay != false))
 					{
 						var delay = (self.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : self.settings.audioDelay;
@@ -846,39 +852,42 @@ var self = {
 				$(this.id2).jPlayer(settings);
 			}
 			
-			$( ".progressBar" ).slider({
-				range: "min",
-				min: 0,
-				max: 100,
-				animate: true,
-				slide: function( event, ui ) {
-					self.player.seek(ui.value);
-				}
-			})
-			.bind('mousemove', function(e) {
-				var offset = $(this).offset();
-				var x = e.pageX - offset.left;
-				var w =  $(this).width();
-				var percent = 100*x/w;
-				var duration = self.player.duration();
-				var time = percent * duration / 100;
-				$('.progressBar').attr('title', $.jPlayer.convertTime(time));
-			})
-			.find('.ui-slider-handle').addClass('icon');
-			
-			$( ".volumeBar" ).slider({
-				orientation: "vertical",
-				range: "min",
-				min: 0,
-				max: 100,
-				value: self.settings.volume,
-				animate: true,
-				slide: function( event, ui ) {
-					self.player.volume(ui.value);
-					self.layout.volume(ui.value);
-				}
-			})
-			.find('.ui-slider-handle').addClass('icon');;
+			if (!remake)
+			{
+				$( ".progressBar" ).slider({
+					range: "min",
+					min: 0,
+					max: 100,
+					animate: true,
+					slide: function( event, ui ) {
+						self.player.seek(ui.value);
+					}
+				})
+				.bind('mousemove', function(e) {
+					var offset = $(this).offset();
+					var x = e.pageX - offset.left;
+					var w =  $(this).width();
+					var percent = 100*x/w;
+					var duration = self.player.duration();
+					var time = percent * duration / 100;
+					$('.progressBar').attr('title', $.jPlayer.convertTime(time));
+				})
+				.find('.ui-slider-handle').addClass('icon');
+				
+				$( ".volumeBar" ).slider({
+					orientation: "vertical",
+					range: "min",
+					min: 0,
+					max: 100,
+					value: self.settings.volume,
+					animate: true,
+					slide: function( event, ui ) {
+						self.player.volume(ui.value);
+						self.layout.volume(ui.value);
+					}
+				})
+				.find('.ui-slider-handle').addClass('icon');
+			}
 			
 			$.jPlayer.timeFormat.padMin = false;
 		},
@@ -1460,6 +1469,19 @@ var self = {
 		{
 			var playerID = playerID || this._getPlayerID();
 			return $(playerID).data("jPlayer");
+		},
+		
+		destroy: function (playerID)
+		{
+			if (playerID)			
+				$(playerID).jPlayer("destroy").remove();
+			else
+			{
+				if ($(this.id).length)
+					$(this.id).jPlayer("destroy").remove();
+				if ($(this.id2).length)
+					$(this.id2).jPlayer("destroy").remove();
+			}
 		}
 	},
 	
