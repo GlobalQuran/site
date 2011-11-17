@@ -1375,7 +1375,19 @@ noscript p {
 		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
 		*display: inline;
 	}
-	.word:hover {
+	.staticWord {
+		padding: .2em 1em .2em 1em;
+	}
+	.staticWord .ltr, .staticWord .rtl {
+		text-align: center;
+	}
+	.staticWord:hover {
+		background-color:#FFF9EF;	
+	}
+	.word .top {
+		display:block;
+	}
+	.word .tipsWord:hover {
 		color: #3B5998;
 		text-decoration:overline;
 	}

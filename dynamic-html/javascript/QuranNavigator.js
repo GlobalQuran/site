@@ -316,14 +316,14 @@ var self = {
 							if (self.settings.wbwMouseOver)
 								verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
-								verse_html += '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
+								verse_html = '<span class="word staticWord"><span class="en top ltr" dir="ltr">'+verse[1]+'</span><span class="ar rtl" dir="rtl">'+verse[0]+'</span></span>'+verse_html;
 						}
 						else
 						{
 							if (self.settings.wbwMouseOver)
 								verse_html += '<span class="word"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
-								verse_html = '<span class="word"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+								verse_html += '<span class="word staticWord"><span class="ar top rtl" dir="rtl">'+verse[0]+'</span><span class="en ltr" dir="ltr">'+verse[1]+'</span></span>'; 
 						}
 					}
 				});
@@ -1805,7 +1805,7 @@ var self = {
 				
 				this.url.save(); // cause defaultQuranBy set here
 			}
-
+this.settings.wbwMouseOver = false; // TODO remove this line
 			self.layout.displayStartup((typeof(response) == 'object'));
 		}
 		else
