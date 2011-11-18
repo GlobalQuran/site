@@ -155,6 +155,7 @@ var layout = {
 		
 		$.each(quranArray, function(quranBy, text)
 		{
+			quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids' && QuranNavigator.quran.detail(quranBy).type == 'quran') ?  'quranText' : '';
 			fontFamily = (QuranNavigator.quran.detail(quranBy).type == 'quran') ?  "style=\"font-family: '"+QuranNavigator.font.getFamily(quranBy)+"';\"" : '';
 			direction = (QuranNavigator.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
 			head += '<div class="ayahs '+direction+'" dir="'+direction+'">';
@@ -172,7 +173,7 @@ var layout = {
 					lastSurahTitle = val.surah;
 				}
 				
-				body += '<p class="ayah quranText '+val.surah+'-'+val.ayah+'" '+fontFamily+'>'+layout.verseParse(quranBy, val.verse)+'<a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+				body += '<p class="ayah '+quranClass+' '+val.surah+'-'+val.ayah+'" '+fontFamily+'>'+layout.verseParse(quranBy, val.verse)+'<a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
 			});
 			body += '</div>';
 		});
@@ -236,7 +237,8 @@ var layout = {
 						name = by.english_name;
 					direction = (QuranNavigator.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
 					fontFamily = "style=\"font-family: '"+QuranNavigator.font.getFamily(quranBy)+"';\"";
-					body += '<p class="ayah quranText '+direction+'" dir="'+direction+'" '+fontFamily+'>'+layout.verseParse(quranBy, val.verse)+'</p>';
+					quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids') ?  'quranText' : '';
+					body += '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+fontFamily+'>'+layout.verseParse(quranBy, val.verse)+'</p>';
 					//<a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> 
 				}
 				
@@ -255,7 +257,7 @@ var layout = {
 				}				
 			});
 			
-			body += '</div>'; // closing group
+			body += '</div><div class="hr"><hr /></div>'; // closing group
 		});
 		body += '</div>'; // closing ayah
 		
@@ -362,13 +364,14 @@ var layout = {
 						name = by.english_name;
 					direction = (QuranNavigator.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
 					fontFamily = "font-family: '"+QuranNavigator.font.getFamily(quranBy)+"';";
+					quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids' && by.type == 'quran') ?  'quranText' : '';
 					showStyle = show ? '' : 'display:none;';
 					style = 'style="'+fontFamily+showStyle+'"';
 					
 					if (by.type == 'quran')
-						p = '<p class="ayah quranText '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, list[quranBy])+'</p>'+p;
+						p = '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, list[quranBy])+'</p>'+p;
 					else
-						p += '<p class="ayah quranText '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, list[quranBy])+'</p>';
+						p += '<p class="ayah '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, list[quranBy])+'</p>';
 					
 					if (foundDiv)
 						 foundDiv += ' / ';
@@ -385,7 +388,7 @@ var layout = {
 					p += '<div class="foundin"><b>Found in:</b> '+foundDiv+'</div>';
 				}				
 				
-				body += p+'</div>'; // closing group
+				body += p+'</div><div class="hr"><hr /></div>'; // closing group
 			});
 			body += '</div>'; // closing ayah
 			
@@ -736,6 +739,7 @@ var layout = {
 		$('#showSigns').attr('checked', QuranNavigator.settings.showSigns);
 		$('#showAlef').attr('checked', QuranNavigator.settings.showAlef);
 		$('#quranFont').val(QuranNavigator.settings.font);
+		$('#wbwMouseOver').attr('checked', QuranNavigator.settings.wbwMouseOver);
 	},
 	
 	fullScreen: function (enable)
@@ -1039,10 +1043,11 @@ var layout = {
 			QuranNavigator.player.audioDelay($(this).val());
 		});
 		
-		$('#showSigns, #showAlef').live('click', function()
+		$('#showSigns, #showAlef, #wbwMouseOver').live('click', function()
 		{
 			QuranNavigator.settings.showAlef = $('#showAlef').is(':checked');
 			QuranNavigator.settings.showSigns = $('#showSigns').is(':checked');
+			QuranNavigator.settings.wbwMouseOver = $('#wbwMouseOver').is(':checked');
 			QuranNavigator.load(QuranNavigator.surah(), QuranNavigator.ayah());
 		});
 		

@@ -1239,16 +1239,17 @@ noscript p {
 			font-size:110%;
 		}
 		#gqContent .medium .quranText {
-			font-size:125%;
+			font-size:130%;
+			font-weight: bold;
 		}
 		#gqContent .large .quranText  {
-			font-size:130%;	
+			font-size:135%;	
 		}
 		#gqContent .larger .quranText  {
-			font-size:135%;
+			font-size:140%;
 		}
 		#gqContent .larger-x .quranText  {
-			font-size:140%;
+			font-size:145%;
 		}
 		#gqContent .larger-xx .quranText  {
 			font-size:150%;
@@ -1376,16 +1377,21 @@ noscript p {
 		*display: inline;
 	}
 	.staticWord {
-		padding: .2em 1em .2em 1em;
+		padding: .2em .3em .2em .3em;
 	}
-	.staticWord .ltr, .staticWord .rtl {
+	.staticWord .first, .staticWord .second {
 		text-align: center;
 	}
 	.staticWord:hover {
 		background-color:#FFF9EF;	
 	}
-	.word .top {
+	.word .first {
 		display:block;
+		padding-top: .2em;
+		padding-bottom: .2em;
+	}
+	.word .second {
+		display: block;	
 	}
 	.word .tipsWord:hover {
 		color: #3B5998;
@@ -1742,6 +1748,15 @@ noscript p {
 		height:22px;
 		background-position:-80px -160px;
 	}
+div.hr {
+	width: 80%;
+	margin:auto;
+	background: transparent url(../hr-line.png) no-repeat scroll center; height: 8px;
+	-background-image:url(../hr-line-8.png); /* ie6 fix */
+}
+div.hr hr {
+	*display: none;
+}
 
 
 /* button ---------------------------------------------- */

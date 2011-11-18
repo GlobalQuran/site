@@ -24,8 +24,8 @@ var self = {
 	settings: {
 		ayah: 1,
 		surah: 1,
-		page: 1,
-		juz: 1,
+		page: 0,
+		juz: 0,
 		selectedBy: null,
 		selectedLanguage: null,
 		selectedSearchBy: null,		
@@ -45,7 +45,7 @@ var self = {
 		ignoreInternalSigns: false,
 		
 		wbwDirection: 'arabic2english', // if change, then it will be english2arabic
-		wbwMouseOver: true,
+		wbwMouseOver: false,
 		
 		font: 'auto',
 		fontSize: 'medium',
@@ -316,14 +316,14 @@ var self = {
 							if (self.settings.wbwMouseOver)
 								verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
-								verse_html = '<span class="word staticWord"><span class="en top ltr" dir="ltr">'+verse[1]+'</span><span class="ar rtl" dir="rtl">'+verse[0]+'</span></span>'+verse_html;
+								verse_html += '<span class="word staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quranText second rtl" dir="rtl">'+verse[0]+'</span></span>';
 						}
 						else
 						{
 							if (self.settings.wbwMouseOver)
-								verse_html += '<span class="word"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word"><span class="ar quranText tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
-								verse_html += '<span class="word staticWord"><span class="ar top rtl" dir="rtl">'+verse[0]+'</span><span class="en ltr" dir="ltr">'+verse[1]+'</span></span>'; 
+								verse_html += '<span class="word staticWord"><span class="ar quranText top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
 						}
 					}
 				});
@@ -346,14 +346,14 @@ var self = {
 							if (self.settings.wbwMouseOver)
 								verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
-								verse_html += '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quranText second rtl" dir="rtl">'+verse[0]+'</span></span>';
 						}
 						else
 						{
 							if (self.settings.wbwMouseOver)
-								verse_html += '<span class="word wordColor'+color+'"><span class="ar tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word wordColor'+color+'"><span class="ar quranText tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
-								verse_html = '<span class="word wordColor'+color+'"><span class="en">'+verse[1]+'</span><span class="ar">'+verse[0]+'</span></span>'+verse_html; 
+								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="ar quranText top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
 						}
 					}
 					
@@ -1539,7 +1539,6 @@ var self = {
 		this.save();
 	},
 	
-	
 	juz: function (juz)
 	{		
 		if (juz)
@@ -1716,7 +1715,10 @@ var self = {
 				this.url.save();
 		}
 		else if (!surah && !ayah)
-		{			
+		{	
+			this.settings.page = 0; // url wont load, if its same as url page 1=1
+			this.url.load();
+			
 			this.settings.surah = this.settings.surah || 1;
 			this.settings.ayah = this.settings.ayah || 1;
 			this.settings.juz =  Quran.ayah.juz(this.settings.surah, this.settings.ayah);	
@@ -1805,7 +1807,7 @@ var self = {
 				
 				this.url.save(); // cause defaultQuranBy set here
 			}
-this.settings.wbwMouseOver = false; // TODO remove this line
+
 			self.layout.displayStartup((typeof(response) == 'object'));
 		}
 		else
@@ -1822,7 +1824,7 @@ this.settings.wbwMouseOver = false; // TODO remove this line
 			var hash = window.location.hash;
 			hash = hash.split('/');
 			var count = hash.length;
-			
+
 			if (count > 2 && hash['1'] == 'search')
 			{
 				if (self.search.keyword() == hash['2'] && self.search.position() == 0)
@@ -1837,7 +1839,7 @@ this.settings.wbwMouseOver = false; // TODO remove this line
 			{
 				self.quran.reset();
 				selectedBy = hash['1'].split('|');
-				
+		
 				$.each (selectedBy, function(i, quranBy)
 				{
 					self.quran.add(quranBy);
