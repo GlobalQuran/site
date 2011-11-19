@@ -1312,10 +1312,10 @@ noscript p {
 		display:inline;
 		line-height: 1.5em;		
 	}
-	.single .ayahs {
+	.single .ayahs, .book .ayahs {
 		padding: .5em .2em .5em .3em;	
 	}
-	.book .ayahs {
+	.book .colume {
 		width: 49%;
 		float: right;
 		margin-left: 4px;
@@ -1329,18 +1329,18 @@ noscript p {
 		padding: 4px;
 	}
 	.ltr .group .ayah {
-		margin-right: 90px;
+		margin-left: 90px;
 	}
 	.rtl .group .ayah {
-		margin-left:90px;
+		margin-right:90px;
 	}
 	.ltr .ayahs .group .ayahNumber {
-		float: right;
+		float: left;
 		color:#999;
 		font-weight: bold;
 	}
 	.rtl .ayahs .group .ayahNumber {
-		float: left;
+		float: right;
 		color:#999;
 		font-weight: bold;
 	}

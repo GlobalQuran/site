@@ -123,6 +123,8 @@ var layout = {
 			this.searchView();
 		else if (QuranNavigator.quran.length() == 1)
 			this.singleView(QuranNavigator.quran.text());
+		else if (QuranNavigator.quran.length() == 2 && QuranNavigator.settings.view == 'book')
+			this.bookView(QuranNavigator.quran.text());
 		else
 			this.listView(QuranNavigator.quran.text());
 		
@@ -141,6 +143,12 @@ var layout = {
 		{
 			$('.tajweedQuickHelp').addClass('hide');
 		}
+		
+		// book view button
+		if (QuranNavigator.quran.length() == 2)
+			$('.book').show();
+		else
+			$('.book').hide();
 		
 		this._autoScroll = true;
 		this.afterDisplay();
@@ -185,6 +193,100 @@ var layout = {
 		});
 		
 		$(this.quranContent).append(head+body);
+	},
+	
+	bookView: function (quranArray)
+	{
+		$(this.quranContent).html('');
+		$(layout.quranContent).removeClass('list').removeClass('single').removeClass('search').addClass('book');
+		$('#playerNavBox').show();
+		$('#searchInfoBox').hide();
+		$('#quranSideBar').show();
+		$('#searchSideBar').hide();
+		
+		$('a.book').addClass('active');
+		
+		var colume = '';
+		var head = '';
+		var body = '';
+		var lastSurahTitle = '';
+		
+		// loop this for putting quran on right
+		$.each(quranArray, function(quranBy, text)
+		{
+			body = '';
+			lastSurahTitle = '';
+			
+			if (QuranNavigator.quran.detail(quranBy).type != 'quran')
+				return true;
+			
+			colume += '<div class="colume">';
+			
+			quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids' && QuranNavigator.quran.detail(quranBy).type == 'quran') ?  'quranText' : '';
+			fontFamily = (QuranNavigator.quran.detail(quranBy).type == 'quran') ?  "style=\"font-family: '"+QuranNavigator.font.getFamily(quranBy)+"';\"" : '';
+			direction = (QuranNavigator.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
+			head = '<div class="ayahs '+direction+'" dir="'+direction+'">';
+			
+			$.each(text, function(verseNo, val)
+			{
+				if (val.ayah == 1 && lastSurahTitle != val.surah)
+				{	
+					if (body)
+					{
+						colume += head+body+'</div><div class="hr"><hr /></div>';
+						body = '';
+					}
+					
+					colume += layout.getSurahTitle(val.surah, val.ayah);
+					lastSurahTitle = val.surah;
+				}
+				
+				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val.verse)+'</span> <a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+			});
+			
+			body += '</div><div class="hr"><hr /></div>';
+			colume += head+body+'</div>';
+		});
+		
+		
+		// loop again to put translation on left
+		$.each(quranArray, function(quranBy, text)
+		{
+			body = '';
+			lastSurahTitle = '';
+			
+			if (QuranNavigator.quran.detail(quranBy).type == 'quran')
+				return true;
+			
+			colume += '<div class="colume">';
+			
+			quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids' && QuranNavigator.quran.detail(quranBy).type == 'quran') ?  'quranText' : '';
+			fontFamily = (QuranNavigator.quran.detail(quranBy).type == 'quran') ?  "style=\"font-family: '"+QuranNavigator.font.getFamily(quranBy)+"';\"" : '';
+			direction = (QuranNavigator.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
+			head = '<div class="ayahs '+direction+'" dir="'+direction+'">';
+			
+			$.each(text, function(verseNo, val)
+			{
+				if (val.ayah == 1 && lastSurahTitle != val.surah)
+				{	
+					if (body)
+					{
+						colume += head+body+'</div><div class="hr"><hr /></div>';
+						body = '';
+					}
+					
+					colume += layout.getSurahTitle(val.surah, val.ayah);
+					lastSurahTitle = val.surah;
+				}
+				
+				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val.verse)+'</span> <a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+			});
+			
+			body += '</div><div class="hr"><hr /></div>';
+			colume += head+body+'</div>';
+		});
+		
+		$(this.quranContent).append(colume);
 	},
 	
 	listView: function (quranArray)
@@ -269,8 +371,6 @@ var layout = {
 		
 		$(this.quranContent).append(head+body);
 	},
-	
-	bookView: function (quranArray) {}, //TODO
 	
 	searchView: function ()
 	{
@@ -1075,6 +1175,24 @@ var layout = {
 		$('#searchForm').submit(function() {
 			$('body').trigger('search', [$('#search').val()]);
 			return false;
+		});
+		
+		$('a.book').live('click', function()
+		{
+			if ($(this).hasClass('active'))
+			{
+				$(this).removeClass('active');
+				QuranNavigator.settings.view = '';
+				layout.fullScreen(false);
+			}
+			else
+			{
+				$(this).addClass('active');
+				QuranNavigator.settings.view = 'book';
+				layout.fullScreen(true);
+			}
+			
+			QuranNavigator.quran.load();
 		});
 		
 		// search extra found rows hide/show
