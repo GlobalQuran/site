@@ -896,7 +896,7 @@ var self = {
 		
 		isOS: function ()
 		{
-			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent) || $.browser.mac())
+			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
 				return true;
 			else
 				return false;
