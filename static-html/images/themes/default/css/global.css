@@ -1302,15 +1302,18 @@ noscript p {
 		text-align:right;
 	}
 	.ayahs .ayah:hover, .ayahs .group:hover, .ayahs .mouseOver {
-		background-color: #ffffcc;	
+		background-color: #ffffee;	
 	}
 	.ayahs .selected, .ayahs .selected:hover {
-		background-color: #f1f6ff;
+		background-color: #f9fbff;
 	}
 	.single .ayah, .book .ayah {
 		text-align:justify;
 		display:inline;
 		line-height: 1.5em;		
+	}
+	.single .ayahs {
+		padding: .5em .2em .5em .3em;	
 	}
 	.book .ayahs {
 		width: 49%;
@@ -1319,11 +1322,11 @@ noscript p {
 		margin-right: 4px;
 	}
 	.group {
-		margin-bottom:.5em;
 		padding: .5em .2em .5em .3em;
 	}
 	.group .ayah {
 		margin-bottom: 12px;
+		padding: 4px;
 	}
 	.ltr .group .ayah {
 		margin-right: 90px;
@@ -1334,10 +1337,12 @@ noscript p {
 	.ltr .ayahs .group .ayahNumber {
 		float: right;
 		color:#999;
+		font-weight: bold;
 	}
 	.rtl .ayahs .group .ayahNumber {
 		float: left;
 		color:#999;
+		font-weight: bold;
 	}
 	.ltr .ltr .foundin, .ltr .rtl .foundin, .foundin {
 		text-align:left;
@@ -1362,15 +1367,16 @@ noscript p {
 			font-weight: bold;
 		}
 	a.quranID {
+		width: 100px;
 		display:block;
 		font-size:70%;
 		line-height:normal;
 		color:#6699cc;
+		white-space: nowrap;
 	}
 	.word {
 		margin-left: 8px;
 		margin-right: 8px;
-		cursor:help;
 		display:-moz-inline-stack;
 		display:inline-block;
 		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
@@ -1383,7 +1389,7 @@ noscript p {
 		text-align: center;
 	}
 	.staticWord:hover {
-		background-color:#FFF9EF;	
+		background-color:#ffffee;
 	}
 	.word .first {
 		display:block;
@@ -1394,6 +1400,7 @@ noscript p {
 		display: block;	
 	}
 	.word .tipsWord:hover {
+		cursor:help;
 		color: #3B5998;
 		text-decoration:overline;
 	}
@@ -1750,11 +1757,14 @@ noscript p {
 	}
 div.hr {
 	width: 80%;
+	height: 8px;
 	margin:auto;
-	background: transparent url(../hr-line.png) no-repeat scroll center; height: 8px;
+	margin-bottom:-7px;
+	background: transparent url(../hr-line.png) no-repeat scroll center;
 	-background-image:url(../hr-line-8.png); /* ie6 fix */
 }
 div.hr hr {
+	margin:0px;
 	*display: none;
 }
 

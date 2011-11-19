@@ -4,6 +4,7 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* FIX: quranText css class fixed for single view
 * FIX: iphone, ipod, ipad and mac player bug - now audio can be played properly in them. (audio delay is not supported)
 * FIX: loading... bug
 * FIX: multi-selection on translation text 
@@ -11,8 +12,9 @@ To download stable release, please use "switch tags" button and point to the lat
 * CHANGED: major changes in layout javascript class
 * NEW: select arabic & native language recitation
 * NEW: select arabic & native language Quran text as default 
-* NEW: added hr in list and search view
+* NEW: added hr in single, list and search view
 * NEW: word by word mouse over or static word by word feature added
+* NEW: error function added & layout.message added
 
 == Release v3.2.0
 
