@@ -135,7 +135,7 @@ var layout = {
 			$('.tajweedQuickHelp').removeClass('hide');
 			
 			if (!$.browser.mozilla)
-				$('#messageBox').html('<span class="error">Tajweed fonts best displayed in <a href="http://FireFox.com">FireFox</a> browser.</span> <a href="#" class="icon close tips">close</a>').show();
+				this.message('error', 'Tajweed fonts best displayed in <a href="http://FireFox.com">FireFox</a> browser.');
 		}
 		else if (!$('.tajweedQuickHelp').hasClass('hide'))
 		{
@@ -171,7 +171,7 @@ var layout = {
 				{	
 					if (body)
 					{
-						$(layout.quranContent).append(head+body+'</div>');
+						$(layout.quranContent).append(head+body+'</div><div class="hr"><hr /></div>');
 						body = '';
 					}
 					
@@ -179,9 +179,9 @@ var layout = {
 					lastSurahTitle = val.surah;
 				}
 				
-				body += '<p class="ayah '+quranClass+' '+val.surah+'-'+val.ayah+'" '+fontFamily+'>'+layout.verseParse(quranBy, val.verse)+'<a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val.verse)+'</span> <a href="'+QuranNavigator.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
 			});
-			body += '</div>';
+			body += '</div><div class="hr"><hr /></div>';
 		});
 		
 		$(this.quranContent).append(head+body);
@@ -445,6 +445,8 @@ var layout = {
 		
 		if (surah != 1 && surah != 9)
 			html += '<a href="'+QuranNavigator.url.hashless()+'#!'+QuranNavigator.url.ayah(1, 1)+'" data-verse="1" class="icon bismillah tips">In the name of Allah, Most Gracious, Most Merciful</a>';
+		
+		html += '<div class="hr"><hr /></div>';
 		
 		return html;
 	},
@@ -907,6 +909,11 @@ var layout = {
 	verseParse: function (quranBy, text) {
 		return QuranNavigator.quran.parse.load(quranBy, text);
 	},	
+	
+	message: function (type, message)
+	{
+		$('#messageBox').html('<span class="'+type+'">'+message+'</span> <a href="#" class="icon close tips">close</a>').show();
+	},
 	
 	binds: function ()
 	{	
@@ -1704,20 +1711,11 @@ jQuery.fn.extend({
 		});
 	}
 });	
-/*
-var contentHeight = contentWrapper.outerHeight(true);
-var scrollableHeight = scrollable.outerHeight();
-var targetTop = target.offset().top;
-var offset = targetTop;
 
-if ((contentHeight - targetTop) < scrollableHeight)
-{
-	// scrollbar will reach the bottom before the scrollTop will reach the target top
-	offset = contentHeight - scrollableHeight;
-}
-*/
 $.ajaxSetup({"error":function(XMLHttpRequest,textStatus, errorThrown) {   
     //alert(textStatus);
     //alert(errorThrown);
-    alert(XMLHttpRequest.responseText);
+    //alert(XMLHttpRequest.responseText);
+	layout.message('error', 'Oopss!!!, Something went wrong. please refresh your browser or try again.');
+	QuranNavigator._gaqPush(['_trackEvent', 'Error', 'Oopss!!!, Something went wrong.']);
 }});
