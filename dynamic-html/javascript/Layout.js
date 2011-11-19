@@ -38,6 +38,9 @@ var layout = {
 		if ($.browser.msie && $.browser.version < 8)
 			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //ie fix
 		
+		if (QuranNavigator.player.isOS())
+			$('#volume, #time > .sep, .totalTime, .audioDelay').hide();
+		
 		$('#quranSideBar').hide();
 		$('#searchSideBar').hide();
 				
@@ -650,6 +653,9 @@ var layout = {
 		this.beforePlay();
 		$('.play, .pause').removeClass('play').addClass('pause');
 		$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show();
+		
+		if (QuranNavigator.player.isOS())
+			$('#volume').hide();
 		
 		if (!QuranNavigator.player.isPlaying())
 			QuranNavigator.player.play();

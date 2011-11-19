@@ -682,6 +682,7 @@ var self = {
 		_recitor: {},
 		_currentPlayer: 0,
 		_i: 0, // repeat counter
+		_iBug: 0, // for OS bug, triggers pause two times, need second trigger and ignore first
 		_delayID: '',
 				
 		init: function () 
@@ -689,7 +690,7 @@ var self = {
 			if (this.off)
 				return; // player is off
 			
-			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
+			if (this.isOS()) // pre-settings for iphone/ipod/ipad/mac
 			{
 				self.settings.playing = false; // cant auto play in iphone
 				self.player.preload = -1;  // cant load two instance in iphone
@@ -698,7 +699,7 @@ var self = {
 			this.setup();
 		},
 		
-		setup: function (remake)
+		setup: function ()
 		{
 			settings = {
 				swfPath: this.swfPath,
@@ -728,25 +729,23 @@ var self = {
 				},
 				ready: function (event)
 				{
-					if (remake)
-						self.player.next();
-					else
-						self.player.load('new'); // already getting load from recitation change
+					self.player.load('new'); // already getting load from recitation change
 				},				
 				ended: function (event)
-				{
-					//self.player.destroy();
-					//self.player.setup(true);
-					if (self.settings.audioDelay && (self.settings.audioDelay > 0 || self.settings.audioDelay != false))
+				{		
+					if (!self.player.isOS())
 					{
-						var delay = (self.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : self.settings.audioDelay;
-						delay = delay * 1000;
-						clearTimeout(self.player._delayID);
-						self.player._delayID = setTimeout('self.player.next()', delay);
-					}
-					else
-					{					        
-						self.player.next();
+						if (self.settings.audioDelay && (self.settings.audioDelay > 0 || self.settings.audioDelay != false))
+						{
+							var delay = (self.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : self.settings.audioDelay;
+							delay = delay * 1000;
+							clearTimeout(self.player._delayID);
+							self.player._delayID = setTimeout('self.player.next()', delay);
+						}
+						else
+						{					        
+							self.player.next();
+						}
 					}
 					
 					$('.buffer').css('width', '0%');
@@ -803,6 +802,20 @@ var self = {
 					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
 				},
+				pause: function (event)
+				{
+					var status = self.player.status();
+
+					if (self.player.isOS() && ((self.player._iBug == 1) || (status.duration > 0 && $.jPlayer.convertTime(status.duration) != 'NaN' && $.jPlayer.convertTime(status.duration) != '00:00' && (status.currentTime == 0 || status.currentTime == status.duration))))
+					{						
+						if (self.player._iBug == 1)
+							self.player.load('play');
+						else
+							self.player.next();
+									
+						self.player._iBug++;
+					}
+				},
 				timeupdate: function (event)
 				{
 					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
@@ -812,25 +825,17 @@ var self = {
 				error: function(event)
 				{
 					self._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
-				}
-				/*, //TODO do this function properly
-				error: function (event) {
-					//alert("Error Event: type = " + event.jPlayer.error.type); // The actual error code string. Eg., "e_url" for $.jPlayer.error.URL error.
 					switch(event.jPlayer.error.type)
 					{
 						case $.jPlayer.error.URL:
-							//reportBrokenMedia(event.jPlayer.error); // A function you might create to report the broken link to a server log.
+							self._gaqPush(['_trackEvent', 'Audio', 'Error::MISSING'+$.jPlayer.error.URL]);
 							self.player.next(); // A function you might create to move on to the next media item when an error occurs.
 						break;
 						case $.jPlayer.error.NO_SOLUTION:
-							// Do something
+							self._gaqPush(['_trackEvent', 'Audio', 'Error::NO_SOLUTION']);
 					    break;
 					}
 				}
-				
-				
-				*/
-				
 			};
 			
 			if (!$(this.id).length)
@@ -852,48 +857,53 @@ var self = {
 				$(this.id2).jPlayer(settings);
 			}
 			
-			if (!remake)
-			{
-				$( ".progressBar" ).slider({
-					range: "min",
-					min: 0,
-					max: 100,
-					animate: true,
-					slide: function( event, ui ) {
-						self.player.seek(ui.value);
-					}
-				})
-				.bind('mousemove', function(e) {
-					var offset = $(this).offset();
-					var x = e.pageX - offset.left;
-					var w =  $(this).width();
-					var percent = 100*x/w;
-					var duration = self.player.duration();
-					var time = percent * duration / 100;
-					$('.progressBar').attr('title', $.jPlayer.convertTime(time));
-				})
-				.find('.ui-slider-handle').addClass('icon');
-				
-				$( ".volumeBar" ).slider({
-					orientation: "vertical",
-					range: "min",
-					min: 0,
-					max: 100,
-					value: self.settings.volume,
-					animate: true,
-					slide: function( event, ui ) {
-						self.player.volume(ui.value);
-						self.layout.volume(ui.value);
-					}
-				})
-				.find('.ui-slider-handle').addClass('icon');
-			}
+			$( ".progressBar" ).slider({
+				range: "min",
+				min: 0,
+				max: 100,
+				animate: true,
+				slide: function( event, ui ) {
+					self.player.seek(ui.value);
+				}
+			})
+			.bind('mousemove', function(e) {
+				var offset = $(this).offset();
+				var x = e.pageX - offset.left;
+				var w =  $(this).width();
+				var percent = 100*x/w;
+				var duration = self.player.duration();
+				var time = percent * duration / 100;
+				$('.progressBar').attr('title', $.jPlayer.convertTime(time));
+			})
+			.find('.ui-slider-handle').addClass('icon');
+			
+			$( ".volumeBar" ).slider({
+				orientation: "vertical",
+				range: "min",
+				min: 0,
+				max: 100,
+				value: self.settings.volume,
+				animate: true,
+				slide: function( event, ui ) {
+					self.player.volume(ui.value);
+					self.layout.volume(ui.value);
+				}
+			})
+			.find('.ui-slider-handle').addClass('icon');
 			
 			$.jPlayer.timeFormat.padMin = false;
 		},
 		
+		isOS: function ()
+		{
+			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent) || $.browser.mac())
+				return true;
+			else
+				return false;
+		},
+		
 		load: function (action)
-		{			
+		{
 			if (this.off)
 				return; // player is off
 			
@@ -1185,14 +1195,18 @@ var self = {
 			
 			
 			if (conf.repeat && conf.repeatEach == 'ayah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
-			{
+			{			
 				// loop through recitors, if more then one recitor is selected.
 				if (rLen > 1)
 				{
 					this.load('play'); // recitor position has been reset above.
 					return;
 				}
-				this.play(); // just play, no load
+				
+				if (this.isOS())
+					this.load('play'); // for OS we have to load again
+				else
+					this.play(); // just play, no load
 				this._i++;
 				return;
 			}
@@ -1223,8 +1237,7 @@ var self = {
 				return;
 			}
 			else
-			{
-				
+			{	
 				if (verse == Quran.verseNo.ayah(self.surah(), self.ayah()) && verse >= 6236)
 				{
 					if (self.settings.playing && verse >= 6236)
