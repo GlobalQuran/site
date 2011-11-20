@@ -579,7 +579,10 @@ var self = {
 		init: function()
 		{
 			if (self.settings.selectedRecitor && typeof(self.settings.selectedRecitor) == 'object' && this.length() > 0)
+			{
+				self.recitor.remove('auto'); // incase it was added
 				return false;
+			}
 			
 			//backward compatibility
 			if (self.settings.selectedRecitor && typeof(self.settings.selectedRecitor) != 'object')
@@ -588,7 +591,8 @@ var self = {
 				this.reset();
 				var selectedArray = by.split('|');
 				$.each(selectedArray, function(a, quranBy) {
-					self.recitor.add(quranBy);					
+					if (quranBy != 'auto')
+						self.recitor.add(quranBy);					
 				});
 			}
 			else

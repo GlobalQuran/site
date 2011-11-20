@@ -4,6 +4,9 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+== Release v3.3.0
+
+* FIX: old cookie replace
 * FIX: quranText css class fixed for single view
 * FIX: iphone, ipod, ipad and mac player bug - now audio can be played properly in them. (audio delay is not supported)
 * FIX: loading... bug
@@ -15,6 +18,8 @@ To download stable release, please use "switch tags" button and point to the lat
 * NEW: added hr in single, list and search view
 * NEW: word by word mouse over or static word by word feature added
 * NEW: error function added & layout.message added
+* NEW: related language translations on top of the list
+* NEW: book view added
 
 == Release v3.2.0
 

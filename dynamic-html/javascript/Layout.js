@@ -674,6 +674,7 @@ var layout = {
 		var active = '';
 		var html = '';
 		var $list = $('#translationList');
+		var countryList = QuranNavigator.language.countryList();
 		
 		//clean the rows, if already there
 		$list.html('');
@@ -707,7 +708,14 @@ var layout = {
 					htmlLanguage = html;
 				
 				if (active)
-					$list.prepend(html);			
+					$list.prepend(html);
+				else if (filter == '' && countryList[by.language_code] && !$('[data-lang="'+by.language_code+'"]').length)
+				{
+					if ($list.find('a.active:last').is('a'))
+						$list.find('a.active:last').parent().after(htmlLanguage);
+					else
+						$list.prepend(htmlLanguage);
+				}
 				else if (filter == '' && !$('[data-lang="'+by.language_code+'"]').length)
 					$list.append(htmlLanguage);
 				else if (filter != '')
