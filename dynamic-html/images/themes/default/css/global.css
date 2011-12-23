@@ -766,6 +766,7 @@ noscript p {
 		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=140, Color='#eeeeee');
 		border:#F7F7F7 1px solid;
 		background-color:#fff;
+		clear: both;
 	}
 	.rtl #statusNav {
 		float:left;
@@ -1011,7 +1012,6 @@ noscript p {
 		display: none;
 	}
 #gqContent {
-	width:100%;
 	min-height:600px;
 	display:table;	
 	padding: 16px 0px 16px 0px;
@@ -1403,6 +1403,9 @@ noscript p {
 		cursor:help;
 		color: #3B5998;
 		text-decoration:overline;
+	}
+	.en .second {
+		font-size: 20%;
 	}
 	
 #result {
@@ -2312,7 +2315,16 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
     font-weight: normal;
     font-style: normal;
 }
-
+@font-face {
+    font-family: 'XB Zar';
+    src: url('./../../../fonts/xb_zar-webfont.eot');
+    src: url('./../../../fonts/xb_zar-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./../../../fonts/xb_zar-webfont.woff') format('woff'),
+         url('./../../../fonts/xb_zar-webfont.ttf') format('truetype'),
+         url('./../../../fonts/xb_zar-webfont.svg#XBZarRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*
 * qTip2 - Pretty powerful tooltips
