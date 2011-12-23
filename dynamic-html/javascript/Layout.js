@@ -58,6 +58,10 @@ var layout = {
 			else
 				layout.display(success);
 		};
+		gq.layout.ayahChanged = function ()
+		{
+			layout.ayahChanged();
+		};
 		gq.layout.volume = function (value)
 		{
 			layout.volume(value);
@@ -981,7 +985,9 @@ var layout = {
 			$('.'+gq.surah()+'-'+gq.ayah()).addClass('selected');
 		
 		if (this._autoScroll && !gq.search.isActive())
+		{
 			$('.'+gq.surah()+'-'+gq.ayah()).scrollTo(1000, this.scrollOffset);
+		}
 		
 		$('.customSurah').val(gq.surah());
 		

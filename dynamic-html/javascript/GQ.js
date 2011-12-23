@@ -1265,7 +1265,9 @@ var gq = {
 					return;
 				}
 				
-				gq.load(surah, ayah);
+				gq.nextAyah();
+				gq.layout.ayahChanged();
+				//gq.load(surah, ayah);
 				this._i = 0;
 				return;
 			}
@@ -1432,7 +1434,6 @@ var gq = {
 			}
 			else
 			{
-				console.log(number);
 				if (this.isPlaying())
 					$(this._getPlayerID()).jPlayer('play', number);
 				else
@@ -1527,6 +1528,7 @@ var gq = {
 	layout: {
 		displayStartup: function (success) {}, // replace this function with yours
 		display: function (success) {}, // replace this function with yours
+		ayahChanged: function () {},
 		volume: function (val) {},
 		play: function () {},
 		stop: function () {},

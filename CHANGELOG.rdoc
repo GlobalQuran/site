@@ -4,9 +4,12 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* FIX: scroll keep going up on ayah change
+* FIX: css layout sidebar error fixed
 * CHANGED: replaced QuranNavigator with gq
 * CHANGED: gq.player.seek method param
-* NEW: added new gq.player.setting for jplayer settings and event triggering, now you can hook your custom events directly to player 
+* NEW: added new gq.player.setting for jplayer settings and event triggering, now you can hook your custom events directly to player
+* NEW: XB Zar font added 
 
 == Release v3.3.0
 
