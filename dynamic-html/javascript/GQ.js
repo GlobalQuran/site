@@ -1,5 +1,5 @@
 /**
- * Quran Navigator object to navigate through quran.
+ * Global Quran object to navigate through quran.
  * @author Basit (i@basit.me || http://Basit.me)
  *
  * Online Quran Project
@@ -10,8 +10,7 @@
  * http://www.opensource.org/licenses/Simple-2.0
  * 
  */
-var QuranNavigator = (function() {
-var self = {
+var gq = {
 	
 	apiURL: 'http://api.globalquran.com/',
 	noData: false, // switch to true, if you want to have audio only.
@@ -56,7 +55,10 @@ var self = {
 	
 	_gaID: 'UA-1019966-3',
 	
-		
+	
+	/**
+	 * caching all the data here
+	 */
 	data: {
 		loaded: false,
 		ayahList: {},
@@ -67,6 +69,9 @@ var self = {
 		search: {}
 	},
 	
+	/**
+	 * initial load 
+	 */
 	init: function () {
 		Quran.init();
 		
@@ -76,57 +81,64 @@ var self = {
 		this.googleAnalytics();
 	},
 	
+	/**
+	 * language object holds all the site languages
+	 * TODO still need to add more functoins here
+	 */
 	language: {
 		
 		load: function () {},
 		
 		list: function ()
 		{
-			return self.data.languageList;
+			return gq.data.languageList;
 		},
 		
 		countryList: function ()
 		{
-			return self.data.languageCountryList;
+			return gq.data.languageCountryList;
 		},
 		
 		selected: function ()
 		{
-			return self.settings.selectedLanguage;
+			return gq.settings.selectedLanguage;
 		}
 	},
 	
+	/**
+	 * quran object
+	 */
 	quran: {
 		
 		init: function ()
 		{
-			if (self.settings.selectedBy && typeof(self.settings.selectedBy) == 'object' && this.length() > 0)
+			if (gq.settings.selectedBy && typeof(gq.settings.selectedBy) == 'object' && this.length() > 0)
 				return false;
 			
 			//backward compatibility
-			if (self.settings.selectedBy && typeof(self.settings.selectedBy) != 'object')
+			if (gq.settings.selectedBy && typeof(gq.settings.selectedBy) != 'object')
 			{
-				by = self.settings.selectedBy;
-				self.quran.reset();
+				by = gq.settings.selectedBy;
+				gq.quran.reset();
 				var selectedArray = by.split('|');
 				$.each(selectedArray, function(a, quranBy) {
-					self.quran.add(quranBy);					
+					gq.quran.add(quranBy);					
 				});
 			}
 			else
-				self.quran.reset();
+				gq.quran.reset();
 		},
 		
 		load: function () {
-			self.load(self.settings.surah, self.settings.ayah);
+			gq.load(gq.settings.surah, gq.settings.ayah);
 		},
 		
 		text: function ()
 		{
 			var text = {};
 			var selected = this.selected();
-			var fromVerseNo = Quran.verseNo.page(self.settings.page);
-			var toVerseNo = Quran.verseNo.page(self.settings.page+1)-1;
+			var fromVerseNo = Quran.verseNo.page(gq.settings.page);
+			var toVerseNo = Quran.verseNo.page(gq.settings.page+1)-1;
 
 			if (typeof selected == 'object')
 			{					
@@ -134,12 +146,12 @@ var self = {
 					text[quranBy] = {};
 					for (var i = fromVerseNo; i <= toVerseNo; i++)
 					{
-						if (self.data.quran[quranBy])
-							text[quranBy][i] = self.data.quran[quranBy][i];
+						if (gq.data.quran[quranBy])
+							text[quranBy][i] = gq.data.quran[quranBy][i];
 						else
 						{
-							self.quran.remove(quranBy);
-							self._gaqPush(['_trackEvent', 'Text', 'Error::`'+quranBy+'` not loaded in text']);
+							gq.quran.remove(quranBy);
+							gq._gaqPush(['_trackEvent', 'Text', 'Error::`'+quranBy+'` not loaded in text']);
 						}
 					}
 				});
@@ -152,13 +164,13 @@ var self = {
 		{
 			var notCached = [];
 			var selected = this.selected();
-			var fromVerseNo = Quran.verseNo.page(self.settings.page);
+			var fromVerseNo = Quran.verseNo.page(gq.settings.page);
 					
 			$.each(selected, function(i, quranBy) {
 
-				if (self.data.quran[quranBy])
+				if (gq.data.quran[quranBy])
 				{	
-					if (!self.data.quran[quranBy][fromVerseNo])
+					if (!gq.data.quran[quranBy][fromVerseNo])
 						notCached.push(quranBy);		
 				}
 				else
@@ -171,11 +183,11 @@ var self = {
 		list: function (format)
 		{
 			if (!format)
-				return self.data.quranList;
+				return gq.data.quranList;
 			else
 			{
 				list = {};
-				$.each(self.data.quranList, function(i, info) {
+				$.each(gq.data.quranList, function(i, info) {
 					if (format == info['format'])
 						list[i] = info;
 				});
@@ -192,17 +204,17 @@ var self = {
 		direction: function (by)
 		{
 			if (by == 'quran-wordbyword')
-				return (self.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
+				return (gq.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
 			else if (by == 'quran-kids')
-				return (self.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
+				return (gq.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
 			
 			languageCode = this.detail(by).language_code;
-			return  (typeof(self.language.list()[languageCode]) !== 'undefined') ? self.language.list()[languageCode].dir : 'left';
+			return  (typeof(gq.language.list()[languageCode]) !== 'undefined') ? gq.language.list()[languageCode].dir : 'left';
 		},
 		
 		selected: function ()
 		{
-			return self.settings.selectedBy;
+			return gq.settings.selectedBy;
 		},
 		
 		selectedString: function ()
@@ -219,40 +231,40 @@ var self = {
 		
 		reset: function ()
 		{
-			self.settings.selectedBy = {};
-			self.save();
+			gq.settings.selectedBy = {};
+			gq.save();
 		},
 		
 		length: function ()
 		{
-			if (!self.settings.selectedBy || typeof(self.settings.selectedBy) != 'object')
+			if (!gq.settings.selectedBy || typeof(gq.settings.selectedBy) != 'object')
 				return 0;
 			
-			return Object.keys(self.settings.selectedBy).length;
+			return Object.keys(gq.settings.selectedBy).length;
 		},
 		
 		isSelected: function (quranBy)
 		{
-			return self.settings.selectedBy[quranBy] ? true : false;
+			return gq.settings.selectedBy[quranBy] ? true : false;
 		},
 		
 		add: function (quranBy)
 		{
-			self.settings.selectedBy[quranBy] = quranBy;
-			self.save();
+			gq.settings.selectedBy[quranBy] = quranBy;
+			gq.save();
 		},
 		
 		remove: function (quranBy)
 		{
-			delete self.settings.selectedBy[quranBy];
-			self.save();
+			delete gq.settings.selectedBy[quranBy];
+			gq.save();
 		},
 		
 		parse: {
 			
 			load: function (quranBy, text)
 			{	
-				type = self.data.quranList[quranBy].type;
+				type = gq.data.quranList[quranBy].type;
 				
 				if (type == 'quran' && /tajweed/.test(quranBy))
 					return this.parseTajweed(quranBy, text);
@@ -268,19 +280,19 @@ var self = {
 			
 			parseQuran: function (quranBy, text)
 			{
-				if (self.settings.showSigns)
+				if (gq.settings.showSigns)
 			    {
 			        text = this.pregReplace(' ([$HIGH_SALA-$HIGH_SEEN])', '<span class="sign">&nbsp;$1</span>', text);
-			        text = this.pregReplace('($SAJDAH)', self.settings.ignoreInternalSigns ? '' : '<span class="internal-sign">$1</span>', text);
-			        text = this.pregReplace('$RUB_EL_HIZB', self.settings.ignoreInternalSigns ? '' : '<span class="icon juz-sign"></span>', text);
+			        text = this.pregReplace('($SAJDAH)', gq.settings.ignoreInternalSigns ? '' : '<span class="internal-sign">$1</span>', text);
+			        text = this.pregReplace('$RUB_EL_HIZB', gq.settings.ignoreInternalSigns ? '' : '<span class="icon juz-sign"></span>', text);
 			    }
 			    else
 			    	text = this.pregReplace('[$HIGH_SALA-$RUB_EL_HIZB$SAJDAH]', '', text);
 			    
-			    if (!self.settings.showAlef)
+			    if (!gq.settings.showAlef)
 			    	text = this.pregReplace('$SUPERSCRIPT_ALEF', '', text);
 			    
-			    if (self.settings.font == 'me_quran')
+			    if (gq.settings.font == 'me_quran')
 			    {
 			        text = this.addSpaceTatweel(text);
 			        text = this.pregReplace('($LAM$HARAKA*)$TATWEEL$HAMZA_ABOVE($HARAKA*$ALEF)', '$1$HAMZA$2', text);
@@ -293,7 +305,7 @@ var self = {
 			    text = this.addTatweel(text);
 			    text = this.pregReplace('$ALEF$MADDA', '$ALEF_WITH_MADDA_ABOVE', text);
 			    
-			    if (self.settings.font != 'me_quran')
+			    if (gq.settings.font != 'me_quran')
 			    {
 			        text = this.pregReplace('($SHADDA)([$KASRA$KASRATAN])', '$2$1', text);
 			        text = this.pregReplace('($LAM$HARAKA*$LAM$HARAKA*)($HEH)', '$1$TATWEEL$2', text);
@@ -311,16 +323,16 @@ var self = {
 					{
 						var verse = verse.split('|');
 					    
-						if (self.settings.wbwDirection == 'english2arabic')
+						if (gq.settings.wbwDirection == 'english2arabic')
 						{
-							if (self.settings.wbwMouseOver)
+							if (gq.settings.wbwMouseOver)
 								verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
 								verse_html += '<span class="word staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quranText second rtl" dir="rtl">'+verse[0]+'</span></span>';
 						}
 						else
 						{
-							if (self.settings.wbwMouseOver)
+							if (gq.settings.wbwMouseOver)
 								verse_html += '<span class="word"><span class="ar quranText tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
 								verse_html += '<span class="word staticWord"><span class="ar quranText top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
@@ -341,16 +353,16 @@ var self = {
 					{
 						var verse = verse.split('|');
 					    
-						if (self.settings.wbwDirection == 'english2arabic')
+						if (gq.settings.wbwDirection == 'english2arabic')
 						{
-							if (self.settings.wbwMouseOver)
+							if (gq.settings.wbwMouseOver)
 								verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
 								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quranText second rtl" dir="rtl">'+verse[0]+'</span></span>';
 						}
 						else
 						{
-							if (self.settings.wbwMouseOver)
+							if (gq.settings.wbwMouseOver)
 								verse_html += '<span class="word wordColor'+color+'"><span class="ar quranText tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
 								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="ar quranText top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
@@ -438,18 +450,18 @@ var self = {
 		
 		init: function ()
 		{
-			if (self.settings.selectedSearchBy && typeof(self.settings.selectedSearchBy) == 'object' && Object.keys(self.settings.selectedSearchBy).length > 0)
+			if (gq.settings.selectedSearchBy && typeof(gq.settings.selectedSearchBy) == 'object' && Object.keys(gq.settings.selectedSearchBy).length > 0)
 				return false;
 			
-			self.settings.selectedSearchBy = {};
+			gq.settings.selectedSearchBy = {};
 			
-			by = self.quran.list('text');
+			by = gq.quran.list('text');
 			$.each(by, function(quranBy, detail)
 			{
 				if (detail.type == 'quran')
-					self.search.addQuranBy(quranBy);
-				else if (self.data.languageCountryList[quranBy.language_code])
-					self.search.addQuranBy(quranBy);
+					gq.search.addQuranBy(quranBy);
+				else if (gq.data.languageCountryList[quranBy.language_code])
+					gq.search.addQuranBy(quranBy);
 			});
 		},
 		
@@ -469,18 +481,18 @@ var self = {
 				
 				if (verse.length > 1)
 				{
-					self.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
-					self.settings.ayah = Quran._fixAyahNum(self.settings.surah, parseInt(verse['1']));
+					gq.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+					gq.settings.ayah = Quran._fixAyahNum(gq.settings.surah, parseInt(verse['1']));
 				}
 				else
 				{
 					verse = Quran.ayah.fromPage(keyword);
-					self.settings.surah = verse.surah;
-					self.settings.ayah = verse.ayah;
+					gq.settings.surah = verse.surah;
+					gq.settings.ayah = verse.ayah;
 				}
 				
-				self.player.reset();
-				self.load(self.settings.surah, self.settings.ayah);
+				gq.player.reset();
+				gq.load(gq.settings.surah, gq.settings.ayah);
 				
 				return true;
 			}				
@@ -488,7 +500,7 @@ var self = {
 			this._keyword = keyword;
 			this._position = more ? this.next() : 0;
 			this._loading = true;
-			self.load();
+			gq.load();
 		},
 		
 		loading: function (set)
@@ -503,12 +515,12 @@ var self = {
 		{
 			this._keyword = '';
 			this._position = 0;
-			self.load(self.surah(), self.ayah());
+			gq.load(gq.surah(), gq.ayah());
 		},
 		
 		text: function ()
 		{
-			return self.data.search.quran;
+			return gq.data.search.quran;
 		},
 		
 		keyword: function ()
@@ -523,22 +535,22 @@ var self = {
 		
 		isNext: function ()
 		{
-			return self.data.search.paging.next ? true : false;
+			return gq.data.search.paging.next ? true : false;
 		},
 		
 		next: function ()
 		{
-			return self.data.search.paging.next;
+			return gq.data.search.paging.next;
 		},
 		
 		timeTook: function ()
 		{
-			return self.data.search.timeTook;
+			return gq.data.search.timeTook;
 		},
 		
 		totalRows: function ()
 		{
-			return self.data.search.paging.total_rows;
+			return gq.data.search.paging.total_rows;
 		},
 		
 		totalShowing: function ()
@@ -548,24 +560,24 @@ var self = {
 		
 		selected: function ()
 		{
-			return self.settings.selectedSearchBy;
+			return gq.settings.selectedSearchBy;
 		},
 				
 		isSelected: function (quranBy)
 		{
-			return self.settings.selectedSearchBy[quranBy] ? true : false;
+			return gq.settings.selectedSearchBy[quranBy] ? true : false;
 		},
 		
 		addQuranBy: function (quranBy)
 		{
-			self.settings.selectedSearchBy[quranBy] = quranBy;
-			self.save();
+			gq.settings.selectedSearchBy[quranBy] = quranBy;
+			gq.save();
 		},
 		
 		removeQuranBy: function (quranBy)
 		{
-			delete self.settings.selectedSearchBy[quranBy];
-			self.save();
+			delete gq.settings.selectedSearchBy[quranBy];
+			gq.save();
 		},
 		
 		beginVerse: function ()
@@ -578,21 +590,21 @@ var self = {
 		
 		init: function()
 		{
-			if (self.settings.selectedRecitor && typeof(self.settings.selectedRecitor) == 'object' && this.length() > 0)
+			if (gq.settings.selectedRecitor && typeof(gq.settings.selectedRecitor) == 'object' && this.length() > 0)
 			{
-				self.recitor.remove('auto'); // incase it was added
+				gq.recitor.remove('auto'); // incase it was added
 				return false;
 			}
 			
 			//backward compatibility
-			if (self.settings.selectedRecitor && typeof(self.settings.selectedRecitor) != 'object')
+			if (gq.settings.selectedRecitor && typeof(gq.settings.selectedRecitor) != 'object')
 			{
-				by = self.settings.selectedRecitor;
+				by = gq.settings.selectedRecitor;
 				this.reset();
 				var selectedArray = by.split('|');
 				$.each(selectedArray, function(a, quranBy) {
 					if (quranBy != 'auto')
-						self.recitor.add(quranBy);					
+						gq.recitor.add(quranBy);					
 				});
 			}
 			else
@@ -601,17 +613,17 @@ var self = {
 		
 		load: function ()
 		{
-			self.player.load('new');
+			gq.player.load('new');
 		},
 		
 		list: function()
 		{
-			return self.quran.list('audio');
+			return gq.quran.list('audio');
 		},
 		
 		bitrateList: function (by)
 		{			
-			row = self.quran.detail(by);
+			row = gq.quran.detail(by);
 			
 			if (!row)
 				return {'auto': 'mp3,ogg'};
@@ -632,46 +644,46 @@ var self = {
 		
 		selected: function ()
 		{
-			return self.settings.selectedRecitor;
+			return gq.settings.selectedRecitor;
 		},
 		
 		selectedKbs: function (quranBy)
 		{
-			return self.settings.selectedRecitor[quranBy];
+			return gq.settings.selectedRecitor[quranBy];
 		},
 		
 		reset: function ()
 		{
-			self.settings.selectedRecitor = {};
-			self.save();
+			gq.settings.selectedRecitor = {};
+			gq.save();
 		},
 		
 		length: function ()
 		{
-			if (!self.settings.selectedRecitor || typeof(self.settings.selectedRecitor) != 'object')
+			if (!gq.settings.selectedRecitor || typeof(gq.settings.selectedRecitor) != 'object')
 				return 0;
 			
-			return Object.keys(self.settings.selectedRecitor).length;
+			return Object.keys(gq.settings.selectedRecitor).length;
 		},
 		
 		isSelected: function (quranBy)
 		{			
-			return self.settings.selectedRecitor[quranBy] ? true : false;
+			return gq.settings.selectedRecitor[quranBy] ? true : false;
 		},
 		
 		add: function (quranBy, kbs)
 		{	
 			if (kbs)
-				self.settings.selectedLastRecitorBytes = kbs;
+				gq.settings.selectedLastRecitorBytes = kbs;
 			
-			self.settings.selectedRecitor[quranBy] = kbs || 'auto';
-			self.save();
+			gq.settings.selectedRecitor[quranBy] = kbs || 'auto';
+			gq.save();
 		},
 		
 		remove: function (quranBy)
 		{
-			delete self.settings.selectedRecitor[quranBy];
-			self.save();
+			delete gq.settings.selectedRecitor[quranBy];
+			gq.save();
 		}		
 	},
 	
@@ -688,6 +700,143 @@ var self = {
 		_i: 0, // repeat counter
 		_iBug: 0, // for OS bug, triggers pause two times, need second trigger and ignore first
 		_delayID: '',
+		
+		setting: {
+			swfPath: gq.player.swfPath,
+			supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
+			wmode: "window",
+			volume: gq.settings.volume,
+			muted: gq.settings.muted,
+			preload: 'auto',
+			cssSelectorAncestor: '',
+			cssSelector: {
+		        play: "",
+		        pause: "",
+		        stop: "",
+		        seekBar: "",
+		        playBar: "",
+		        mute: "",
+		        unmute: "",
+		        volumeBar: "",
+		        volumeBarValue: "",
+		        currentTime: "",
+		        duration: ""
+		      },
+			size: {
+			  width:"0px",
+			  height: "0px",
+			  cssClass: ""
+			},
+			ready: function (event)
+			{
+				gq.player.load('new'); // already getting load from recitation change
+			},				
+			ended: function (event)
+			{		
+				if (!gq.player.isOS())
+				{
+					if (gq.settings.audioDelay && (gq.settings.audioDelay > 0 || gq.settings.audioDelay != false))
+					{
+						var delay = (gq.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : gq.settings.audioDelay;
+						delay = delay * 1000;
+						clearTimeout(gq.player._delayID);
+						gq.player._delayID = setTimeout('gq.player.next()', delay);
+					}
+					else
+					{					        
+						gq.player.next();
+					}
+				}
+				
+				$('.buffer').css('width', '0%');
+			},
+			loadstart: function (event)
+			{
+				if (gq.player.status().seekPercent != 100)
+				{
+					$(".progressBar").addClass("audioLoading");
+				}
+			},
+			loadeddata: function (event)
+			{
+				$(".progressBar").removeClass("audioLoading");
+				gq._gaqPush(['_trackEvent', 'Audio', 'load', event.jPlayer.status.src]);
+			},
+			seeking: function()
+			{
+				$(".progressBar").addClass("audioLoading");
+			},
+			seeked: function()
+			{
+				$(".progressBar").removeClass("audioLoading");
+			},
+			progress: function (event)
+			{
+				var percent = 0;
+				var audio = gq.player.data().htmlElement.audio;
+				
+				if((typeof audio.buffered === "object") && (audio.buffered.length > 0))
+				{
+					if(audio.duration > 0)
+					{
+						var bufferTime = 0;
+						for(var i = 0; i < audio.buffered.length; i++)
+						{
+							bufferTime += audio.buffered.end(i) - audio.buffered.start(i);
+							 //console.log(i + " | start = " + audio.buffered.start(i) + " | end = " + audio.buffered.end(i) + " | bufferTime = " + bufferTime + " | duration = " + audio.duration);
+						}
+						percent = 100 * bufferTime / audio.duration;
+					} // else the Metadata has not been read yet.
+					//console.log("percent = " + percent);
+				} else { // Fallback if buffered not supported
+					// percent = event.jPlayer.status.seekPercent;
+					percent = 100; // Cleans up the inital conditions on all browsers, since seekPercent defaults to 100 when object is undefined.
+				}
+				
+				$('.buffer').css('width', percent+'%');
+			},
+			play: function (event)
+			{
+				$(this).jPlayer("pauseOthers"); // pause all players except this one.
+				$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
+				$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
+				$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
+			},
+			pause: function (event)
+			{
+				var status = gq.player.status();
+
+				if (gq.player.isOS() && ((gq.player._iBug == 1) || (status.duration > 0 && $.jPlayer.convertTime(status.duration) != 'NaN' && $.jPlayer.convertTime(status.duration) != '00:00' && (status.currentTime == 0 || status.currentTime == status.duration))))
+				{						
+					if (gq.player._iBug == 1)
+						gq.player.load('play');
+					else
+						gq.player.next();
+								
+					gq.player._iBug++;
+				}
+			},
+			timeupdate: function (event)
+			{
+				$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
+				$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
+				$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
+			},
+			error: function(event)
+			{
+				gq._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
+				switch(event.jPlayer.error.type)
+				{
+					case $.jPlayer.error.URL:
+						gq._gaqPush(['_trackEvent', 'Audio', 'Error::MISSING'+$.jPlayer.error.URL]);
+						gq.player.next(); // A function you might create to move on to the next media item when an error occurs.
+					break;
+					case $.jPlayer.error.NO_SOLUTION:
+						gq._gaqPush(['_trackEvent', 'Audio', 'Error::NO_SOLUTION']);
+				    break;
+				}
+			}
+		},
 				
 		init: function () 
 		{
@@ -696,159 +845,22 @@ var self = {
 			
 			if (this.isOS()) // pre-settings for iphone/ipod/ipad/mac
 			{
-				self.settings.playing = false; // cant auto play in iphone
-				self.player.preload = -1;  // cant load two instance in iphone
+				gq.settings.playing = false; // cant auto play in iphone
+				gq.player.preload = -1;  // cant load two instance in iphone
 			}
 			
 			this.setup();
 		},
 		
 		setup: function ()
-		{
-			settings = {
-				swfPath: this.swfPath,
-				supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
-				wmode: "window",
-				volume: self.settings.volume,
-				muted: self.settings.muted,
-				preload: 'auto',
-				cssSelectorAncestor: '',
-				cssSelector: {
-			        play: "",
-			        pause: "",
-			        stop: "",
-			        seekBar: "",
-			        playBar: "",
-			        mute: "",
-			        unmute: "",
-			        volumeBar: "",
-			        volumeBarValue: "",
-			        currentTime: "",
-			        duration: ""
-			      },
-				size: {
-				  width:"0px",
-				  height: "0px",
-				  cssClass: ""
-				},
-				ready: function (event)
-				{
-					self.player.load('new'); // already getting load from recitation change
-				},				
-				ended: function (event)
-				{		
-					if (!self.player.isOS())
-					{
-						if (self.settings.audioDelay && (self.settings.audioDelay > 0 || self.settings.audioDelay != false))
-						{
-							var delay = (self.settings.audioDelay == 'ayah') ? event.jPlayer.status.duration : self.settings.audioDelay;
-							delay = delay * 1000;
-							clearTimeout(self.player._delayID);
-							self.player._delayID = setTimeout('self.player.next()', delay);
-						}
-						else
-						{					        
-							self.player.next();
-						}
-					}
-					
-					$('.buffer').css('width', '0%');
-				},
-				loadstart: function (event)
-				{
-					if (self.player.status().seekPercent != 100)
-					{
-						$(".progressBar").addClass("audioLoading");
-					}
-				},
-				loadeddata: function (event)
-				{
-					$(".progressBar").removeClass("audioLoading");
-					self._gaqPush(['_trackEvent', 'Audio', 'load', event.jPlayer.status.src]);
-				},
-				seeking: function()
-				{
-					$(".progressBar").addClass("audioLoading");
-				},
-				seeked: function()
-				{
-					$(".progressBar").removeClass("audioLoading");
-				},
-				progress: function (event)
-				{
-					var percent = 0;
-					var audio = self.player.data().htmlElement.audio;
-					
-					if((typeof audio.buffered === "object") && (audio.buffered.length > 0))
-					{
-						if(audio.duration > 0)
-						{
-							var bufferTime = 0;
-							for(var i = 0; i < audio.buffered.length; i++)
-							{
-								bufferTime += audio.buffered.end(i) - audio.buffered.start(i);
-								 //console.log(i + " | start = " + audio.buffered.start(i) + " | end = " + audio.buffered.end(i) + " | bufferTime = " + bufferTime + " | duration = " + audio.duration);
-							}
-							percent = 100 * bufferTime / audio.duration;
-						} // else the Metadata has not been read yet.
-						//console.log("percent = " + percent);
-					} else { // Fallback if buffered not supported
-						// percent = event.jPlayer.status.seekPercent;
-						percent = 100; // Cleans up the inital conditions on all browsers, since seekPercent defaults to 100 when object is undefined.
-					}
-					
-					$('.buffer').css('width', percent+'%');
-				},
-				play: function (event)
-				{
-					$(this).jPlayer("pauseOthers"); // pause all players except this one.
-					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
-					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
-					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
-				},
-				pause: function (event)
-				{
-					var status = self.player.status();
-
-					if (self.player.isOS() && ((self.player._iBug == 1) || (status.duration > 0 && $.jPlayer.convertTime(status.duration) != 'NaN' && $.jPlayer.convertTime(status.duration) != '00:00' && (status.currentTime == 0 || status.currentTime == status.duration))))
-					{						
-						if (self.player._iBug == 1)
-							self.player.load('play');
-						else
-							self.player.next();
-									
-						self.player._iBug++;
-					}
-				},
-				timeupdate: function (event)
-				{
-					$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
-					$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
-					$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
-				},
-				error: function(event)
-				{
-					self._gaqPush(['_trackEvent', 'Audio', 'Error::'+event.jPlayer.error.type, event.jPlayer.error]);
-					switch(event.jPlayer.error.type)
-					{
-						case $.jPlayer.error.URL:
-							self._gaqPush(['_trackEvent', 'Audio', 'Error::MISSING'+$.jPlayer.error.URL]);
-							self.player.next(); // A function you might create to move on to the next media item when an error occurs.
-						break;
-						case $.jPlayer.error.NO_SOLUTION:
-							self._gaqPush(['_trackEvent', 'Audio', 'Error::NO_SOLUTION']);
-					    break;
-					}
-				}
-			};
-			
+		{			
 			if (!$(this.id).length)
 			{
 				var id = this.id; id = id.replace(/#/, '');
 				$('body').append('<div id="'+id+'"></div>');
 			}
 			
-			$(this.id).jPlayer(settings);
+			$(this.id).jPlayer(gq.player.setting);
 			
 			if (this.preload != -1)
 			{
@@ -858,7 +870,7 @@ var self = {
 					$('body').append('<div id="'+id+'"></div>');
 				}
 				
-				$(this.id2).jPlayer(settings);
+				$(this.id2).jPlayer(gq.player.setting);
 			}
 			
 			$( ".progressBar" ).slider({
@@ -867,7 +879,7 @@ var self = {
 				max: 100,
 				animate: true,
 				slide: function( event, ui ) {
-					self.player.seek(ui.value);
+					gq.player.seek(ui.value);
 				}
 			})
 			.bind('mousemove', function(e) {
@@ -875,7 +887,7 @@ var self = {
 				var x = e.pageX - offset.left;
 				var w =  $(this).width();
 				var percent = 100*x/w;
-				var duration = self.player.duration();
+				var duration = gq.player.duration();
 				var time = percent * duration / 100;
 				$('.progressBar').attr('title', $.jPlayer.convertTime(time));
 			})
@@ -886,11 +898,11 @@ var self = {
 				range: "min",
 				min: 0,
 				max: 100,
-				value: self.settings.volume,
+				value: gq.settings.volume,
 				animate: true,
 				slide: function( event, ui ) {
-					self.player.volume(ui.value);
-					self.layout.volume(ui.value);
+					gq.player.volume(ui.value);
+					gq.layout.volume(ui.value);
 				}
 			})
 			.find('.ui-slider-handle').addClass('icon');
@@ -964,8 +976,8 @@ var self = {
 				this._currentPlayer = 1; // play player 1, while 2 gets load
 			}
 		
-			if (self.settings.playing && !self.search.isActive()) // if playing, auto play
-				self.layout.play();
+			if (gq.settings.playing && !gq.search.isActive()) // if playing, auto play
+				gq.layout.play();
 		},
 		
 		_getPlayerID: function ()
@@ -983,9 +995,9 @@ var self = {
 			var rPos = this._recitor.position;
 			var rLen = this._recitor.length;
 			
-			var surah = self.surah();
-			var ayah = self.ayah();
-			var verse = self.verse();
+			var surah = gq.surah();
+			var ayah = gq.ayah();
+			var verse = gq.verse();
 
 			if (get == 'next' && rLen > 1 && rPos <= rLen)
 			{
@@ -1030,37 +1042,37 @@ var self = {
 		
 		_recitorReset: function ()
 		{
-			if (!self.data.loaded)
+			if (!gq.data.loaded)
 				return false; // need to load data first
 			
-			var recitorArray = self.recitor.selected();
+			var recitorArray = gq.recitor.selected();
 			
-			if (self.recitor.length() == 0)
+			if (gq.recitor.length() == 0)
 			{
-				self.recitor.add('ar.alafasy');
+				gq.recitor.add('ar.alafasy');
 								
-				list = self.recitor.list();
+				list = gq.recitor.list();
 				$.each(list, function(by, row)
 				{
-					if (self.language.selected() != 'ar' && self.language.selected() == row.language_code)
+					if (gq.language.selected() != 'ar' && gq.language.selected() == row.language_code)
 					{
-						self.recitor.add(by);
+						gq.recitor.add(by);
 						return true;
 					}
 				});
 				
-				self.layout.recitorList();
+				gq.layout.recitorList();
 			}			
 			
 			// setting the recitor array
-			var recitor = {auz: true, position: 1, length: self.recitor.length()};
+			var recitor = {auz: true, position: 1, length: gq.recitor.length()};
 			
-			recitorArray = self.recitor.selected();
+			recitorArray = gq.recitor.selected();
 
 			i = 0;
 			$.each(recitorArray, function(recitorName, kbs) {
 				++i; // increment on start, because i starts with 0
-				recitorInfo = self.player._recitorInfo(recitorName);
+				recitorInfo = gq.player._recitorInfo(recitorName);
 				recitor['row'+i] = recitorInfo;
 				recitor['row'+i].name = recitorName;
 				recitor['row'+i].lastLoad = -1;
@@ -1083,8 +1095,8 @@ var self = {
 					auz: false
 				};
 
-			row = self.data.quranList[recitorName];
-			kbs = self.recitor.selectedKbs(recitorName);
+			row = gq.data.quranList[recitorName];
+			kbs = gq.recitor.selectedKbs(recitorName);
 			
 			media = row.media;
 			media = media ? $.parseJSON(media) : {};
@@ -1093,7 +1105,7 @@ var self = {
 			{
 				$.each(media, function(key, mediaRow) {
 					kbs = mediaRow.kbs;
-					if (self.player.autoBitrate == 'low')
+					if (gq.player.autoBitrate == 'low')
 						return; // exit loop
 				});
 			}
@@ -1139,24 +1151,24 @@ var self = {
 		play: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('play');
-			self.settings.playing = true;
-			self.save();
-			self._gaqPush(['_trackEvent', 'Audio', 'Play', this.recitorBy()]);
+			gq.settings.playing = true;
+			gq.save();
+			gq._gaqPush(['_trackEvent', 'Audio', 'Play', this.recitorBy()]);
 		},
 		
 		pause: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('pause');
-			self.settings.playing = false;
-			self.save();
-			self._gaqPush(['_trackEvent', 'Audio', 'Pause', this.recitorBy()]);
+			gq.settings.playing = false;
+			gq.save();
+			gq._gaqPush(['_trackEvent', 'Audio', 'Pause', this.recitorBy()]);
 		},
 		
 		stop: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('stop');
 			this.reset();
-			self._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
+			gq._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
 		},
 		
 		next: function ()
@@ -1165,13 +1177,13 @@ var self = {
 			var rLen = this._recitor.length;
 			var lastLoad = this._recitor['row'+rPos].lastLoad;
 			
-			var next = Quran.ayah.next(self.surah(), self.ayah());
+			var next = Quran.ayah.next(gq.surah(), gq.ayah());
 			var page = Quran.ayah.page(next.surah, next.ayah);
 			var juz  = Quran.ayah.juz(next.surah, next.ayah);
 			var surah = next.surah;
 			var ayah  =  next.ayah;
 			var verse = Quran.verseNo.ayah(next.surah, next.ayah);
-			var conf = self.settings;
+			var conf = gq.settings;
 	
 			if (rLen > 1 && rPos != rLen)
 			{
@@ -1179,7 +1191,7 @@ var self = {
 				this.load('play');
 				return;
 			}
-			else if (self.surah() != 9 && self.ayah() == 1 && (lastLoad == 0 || (self.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
+			else if (gq.surah() != 9 && gq.ayah() == 1 && (lastLoad == 0 || (gq.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
 			{
 				if (rLen > 1 && rPos == rLen) // reset to first recitor
 					this._recitor.position = 1; 
@@ -1214,42 +1226,42 @@ var self = {
 				this._i++;
 				return;
 			}
-			else if (surah != self.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (surah != gq.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
 				if (this.preload != true)
 					this._recitor['row1'].lastLoad = -1;
-				self.load(self.surah(), 1);
+				gq.load(gq.surah(), 1);
 				this._i++;
 				return;
 			}
-			else if (page != self.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (page != gq.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
 				if (this.preload != true)
 					this._recitor['row1'].lastLoad = -1;
-				load = Quran.ayah.fromPage(self.page());
-				self.load(load.surah, load.ayah);
+				load = Quran.ayah.fromPage(gq.page());
+				gq.load(load.surah, load.ayah);
 				this._i++;
 				return;
 			}
-			else if (juz != self.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (juz != gq.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
 				if (this.preload != true)
 					this._recitor['row1'].lastLoad = -1;
-				load = Quran.ayah.fromJuz(self.juz());
-				self.load(load.surah, load.ayah);
+				load = Quran.ayah.fromJuz(gq.juz());
+				gq.load(load.surah, load.ayah);
 				this._i++;
 				return;
 			}
 			else
 			{	
-				if (verse == Quran.verseNo.ayah(self.surah(), self.ayah()) && verse >= 6236)
+				if (verse == Quran.verseNo.ayah(gq.surah(), gq.ayah()) && verse >= 6236)
 				{
-					if (self.settings.playing && verse >= 6236)
-						self.layout.stop();
+					if (gq.settings.playing && verse >= 6236)
+						gq.layout.stop();
 					return;
 				}
 				
-				self.load(surah, ayah);
+				gq.load(surah, ayah);
 				this._i = 0;
 				return;
 			}
@@ -1261,19 +1273,19 @@ var self = {
 			var rLen = this._recitor.length;
 			var lastLoad = this._recitor['row'+rPos].lastLoad;
 			
-			var prev = Quran.ayah.prev(self.surah(), self.ayah());
+			var prev = Quran.ayah.prev(gq.surah(), gq.ayah());
 			var page = Quran.ayah.page(prev.surah, prev.ayah);
 			var juz  = Quran.ayah.juz(prev.surah, prev.ayah);
 			var surah = prev.surah;
 			var ayah  =  prev.ayah;
 			var verse = Quran.verseNo.ayah(prev.surah, prev.ayah);
-			var conf = self.settings;
+			var conf = gq.settings;
 			
 			this._currentPlayer = 0;
 			this._i = 0;
 			
 			//FIXME doesnt work properly on preload enabled, so for now we not repeating auz,bis for ayahs on prev
-			if (!this.preload && this.preload == -1 && self.surah() != 9 && self.ayah() == 1 && ((lastLoad != 0 && this._recitor.auz) || (lastLoad != 1 && !this._recitor.auz) || ((lastLoad == 1 && rPos > 1) || (this._recitor.auz && lastLoad == 0 && rPos > 1)))) //&& (lastLoad == self.verse() || (self.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
+			if (!this.preload && this.preload == -1 && gq.surah() != 9 && gq.ayah() == 1 && ((lastLoad != 0 && this._recitor.auz) || (lastLoad != 1 && !this._recitor.auz) || ((lastLoad == 1 && rPos > 1) || (this._recitor.auz && lastLoad == 0 && rPos > 1)))) //&& (lastLoad == gq.verse() || (gq.surah() != 1 && lastLoad == 1))) // for auz,bis and ayah
 			{
 				if (!conf.repeat || (conf.repeat && conf.repeatEach != 'ayah')) // ayah repeat on bis gives problem
 				{					
@@ -1290,17 +1302,17 @@ var self = {
 							this._prevRestRecitor(this._recitor.position, verse);						
 						this._recitor['row'+this._recitor.position].lastLoad = 0;
 					}
-					else if (lastLoad == self.verse())
+					else if (lastLoad == gq.verse())
 					{
 						if (this.preload == true)
 							this._prevRestRecitor(this._recitor.position, this._recitor.auz ? 0 : 1);
 						this._recitor['row'+this._recitor.position].lastLoad = 1;
 					} 
-					else if (lastLoad > self.verse())
+					else if (lastLoad > gq.verse())
 					{
 						if (this.preload == true)
 							this._prevRestRecitor(this._recitor.position, 1);
-						this._recitor['row'+this._recitor.position].lastLoad = self.verse();
+						this._recitor['row'+this._recitor.position].lastLoad = gq.verse();
 					}
 					
 					this.load('play');
@@ -1311,7 +1323,7 @@ var self = {
 			if (rLen > 1 && rPos > 1)
 			{
 				this._recitor.position--;
-				this._recitor['row'+this._recitor.position].lastLoad = self.verse();
+				this._recitor['row'+this._recitor.position].lastLoad = gq.verse();
 				this.load('play');
 				return;
 			}
@@ -1323,7 +1335,7 @@ var self = {
 						
 			if (conf.repeat && conf.repeatEach == 'ayah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				this._recitor['row'+this._recitor.position].lastLoad = self.verse();
+				this._recitor['row'+this._recitor.position].lastLoad = gq.verse();
 				// loop through recitors, if more then one recitor is selected.
 				if (rLen > 1)
 				{
@@ -1334,48 +1346,48 @@ var self = {
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
-			else if (surah != self.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (surah != gq.surah() && conf.repeat && conf.repeatEach == 'surah' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				if (self.surah() == 114)
+				if (gq.surah() == 114)
 					verse = 6236;
 				else
-					verse = Quran.verseNo.surah(self.surah()+1)-1;
+					verse = Quran.verseNo.surah(gq.surah()+1)-1;
 				
 				this._recitor.position = this._recitor.length;
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
 				load = Quran.ayah.fromVerse(verse);
-				self.load(load.surah, load.ayah);
+				gq.load(load.surah, load.ayah);
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
-			else if (page != self.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (page != gq.page() && conf.repeat && conf.repeatEach == 'page' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				if (self.page() == 604)
+				if (gq.page() == 604)
 					verse = 6236;
 				else
-					verse = Quran.verseNo.page(self.page()+1)-1;
+					verse = Quran.verseNo.page(gq.page()+1)-1;
 				
 				this._recitor.position = this._recitor.length;
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
 				load = Quran.ayah.fromVerse(verse);		
-				self.load(load.surah, load.ayah);
+				gq.load(load.surah, load.ayah);
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
-			else if (juz != self.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
+			else if (juz != gq.juz() && conf.repeat && conf.repeatEach == 'juz' && (!conf.repeatTimes || conf.repeatTimes >= this._i))
 			{
-				if (self.juz() == 30)
+				if (gq.juz() == 30)
 					verse = 6236;
 				else
-					verse = Quran.verseNo.juz(self.juz()+1)-1;
+					verse = Quran.verseNo.juz(gq.juz()+1)-1;
 				
 				this._recitor.position = this._recitor.length;
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
 				load = Quran.ayah.fromVerse(verse);	
-				self.load(load.surah, load.ayah);
+				gq.load(load.surah, load.ayah);
 				this._i = (this._i > 1) ? this._i-1 : 1;
 				return;
 			}
@@ -1383,10 +1395,10 @@ var self = {
 			{
 				this._recitor['row'+this._recitor.position].lastLoad = verse;
 				
-				if (verse == Quran.verseNo.ayah(self.surah(), self.ayah()) && verse == 1)
+				if (verse == Quran.verseNo.ayah(gq.surah(), gq.ayah()) && verse == 1)
 					return;
 
-				self.load(surah, ayah);
+				gq.load(surah, ayah);
 				this._i = 0;
 				return;
 			}
@@ -1422,48 +1434,48 @@ var self = {
 		{
 			$(this.id).jPlayer('volume', volume);
 			$(this.id2).jPlayer('volume', volume);
-			self.settings.volume = volume;
-			self.save();
+			gq.settings.volume = volume;
+			gq.save();
 		},
 		
 		mute: function ()
 		{			
 			$(this.id).jPlayer('mute');
 			$(this.id2).jPlayer('mute');
-			self.settings.muted = true;
-			self.save();
+			gq.settings.muted = true;
+			gq.save();
 		},
 		
 		unmute: function ()
 		{
 			$(this.id).jPlayer('unmute');
 			$(this.id2).jPlayer('unmute');
-			self.settings.muted = false;
-			self.save();
+			gq.settings.muted = false;
+			gq.save();
 		},
 		
 		repeat: function (bool)
 		{
-			self.settings.repeat = bool;
-			self.save();
+			gq.settings.repeat = bool;
+			gq.save();
 		},
 		
 		repeatEach: function (repeat)
 		{
-			self.settings.repeatEach = repeat;
-			self.save();
+			gq.settings.repeatEach = repeat;
+			gq.save();
 		},
 		
 		repeatTimes: function (times)
 		{
-			self.settings.repeatTimes = times;
-			self.save();
+			gq.settings.repeatTimes = times;
+			gq.save();
 		},
 		
 		audioDelay: function (delay)
 		{
-			self.settings.audioDelay = delay;
-			self.save();
+			gq.settings.audioDelay = delay;
+			gq.save();
 		},
 		
 		duration: function ()
@@ -1514,19 +1526,19 @@ var self = {
 	font: {
 		setFamily: function (fontFamily)
 		{
-			self.settings.font = fontFamily;
-			self.save();
+			gq.settings.font = fontFamily;
+			gq.save();
 		},
 		
 		setSize: function (size)
 		{
-			self.settings.fontSize = size;
-			self.save();
+			gq.settings.fontSize = size;
+			gq.save();
 		},
 		
 		getFamily: function (by)
 		{			
-			if (self.settings.font == 'auto' && self.quran.isSelected(by) && self.quran.detail(by).type == 'quran')
+			if (gq.settings.font == 'auto' && gq.quran.isSelected(by) && gq.quran.detail(by).type == 'quran')
 			{
 				if (/mac/i.test(navigator.platform)) // isMac
 						return 'Scheherazade';
@@ -1538,12 +1550,12 @@ var self = {
 					return 'KFGQPC Uthman Taha Naskh';
 			}
 			
-			return (self.settings.font != 'auto') ? self.settings.font : '';			
+			return (gq.settings.font != 'auto') ? gq.settings.font : '';			
 		},
 		
 		getSize: function ()
 		{
-			return self.settings.fontSize;
+			return gq.settings.fontSize;
 		}
 	},
 	
@@ -1721,7 +1733,7 @@ var self = {
 		if (this.search.isActive())
 		{
 			this.search.loading(true);
-			requestUrl = this.apiURL;
+			var requestUrl = this.apiURL;
 			
 			if (firstLoad)
 				requestUrl += 'all/';
@@ -1775,13 +1787,13 @@ var self = {
 			$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' });
 
 			$.getJSON(requestUrl+$jsonp, function(response) {			
-				self._loadResponse(response, firstLoad);
+				gq._loadResponse(response, firstLoad);
 			});
 		}
 		else
 		{
-			self.layout.display(true);	
-			self.player.load('play');
+			gq.layout.display(true);	
+			gq.player.load('play');
 		}
 		
 		return false;
@@ -1791,46 +1803,46 @@ var self = {
 	{
 		if (typeof(response) == 'object')			
 		{
-			self.data = $.extend(true, self.data, response);
-			self.data.loaded = true;
+			gq.data = $.extend(true, gq.data, response);
+			gq.data.loaded = true;
 		}
 		
-		if (self.search.isActive())
+		if (gq.search.isActive())
 		{
-			self.search.init();
-			self.search.loading(false);
-			if (self.search.totalRows() > 0)
+			gq.search.init();
+			gq.search.loading(false);
+			if (gq.search.totalRows() > 0)
 			{
 				for (var verseNo in response.search.quran)
 				{
-					self.search._positionStartVerse = verseNo;
+					gq.search._positionStartVerse = verseNo;
 					break;
 				}
 			}			
 		}
 		
 		if (response.languageSelected)
-			self.settings.selectedLanguage = response.languageSelected;
+			gq.settings.selectedLanguage = response.languageSelected;
 				
 		if (firstLoad) // first time loading the page
 		{
-			self.player.init(); // player
+			gq.player.init(); // player
 			
-			if (!self.quran.length() && typeof(response) == 'object' && response.quran)
+			if (!gq.quran.length() && typeof(response) == 'object' && response.quran)
 			{
 				$.each(response.quran, function(defaultQuranBy, ignore) {
-					self.quran.add(defaultQuranBy);
+					gq.quran.add(defaultQuranBy);
 				});
 				
 				this.url.save(); // cause defaultQuranBy set here
 			}
 
-			self.layout.displayStartup((typeof(response) == 'object'));
+			gq.layout.displayStartup((typeof(response) == 'object'));
 		}
 		else
 		{
-			self.layout.display((typeof(response) == 'object'));
-			self.player.load('play');
+			gq.layout.display((typeof(response) == 'object'));
+			gq.player.load('play');
 		}
 	},
 	
@@ -1844,39 +1856,39 @@ var self = {
 
 			if (count > 2 && hash['1'] == 'search')
 			{
-				if (self.search.keyword() == hash['2'] && self.search.position() == 0)
+				if (gq.search.keyword() == hash['2'] && gq.search.position() == 0)
 					return false;
 				
-				self.search._keyword = hash['2'];
-				self.search._position = 0;
+				gq.search._keyword = hash['2'];
+				gq.search._position = 0;
 				
 				return true;
 			}
-			else if (count > 2 && self.settings.page != hash['2'])
+			else if (count > 2 && gq.settings.page != hash['2'])
 			{
-				self.quran.reset();
+				gq.quran.reset();
 				selectedBy = hash['1'].split('|');
 		
 				$.each (selectedBy, function(i, quranBy)
 				{
-					self.quran.add(quranBy);
+					gq.quran.add(quranBy);
 				});
 				
 				verse = hash['2'].split(':');
 				
 				if (verse.length > 1)
 				{
-					self.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
-					self.settings.ayah = Quran._fixAyahNum(self.settings.surah, parseInt(verse['1']));
+					gq.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+					gq.settings.ayah = Quran._fixAyahNum(gq.settings.surah, parseInt(verse['1']));
 				}
 				else
 				{
 					verse = Quran.ayah.fromPage(hash['2']);
-					self.settings.surah = verse.surah;
-					self.settings.ayah = verse.ayah;
+					gq.settings.surah = verse.surah;
+					gq.settings.ayah = verse.ayah;
 				}		
 				
-				self.player.reset();
+				gq.player.reset();
 			
 				return true;
 			}
@@ -1886,17 +1898,17 @@ var self = {
 				
 				if (verse.length > 1)
 				{
-					self.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
-					self.settings.ayah = Quran._fixAyahNum(self.settings.surah, parseInt(verse['1']));
+					gq.settings.surah = Quran._fixSurahNum(parseInt(verse['0']));
+					gq.settings.ayah = Quran._fixAyahNum(gq.settings.surah, parseInt(verse['1']));
 				}
 				else
 				{
 					verse = Quran.ayah.fromPage(hash['1']);
-					self.settings.surah = verse.surah;
-					self.settings.ayah = verse.ayah;
+					gq.settings.surah = verse.surah;
+					gq.settings.ayah = verse.ayah;
 				}		
 				
-				self.player.reset();
+				gq.player.reset();
 			
 				return true;
 			}
@@ -1920,31 +1932,31 @@ var self = {
 		
 		page: function (page)
 		{
-			if (self.search.isActive())
-				return '/search/'+self.search.keyword();
+			if (gq.search.isActive())
+				return '/search/'+gq.search.keyword();
 			else
 			{
 				url = '/';
-				by = self.quran.selectedString();
+				by = gq.quran.selectedString();
 				if (by)
 					url += by+'/';
-				url += page || self.settings.page;
+				url += page || gq.settings.page;
 				return url;
 			}
 		},
 		
 		ayah: function (surah, ayah)
 		{
-			if (self.search.isActive())
-				return '/'+self.settings.surah+':'+self.settings.ayah;
+			if (gq.search.isActive())
+				return '/'+gq.settings.surah+':'+gq.settings.ayah;
 			else
 			{
 				url = '/';
-				by = self.quran.selectedString();
+				by = gq.quran.selectedString();
 				if (by)
 					url += by+'/';
 				if (surah)
-					url += self.settings.surah+':'+self.settings.ayah;
+					url += gq.settings.surah+':'+gq.settings.ayah;
 				else
 					url += surah+':'+ayah;
 				return url;
@@ -1984,7 +1996,7 @@ var self = {
 		
 		$.each(data, function(key, val) {
 			if (typeof(val) == 'object' || typeof(val) == 'array')
-				settings += '"'+key+'":'+self._cookieSave(val)+',';
+				settings += '"'+key+'":'+gq._cookieSave(val)+',';
 			else if (typeof(val) != 'string')
 				settings += '"'+key+'":'+val+','; // no quote's
 			else
@@ -2035,9 +2047,6 @@ var self = {
 		}
 	}
 };
-QuranNavigator = self;
-return self;
-})();
 
 if (!Object.keys)
 {

@@ -4,6 +4,9 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* CHANGED: replaced QuranNavigator with gq
+* NEW: added new gq.player.setting for jplayer settings and event triggering, now you can hook your custom events directly to player 
+
 == Release v3.3.0
 
 * FIX: old cookie replace
