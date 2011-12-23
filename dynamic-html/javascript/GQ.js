@@ -701,12 +701,12 @@ var gq = {
 		_iBug: 0, // for OS bug, triggers pause two times, need second trigger and ignore first
 		_delayID: '',
 		
+		/**
+		 * jplayer settings object, you can replace the methods in it, for customization calls
+		 */
 		setting: {
-			swfPath: gq.player.swfPath,
 			supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
 			wmode: "window",
-			volume: gq.settings.volume,
-			muted: gq.settings.muted,
 			preload: 'auto',
 			cssSelectorAncestor: '',
 			cssSelector: {
@@ -853,7 +853,11 @@ var gq = {
 		},
 		
 		setup: function ()
-		{			
+		{	
+			gq.player.setting.swfPath = gq.player.swfPath;
+			gq.player.setting.volume = gq.settings.volume;
+			gq.player.setting.muted = gq.settings.muted;
+			
 			if (!$(this.id).length)
 			{
 				var id = this.id; id = id.replace(/#/, '');
@@ -1412,21 +1416,27 @@ var gq = {
             }
 		},
 		
-		seek: function (percentage, seconds)
+		/**
+		 * seek to new position in audio
+		 * @param number
+		 * @param usingSeconds if set to true, then number should be seconds / else percentage
+		 */
+		seek: function (number, usingSeconds)
 		{
-			percentage = percentage || 0;
-			seconds = seconds || 0;
+			number = number || 0;
+			usingSeconds = usingSeconds || false;
 			
-			if (percentage >= 0)
+			if (usingSeconds == false)
 			{
-				$(this._getPlayerID()).jPlayer('playHead', percentage);
+				$(this._getPlayerID()).jPlayer('playHead', number);
 			}
 			else
 			{
+				console.log(number);
 				if (this.isPlaying())
-					$(this._getPlayerID()).jPlayer('play', seconds);
+					$(this._getPlayerID()).jPlayer('play', number);
 				else
-					$(this._getPlayerID()).jPlayer('pause', seconds);				
+					$(this._getPlayerID()).jPlayer('pause', number);				
 			}			
 		},
 		
