@@ -4,6 +4,9 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+
+== Release v3.4.0
+
 * FIX: scroll keep going up on ayah change
 * FIX: css layout sidebar error fixed
 * CHANGED: replaced QuranNavigator with gq
