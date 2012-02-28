@@ -1,79 +1,75 @@
-= بسم الله الرحمن الرحيم - In the name of Allah, Most Gracious, Most Merciful
+= GlobalQuran.com - Code + API
 
-
-== GlobalQuran.com-code
+بسم الله الرحمن الرحيم - In the name of Allah, Most Gracious, Most Merciful
 
 This Repository have all the scripts to get you started for your Quran Project for your website or for any device that uses html/javascript structure.
 
 we will be adding more scripts to help you build your own Quran project.
 
 
-== Features
+== Quick Links
 
-complete list of {features}[http://blog.globalquran.com/feature-list].
-
-
-== Getting Started
-
+* {Features List}[http://blog.globalquran.com/feature-list] - Complete list of features
 * {Online Demo}[http://GlobalQuran.com] - Live Online Demo
+* {Forum}[http://blog.globalquran.com/forums] - Talk to us about Ideas, Questions or Suggestions
 * {Blog}[http://blog.globalquran.com/] - Get to know what's new coming or has been came.
 * {About us}[http://blog.globalquran.com/about-us/] - About the project and people who are behind it.
-* Documentation & Tutorials (writing documentation - coming soon) - Learn about code and also use our Quran data through REST API.
+* {Documentation & Tutorials}[http://docs.globalquran.com] - Learn about code and also use our Quran data through REST API.
 
 
-=== Little about repository folders structure
+== Installation 
 
-* auto-html [Recommanded] - This will pull html/javascript/css and push directly from your site to users. if any updates took place on the code, you will always be up to date.  
-* dynamic-html [Live (we use this)] - you can modify complete layout through html/css/javascript. full control for any kind of developers.
-* static-html [Testing] - if you plan to change css only, then you can use this for testing only. complete javascript code is not included in this.
-* PSD-html [Designer] - if you are designer and want to change/create site/icons.
-* plugins - Helps you extend the features of your site. developers are welcome to add there own plugins here.
+Getting to know about folder structure
 
+auto-html [Recommanded] :: This will pull html/javascript/css and push directly from your site to users. if any updates took place on the code, you will always be up to date.  
 
-=== Installation 
+dynamic-html [Live (we use this)] :: you can modify complete layout through html/css/javascript. full control for any kind of developers.
 
-[NOTE] if you are installing this in wordpress, then try our easy to add {wordpress plugin}[http://blog.globalquran.com/help/wordpress-plugin/].
+static-html [Testing] :: if you plan to change css only, then you can use this for testing only. complete javascript code is not included in this.
 
-auto-html - if you choose to use this.
+PSD-html [Designer] :: if you are designer and want to change/create site/icons.
 
-    1. edit index.php and change following settings:
-
-    * $api_url = 'http://GlobalQuran.com/'; -- pointing to main site. 
-    * $api_key = ''; -- put your api key from .... (coming soon) - for now ignore this and keep checking for updates or
-
-    subscribe on facebook-twitter for updates
-    
-    2. save the file. 
-    3. upload directly where you want to host it (ex: www). you can even change the file name from index.php to any name
-    (ex: quran.php).
-    
-    [Tip] if you want to change css for this dynamically fetching html, then you have to edit index.php, once it gets 
-    the html from site, then just find global.css and replace it with your own. 
+plugins :: Helps you extend the features of your site. developers are welcome to add there own plugins here.
 
 
-dynamic-html - if you choose to use this.
+== Let's Install - Three different methods to install from.
+
+NOTE:: if you are installing this in wordpress, then try our easy to add {wordpress plugin}[http://blog.globalquran.com/help/wordpress-plugin/].
+
+
+=== 1. auto-html - if you choose to use this.
+
+1. edit +index.php+ and change following settings:
+    $api_url = 'http://GlobalQuran.com/'; - pointing to main site. 
+    $api_key = ''; - put your api key from .... (coming soon)
+2. save the file. 
+3. upload directly where you want to host it (ex: www). you can even change the file name from +index.php+ to any name (ex: +quran.php+).
+
+Tip:: if you want to change css for this dynamically fetching html, then you have to edit +index.php+, once it gets the html from site, then just find +global.css+ and replace it with your own. 
+
+
+=== 2. dynamic-html - if you choose to use this.
   
-    1. edit index.html (optional)    
-    2. save the file. 
-    3. upload the dynamic-html directory to any directory you wish to use it at (ex: www or www/quran)
-    
-    [Note] you can edit any file in it and check it with online preview. - you can test it on local-server as well.
-    
+1. edit +index.html+ (optional)    
+2. save the file. 
+3. upload the dynamic-html directory to any directory you wish to use it at (ex: +www+ or +www/quran+)
 
-static-html - use this for css testing only. for creating new css or modifying old one.
-
-   [Note] once you download this folder, you can test it without even putting on server.
-    
-    if you are creating new css layout called 'fancyDesign', then create new sub-folder at images/themes/fancyDesign and put
-    all your css files and images in this folder, following is recommended settings for this folder.
-
-    * fancyDesign/ - images/css files and folders here.
-    * fancyDesign/css - all the css files here
-    * fancyDesign/css/global.css - complete css
-    * fancyDesign/css/print.css - printing version
+Note:: you can edit any file in it and check it with online preview. - you can test it on local-server as well.
 
 
-=== Plugins
+=== 3. static-html - use this for css testing only. for creating new css or modifying old one.
+   
+if you are creating new css layout called +fancyDesign+, then create new sub-folder at +images/themes/fancyDesign+ and put all your css files and images in this folder, following is recommended settings for this folder.
+
+* +fancyDesign/+ - images/css files and folders here.
+* +fancyDesign/css+ - all the css files here
+* +fancyDesign/css/global.css+ - complete css
+* +fancyDesign/css/print.css+ - printing version
+
+Note:: once you download this folder, you can test it without even putting on server.
+
+
+== Plugins
 
 {Plugins}[https://github.com/imegah/GlobalQuran.com-code/tree/master/Plugins] are great way to extend the site features. we welcome all the developers to add there own plugins here and so people can 
 use it for there sites/applications. if you know any muslim developer, then feel free to share this area with them, so they can
@@ -82,19 +78,12 @@ add there own plugins here.
 
 == Help
 
-Help {Forum}[http://groups.google.com/group/globalquran] - Search forum for Q&A or just Ask one.
-
-
-=== FeedBack and Bug reports
-
-If you use this library and find yourself missing any functionality I have missed, please {let me know}[mailto:i@Basit.me].
-
-Bug reports and Feature suggestions {are welcomed}[https://github.com/imegah/GlobalQuran.com-code/issues].
+Need Help? or just want to suggest something!  Go to our {Forum}[http://blog.globalquran.com/forums] area and search our forum for Q&A or just Ask one.
 
     
 == Author
 
-Author:: {Basit}[http://www.Basit.me/] <i@Basit.me>
+{Basit}[http://www.Basit.me/] <i@Basit.me> - Please use {Forum}[http://blog.globalquran.com/forums] area to ask for support.
 
     
 == Thanks to
@@ -109,7 +98,7 @@ See the {CHANGELOG.rdoc}[https://github.com/imegah/GlobalQuran.com-code/blob/mas
 
 == License
 
-Copyright (c) 2006-2011 GlobalQuran.com
+Copyright (c) 2006-2012 GlobalQuran.com
 
 GlobalQuran.com-code is free software released under the {Simple Public License (Simple-2.0)}[http://www.opensource.org/licenses/Simple-2.0].
     

@@ -4,6 +4,8 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* NEW: Quran.word object added
+* NEW: documenation added on js files
 
 == Release v3.4.0
 
