@@ -1,5 +1,5 @@
 /**
- * Global Quran object to navigate through quran.
+ * gq (Global Quran) object to navigate through quran text, audio and lists of Quran/Recitation/Langauges.
  * @author Basit (i@basit.me || http://Basit.me)
  *
  * Online Quran Project
@@ -12,13 +12,24 @@
  */
 var gq = {
 	
+	/**
+	 * apiURL data api url 
+	 */
 	apiURL: 'http://api.globalquran.com/',
-	noData: false, // switch to true, if you want to have audio only.
 	
+	/**
+	 * noData switch to true, if you want to have audio only
+	 */
+	noData: false,
+	
+	/**
+	 * googleAnalyticsID google analytics id for counting visitors on the site and the event they do
+	 */
 	googleAnalyticsID: '',
 	
 	/**
-	 * object contains selected page info
+	 * internal usage
+	 * settings holds the recent user settings for the site 
 	 */
 	settings: {
 		ayah: 1,
@@ -57,7 +68,8 @@ var gq = {
 	
 	
 	/**
-	 * caching all the data here
+	 * internal usage
+	 * data caching all the data here
 	 */
 	data: {
 		loaded: false,
@@ -70,7 +82,8 @@ var gq = {
 	},
 	
 	/**
-	 * initial load 
+	 * initial load on start, its required to run on start, before executing any other methods
+	 * @returns {void} 
 	 */
 	init: function () {
 		Quran.init();
@@ -106,10 +119,14 @@ var gq = {
 	},
 	
 	/**
-	 * quran object
+	 * quran object lets you easily retrive data from quran and tell you detail about that data
 	 */
 	quran: {
 		
+		/**
+		 * initial load
+		 * @returns {void}
+		 */
 		init: function ()
 		{
 			if (gq.settings.selectedBy && typeof(gq.settings.selectedBy) == 'object' && this.length() > 0)
@@ -129,10 +146,18 @@ var gq = {
 				gq.quran.reset();
 		},
 		
+		/**
+		 * loads the current page again, useful for triggering after settings has been changed or quran translation has been deselected for rebuilding the page
+		 * @return {void}
+		 */
 		load: function () {
 			gq.load(gq.settings.surah, gq.settings.ayah);
 		},
 		
+		/**
+		 * gets the Quran text for all the selected Quran translation & Quran selections.
+		 * @returns {object}
+		 */
 		text: function ()
 		{
 			var text = {};
@@ -160,6 +185,11 @@ var gq = {
 			return text;
 		},
 		
+		/**
+		 * if any of the Quran text as not been cached yet, maybe because it was new selection, then this method will
+		 * return the list of quran id(s) seperated by pipe '|' as string, you can use this directly on data url to fetch the missing Quran text.
+		 * @returns {string}  
+		 */
 		textNotCached: function ()
 		{
 			var notCached = [];
@@ -180,6 +210,11 @@ var gq = {
 			return notCached.join('|');
 		},
 		
+		/**
+		 * Gets the list of quran
+		 * @param format (optional) text or audio (audio is for list of recitors)
+		 * @returns {object}
+		 */
 		list: function (format)
 		{
 			if (!format)
@@ -196,27 +231,45 @@ var gq = {
 			}
 		},
 		
-		detail: function (by)
+		/**
+		 * Gets the detail of a specific Quran translation by there quran id
+		 * @param quranBy quran id
+		 * @returns {object}
+		 */
+		detail: function (quranBy)
 		{
-			return this.list()[by];
+			return this.list()[quranBy];
 		},
 		
-		direction: function (by)
+		/**
+		 * Gets the Quran text direction. left to right (left) or right to left (right)
+		 * @param quranBy quran id
+		 * @returns {string} right or left, if no direction was found, then default is left
+		 */
+		direction: function (quranBy)
 		{
 			if (by == 'quran-wordbyword')
 				return (gq.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
 			else if (by == 'quran-kids')
 				return (gq.settings.wbwDirection == 'arabic2english') ? 'right' : 'left';
 			
-			languageCode = this.detail(by).language_code;
+			languageCode = this.detail(quranBy).language_code;
 			return  (typeof(gq.language.list()[languageCode]) !== 'undefined') ? gq.language.list()[languageCode].dir : 'left';
 		},
 		
+		/**
+		 * list of selected Quran translation & text as object
+		 * @returns {object}
+		 */
 		selected: function ()
 		{
 			return gq.settings.selectedBy;
 		},
 		
+		/**
+		 * list of selected Quran translation & text as string
+		 * @returns {string} seperated by pipe '|'
+		 */
 		selectedString: function ()
 		{
 			var by = [];
@@ -229,12 +282,20 @@ var gq = {
 			return by.join('|');
 		},
 		
+		/**
+		 * reset the selection of quran list back to default selection
+		 * @returns {void}
+		 */
 		reset: function ()
 		{
 			gq.settings.selectedBy = {};
 			gq.save();
 		},
 		
+		/**
+		 * count the selected Quran translation & text
+		 * @returns {integer}
+		 */
 		length: function ()
 		{
 			if (!gq.settings.selectedBy || typeof(gq.settings.selectedBy) != 'object')
@@ -243,25 +304,49 @@ var gq = {
 			return Object.keys(gq.settings.selectedBy).length;
 		},
 		
+		/**
+		 * check if Quran translation or text has been selected
+		 * @param quranBy quran id
+		 * @returns {Boolean}
+		 */
 		isSelected: function (quranBy)
 		{
 			return gq.settings.selectedBy[quranBy] ? true : false;
 		},
 		
+		/**
+		 * add Quran translation or text to a selection
+		 * @param quranBy quran id
+		 * @returns {void}
+		 */
 		add: function (quranBy)
 		{
 			gq.settings.selectedBy[quranBy] = quranBy;
 			gq.save();
 		},
 		
+		/**
+		 * remove Quran translation or text from a selection
+		 * @param quranBy quran id
+		 * @returns {void}
+		 */
 		remove: function (quranBy)
 		{
 			delete gq.settings.selectedBy[quranBy];
 			gq.save();
 		},
 		
+		/**
+		 * Quran text parse methods, for parsing the text and formating the text in the way that should be in
+		 */
 		parse: {
 			
+			/**
+			 * parse the text in the proper required format
+			 * @param quranBy quran id
+			 * @param text quran text
+			 * @returns {string}
+			 */
 			load: function (quranBy, text)
 			{	
 				type = gq.data.quranList[quranBy].type;
@@ -278,6 +363,12 @@ var gq = {
 					return this.parseTranslation(quranBy, text);
 			},
 			
+			/**
+			 * parse the tanzil text and changes signs, alef, meems and tatweel according to the user settings
+			 * @param quranBy
+			 * @param text
+			 * @returns {String}
+			 */
 			parseQuran: function (quranBy, text)
 			{
 				if (gq.settings.showSigns)
@@ -314,6 +405,12 @@ var gq = {
 			    return text;
 			},
 			
+			/**
+			 * parse word by word text
+			 * @param quranBy
+			 * @param text
+			 * @returns {String}
+			 */
 			parseWordByWord: function (quranBy, text)
 			{
 				var words = text.split('$');
@@ -343,6 +440,12 @@ var gq = {
 				return verse_html;
 			},
 			
+			/**
+			 * parse kids word by word text
+			 * @param quranBy
+			 * @param text
+			 * @returns {String}
+			 */
 			parseKidsWordByWord: function (quranBy, text)
 			{
 				var words = text.split('$');
@@ -378,19 +481,36 @@ var gq = {
 				
 				return verse_html;
 			},
-			_color: 1,
+			_color: 1, // internal use with parse kids word by word
 			
+			/**
+			 * parse the tajweed text
+			 * @param quranBy
+			 * @param text
+			 * @returns {String}
+			 */
 			parseTajweed: function (quranBy, text)
 			{
 				return text.replace(/\[h/g, '<span class="ham_wasl" title="Hamzat Wasl" alt="').replace(/\[s/g, '<span class="slnt" title="Silent" alt="').replace(/\[l/g, '<span class="slnt" title="Lam Shamsiyyah" alt="').replace(/\[n/g, '<span class="madda_normal" title="Normal Prolongation: 2 Vowels" alt="').replace(/\[p/g, '<span class="madda_permissible" title="Permissible Prolongation: 2, 4, 6 Vowels" alt="').replace(/\[m/g, '<span class="madda_necessary" title="Necessary Prolongation: 6 Vowels" alt="').replace(/\[q/g, '<span class="qlq" title="Qalqalah" alt="').replace(/\[o/g, '<span class="madda_obligatory" title="Obligatory Prolongation: 4-5 Vowels" alt="').replace(/\[c/g, '<span class="ikhf_shfw" title="Ikhfa\' Shafawi - With Meem" alt="').replace(/\[f/g, '<span class="ikhf" title="Ikhfa\'" alt="').replace(/\[w/g, '<span class="idghm_shfw" title="Idgham Shafawi - With Meem" alt="').replace(/\[i/g, '<span class="iqlb" title="Iqlab" alt="').replace(/\[a/g, '<span class="idgh_ghn" title="Idgham - With Ghunnah" alt="').replace(/\[u/g, '<span class="idgh_w_ghn" title="Idgham - Without Ghunnah" alt="').replace(/\[d/g, '<span class="idgh_mus" title="Idgham - Mutajanisayn" alt="').replace(/\[b/g, '<span class="idgh_mus" title="Idgham - Mutaqaribayn" alt="').replace(/\[g/g, '<span class="ghn" title="Ghunnah: 2 Vowels" alt="').replace(/\[/g, '" >').replace(/\]/g, '</span>');
 			},
 			
+			/**
+			 * parse the translation text
+			 * @param quranBy
+			 * @param text
+			 * @returns {String}
+			 */
 			parseTranslation: function (quranBy, text)
 			{
 				text = text.replace(/\]\]/g, '$').replace(/ *\[\[[^$]*\$/g, '');
 				return text;
 			},
 		
+			/**
+			 * method for tanzil text
+			 * @param text
+			 * @returns {String}
+			 */
 			addSpaceTatweel: function (text)
 			{
 			    text = this.pregReplace('($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)', '$1$TATWEEL$2', text);
@@ -398,6 +518,11 @@ var gq = {
 			    return text;
 			},
 			
+			/**
+			 * method for tanzil text
+			 * @param text
+			 * @returns {String}
+			 */
 			addTatweel: function (text)
 			{
 			    text = this.pregReplace('($SHADDA|$FATHA)($SUPERSCRIPT_ALEF)', '$1$TATWEEL$2', text);
@@ -405,6 +530,11 @@ var gq = {
 			    return text;
 			},
 			
+			/**
+			 * method for tanzil text
+			 * @param text
+			 * @returns {String}
+			 */
 			removeExtraMeems: function (text)
 			{
 			    text = this.pregReplace('([$FATHATAN$DAMMATAN])$LOW_MEEM', '$1', text);
@@ -412,6 +542,12 @@ var gq = {
 			    return text;
 			},
 			
+			/**
+			 * highlight the words based on pattern
+			 * @param pattern
+			 * @param str
+			 * @returns {string}
+			 */
 			highlight: function (pattern, str)
 			{
 			    pattern = new RegExp('(' + pattern + ')', 'g');
@@ -426,6 +562,13 @@ var gq = {
 			    return str;
 			},
 			
+			/**
+			 * internal usage
+			 * @param fromExp
+			 * @param toExp
+			 * @param str
+			 * @returns {String}
+			 */
 			pregReplace: function (fromExp, toExp, str)
 			{
 			    fromExp = new RegExp(this.regTrans(fromExp), 'g');
@@ -433,6 +576,11 @@ var gq = {
 			    return str.replace(fromExp, toExp);
 			},
 			
+			/**
+			 * internal usage
+			 * @param str
+			 * @returns {String}
+			 */
 			regTrans: function (str) {
 			    return str.replace(/\$([A-Z_]+)/g, function (s, i, ofs, all) {
 			        return Quran._data.UGroups[i] || Quran._data.UChars[i] || '';
@@ -586,8 +734,15 @@ var gq = {
 		}
 	},
 	
+	/**
+	 * recitor object lets you easily get list of recitors and there available bitrate list, while you can selection and removing them from selection
+	 */
 	recitor: {
 		
+		/**
+		 * initial load
+		 * @returns {void}
+		 */
 		init: function()
 		{
 			if (gq.settings.selectedRecitor && typeof(gq.settings.selectedRecitor) == 'object' && this.length() > 0)
@@ -611,19 +766,31 @@ var gq = {
 				this.reset();
 		},
 		
+		/**
+		 * load the selected recitor in the player
+		 */
 		load: function ()
 		{
 			gq.player.load('new');
 		},
 		
+		/**
+		 * Gets the list of recitors
+		 * @returns {object}
+		 */
 		list: function()
 		{
 			return gq.quran.list('audio');
 		},
 		
-		bitrateList: function (by)
+		/**
+		 * Gets the list of available bitrate and there type (mp3 or ogg) for a recitor
+		 * @param quranBy quran id
+		 * @returns {object}
+		 */
+		bitrateList: function (quranBy)
 		{			
-			row = gq.quran.detail(by);
+			row = gq.quran.detail(quranBy);
 			
 			if (!row)
 				return {'auto': 'mp3,ogg'};
@@ -642,22 +809,38 @@ var gq = {
 			return bitrate;
 		},
 		
+		/**
+		 * Gets the list of selected recitors
+		 * @returns {object}
+		 */
 		selected: function ()
 		{
 			return gq.settings.selectedRecitor;
 		},
 		
+		/**
+		 * Gets the selected bitrate for a specific recitor
+		 * @param quranBy quran id
+		 * @returns {String}
+		 */
 		selectedKbs: function (quranBy)
 		{
 			return gq.settings.selectedRecitor[quranBy];
 		},
 		
+		/**
+		 * reset the selected recitors
+		 */
 		reset: function ()
 		{
 			gq.settings.selectedRecitor = {};
 			gq.save();
 		},
 		
+		/**
+		 * count the selected recitors
+		 * @returns {integer}
+		 */
 		length: function ()
 		{
 			if (!gq.settings.selectedRecitor || typeof(gq.settings.selectedRecitor) != 'object')
@@ -666,11 +849,21 @@ var gq = {
 			return Object.keys(gq.settings.selectedRecitor).length;
 		},
 		
+		/**
+		 * check if recitor has been selected or not
+		 * @param quranBy quran id is a recitor id
+		 * @returns {Boolean}
+		 */
 		isSelected: function (quranBy)
 		{			
 			return gq.settings.selectedRecitor[quranBy] ? true : false;
 		},
 		
+		/**
+		 * Add a recitor to a selection
+		 * @param quranBy
+		 * @param kbs (optional)
+		 */
 		add: function (quranBy, kbs)
 		{	
 			if (kbs)
@@ -680,6 +873,10 @@ var gq = {
 			gq.save();
 		},
 		
+		/**
+		 * Remove a recitor from a selection
+		 * @param quranBy
+		 */
 		remove: function (quranBy)
 		{
 			delete gq.settings.selectedRecitor[quranBy];
@@ -687,22 +884,76 @@ var gq = {
 		}		
 	},
 	
+	/**
+	 * player object - This object controls the media player for playing recitation
+	 */
 	player: {
+		
+		/**
+		 * off Toggle the player on and off
+		 */
 		off: false,
+		
+		/**
+		 * id player div id
+		 */
 		id: '#audioPlayer',
+		
+		/**
+		 * id2 second player div id
+		 */
 		id2: '#audioPlayer2',
+		
+		/**
+		 * swfPath flash player path for non html5 support
+		 */
 		swfPath: 'http://globalquran.com/images',
+		
+		/**
+		 * audioPath audio data api path
+		 */
 		audioPath: 'http://audio.globalquran.com/',
-		preload: true, // true (two players playing continuesly), false (play with one and load with one) or -1 (just play only, no preload)
+		
+		/**
+		 * preload three different settings for this 
+		 * = true;  - two players playing continuesly
+		 * = false; - play with one and load with other one
+		 * = -1;    - just use only one player to play and load. This does not do preload. good for iphone or ipad
+		 */
+		preload: true,
+		
+		/**
+		 * autoBitrate pass 'high' or 'low' for audio quality user wants
+		 */
 		autoBitrate: 'high', // high, low
+		
+		/**
+		 * _recitor internal method - builds a list of recitor with there available bitrates and formats (mp3 or ogg), which can be played in
+		 */
 		_recitor: {},
+		
+		/**
+		 * _currentPlayer internal var - pointer for indicating which player is current player
+		 */
 		_currentPlayer: 0,
-		_i: 0, // repeat counter
-		_iBug: 0, // for OS bug, triggers pause two times, need second trigger and ignore first
+		
+		/**
+		 * _i internal var - if repeat is enable with the limit of time it should repeat, then this method keep on note for how many times it has been repeated  
+		 */
+		_i: 0,
+		
+		/**
+		 * _iBug internal var - for OS bug, triggers pause two times, need second trigger and ignore first 
+		 */
+		_iBug: 0,
+		
+		/**
+		 * _delayID internal val - id from setTimeout function, which can be used to destroy the timeout session
+		 */
 		_delayID: '',
 		
 		/**
-		 * jplayer settings object, you can replace the methods in it, for customization calls
+		 * setting - This object is jplayer settings object, you can replace the methods and vars in it, for customization calls, please check on jplayer.org for documentaion on this
 		 */
 		setting: {
 			supplied: 'mp3,oga,m4v', // m4v is required here, but not required on files
@@ -837,7 +1088,10 @@ var gq = {
 				}
 			}
 		},
-				
+		
+		/**
+		 * initial start up run, setup the player
+		 */
 		init: function () 
 		{
 			if (this.off)
@@ -852,6 +1106,9 @@ var gq = {
 			this.setup();
 		},
 		
+		/**
+		 * setup the player, this function is being called from gq.player.init();
+		 */
 		setup: function ()
 		{	
 			gq.player.setting.swfPath = gq.player.swfPath;
@@ -914,6 +1171,10 @@ var gq = {
 			$.jPlayer.timeFormat.padMin = false;
 		},
 		
+		/**
+		 * check if its OS (iphone, ipad or ipod) or not
+		 * @returns {Boolean}
+		 */
 		isOS: function ()
 		{
 			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
@@ -922,6 +1183,10 @@ var gq = {
 				return false;
 		},
 		
+		/**
+		 * load the audio in the player for playing
+		 * @param action 'new' resetting player for different ayah/surah/page/juz or 'next' as just keep on moving next ayah/surah/page/juz (if repeat is enable, it will repeat that ayah/surah/page/juz)
+		 */
 		load: function (action)
 		{
 			if (this.off)
@@ -984,6 +1249,11 @@ var gq = {
 				gq.layout.play();
 		},
 		
+		/**
+		 * internal method
+		 * get the current playing player id - mostly for internal usage
+		 * @returns {String}
+		 */
 		_getPlayerID: function ()
 		{
 			if (this._currentPlayer == 0 || this._currentPlayer == 1)
@@ -992,6 +1262,11 @@ var gq = {
 				return this.id2;
 		},
 		
+		/**
+		 * internal method
+		 * @param get 'current' or 'next'
+		 * @returns {object}
+		 */
 		_getFiles: function (get)
 		{
 			get = get || 'current';
@@ -1044,6 +1319,11 @@ var gq = {
 			return files;
 		},
 		
+		/**
+		 * internal method
+		 * resets the recitor list and current playing player
+		 * @returns {void}
+		 */
 		_recitorReset: function ()
 		{
 			if (!gq.data.loaded)
@@ -1089,6 +1369,12 @@ var gq = {
 			this._currentPlayer = 0;
 		},
 		
+		/**
+		 * internal method
+		 * builds the recitor selected bitrate (auto if not found)  
+		 * @param recitorName quran id
+		 * @returns {object} kbs, mp3, ogg and auz
+		 */
 		_recitorInfo: function (recitorName)
 		{
 			if (!recitorName)
@@ -1129,22 +1415,37 @@ var gq = {
 			};
 		},
 		
+		/**
+		 * current playing recitor quran id
+		 * @returns {String} quran id
+		 */
 		recitorBy: function ()
 		{
 			return (this._recitor.length > 0) ? this._recitor['row'+this._recitor.position].name : 'undefined';
 		},
 		
+		/**
+		 * current playing recitor bitrate
+		 * @returns {String} bitrate
+		 */
 		recitorKbs: function ()
 		{
 			return (this._recitor.length > 0) ? this._recitor['row'+this._recitor.position].kbs  : 'undefined';
 		},
 		
+		/**
+		 * check if player is playing or is it in pause mode
+		 * @returns {Boolean}
+		 */
 		isPlaying: function ()
 		{
 			return !this.status().paused;
 		},
 		
-		reset: function (from)
+		/**
+		 * reset recitor, player, loop and playing position
+		 */
+		reset: function ()
 		{
 			this._recitorReset();
 			this._recitor.position = 1;
@@ -1152,6 +1453,9 @@ var gq = {
 			this._currentPlayer = 0;
 		},
 		
+		/**
+		 * start playing the audio
+		 */
 		play: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('play');
@@ -1160,6 +1464,9 @@ var gq = {
 			gq._gaqPush(['_trackEvent', 'Audio', 'Play', this.recitorBy()]);
 		},
 		
+		/**
+		 * pause the audio
+		 */
 		pause: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('pause');
@@ -1168,6 +1475,9 @@ var gq = {
 			gq._gaqPush(['_trackEvent', 'Audio', 'Pause', this.recitorBy()]);
 		},
 		
+		/**
+		 * completely stop the audio
+		 */
 		stop: function ()
 		{	
 			$(this._getPlayerID()).jPlayer('stop');
@@ -1175,6 +1485,9 @@ var gq = {
 			gq._gaqPush(['_trackEvent', 'Audio', 'Stop', this.recitorBy()]);
 		},
 		
+		/**
+		 * move to next audio - if loop enable then loop the same audio again and also checks the counter for loop
+		 */
 		next: function ()
 		{
 			var rPos = this._recitor.position;
@@ -1273,6 +1586,9 @@ var gq = {
 			}
 		},
 		
+		/**
+		 * move back to previous playing audio
+		 */
 		prev: function ()
 		{
 			var rPos = this._recitor.position;
@@ -1410,6 +1726,12 @@ var gq = {
 			}
 		},
 		
+		/**
+		 * internal method
+		 * reset previous playing audio 
+		 * @param pos
+		 * @param verse
+		 */
 		_prevRestRecitor: function (pos, verse)
 		{
 			for ( var i = 1; i < pos; i++)
@@ -1441,6 +1763,10 @@ var gq = {
 			}			
 		},
 		
+		/**
+		 * increase or decrease the volume
+		 * @param volume
+		 */
 		volume: function (volume)
 		{
 			$(this.id).jPlayer('volume', volume);
@@ -1449,6 +1775,9 @@ var gq = {
 			gq.save();
 		},
 		
+		/**
+		 * mute the volume
+		 */
 		mute: function ()
 		{			
 			$(this.id).jPlayer('mute');
@@ -1457,6 +1786,9 @@ var gq = {
 			gq.save();
 		},
 		
+		/**
+		 * unmute the volume
+		 */
 		unmute: function ()
 		{
 			$(this.id).jPlayer('unmute');
@@ -1465,52 +1797,90 @@ var gq = {
 			gq.save();
 		},
 		
+		/**
+		 * enable and disable the repeating audio
+		 * @param bool
+		 */
 		repeat: function (bool)
 		{
 			gq.settings.repeat = bool;
 			gq.save();
 		},
 		
+		/**
+		 * repeat each ayah, surah, page or juz
+		 * @param repeat default is ayah
+		 */
 		repeatEach: function (repeat)
 		{
 			gq.settings.repeatEach = repeat;
 			gq.save();
 		},
 		
+		/**
+		 * repeat how many times?
+		 * @param times default is 1
+		 */
 		repeatTimes: function (times)
 		{
 			gq.settings.repeatTimes = times;
 			gq.save();
 		},
 		
+		/**
+		 * pause number of seconds before playing again
+		 * @param delay number of seconds 1 for 1 second, 60 for 60 seconds - if set to 'ayah', then it will pause for current playing ayah seconds, before moving to next
+		 */
 		audioDelay: function (delay)
 		{
 			gq.settings.audioDelay = delay;
 			gq.save();
 		},
 		
+		/**
+		 * duration of current playing audio
+		 * @returns {integer}
+		 */
 		duration: function ()
 		{
 			return this.status().duration;
 		},
 		
+		/**
+		 * gets how much audio is already been played
+		 * @returns {integer}
+		 */
 		playingTime: function ()
 		{
 			return this.status().currentTime;
 		},
 		
+		/**
+		 * jplayer status of current player or the given player id 
+		 * @param playerID (optional)
+		 * @returns {object}
+		 */
 		status: function (playerID)
 		{
 			var playerID = playerID || this._getPlayerID();
 			return $(playerID).data("jPlayer").status;
 		},
 		
+		/**
+		 * jplayer data of current player or the given player id
+		 * @param playerID (optional)
+		 * @returns
+		 */
 		data: function (playerID)
 		{
 			var playerID = playerID || this._getPlayerID();
 			return $(playerID).data("jPlayer");
 		},
 		
+		/**
+		 * destroy the player's
+		 * @param playerID (optional) default will destroy both players
+		 */
 		destroy: function (playerID)
 		{
 			if (playerID)			
@@ -1525,38 +1895,95 @@ var gq = {
 		}
 	},
 	
+	/**
+	 * layout object, you must overright this object to get your layout to function properly with the methods of gq object
+	 */
 	layout: {
-		displayStartup: function (success) {}, // replace this function with yours
-		display: function (success) {}, // replace this function with yours
+		
+		/**
+		 * replace this function with yours
+		 * This method runs only once on start up. You should build your complete list of quran and the page from this method. please check layout.displayStartup method
+		 * @param true (success) or false (failed)
+		 */
+		displayStartup: function (success) {},
+		
+		/**
+		 * replace this function with yours
+		 * This method runs on second call of gq.load() for building quran page with new data. please check layout.display method
+		 * @param true (success) or false (failed)
+		 */
+		display: function (success) {},
+		
+		/**
+		 * replace this function with yours
+		 * change volume with this method. please check layout.ayahChanged method
+		 */
 		ayahChanged: function () {},
-		volume: function (val) {},
+		
+		/**
+		 * replace this function with yours
+		 * change volume with this method. please check gq.player.volume and layout.volume methods 
+		 */
+		volume: function (volume) {},
+		
+		/**
+		 * replace this function with yours
+		 * trggering the play button, put your code here for playing the audio. please check gq.player.play and layout.play methods
+		 */
 		play: function () {},
+		
+		/**
+		 * replace this function with yours
+		 * triggering the stop button, put your code here for stopping the audio. please check the gq.player.stop and layout.stop methods 
+		 */
 		stop: function () {},
+		
+		/**
+		 * replace this function with yours
+		 * for building the recitorList
+		 */
 		recitorList: function () {}
 	},
 	
+	/**
+	 * font object holds the methods to change around the quran font text, after running the method make sure you run gq.quran.load() for seeing the effect take pace
+	 */
 	font: {
+		
+		/**
+		 * setting the font family
+		 * @param fontFamily
+		 */
 		setFamily: function (fontFamily)
 		{
 			gq.settings.font = fontFamily;
 			gq.save();
 		},
 		
+		/**
+		 * set font size smaller, small, medium, large, larger, larger-x and larger-xx
+		 * @param size
+		 */
 		setSize: function (size)
 		{
 			gq.settings.fontSize = size;
 			gq.save();
 		},
 		
-		getFamily: function (by)
+		/**
+		 * get font family for a quran text by there quran id
+		 * @param quranBy quran id
+		 * @returns {String}
+		 */
+		getFamily: function (quranBy)
 		{			
-			if (gq.settings.font == 'auto' && gq.quran.isSelected(by) && gq.quran.detail(by).type == 'quran')
+			if (gq.settings.font == 'auto' && gq.quran.isSelected(quranBy) && gq.quran.detail(quranBy).type == 'quran')
 			{
 				if (/mac/i.test(navigator.platform)) // isMac
 						return 'Scheherazade';
-				if (/uthmani/.test(by)) // isUthamani
+				if (/uthmani/.test(quranBy)) // isUthamani
 					return 'me_quran';
-				else if (/tajweed/.test(by)) // isTajweed
+				else if (/tajweed/.test(quranBy)) // isTajweed
 					return '_PDMS_Saleem_QuranFont';
 				else
 					return 'KFGQPC Uthman Taha Naskh';
@@ -1565,21 +1992,31 @@ var gq = {
 			return (gq.settings.font != 'auto') ? gq.settings.font : '';			
 		},
 		
+		/**
+		 * get the font size
+		 * @returns {String}
+		 */
 		getSize: function ()
 		{
 			return gq.settings.fontSize;
 		}
 	},
 	
-	
-	
-	
+	/**
+	 * Enable or disable the fullscreen mode
+	 * @param enable true to enable and false to disable
+	 */	
 	setFullScreen: function (enable)
 	{
 		this.settings.fullScreen = enable;
 		this.save();
 	},
 	
+	/**
+	 * if argument was empty, then it will just return the current juz number, else it will set it.
+	 * @param juz (optional)
+	 * @returns {mixed} return current juz number if argument was not set (if set and current page is not same page, then it will return false and run gq.load)
+	 */
 	juz: function (juz)
 	{		
 		if (juz)
@@ -1597,6 +2034,11 @@ var gq = {
 		return this.settings.juz;
 	},
 	
+	/**
+	 * if argument was empty, then it will just return the current page number, else it will set it.
+	 * @param page (optional)
+	 * @returns {mixed} return current page number if argument was not set (if set and current page is not same page, then it will return false and run gq.load)
+	 */
 	page: function (page)
 	{		
 		if (page)
@@ -1614,6 +2056,11 @@ var gq = {
 		return this.settings.page;
 	},
 	
+	/**
+	 * if argument was empty, then it will just return the current surah number, else it will set it.
+	 * @param surah (optional)
+	 * @returns {mixed} return current surah number if argument was not set (if set and current page is not same page, then it will return false and run gq.load)
+	 */
 	surah: function (surah)
 	{		
 		if (surah)
@@ -1636,6 +2083,12 @@ var gq = {
 		return this.settings.surah;
 	},
 	
+	/**
+	 * if argument was empty, then it will just return the current ayah number, else it will set it.
+	 * @param surah (optional)
+	 * @param ayah (optional)
+	 * @returns {mixed} return current ayah number if argument was not set (if set and current page is not same page, then it will return false and run gq.load)
+	 */
 	ayah: function (surah, ayah)
 	{		
 		if (surah)
@@ -1660,6 +2113,12 @@ var gq = {
 		return this.settings.ayah;
 	},
 	
+	/**
+	 * gets the current verse number or verse number for the passed surah & ayah.
+	 * @param surah (optional)
+	 * @param ayah  (optional)
+	 * @returns {String}
+	 */
 	verse: function (surah, ayah)
 	{
 		surah = surah ? Quran._fixSurahNum(surah) : this.settings.surah;
@@ -1668,7 +2127,10 @@ var gq = {
 		return Quran.verseNo.ayah(surah, ayah);
 	},
 	
-
+	/**
+	 * Move the pointer to next ayah, if the ayah dont exist, it will trigger load function to get next page and show next ayah of it.
+	 * @returns {mixed} object of Quran.ayah.next() if ayah already exist on the page, false if next ayah dont exist on page
+	 */
 	nextAyah: function ()
 	{
 		var verse = Quran.ayah.next(this.surah(), this.ayah());
@@ -1685,6 +2147,10 @@ var gq = {
 			return false;	
 	},
 	
+	/**
+	 * Move the pointer to previous ayah, if the ayah dont exist, it will trigger load function to get previous page and show previous ayah of it.
+	 * @returns {mixed} object of Quran.ayah.previous() if ayah already exist on the page, false if previous ayah dont exist on page
+	 */
 	prevAyah: function ()
 	{
 		var verse = Quran.ayah.prev(this.surah(), this.ayah());
@@ -1701,32 +2167,64 @@ var gq = {
 			return false;
 	},
 	
+	/**
+	 * Move to next page
+	 * @returns {void}
+	 */
 	nextPage: function ()
 	{
 		return this.page(this.page()+1);
 	},
 	
+	/**
+	 * Move to previous page
+	 * @returns {void}
+	 */
 	prevPage: function ()
 	{
 		return this.page(this.page()-1);
 	},
 	
+	/**
+	 * Move to next surah
+	 * @returns {void}
+	 */
 	nextSurah: function () {
 		return this.surah(this.surah()+1);
 	},
 	
+	/**
+	 * Move to previous surah
+	 * @returns {void}
+	 */
 	prevSurah: function () {
 		return this.surah(this.surah()-1);
 	},
 	
+	/**
+	 * TODO description about this method
+	 * @returns
+	 */
 	ayahs: function () {	
 		return this.data.ayahList;
 	},
 	
+	/**
+	 * save the settings
+	 */
 	save: function () {
 		this._cookieSave(); // save settings
 	},
 	
+	/**
+	 * loads the data api request from the GlobalQuran server. 
+	 * if no arguments have been passed and its not a search load, then 
+	 * it will consider this has first load of the page and get complete
+	 * list of quran, recitation, translation and settings.
+	 * @param surah (optional)
+	 * @param ayah  (optional)
+	 * @returns {void}
+	 */
 	load: function (surah, ayah)
 	{
 		firstLoad = false;
@@ -1811,6 +2309,12 @@ var gq = {
 		return false;
 	},
 	
+	/**
+	 * internal method
+	 * callback after the request comes back from the server
+	 * @param response json object from server
+	 * @param firstLoad true or false
+	 */
 	_loadResponse: function (response, firstLoad)
 	{
 		if (typeof(response) == 'object')			
@@ -1858,8 +2362,15 @@ var gq = {
 		}
 	},
 	
+	/**
+	 * url object can be used to retrive or set the new url for the page
+	 */
 	url: {
 		
+		/**
+		 * loads the url from the hash
+		 * @returns {Boolean}
+		 */
 		load: function ()
 		{
 			var hash = window.location.hash;
@@ -1928,11 +2439,18 @@ var gq = {
 			return false;
 		},
 		
+		/**
+		 * save new url in the hash
+		 */
 		save: function ()
 		{
 			window.location.hash = '#!'+this.page();
 		},
 		
+		/**
+		 * return the url without the hash
+		 * @returns {String}
+		 */
 		hashless: function ()
 		{
 		    var url = window.location.href;
@@ -1942,6 +2460,11 @@ var gq = {
 		    return hashless_url;
 		},
 		
+		/**
+		 * Gets the url for the page
+		 * @param page (optional) dont pass if this is search page url
+		 * @returns {String}
+		 */
 		page: function (page)
 		{
 			if (gq.search.isActive())
@@ -1957,6 +2480,12 @@ var gq = {
 			}
 		},
 		
+		/**
+		 * Gets the direct url for the ayah
+		 * @param surah (optional) dont pass if its search ayah url
+		 * @param ayah  (optional)
+		 * @returns {String}
+		 */
 		ayah: function (surah, ayah)
 		{
 			if (gq.search.isActive())
@@ -1976,6 +2505,10 @@ var gq = {
 		}
 	},
 	
+	/**
+	 * internal method
+	 * reading the cookie values and saving them to user settings
+	 */
 	_cookieRead: function ()
 	{
 		var settings = '';
@@ -1997,6 +2530,11 @@ var gq = {
 	    this.recitor.init();
 	},
 	
+	/**
+	 * saving the settings to the cookies
+	 * @param data 
+	 * @returns {String}
+	 */
 	_cookieSave: function (data)
 	{
 		var firstRun = (typeof(data) == 'undefined'); 
@@ -2029,6 +2567,10 @@ var gq = {
 		return settings;
 	},
 	
+	/**
+	 * internal method
+	 * google analytics setup method
+	 */
 	googleAnalytics: function ()
 	{
 		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -2049,6 +2591,10 @@ var gq = {
 	    this._gaqPush(['_trackPageview']);   
 	},
 	
+	/**
+	 * google analytics push method
+	 * @param arrayValue
+	 */
 	_gaqPush: function(arrayValue)
 	{		
 		_gaq.push(arrayValue);
@@ -2060,6 +2606,9 @@ var gq = {
 	}
 };
 
+/**
+ * object counting support
+ */
 if (!Object.keys)
 {
     Object.keys = function (obj)
