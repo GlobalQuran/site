@@ -344,33 +344,158 @@ var gq = {
 			/**
 			 * parse the text in the proper required format
 			 * @param quranBy quran id
-			 * @param text quran text
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
 			 * @returns {string}
 			 */
-			load: function (quranBy, text)
+			load: function (quranBy, verseObject)
 			{	
 				type = gq.data.quranList[quranBy].type;
 				
-				if (type == 'quran' && /tajweed/.test(quranBy))
-					return this.parseTajweed(quranBy, text);
+				if (type == 'quran' && /gq-tajweed/.test(quranBy))
+					return this.parseGQTajweed(quranBy, verseObject);
+				else if (type == 'quran' && /tajweed/.test(quranBy))
+					return this.parseTajweed(quranBy, verseObject);
 				else if (type == 'quran' && /wordbyword/.test(quranBy))
-					return this.parseWordByWord(quranBy, text);
+					return this.parseWordByWord(quranBy, verseObject);
 				else if (type == 'quran' && /kids/.test(quranBy))
-					return this.parseKidsWordByWord(quranBy, text);
+					return this.parseKidsWordByWord(quranBy, verseObject);
 				else if (type == 'quran')
-					return this.parseQuran(quranBy, text);
+					return this.parseQuran(quranBy, verseObject);
 				else
-					return this.parseTranslation(quranBy, text);
+					return this.parseTranslation(quranBy, verseObject);
 			},
+			
+			/**
+			 * converts the buck text into bare (no tashkeel) text
+			 * @param buck
+			 * @returns {string}
+			 */
+			buck2bare: function(buck)
+			{ 
+				if(!buck) 
+					return null;
+
+			    return buck.replace(/[{`><]/g, 'A').replace(/[\&]/g, 'w').replace(/[}]/g, 'y').replace( /[\FNK#aeiou~\^]/g, '');
+			},
+			
+			/**
+			 * converts the buck/bare text into arabic simple text (no tashkeel)
+			 * @param buck
+			 * @returns {string}
+			 */
+			buck2arabicSimple: function(buck)
+			{
+			    if(!buck)
+			    	return null;
+			    
+			    buck = this.buck2bare(buck);
+			    
+			    var arabic = '', l, letter, found=false;
+			    var wordArr = buck.split(''); //split into letters.
+			    
+			    for(l=0; l<wordArr.length; ++l)
+			    {
+			        letter = wordArr[l];
+			        found = false;
+			        
+			        for(n=1; n<Quran._data.buck.length; ++n)
+			        {
+			            if(letter == Quran._data.buck[n])
+			            {
+			            	arabic += Quran._data.char[n];
+			            	found = true;
+			                break;
+			            }
+			        }
+			        
+			        if (!found)
+			        	arabic += letter;
+			    }
+			    
+			    return arabic;
+			},
+			
+			/**
+			 * converts the buck/bare text into arabic text
+			 * @param buck
+			 * @returns {string}
+			 */
+			buck2arabic: function(buck)
+			{
+			    if(!buck)
+			    	return null;
+			    
+			    var arabic = '', l, letter, found=false;
+			    var wordArr = buck.split(''); //split into letters.
+			    
+			    for(l=0; l<wordArr.length; ++l)
+			    {
+			        letter = wordArr[l];
+			        found = false;
+			        
+			        for(n=1; n<Quran._data.buck.length; ++n)
+			        {
+			            if(letter == Quran._data.buck[n])
+			            {
+			            	arabic += Quran._data.char[n];
+			            	found = true;
+			                break;
+			            }
+			        }
+			        
+			        if (!found)
+			        	arabic += letter;
+			    }
+			    
+			    return arabic;
+			},
+			
+			/**
+			 * converts the arabic text into buck text
+			 * @param arabic
+			 * @returns {string}
+			 */
+			arabic2buck: function(arabic)
+			{
+			    if(!arabic)
+			    	return null;
+			  
+			    var buck = '', l, letter, found=false;
+			    var wordArr = arabic.split(''); //split into letters.
+			      
+			    for(l=0; l<wordArr.length; ++l)
+			    {
+			        letter = wordArr[l];
+			        found = false;
+			        
+			        for(n=1; n<Quran._data.char.length; ++n)
+			        {
+			            if(letter == Quran._data.char[n]){
+			            	buck += Quran._data.buck[n];
+			            	found = true;
+			                break;
+			            }
+			        }
+			        
+			        if (!found)
+			        	buck += letter;
+			    }
+			    
+			    return buck;
+			},
+			
 			
 			/**
 			 * parse the tanzil text and changes signs, alef, meems and tatweel according to the user settings
 			 * @param quranBy
-			 * @param text
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
 			 * @returns {String}
 			 */
-			parseQuran: function (quranBy, text)
+			parseQuran: function (quranBy, verseObject)
 			{
+				
+				var text = verseObject.verse;
+				
 				if (gq.settings.showSigns)
 			    {
 			        text = this.pregReplace(' ([$HIGH_SALA-$HIGH_SEEN])', '<span class="sign">&nbsp;$1</span>', text);
@@ -408,11 +533,12 @@ var gq = {
 			/**
 			 * parse word by word text
 			 * @param quranBy
-			 * @param text
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
 			 * @returns {String}
 			 */
-			parseWordByWord: function (quranBy, text)
+			parseWordByWord: function (quranBy, verseObject)
 			{
+				var text = verseObject.verse;
 				var words = text.split('$');
 				var verse_html = '';
 				$.each(words, function(i, verse) {
@@ -443,11 +569,12 @@ var gq = {
 			/**
 			 * parse kids word by word text
 			 * @param quranBy
-			 * @param text
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
 			 * @returns {String}
 			 */
-			parseKidsWordByWord: function (quranBy, text)
+			parseKidsWordByWord: function (quranBy, verseObject)
 			{
+				var text = verseObject.verse;
 				var words = text.split('$');
 				var verse_html = '';
 				var color = this._color;
@@ -486,22 +613,37 @@ var gq = {
 			/**
 			 * parse the tajweed text
 			 * @param quranBy
-			 * @param text
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
 			 * @returns {String}
 			 */
-			parseTajweed: function (quranBy, text)
+			parseTajweed: function (quranBy, verseObject)
 			{
+				var text = verseObject.verse;
 				return text.replace(/\[h/g, '<span class="ham_wasl" title="Hamzat Wasl" alt="').replace(/\[s/g, '<span class="slnt" title="Silent" alt="').replace(/\[l/g, '<span class="slnt" title="Lam Shamsiyyah" alt="').replace(/\[n/g, '<span class="madda_normal" title="Normal Prolongation: 2 Vowels" alt="').replace(/\[p/g, '<span class="madda_permissible" title="Permissible Prolongation: 2, 4, 6 Vowels" alt="').replace(/\[m/g, '<span class="madda_necessary" title="Necessary Prolongation: 6 Vowels" alt="').replace(/\[q/g, '<span class="qlq" title="Qalqalah" alt="').replace(/\[o/g, '<span class="madda_obligatory" title="Obligatory Prolongation: 4-5 Vowels" alt="').replace(/\[c/g, '<span class="ikhf_shfw" title="Ikhfa\' Shafawi - With Meem" alt="').replace(/\[f/g, '<span class="ikhf" title="Ikhfa\'" alt="').replace(/\[w/g, '<span class="idghm_shfw" title="Idgham Shafawi - With Meem" alt="').replace(/\[i/g, '<span class="iqlb" title="Iqlab" alt="').replace(/\[a/g, '<span class="idgh_ghn" title="Idgham - With Ghunnah" alt="').replace(/\[u/g, '<span class="idgh_w_ghn" title="Idgham - Without Ghunnah" alt="').replace(/\[d/g, '<span class="idgh_mus" title="Idgham - Mutajanisayn" alt="').replace(/\[b/g, '<span class="idgh_mus" title="Idgham - Mutaqaribayn" alt="').replace(/\[g/g, '<span class="ghn" title="Ghunnah: 2 Vowels" alt="').replace(/\[/g, '" >').replace(/\]/g, '</span>');
+			},
+			
+			/**
+			 * parse the gq tajweed text
+			 * @param quranBy
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
+			 * @returns {String}
+			 */
+			parseGQTajweed: function (quranBy, verseObject)
+			{
+				var text = verseObject.verse;
+				return this.buck2arabic(text);
+				//return text.replace(/\[h/g, '<span class="ham_wasl" title="Hamzat Wasl" alt="').replace(/\[s/g, '<span class="slnt" title="Silent" alt="').replace(/\[l/g, '<span class="slnt" title="Lam Shamsiyyah" alt="').replace(/\[n/g, '<span class="madda_normal" title="Normal Prolongation: 2 Vowels" alt="').replace(/\[p/g, '<span class="madda_permissible" title="Permissible Prolongation: 2, 4, 6 Vowels" alt="').replace(/\[m/g, '<span class="madda_necessary" title="Necessary Prolongation: 6 Vowels" alt="').replace(/\[q/g, '<span class="qlq" title="Qalqalah" alt="').replace(/\[o/g, '<span class="madda_obligatory" title="Obligatory Prolongation: 4-5 Vowels" alt="').replace(/\[c/g, '<span class="ikhf_shfw" title="Ikhfa\' Shafawi - With Meem" alt="').replace(/\[f/g, '<span class="ikhf" title="Ikhfa\'" alt="').replace(/\[w/g, '<span class="idghm_shfw" title="Idgham Shafawi - With Meem" alt="').replace(/\[i/g, '<span class="iqlb" title="Iqlab" alt="').replace(/\[a/g, '<span class="idgh_ghn" title="Idgham - With Ghunnah" alt="').replace(/\[u/g, '<span class="idgh_w_ghn" title="Idgham - Without Ghunnah" alt="').replace(/\[d/g, '<span class="idgh_mus" title="Idgham - Mutajanisayn" alt="').replace(/\[b/g, '<span class="idgh_mus" title="Idgham - Mutaqaribayn" alt="').replace(/\[g/g, '<span class="ghn" title="Ghunnah: 2 Vowels" alt="').replace(/\[/g, '" >').replace(/\]/g, '</span>');
 			},
 			
 			/**
 			 * parse the translation text
 			 * @param quranBy
-			 * @param text
+			 * @param object verseObject {surah: 2, ayah: 4, verse: 'verse text here..'}
 			 * @returns {String}
 			 */
-			parseTranslation: function (quranBy, text)
+			parseTranslation: function (quranBy, verseObject)
 			{
+				var text = verseObject.verse;
 				text = text.replace(/\]\]/g, '$').replace(/ *\[\[[^$]*\$/g, '');
 				return text;
 			},
@@ -1177,7 +1319,7 @@ var gq = {
 		 */
 		isOS: function ()
 		{
-			if (/iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
+			if (/Android/i.test(navigator.userAgent) || /iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent) || /iPod/i.test(navigator.userAgent))
 				return true;
 			else
 				return false;
@@ -1863,7 +2005,7 @@ var gq = {
 		status: function (playerID)
 		{
 			var playerID = playerID || this._getPlayerID();
-			return $(playerID).data("jPlayer").status;
+			return $(playerID).data("jPlayer") ? $(playerID).data("jPlayer").status : false;
 		},
 		
 		/**

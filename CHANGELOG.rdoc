@@ -4,8 +4,17 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
-* NEW: Quran.word object added
+* NEW: gq.quran.parse.buck2arabicSimple() added
+* NEW: gq.quran.parse.buck2arabic() added
+* NEW: gq.quran.parse.arabic2buck() added
+* NEW: Quran.initBuck() added
+* NEW: Quran.word{} object added
+* NEW: Quran.ayah.fromWord() added
+* NEW: Quran.verseNo.word() added
 * NEW: documenation added on js files
+* CHANGED: gq.quran.parse.load() changed parameter from text to object of verse, also changed child functions too
+* CHANGED: layout.verseParse() changed parameter from text to object of verse, to support gq.quran.parse.load() - check above line changed
+* FIX: gq.player.status() fixed, if player has no status at all
 
 == Release v3.4.0
 
