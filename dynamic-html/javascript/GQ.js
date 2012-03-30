@@ -2344,8 +2344,9 @@ var gq = {
 	},
 	
 	/**
-	 * TODO description about this method
-	 * @returns
+	 * gets the list of surah&ayah numbers for a current page 
+	 * [NOTE] data is filled after load function gets triggered. if you want to get list before load function, then use Quran.ayah.listFromPage()
+	 * @returns {object}
 	 */
 	ayahs: function () {	
 		return this.data.ayahList;
