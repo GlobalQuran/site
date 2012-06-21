@@ -4,6 +4,10 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* NEW: app.settings.js added, it holds all the settings for the application
+* NEW: offline feature added alhumduillah
+* NEW: gq.nextJuz() and gq.prevJuz added 
+* NEW: gq.config{} confiq object added for configuration application
 * NEW: gq.quran.parse.buck2arabicSimple() added
 * NEW: gq.quran.parse.buck2arabic() added
 * NEW: gq.quran.parse.arabic2buck() added
@@ -14,6 +18,7 @@ To download stable release, please use "switch tags" button and point to the lat
 * NEW: documenation added on js files
 * CHANGED: gq.quran.parse.load() changed parameter from text to object of verse, also changed child functions too
 * CHANGED: layout.verseParse() changed parameter from text to object of verse, to support gq.quran.parse.load() - check above line changed
+* ChANGED: gq.quran.textNotCached to gq.quran.selectedStringNotCached() 
 * FIX: gq.player.status() fixed, if player has no status at all
 
 == Release v3.4.0
