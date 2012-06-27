@@ -11,12 +11,12 @@
  * 
  */
 
-gq.config = {
+gq.config2 = {
 		
 		/**
 		 * set to true if you want to use Quran for offline, make sure you download all the Quran data and all.json file.
 		 */
-		offline: true,
+		offline: false,
 		
 		/**
 		 * apiURL data api url
@@ -43,7 +43,6 @@ gq.config = {
 		
 		// keyword, url - change/format, player... other config				
 	};
-
 
 
 // starting the application

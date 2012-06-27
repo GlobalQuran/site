@@ -10,7 +10,7 @@
 	<meta property="og:image" content="http://GlobalQuran.com/images/logo.png" />
 	<meta property="og:type" content="book" />
 
-	<?php include('lint.php'); ?>
+	<?php ;//include('lint.php'); ?>
 	<title>GlobalQuran.com (Beta)</title>
 	<meta name="description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
 
@@ -18,6 +18,7 @@
 	<meta property="og:description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
 	<meta property="og:url" content="http://GlobalQuran.com" />
 
+	<base href="/" />
 
 	<link rel="shortcut icon" href="http://GlobalQuran.com/favicon.ico" />
 	<link rel="stylesheet" href="images/themes/default/css/global.css" media="screen,print" />

@@ -38,9 +38,19 @@ var gq = {
 		dataPreCache: true,
 						
 		/**
-		 * puts / backslash in the url, which can be used for sharing on facebook (lint feature). - requries .htaccess and metaTag plugin, to work properly.
+		 * puts backslash in the url, which can be used for sharing on facebook (lint feature). - requries .htaccess and metaTag plugin, to work properly.
+		 * 
+		 * false; 		- disable the html5 url
+		 * '/'; 		- adds / slash before the page values
+		 * '?page=';	- adds ?page= before the page values - useful, if htaccess is not allowed on server
 		 */
-		urlHTML5: true,
+		urlHTML5: '/',
+		
+		/**
+		 * 'page'; 		- url page by page navigation
+		 * 'ayah'; 		- url ayah by ayah navigation
+		 */
+		urlBy: 'ayah',
 		
 		/**
 		 * googleAnalyticsID google analytics id for counting visitors on the site and the event they do
@@ -284,7 +294,7 @@ var gq = {
 		
 		/**
 		 * list of selected Quran translation & text as string
-		 * @returns {string} seperated by pipe '|'
+		 * @returns {string} seperated by pipe '+'
 		 */
 		selectedString: function ()
 		{
@@ -295,7 +305,7 @@ var gq = {
 				by.push(quranBy);	
 			});
 			
-			return by.join('|');
+			return by.join('+');
 		},
 		
 		/**
@@ -2290,6 +2300,7 @@ var gq = {
 				this.settings.ayah = ayah;
 				this.player.load('new');
 				this.save();
+				this.url.update();
 			}
 		}
 		
@@ -2440,6 +2451,7 @@ var gq = {
 			this.url.load();
 		}
 		
+		
 		if (this.search.isActive())
 		{
 			this.search.loading(true);
@@ -2455,14 +2467,13 @@ var gq = {
 		}
 		else if (!surah && !ayah)
 		{	
-			this.settings.page = 0; // url wont load, if its same as url page 1=1
-			this.url.load();
+			this.settings.page = 0;
 			
 			this.settings.surah = this.settings.surah || 1;
 			this.settings.ayah = this.settings.ayah || 1;
 			this.settings.juz =  Quran.ayah.juz(this.settings.surah, this.settings.ayah);	
 			this.settings.page = Quran.ayah.page(this.settings.surah, this.settings.ayah);
-			this.data.ayahList =  Quran.ayah.listFromPage(this.settings.page);			
+			this.data.ayahList =  Quran.ayah.listFromPage(this.settings.page);	
 			
 		}//TODO add other methods too ex: search and language pack
 		else
@@ -2501,7 +2512,7 @@ var gq = {
 		}
 		
 		this.save();
-		this._gaqPush(['_trackPageview', '/#!'+this.url.page()]);
+		this._gaqPush(['_trackPageview', this.url.page()]);
 		
 		if (!this.config.data && !firstLoad) // if no data need to be output, then run request only once
 			notCachedQuranID = false;
@@ -2619,36 +2630,63 @@ var gq = {
 	url: {
 		
 		/**
+		 * internal check, if the load was run from bind function. it will avoid to overright the url again (good for back and forth button)
+		 */
+		_is_from_load: false,
+		
+		/**
 		 * loads the url from the hash
 		 * @returns {Boolean}
 		 */
 		load: function ()
 		{
-			var hash = window.location.hash;
-			hash = hash.split('/');
-			var count = hash.length;
-
-			if (count > 2 && hash['1'] == 'search')
+			var path, count;
+					
+			if (this.is_html5())
 			{
-				if (gq.search.keyword() == hash['2'] && gq.search.position() == 0)
+				path = location.pathname;
+				
+				if (gq.config.urlHTML5 != '/')
+				{
+					path = window.location+'';
+					path = path.split(gq.config.urlHTML5);
+					
+					if (path[1])
+						path = path[1];
+					else
+						path = location.pathname;
+				}
+			}
+			else
+			{
+				path = window.location.hash;
+			}
+			
+			
+			path = path.split('/');
+			count = path.length;
+
+			if (count > 2 && path['1'] == 'search')
+			{
+				if (gq.search.keyword() == path['2'] && gq.search.position() == 0)
 					return false;
 				
-				gq.search._keyword = hash['2'];
+				gq.search._keyword = path['2'];
 				gq.search._position = 0;
 				
 				return true;
 			}
-			else if (count > 2 && gq.settings.page != hash['2'])
+			else if (count > 2 && gq.settings.page != path['2'])
 			{
 				gq.quran.reset();
-				selectedBy = hash['1'].split('|');
+				selectedBy = path['1'].split('+');
 		
 				$.each (selectedBy, function(i, quranBy)
 				{
 					gq.quran.add(quranBy);
 				});
 				
-				verse = hash['2'].split(':');
+				verse = path['2'].split(':');
 				
 				if (verse.length > 1)
 				{
@@ -2657,7 +2695,7 @@ var gq = {
 				}
 				else
 				{
-					verse = Quran.ayah.fromPage(hash['2']);
+					verse = Quran.ayah.fromPage(path['2']);
 					gq.settings.surah = verse.surah;
 					gq.settings.ayah = verse.ayah;
 				}		
@@ -2666,9 +2704,9 @@ var gq = {
 			
 				return true;
 			}
-			else if (/^[0-9]+:?[0-9]*$/.test(hash['1']))
+			else if (/^[0-9]+:?[0-9]*$/.test(path['1']))
 			{
-				verse = hash['1'].split(':');
+				verse = path['1'].split(':');
 				
 				if (verse.length > 1)
 				{
@@ -2677,7 +2715,7 @@ var gq = {
 				}
 				else
 				{
-					verse = Quran.ayah.fromPage(hash['1']);
+					verse = Quran.ayah.fromPage(path['1']);
 					gq.settings.surah = verse.surah;
 					gq.settings.ayah = verse.ayah;
 				}		
@@ -2695,7 +2733,32 @@ var gq = {
 		 */
 		save: function ()
 		{
-			window.location.hash = '#!'+this.page();
+			var url;
+			
+			if (gq.url._is_from_load)
+			{
+				gq.url._is_from_load = false;
+				return;
+			}
+			
+			if (gq.config.urlBy == 'page')
+				url = this.page();
+			else
+				url = this.ayah();
+			
+			if (this.is_html5())
+				history.pushState(null, null, url);
+			else	
+				window.location.hash = url;			
+		},
+		
+		/**
+		 * update the url. only for html5 history api with urlBy = 'ayah'
+		 */
+		update: function ()
+		{
+			if (this.is_html5() && gq.config.urlBy == 'ayah')
+				history.replaceState(null, null, this.ayah());
 		},
 		
 		/**
@@ -2712,14 +2775,33 @@ var gq = {
 		},
 		
 		/**
+		 * base of the url, hash or html5 starting path
+		 * @returns {String}
+		 */
+		base: function ()
+		{
+			var base = '';
+			
+			if (this.is_html5())
+			{
+				if (gq.config.urlHTML5 != '/')
+					base = gq.config.urlHTML5;
+			}
+			else
+				base = '!#';
+			
+			return base;
+		},
+		
+		/**
 		 * Gets the url for the page
 		 * @param page (optional) dont pass if this is search page url
 		 * @returns {String}
 		 */
 		page: function (page)
-		{
+		{			
 			if (gq.search.isActive())
-				return '/search/'+gq.search.keyword();
+				return this.base()+'/search/'+gq.search.keyword();
 			else
 			{
 				url = '/';
@@ -2727,7 +2809,7 @@ var gq = {
 				if (by)
 					url += by+'/';
 				url += page || gq.settings.page;
-				return url;
+				return this.base()+url;
 			}
 		},
 		
@@ -2740,28 +2822,68 @@ var gq = {
 		ayah: function (surah, ayah)
 		{
 			if (gq.search.isActive())
-				return '/'+gq.settings.surah+':'+gq.settings.ayah;
+				return this.base()+'/'+gq.settings.surah+':'+gq.settings.ayah;
 			else
 			{
 				url = '/';
 				by = gq.quran.selectedString();
 				if (by)
 					url += by+'/';
-				if (surah)
+				if (!surah)
 					url += gq.settings.surah+':'+gq.settings.ayah;
 				else
 					url += surah+':'+ayah;
-				return url;
+				return this.base()+url;
 			}
 		},
 		
 		/**
-		 * Detect if html5 history api is supported or not by the browser
+		 * Detect if html5 history api is supported or not by the browser, also check if config is true for html5
 		 * @returns {Boolean}
 		 */
 		is_html5: function ()
 		{
-		  return !!(window.history && history.pushState);
+			return !!(window.history && window.history.pushState && gq.config.urlHTML5);
+		},
+		
+		/**
+		 * jQuery bind for url on change actions.
+		 */
+		bind: function ()
+		{
+			$(window).bind('hashchange', function(e)
+			{
+				if (gq.url.load())
+				{
+					gq.url._is_from_load = true;
+					
+					if (gq.search.isActive())
+						gq.load();
+					else
+						gq.load(gq.settings.surah, gq.settings.ayah);
+				};
+			});
+			
+			var popped = ('state' in window.history), initialURL = location.href
+			$(window).bind('popstate', function(e)
+			{				 
+				// Ignore inital popstate that some browsers fire on page load
+				var initialPop = !popped && location.href == initialURL;				
+				popped = true;
+				
+				if (initialPop) 
+					return;
+				
+				if (gq.url.load())
+				{
+					gq.url._is_from_load = true;
+					
+					if (gq.search.isActive())
+						gq.load();
+					else
+						gq.load(gq.settings.surah, gq.settings.ayah);
+				};				
+			});
 		}
 	},
 	

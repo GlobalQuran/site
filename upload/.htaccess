@@ -132,3 +132,7 @@ ErrorDocument 404 /404.html
 	</FilesMatch>
 </IfModule>
 
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !\.(gif|png|jpg|jpeg|jfif|bmp|css|js|eot|otf|svg|ttf|woff|html|php)$ [NC]
+RewriteRule .* test.php?page=%{REQUEST_URI}&%{QUERY_STRING} [L]

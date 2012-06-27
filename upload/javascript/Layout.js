@@ -191,7 +191,7 @@ var layout = {
 					lastSurahTitle = val.surah;
 				}
 				
-				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val)+'</span> <a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val)+'</span> <a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
 			});
 			body += '</div><div class="hr"><hr /></div>';
 		});
@@ -245,7 +245,7 @@ var layout = {
 					lastSurahTitle = val.surah;
 				}
 				
-				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val)+'</span> <a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val)+'</span> <a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
 			});
 			
 			body += '</div><div class="hr"><hr /></div>';
@@ -283,7 +283,7 @@ var layout = {
 					lastSurahTitle = val.surah;
 				}
 				
-				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val)+'</span> <a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
+				body += '<p class="ayah '+val.surah+'-'+val.ayah+'" '+fontFamily+'><span class="'+quranClass+'">'+layout.verseParse(quranBy, val)+'</span> <a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a></p>';
 			});
 			
 			body += '</div><div class="hr"><hr /></div>';
@@ -335,7 +335,7 @@ var layout = {
 			}
 			
 			body += '<div class="group '+val.surah+'-'+val.ayah+'">';
-			body += '<a href="'+gq.url.hashless()+'#!'+gq.url.ayah(val.surah, val.ayah)+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a>';
+			body += '<a href="#!'+gq.url.ayah(val.surah, val.ayah)+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.ayah+'<span class="icon rightBracket"> </span></a>';
 
 			// loop this for putting quran on top
 			$.each(quranArray, function(quranBy, text) 
@@ -351,7 +351,7 @@ var layout = {
 					fontFamily = "style=\"font-family: '"+gq.font.getFamily(quranBy)+"';\"";
 					quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids') ?  'quranText' : '';
 					body += '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+fontFamily+'>'+layout.verseParse(quranBy, val)+'</p>';
-					//<a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> 
+					//<a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> 
 				}
 				
 			});
@@ -365,7 +365,7 @@ var layout = {
 					by = gq.quran.detail(quranBy);
 					name = by.native_name || by.english_name;
 					direction = (gq.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
-					body += '<p class="ayah '+direction+'" dir="'+direction+'"><a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, val)+'</p>';
+					body += '<p class="ayah '+direction+'" dir="'+direction+'"><a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, val)+'</p>';
 				}				
 			});
 			
@@ -439,7 +439,7 @@ var layout = {
 				}
 				*/
 				body += '<div class="group '+val.surah+'-'+val.ayah+'">';
-				body += '<a href="'+gq.url.hashless()+'#!'+gq.url.ayah(val.surah, val.ayah)+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.surah+':'+val.ayah+'<span class="icon rightBracket"> </span></a>';
+				body += '<a href="#!'+gq.url.ayah(val.surah, val.ayah)+'" class="ayahNumber" data-verse="'+verseNo+'"><span class="icon leftBracket"> </span>'+val.surah+':'+val.ayah+'<span class="icon rightBracket"> </span></a>';
 				
 				quranByList = {};
 				showing = 0;
@@ -479,9 +479,9 @@ var layout = {
 					style = 'style="'+fontFamily+showStyle+'"';
 					
 					if (by.type == 'quran')
-						p = '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, {surah: val.surah, ayah: val.ayah, verse: list[quranBy]})+'</p>'+p;
+						p = '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, {surah: val.surah, ayah: val.ayah, verse: list[quranBy]})+'</p>'+p;
 					else
-						p += '<p class="ayah '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="'+gq.url.hashless()+'#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, {surah: val.surah, ayah: val.ayah, verse: list[quranBy]})+'</p>';
+						p += '<p class="ayah '+direction+'" dir="'+direction+'" '+style+' data-quranBy="'+quranBy+'"><a href="#!/'+quranBy+'/'+val.surah+':'+val.ayah+'" class="quranID">'+name+'</a> '+layout.verseParse(quranBy, {surah: val.surah, ayah: val.ayah, verse: list[quranBy]})+'</p>';
 					
 					if (foundDiv)
 						 foundDiv += ' / ';
@@ -536,7 +536,7 @@ var layout = {
 		var html = '';
 		html += '<div class="surahTitle">';
 		if (surah > 1)
-			html += '<a href="'+gq.url.hashless()+'#!'+gq.url.ayah((surah-1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah-1), 1)+'" class="icon prevSurah tips" data-tips-position="left center">Previous Surah</a>';
+			html += '<a href="#!'+gq.url.ayah((surah-1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah-1), 1)+'" class="icon prevSurah tips" data-tips-position="left center">Previous Surah</a>';
 		
 		/*if (gq.quran.length() == 1 && gq.quran.detail(by).language_code == 'ar')
 			html += '<span class="title">'+Quran.surah.name(surah, 'arabic_name')+'</span>';
@@ -544,11 +544,11 @@ var layout = {
 			*/html += '<span class="title">'+Quran.surah.name(surah, 'english_name')+' <span class="sep">-</span> <span class="meaning">'+Quran.surah.name(surah, 'english_meaning')+'</span></span>';
 		
 		if (surah < 114)
-			html += '<a href="'+gq.url.hashless()+'#!'+gq.url.ayah((surah+1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah+1), 1)+'" class="icon nextSurah tips" data-tips-position="right center">Next Surah</a>';
+			html += '<a href="#!'+gq.url.ayah((surah+1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah+1), 1)+'" class="icon nextSurah tips" data-tips-position="right center">Next Surah</a>';
 		html += '</div>';
 		
 		if (surah != 1 && surah != 9)
-			html += '<a href="'+gq.url.hashless()+'#!'+gq.url.ayah(1, 1)+'" data-verse="1" class="icon bismillah tips">In the name of Allah, Most Gracious, Most Merciful</a>';
+			html += '<a href="#!'+gq.url.ayah(1, 1)+'" data-verse="1" class="icon bismillah tips">In the name of Allah, Most Gracious, Most Merciful</a>';
 		
 		html += '<div class="hr"><hr /></div>';
 		
@@ -635,7 +635,7 @@ var layout = {
 					sideOption = '<span class="sideInfo"><i class="icon tajweed"></i></span>';
 				
 				active = gq.quran.isSelected(quranByID) ? 'active' : '';
-				html = '<li><a href="'+gq.url.hashless()+'#!/'+quranByID+'/'+gq.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span>'+sideOption+'<span class="loadingIndicator"></span></a></li>';
+				html = '<li><a href="#!/'+quranByID+'/'+gq.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span>'+sideOption+'<span class="loadingIndicator"></span></a></li>';
 				
 				if (active)
 					htmlActive += html;				
@@ -705,9 +705,9 @@ var layout = {
 					name = name.substr(0, (maxChar-3))+'...';
 				
 				active = gq.quran.isSelected(quranByID) ? 'active' : '';
-				html = '<li><a href="'+gq.url.hashless()+'#!/'+quranByID+'/'+gq.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span><span class="loadingIndicator"></span></a></li>';
+				html = '<li><a href="#!/'+quranByID+'/'+gq.page()+'" class="'+active+' '+charTips+'" title="'+fullName+'" data-quranid="'+quranByID+'"><span class="txt">'+name+'</span><span class="loadingIndicator"></span></a></li>';
 				if (languageName != null)
-					htmlLanguage = '<li><a href="'+gq.url.hashless()+'#!/'+quranByID+'/'+gq.page()+'" data-lang="'+by.language_code+'" data-quranid="'+quranByID+'"><span class="txt">'+languageName+'</span><span class="loadingIndicator"></span></a></li>';
+					htmlLanguage = '<li><a href="#!/'+quranByID+'/'+gq.page()+'" data-lang="'+by.language_code+'" data-quranid="'+quranByID+'"><span class="txt">'+languageName+'</span><span class="loadingIndicator"></span></a></li>';
 				else
 					htmlLanguage = html;
 				
@@ -1468,15 +1468,7 @@ var layout = {
 			}
 		});
 		
-		$(window).bind('hashchange', function(e) {
-			if (gq.url.load())
-			{
-				if (gq.search.isActive())
-					gq.load();
-				else
-					gq.load(gq.settings.surah, gq.settings.ayah);
-			};
-		});
+		gq.url.bind();
 		
 		// search more..
 		$(window).scroll(function()
