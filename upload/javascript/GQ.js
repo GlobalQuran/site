@@ -44,7 +44,7 @@ var gq = {
 		 * '/'; 		- adds / slash before the page values
 		 * '?page=';	- adds ?page= before the page values - useful, if htaccess is not allowed on server
 		 */
-		urlHTML5: '/',
+		urlHTML5: false,
 		
 		/**
 		 * 'page'; 		- url page by page navigation
@@ -1296,6 +1296,9 @@ var gq = {
 				gq.player.preload = -1;  // cant load two instance in iphone
 			}
 			
+			if (gq.config.offline)
+				gq.settings.playing = false; // cant auto play if offline use
+			
 			this.setup();
 		},
 		
@@ -2438,6 +2441,8 @@ var gq = {
 	 */
 	load: function (surah, ayah)
 	{
+		console.log('load function started');
+		
 		firstLoad = false;
 		notCachedQuranID = true;
 
@@ -2516,11 +2521,13 @@ var gq = {
 		
 		if (!this.config.data && !firstLoad) // if no data need to be output, then run request only once
 			notCachedQuranID = false;
-
+console.log('about to load');
 		if (notCachedQuranID || firstLoad)
 		{
+			console.log('first load or not cached');
 			if (this.config.offline)
 			{
+				console.log('yes offline');
 				// loop through all the selected Quran and get the only ones, which are not in cache yet
 				var selected = this.quran.selected();
 				$.each(selected, function(i, quranBy)
@@ -2741,7 +2748,7 @@ var gq = {
 				return;
 			}
 			
-			if (gq.config.urlBy == 'page')
+			if (gq.config.urlBy == 'page' || !this.is_html5())
 				url = this.page();
 			else
 				url = this.ayah();
