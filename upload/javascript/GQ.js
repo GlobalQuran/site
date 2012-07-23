@@ -95,7 +95,9 @@ var gq = {
 		fontSize: 'medium',
 		
 		fullScreen: false,
-		view: ''
+		view: '',
+		
+		counter: 0 // pages viewed 
 	},
 	
 	_gaID: 'UA-1019966-3',
@@ -2549,6 +2551,7 @@ var gq = {
 			}
 		}
 		
+		this.settings.counter++;
 		this.save();
 		this._gaqPush(['_trackPageview', this.url.page()]);
 		

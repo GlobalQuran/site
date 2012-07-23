@@ -4,6 +4,7 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* NEW: gq.settings.counter - pages viewed counter added for keeping track of how many times user used GlobalQuran service.
 * NEW: gq.config.dataPreCache added
 * NEW: gq.url.bind, gq.url.update, gq.url.is_html5, gq.confiq.urlBy, gq.confiq.urlHTML5 is added
 * NEW: app.settings.js added, it holds all the settings for the application
