@@ -986,7 +986,7 @@ var layout = {
 		
 		if (this._autoScroll && !gq.search.isActive())
 		{
-			$('.'+gq.surah()+'-'+gq.ayah()).scrollTo(1000, this.scrollOffset);
+			//$('.'+gq.surah()+'-'+gq.ayah()).scrollTo(1000, this.scrollOffset);
 		}
 		
 		$('.customSurah').val(gq.surah());
@@ -1830,8 +1830,8 @@ jQuery.fn.extend({
 	scrollTo : function(speed, offset, easing) {
 		offset = offset || 0;
 		return this.each(function() {
-			var targetOffset = $(this).offset().top+offset;
-			$('html,body').animate({scrollTop: targetOffset}, speed, easing);
+			//var targetOffset = $(this).offset().top+offset;
+			//$('html,body').animate({scrollTop: targetOffset}, speed, easing);
 		});
 	}
 });	
