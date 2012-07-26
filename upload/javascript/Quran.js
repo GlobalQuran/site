@@ -106,7 +106,7 @@ var Quran = {
         charsArr.push( ';' ); 		buckArr.push( ';' );	transArr.push( '' );
         charsArr.push( '\n' ); 		buckArr.push( '\n' );	transArr.push( '' );
         
-        Quran._data.char = charsArr;
+        Quran._data.chars = charsArr;
         Quran._data.buck = buckArr;
         Quran._data.tran = transArr;
     },

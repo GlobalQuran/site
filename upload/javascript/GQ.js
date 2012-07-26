@@ -482,7 +482,7 @@ var gq = {
 			        {
 			            if(letter == Quran._data.buck[n])
 			            {
-			            	arabic += Quran._data.char[n];
+			            	arabic += Quran._data.chars[n];
 			            	found = true;
 			                break;
 			            }
@@ -517,7 +517,7 @@ var gq = {
 			        {
 			            if(letter == Quran._data.buck[n])
 			            {
-			            	arabic += Quran._data.char[n];
+			            	arabic += Quran._data.chars[n];
 			            	found = true;
 			                break;
 			            }
@@ -548,9 +548,10 @@ var gq = {
 			        letter = wordArr[l];
 			        found = false;
 			        
-			        for(n=1; n<Quran._data.char.length; ++n)
+			        for(n=1; n<Quran._data.chars.length; ++n)
 			        {
-			            if(letter == Quran._data.char[n]){
+			            if(letter == Quran._data.chars[n])
+			            {
 			            	buck += Quran._data.buck[n];
 			            	found = true;
 			                break;
@@ -2917,7 +2918,7 @@ var gq = {
 				};
 			});
 			
-			var popped = ('state' in window.history), initialURL = location.href
+			var popped = ('state' in window.history), initialURL = location.href;
 			$(window).bind('popstate', function(e)
 			{				 
 				// Ignore inital popstate that some browsers fire on page load
