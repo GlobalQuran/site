@@ -4,7 +4,7 @@ html {
   padding: 0;
 }
 body {
-  background: url(../pics/background.jpg) no-repeat  ; 
+  background: url(../images/background.jpg) no-repeat  ; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -22,13 +22,13 @@ body {
 	position:absolute;			
 }
 .stackleft{
-	background: url(../pics/pagestackleft.png) repeat-x;	
+	background: url(../images/pagestackleft.png) repeat-x;	
 	position:absolute;			
 	height:827px;	
 	z-index:1;
 }
 .stackright{
-	background: url(../pics/pagestackleft.png) repeat-x;	
+	background: url(../images/pagestackleft.png) repeat-x;	
 	position:absolute;			
 	height:824px;	
 	
@@ -51,7 +51,7 @@ body {
 .ribbon{
 	position:absolute;	
 	z-index:1;
-	background-image:url("../pics/ribbon1.png");
+	background-image:url("../images/ribbon1.png");
 	height:         854px;
 	width:			55px;
 	padding-top:48px;
@@ -95,7 +95,7 @@ body {
 }
 
 .leftMenu .book{
-	background:url(../pics/book.png);
+	background:url(../images/book.png);
 	width:74px;
 	height:59px;
 	margin-left:0px;
@@ -103,28 +103,28 @@ body {
 }
 
 .leftMenu .setting{
-	background:url(../pics/setting.png);
+	background:url(../images/setting.png);
 	width:74px;
 	margin-left:-4px;
 	height:59px;
 	cursor:pointer;
 }
 .leftMenu .zoom{
-	background:url(../pics/zoom.png);
+	background:url(../images/zoom.png);
 	width:74px;
 	margin-left:-6px;
 	height:59px;
 	cursor:pointer;
 }
 .search{
-	background:url(../pics/zoomback.png);
+	background:url(../images/zoomback.png);
 	width:260px;
 	height:59px;
 	margin-left:72px;
 	visibility:hidden;
 }
 .searchButton{
-	background:url(../pics/zoomok.png);
+	background:url(../images/zoomok.png);
 	width:35px;
 	height:34px;
 	margin-left:215px;
@@ -139,7 +139,7 @@ body {
 	margin-left:10px;
     padding-left: 10px;
     text-decoration: none;
-    background-image: url('../pics/zoomtext.png');   
+    background-image: url('../images/zoomtext.png');   
     border-radius: 1px; /*up to date browsers support this, but you can add prefixes if you want*/
 	vertical-align: top;
 	display:inline;
@@ -152,13 +152,13 @@ body {
 	margin-top:1px;
 	margin-left:10px;    
     text-decoration: none;
-    background-image: url('../pics/zoomlist.png');
+    background-image: url('../images/zoomlist.png');
 	background-repeat:repeat-y;
 	font-size:15px;
 }
 
 .searchlistitem:hover{	
-	background-image: url('../pics/zoommouseover.png');
+	background-image: url('../images/zoommouseover.png');
 	width:199px;
 	height:23px;
 		margin:0 auto;
@@ -175,31 +175,31 @@ body {
     height:30px;
     width:33px;
 	display:inline-block;
-	background:url(../pics/f2.png);
+	background:url(../images/f2.png);
 }
 
 .footer .f:hover {
-	background-image:url(../pics/f1.png);   
+	background-image:url(../images/f1.png);   
 }
 .footer .t{ 
-	background:url(../pics/t2.png);
+	background:url(../images/t2.png);
     height:30px;
     width:33px;
 	display:inline-block;
 }
 
 .footer .t:hover{
-	background-image:url(../pics/t1.png);   
+	background-image:url(../images/t1.png);   
 }
 .footer .g{ 	
-	background:url(../pics/g2.png);
+	background:url(../images/g2.png);
     height:30px;
     width:33px;
 	display:inline-block;
 }
 
 .footer .g:hover {
-	background-image:url(../pics/g1.png);   
+	background-image:url(../images/g1.png);   
 }
 
 
@@ -296,7 +296,7 @@ body {
 	body .bookshelf-row{
 		width:100%;
 		height:120px;
-		background:url(../pics/bookshelf-row.jpg);
+		background:url(../images/bookshelf-row.jpg);
 		background-size:100% 100%;
 		background-position:50% 50%;
 		display:block;
@@ -414,7 +414,7 @@ li{
 	height:700px;
 	overflow:hidden;
 	position:relative;
-	background:url(../pics/splash-bg.jpg) bottom left repeat-x;
+	background:url(../images/splash-bg.jpg) bottom left repeat-x;
 	
 	-webkit-transition:height 1s;
 	-moz-transition:height 1s;
@@ -455,7 +455,7 @@ li{
 }
 
 .turnjs{
-	background:no-repeat url(../pics/turnjs-letters.png);
+	background:no-repeat url(../images/turnjs-letters.png);
 	width:220px;
 	height:82px;
 	display:inline-block;
@@ -468,7 +468,7 @@ li{
 }
 
 .small-turnjs{
-	background:url(../pics/small-turnjs-letters.png);
+	background:url(../images/small-turnjs-letters.png);
 	width:120px;
 	height:45px;
 	display:inline-block;
@@ -643,7 +643,7 @@ li{
 .icon{
 	width:22px;
 	height:22px;
-	background-image:url(../pics/new-sprites.png);
+	background-image:url(../images/new-sprites.png);
 	display:inline-block;
 }
 
@@ -739,7 +739,7 @@ li{
 }
 
 .bookshelf .shelf{
-	/*background:url(../pics/bookshelf.gif);
+	/*background:url(../images/bookshelf.gif);
 	background-size:100%;*/
 	width:426px;
 	height:440px;
@@ -755,7 +755,7 @@ li{
 
 .bookshelf .shelf .row-1:after,
 .bookshelf .shelf .row-2:after{
-	background:url(../pics/wall-bookshelf.png);
+	background:url(../images/wall-bookshelf.png);
 	background-size:100%;
 	background-repeat: no-repeat;
 	background-position:bottom left;
@@ -832,7 +832,7 @@ li{
 }
 
 .sample .loader i{
-	background:white url(../pics/loader.gif) 4px 4px no-repeat;
+	background:white url(../images/loader.gif) 4px 4px no-repeat;
 	position:relative;
 	top:-16px;
 	left:-16px;
@@ -862,42 +862,42 @@ li{
 
 .bookshelf .thumb1,
 .bookshelf-row .thumb1{
-	background-image:url(../pics/book1.jpg);
+	background-image:url(../images/book1.jpg);
 	width:92px;
 	height:115px;
 }
 
 .bookshelf .thumb2,
 .bookshelf-row .thumb2{
-	background-image:url(../pics/book2.jpg);
+	background-image:url(../images/book2.jpg);
 	width:87px;
 	height:115px;
 }
 
 .bookshelf .thumb3,
 .bookshelf-row .thumb3{
-	background-image:url(../pics/book3.jpg);
+	background-image:url(../images/book3.jpg);
 	width:90px;
 	height:115px;
 }
 
 .bookshelf .thumb4,
 .bookshelf-row .thumb4{
-	background-image:url(../pics/book4.jpg);
+	background-image:url(../images/book4.jpg);
 	width:97px;
 	height:125px;
 
 }
 .bookshelf .thumb5,
 .bookshelf-row .thumb5{
-	background-image:url(../pics/book5.jpg);
+	background-image:url(../images/book5.jpg);
 	width:97px;
 	height:125px;
 }
 
 .bookshelf .thumb6,
 .bookshelf-row .thumb6{
-	background-image:url(../pics/book6.jpg);
+	background-image:url(../images/book6.jpg);
 	width:104px;
 	height:125px;
 }
@@ -1153,7 +1153,7 @@ header{
 	height:44px;
 	display:block;
 	float:left;
-	background:url(../pics/browser-support.gif);
+	background:url(../images/browser-support.gif);
 }
 
 .safari{

@@ -30,7 +30,7 @@
 	height:			10px;
 	text-indent: 	-999em;
 	overflow:		hidden;
-	background:		url('updn-arrows-666666.png') no-repeat 0 0;
+	background:		url('../images/updn-arrows-666666.png') no-repeat 0 0;
 }
 .book-sf-menu .sf-dnarrow {
 	background-position: -10px -100px;

@@ -95,8 +95,8 @@ var layout = {
 				$(layout.config.div.quranList).html(quranList);
 			
 			// translation list
-			if (layout.config.div.translationLanguageList)
-				$(layout.config.div.translationLanguageList).html(translationLanguageList);
+			if (layout.config.div.translationList)
+				$(layout.config.div.translationList).html(translationLanguageList);
 		},
 		
 		page: function(quranArray)
@@ -191,9 +191,11 @@ var layout = {
 			$.each(list, function (langCode, lang)
 			{
 				classSelected = lang.selected ? 'active' : ''; 
-				html += '<li><a href="#" class="'+classSelected+'" data-lang="'+langCode+'">'+lang.name+'</a></li>';
+				html += '<li><a href="#" class="'+classSelected+'" data-lang="'+langCode+'">'+lang.name+'</a>';
 				
-				html += '<ul>'+layout.view.translationList(gq.quran.translationList(langCode))+'</ul>';
+					html += '<ul>'+layout.view.translationList(gq.quran.translationList(langCode))+'</ul>';
+				
+				html += '</li>';
 			});
 			
 			return html;
@@ -241,10 +243,6 @@ var layout = {
 				classSelected = by.selected ? 'active' : '';
 				html += '<li><a href="#" class="'+classSelected+'" data-quran="'+quranByID+'" '+fullName+'>'+name+'</a></li>';												
 			});
-				
-			//html = '<ul class="quranList">'+html+'</ul>';
-			console.log('quran list');
-			$('.quranList').html(html);
 			
 			return html;
 		},

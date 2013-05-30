@@ -102,7 +102,7 @@ ul.book-sf-menu li li li.sfHover ul {
 	color:	#666666;
 }
 .book-sf-menu .book {
-	background-image:url("book.png");
+	background-image:url("../images/book.png");
 	filter:alpha(opacity=100); 
 	opacity:1.0;
 	width:74px;
@@ -121,7 +121,7 @@ ul.book-sf-menu li li li.sfHover ul {
 //	width:			10em; /* left offset of submenus need to match (see below) */
 }
 .book-sf-menu .comment {
-	background-image:url("comment.png");
+	background-image:url("../images/comment.png");
 	filter:alpha(opacity=100); 
 	opacity:1.0;
 	width:74px;
@@ -132,7 +132,7 @@ ul.book-sf-menu li li li.sfHover ul {
 }
 
 .book-sf-menu li {
-	background-image:url("menubackground.png");
+	background-image:url("../images/menubackground.png");
 	filter:alpha(opacity=90); 
 	opacity:0.9;
 	width:214px;
@@ -147,7 +147,7 @@ font-size:20px;
 }
 .book-sf-menu li li:hover, .book-sf-menu li li.sfHover,
 .book-sf-menu a:focus, .book-sf-menu a:hover, .book-sf-menu a:active {
-	background-image:url("menumouseover.png");
+	background-image:url("../images/menumouseover.png");
 	filter:alpha(opacity=90); 
 	opacity:0.9;
 	/* background-image: url("/images/03normal.png"); */

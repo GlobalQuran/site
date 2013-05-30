@@ -109,7 +109,7 @@ ul.ribbon li li li.sfHover ul {
 	height:			10px;
 	text-indent: 	-999em;
 	overflow:		hidden;
-	background:		url('arrows-666666.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+	background:		url('../images/arrows-666666.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
 }
 /* point right for anchors in subs */
 .ribbon ul .sf-sub-indicator { background-position:  -10px 0; }
