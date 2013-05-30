@@ -237,11 +237,11 @@ body {
 	body .content section{
 		font-size:13px;
 	}	
-	body .simple-sample .code{
+	body .quran-book .code{
 		width:300px;
 		overflow:hidden;
 	}
-	body .simple-sample .sample{
+	body .quran-book {
 		width:auto;
 		float:none;
 		line-height:20px;
@@ -823,7 +823,7 @@ li{
 	transform:translate(0, 0);
 }
 
-.sample .loader{
+.quran-book .loader{
 	position:absolute;
 	width:32px;
 	height:32px;
@@ -831,7 +831,7 @@ li{
 	left:50%;
 }
 
-.sample .loader i{
+.quran-book .loader i{
 	background:white url(../images/loader.gif) 4px 4px no-repeat;
 	position:relative;
 	top:-16px;
@@ -1170,7 +1170,7 @@ header{
 	background-position: -150px 0;
 }
 
-.simple-sample:after{
+.quran-book:after{
 	content: ".";
 	display: block;
 	clear: both;
@@ -1178,19 +1178,19 @@ header{
 	height:0;
 }
 
-.simple-sample .code{
+.quran-book .code{
 	width:400px;
 	float:left;
 }
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
-.sample-flipbook{
+.flipbook{
 	width:555px;
 	height:876px;
 	margin:0 auto;
 	border-width:0px;
 	
 	}	
-.simple-sample .sample{
+.quran-book {
 	width:555px;
 	line-height:876px;
 	float:left;	
@@ -1199,12 +1199,12 @@ header{
 	
 }
 
-.simple-sample .sample{
+.quran-book {
 	width:1110px;
 	margin:0 auto;
 }
 
-.simple-sample .sample a{
+.quran-book  a{
 	cursor:pointer;
 }
 

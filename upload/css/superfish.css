@@ -140,7 +140,7 @@ ul.book-sf-menu li li li.sfHover ul {
 	color: gray;
 	/* background:	url("http://www.power-graphics.com/p7pmm/img/pmm_carbon_root.jpg"); */
 }
-.book-sf-menu li li p{
+.book-sf-menu li li a{
 padding-left:40px;
 padding-top:15px;
 font-size:20px;

@@ -9,18 +9,15 @@
 <link type="text/css" rel="stylesheet" href="css/default.css"></link>
 
 
-<link type="text/css" rel="stylesheet" href="css/basic.css"></link>
-
-<link rel="stylesheet" href="images/themes/default/css/global.css" media="screen,print" />
-<link rel="stylesheet" href="images/themes/default/css/print.css" media="print" />
+<link type="text/css" rel="stylesheet" href="css/flipbook.css"></link>
+<!-- <link type="text/css" rel="stylesheet" href="css/extra.css" /> -->
+<link type="text/css" rel="stylesheet" href="css/quran.css" media="screen,print" />
 
 <link type="text/css" rel="stylesheet" href="css/superfish.css"></link>
-<link type="text/css" rel="stylesheet" href="css/superfish-vertical.css"></link>
-<link type="text/css" rel="stylesheet" href="css/superscroll.css"></link>
 
-<link type="text/css" rel="stylesheet" href="css/recitorscroll.css"></link>
 <link type="text/css" rel="stylesheet" href="css/ribbon.css"></link>
-<link type="text/css" rel="stylesheet" href="css/ribbonscroll.css"></link>
+
+<link type="text/css" rel="stylesheet" href="css/scroll.css"></link>
 
 
 </head>
@@ -119,9 +116,7 @@
 </div>			
 
 
-<div class="simple-sample">
-
-	<div class="sample" id="sample-viewer">
+<div class="quran-book">
 		<div class="stackleft" id="stackleft"></div>
 		<div class="stackright" id="stackright"></div>
 			<div class="leftArrow" id="leftArrow" onClick="turnLeftPage();">	
@@ -140,9 +135,9 @@
 				<div style="height:59px;">
 					<ul class="book-sf-menu" >
 						<li class="book"> 
-						<ul class="quranList" items="10">
-							<li><p>loading...</p></li>
-						</ul>
+							<ul class="quranList" items="10">
+								<li><p>loading...</p></li>
+							</ul>
 						</li>
 					</ul>				
 				</div>
@@ -150,27 +145,9 @@
 				<div style="height:59px;">
 					<ul class="book-sf-menu" >
 						<li class="comment"> 
-						<ul class="sf-scrolling translationList" items="6">
-								<li><p>Menu1</p>
-									<ul>
-										<li><p>A</p>
-										</li>
-										<li><p>B</p>						
-										</li>
-										</li>
-									</ul>
-								</li>
-								<li><p>Menu2</p>
-									<ul>
-										<li><p>C</p>						
-										<li><p>D</p>						
-										</li>
-									</ul>
-								</li>
-								<li><p>Menu3</p></li>
-								<li><p>Menu4</p></li>
-								<li><p>Menu5</p></li>
-						</ul>
+							<ul class="translationList" items="6">
+								<li><p>loading...</p></li>
+							</ul>
 						</li>
 					</ul>				
 				</div>		
@@ -195,67 +172,133 @@
 					</div>
 				</div>
 			</div>
-			<div class="sample-flipbook">
+			
+			
+			<div class="flipbook">
 				<div class="hard" style="background-image:url(images/frontcover.png)"></div>
 				<div class="hard" style="background-image:url(images/pageBR.png)"></div> 
+				
 				<!----------------- ------------------->
+				
+				<!-- page start -->
 				<div>
 					<div id="pagetop">
-					<div class="title" style="float:left; font-size:12px;"><div class="outtitle" style="display:inline; color:#b99c51;">Al baqarah</div><div class="innertitle" style="display:inline"> (The Cow)</div></div>
-					<div class="pageinfo" style="float:right; font-size:12px;"><div class="pagenumber" style="display:inline; color:#b99c51;">2</div><div class="totalpage" style="display:inline"> of 604</div></div>
-					
+						<div class="title" style="float: left; font-size: 12px;">
+							<div class="outtitle" style="display: inline; color: #b99c51;">Al
+								baqarah</div>
+							<div class="innertitle" style="display: inline">(The Cow)</div>
+						</div>
+						<div class="pageinfo" style="float: right; font-size: 12px;">
+							<div class="pagenumber" style="display: inline; color: #b99c51;">2</div>
+							<div class="totalpage" style="display: inline">of 604</div>
+						</div>
+
 					</div>
+					
 					<div id="pagecontent">
-						<div class="titlecontainer" style="background-image:url(images/page/titlecontainer.png);margin-top:3px;width:324px;height:50px;margin:20px;margin-left:30px;"></div>
-					<div class="arrows" style="margin-left: 70px; width:37px;"><div class="leftA" style="background-image:url(images/page/leftmark.png);width:14px;height:25px; float:left;"></div><div style="font-size:12px;color:#b99c51; float:left; margin-top:3px;">2</div><div class="rightA" style="background-image:url(images/page/rightmark.png);width:15px;height:25px;float:right;"></div></div>
-					
-					<div style="font-size:13px; margin-left:10px;"><div style="color:#666666;">In the Name of Allah, Most Gracious, Most Merciful.</div>
-					<div style="color:#b99c51; margin-top:2px;">etur adipiscing elit. Sed diam sem, imperdiet aus</div>
-					<div style="background-color:#666666;height:2px; margin-top:16px; width:365px;"></div></div>
-					
-					
-					<div class="arrows" style="margin-left: 70px; width:37px; margin-top:10px;"><div class="leftA" style="background-image:url(images/page/leftmark.png);width:14px;height:25px; float:left;"></div><div style="font-size:12px;color:#b99c51; float:left; margin-top:3px;">2</div><div class="rightA" style="background-image:url(images/page/rightmark.png);width:15px;height:25px;float:right;"></div></div>
-					
-					<div style="font-size:13px; margin-left:10px;"><div style="color:#666666;">In the Name of Allah, Most Gracious, Most Merciful.</div>
-					<div style="color:#b99c51; margin-top:2px;">etur adipiscing elit. Sed diam sem, imperdiet aus</div>
-					<div style="background-color:#666666;height:2px; margin-top:16px; width:365px;"></div></div>
+						<div class="titlecontainer" style="background-image: url(images/page/titlecontainer.png); margin-top: 3px; width: 324px; height: 50px; margin: 20px; margin-left: 30px;"></div>
+						<div class="arrows" style="margin-left: 70px; width: 37px;">
+							<div class="leftA"
+								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div
+								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA"
+								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+						</div>
+
+						<div style="font-size: 13px; margin-left: 10px;">
+							<div style="color: #666666;">In the Name of Allah, Most
+								Gracious, Most Merciful.</div>
+							<div style="color: #b99c51; margin-top: 2px;">etur
+								adipiscing elit. Sed diam sem, imperdiet aus</div>
+							<div style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
+						</div>
+
+
+						<div class="arrows" style="margin-left: 70px; width: 37px; margin-top: 10px;">
+							<div class="leftA"
+								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div
+								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA"
+								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+						</div>
+
+						<div style="font-size: 13px; margin-left: 10px;">
+							<div style="color: #666666;">In the Name of Allah, Most
+								Gracious, Most Merciful.</div>
+							<div style="color: #b99c51; margin-top: 2px;">etur
+								adipiscing elit. Sed diam sem, imperdiet aus</div>
+							<div style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
+						</div>
 					</div>
 					<div id="pagebottom">
-					<div class="share"></div>
-					</div> 
+						<div class="share"></div>
+					</div>
 				</div> 
+				<!-- /page end -->
 				
 				
+				<!-- page start -->
 				<div>
 					<div id="pagetop">
-					<div class="title" style="float:left; font-size:12px;"><div class="outtitle" style="display:inline; color:#b99c51;">Al baqarah</div><div class="innertitle" style="display:inline"> (The Cow)</div></div>
-					<div class="pageinfo" style="float:right; font-size:12px;"><div class="pagenumber" style="display:inline; color:#b99c51;">3</div><div class="totalpage" style="display:inline"> of 604</div></div>
+						<div class="title" style="float: left; font-size: 12px;">
+							<div class="outtitle" style="display: inline; color: #b99c51;">Al
+								baqarah</div>
+							<div class="innertitle" style="display: inline">(The Cow)</div>
+						</div>
+						<div class="pageinfo" style="float: right; font-size: 12px;">
+							<div class="pagenumber" style="display: inline; color: #b99c51;">2</div>
+							<div class="totalpage" style="display: inline">of 604</div>
+						</div>
+
 					</div>
-					
 					<div id="pagecontent">
-					<div class="titlecontainer" style="background-image:url(images/page/titlecontainer.png);margin-top:3px;width:324px;height:50px;margin:20px;margin-left:30px;"></div>
-					<div class="arrows" style="margin-left: 70px; width:37px;"><div class="leftA" style="background-image:url(images/page/leftmark.png);width:14px;height:25px; float:left;"></div><div style="font-size:12px;color:#b99c51; float:left; margin-top:3px;">2</div><div class="rightA" style="background-image:url(images/page/rightmark.png);width:15px;height:25px;float:right;"></div></div>
-					
-					<div style="font-size:13px; margin-left:10px;"><div style="color:#666666;">In the Name of Allah, Most Gracious, Most Merciful.</div>
-					<div style="color:#b99c51; margin-top:2px;">etur adipiscing elit. Sed diam sem, imperdiet aus</div>
-					<div style="background-color:#666666;height:2px; margin-top:16px; width:365px;"></div></div>
-					
-					
-					<div class="arrows" style="margin-left: 70px; width:37px; margin-top:10px;"><div class="leftA" style="background-image:url(images/page/leftmark.png);width:14px;height:25px; float:left;"></div><div style="font-size:12px;color:#b99c51; float:left; margin-top:3px;">2</div><div class="rightA" style="background-image:url(images/page/rightmark.png);width:15px;height:25px;float:right;"></div></div>
-					
-					<div style="font-size:13px; margin-left:10px;"><div style="color:#666666;">In the Name of Allah, Most Gracious, Most Merciful.</div>
-					<div style="color:#b99c51; margin-top:2px;">etur adipiscing elit. Sed diam sem, imperdiet aus</div>
-					<div style="background-color:#666666;height:2px; margin-top:16px; width:365px;"></div></div>
-					
-					
-					
-					
-					
+						<div class="titlecontainer"
+							style="background-image: url(images/page/titlecontainer.png); margin-top: 3px; width: 324px; height: 50px; margin: 20px; margin-left: 30px;"></div>
+						<div class="arrows" style="margin-left: 70px; width: 37px;">
+							<div class="leftA"
+								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div
+								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA"
+								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+						</div>
+
+						<div style="font-size: 13px; margin-left: 10px;">
+							<div style="color: #666666;">In the Name of Allah, Most
+								Gracious, Most Merciful.</div>
+							<div style="color: #b99c51; margin-top: 2px;">etur
+								adipiscing elit. Sed diam sem, imperdiet aus</div>
+							<div
+								style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
+						</div>
+
+
+						<div class="arrows"
+							style="margin-left: 70px; width: 37px; margin-top: 10px;">
+							<div class="leftA"
+								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div
+								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA"
+								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+						</div>
+
+						<div style="font-size: 13px; margin-left: 10px;">
+							<div style="color: #666666;">In the Name of Allah, Most
+								Gracious, Most Merciful.</div>
+							<div style="color: #b99c51; margin-top: 2px;">etur
+								adipiscing elit. Sed diam sem, imperdiet aus</div>
+							<div
+								style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
+						</div>
 					</div>
-					
-					
-					<div id="pagebottom"><div class="share"></div></div> 
-				</div> 	
+					<div id="pagebottom">
+						<div class="share"></div>
+					</div>
+				</div> 
+				<!-- /page end -->
 			
 				
 				
@@ -268,12 +311,10 @@
 				<div></div>
 				<div></div>
 				<div></div>
+				
 				<div class="hard" style="background-image:url(images/pageL1.png);z-index:-5;"></div> 
 				<div class="hard" style="background-image:url(images/frontcover.png);z-index:-5;"></div>		
 			</div>
-			
-			
-	</div>
 </div>
 
 <div style="height:45px;"></div>
@@ -309,274 +350,6 @@
 <script src="javascript/Layout.js"></script>
 <script src="app.settings.js"></script>
 
-<script>
-function showPlayer(){
-	$('.startplay').css('display','none');
-	$('.closeplayer').css('display','inherit');
-	$('#playerNavBox').css('display','inherit');
-}
-function hidePlayer(){
-	$('.startplay').css('display','inherit');
-	$('.closeplayer').css('display','none');
-	$('#playerNavBox').css('display','none');
-}
-$(document).ready(function(){
-	$('ul.sf-menu').supersubs({minWidth:12,maxWidth:20,extraWidth:1}).superfish({animation: {width:'show'},delay:1000});
-	$('.book-sf-menu .sf-scrolling').superscroll();
-	$(".zoom").mouseover(function(){	
-		if(	$(".search").css("visibility")=="hidden")
-			$(".search").css("visibility","visible");
-		else
-			$(".search").css("visibility","hidden");		
-	});
-	$(".zoom").mouseout(function(){	
-		if(	$(".search").css("visibility")=="hidden")
-			$(".search").css("visibility","visible");
-		else
-			$(".search").css("visibility","hidden");		
-	});
-	for(var i=1;i<=114;i++)
-		$('.ribbon .sf-scrolling')[0].innerHTML+="<li>"+i+"</li>";
-	$('.ribbon .sf-scrolling').superscroll();
-	$('#recitor  .sf-scrolling').superscroll();
-
-});
-
-	$(window).load(function() {
-	
-	$(".leftMenu").hide();
-	$(".ribbon").hide();
-	$(".stackleft").hide();
-	$(".stackright").hide();
-	var flipleft=Math.round($(".sample-flipbook").offset().left);
-	var fliptop=Math.round($(".sample-flipbook").offset().top);
-
-	
-
-	document.getElementById('leftMenu').style.left=(flipleft-35)+"px";
-	document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
-			
-	document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
-	
-	var leftValue=flipleft-160;
-	document.getElementById('leftArrow').style.left=leftValue+"px"
-	var topValue=fliptop+$(".sample-flipbook").height()/2-$(".leftArrow").height()/2;	
-	document.getElementById('leftArrow').style.top=topValue+"px";
-	
-	
-	var rightValue=flipleft+$(".sample-flipbook").width()+120;
-	document.getElementById('rightArrow').style.left=rightValue+"px"	
-	document.getElementById('rightArrow').style.top=topValue+"px";
-	setScroll();
-
-	
-	$(".sample-flipbook").turn({	
-        acceleration: true,	
-	    gradients: !$.isTouch,	
-		autoCenter: true,
-	});
-
-	$(".sample-flipbook").turn("direction", "rtl");
-
-	$(".sample-flipbook").bind("turned", function(event, page, view) {
-		if(page==1){
-		$(".sample-flipbook").css("background-image","url(images/leftbookback.png)");
-			$(".stackleft").hide();
-			$(".stackright").hide();
-			hidePlayer();
-		}		
-		if(page>=2){
-			setScroll();
-		<!-- pagestackleft width control---->				
-			
-			var width=(($(".sample-flipbook").turn("pages")-4)/2-(page/2-1));
-			width=(width<=20?width:20);								
-			document.getElementById('stackleft').style.width=(width*2)+"px";
-			document.getElementById('stackleft').style.marginLeft=(36-width*2)+"px";
-			document.getElementById('stackleft').style.marginTop=26+"px";
-			
-			var width1=page/2-1;
-			width1=(width1<=20?width1:20);
-			document.getElementById('stackright').style.width=(width1*2)+"px";
-			document.getElementById('stackright').style.marginLeft=1077+"px";
-			document.getElementById('stackright').style.marginTop=26+"px";
-					
-			$(".stackleft").show();
-			$(".stackright").show();
-			$(".sample-flipbook").css("background-image","url(images/leftbookback.png),url(images/rightbookback.png)");
-			document.getElementById('leftMenu').style.left=($('#stackleft').offset().left+width-66)+"px";
-			document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
-		}	  
-	  if(page>=2 && page<$(".sample-flipbook").turn("pages")){		
-		$(".leftMenu").show();		
-		var ribbonleft=$(".sample-flipbook").offset().left+$(".sample-flipbook").width()/2-52;
-		var ribbontop=$(".sample-flipbook").offset().top;
-		document.getElementById('ribbon').style.left=ribbonleft+"px";
-		document.getElementById('ribbon').style.top=ribbontop+"px";
-		$(".ribbon").show();		
-	  }  
-	  else{
-		$(".ribbon").hide();		
-	  }
-	  
-	});
-	$(".sample-flipbook").bind("turning", function(event, page, view) {
-	
-	//if(page>=2)
-			//$(".sample-flipbook").css("background-image","url(images/bookback.png)");	
-			if (page==1) {
-				$(".leftMenu").hide();		
-				$(".stackleft").hide();		
-				$(".stackright").hide();		
-			 }			 
-	  $(".ribbon").hide();
-	});
-	var flag=false;		
-	var prevPageNum=0;
-	$(".sample-flipbook").bind("pressed", function(event, page, view) {							
-		coverflag=true;
-		flag=true;
-		prevPageNum=$(".sample-flipbook").turn("page");
-		$(".ribbon").hide();
-	});	
-	$(".sample-flipbook").bind("turned", function(event, page, view) {		
-		if(flag && $(".sample-flipbook").turn("page")!=$(".sample-flipbook").turn("pages") && $(".sample-flipbook").turn("page")!=1)
-			$(".ribbon").show();
-		if( $(".sample-flipbook").turn("page")==$(".sample-flipbook").turn("pages")-2){
-			$(".stackleft").hide();
-		}
-
-		
-	});	
-
-	$(".sample-flipbook").bind("released", function(event, page, view) {			
-
-		if(flag && prevPageNum==$(".sample-flipbook").turn("page") && $(".sample-flipbook").turn("page")!=1 &&  $(".sample-flipbook").turn("page")<$(".sample-flipbook").turn("pages")){
-				$(".stackleft").show();
-				$(".leftMenu").show();
-				flag=false;
-				$(".ribbon").show();
-			}
-			
-	});	
-	});
-	function turnLeftPage(){
-		var pageNumber=$(".sample-flipbook").turn("page");
-		if($(".sample-flipbook").turn("hasPage",pageNumber-1))
-			$(".sample-flipbook").turn("previous");		
-	}
-	function turnRightPage(){
-		var pageNumber=$(".sample-flipbook").turn("page");
-		if($(".sample-flipbook").turn("pages")-pageNumber>2)
-			$(".sample-flipbook").turn("next");
-	}
-	$(window).resize(function() {	
-		var flipleft=Math.round($(".sample-flipbook").offset().left);
-		var fliptop=Math.round($(".sample-flipbook").offset().top);
-
-		document.getElementById('leftMenu').style.left=(flipleft-35)+"px";
-		document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
-			
-		document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
-	
-		var leftValue=flipleft-160;
-		var topValue=fliptop+$(".sample-flipbook").height()/2-$(".leftArrow").height()/2;	
-		document.getElementById('leftArrow').style.left=leftValue+"px"	
-		document.getElementById('leftArrow').style.top=topValue+"px";
-		
-		var rightValue=flipleft+$(".sample-flipbook").width()+120;
-		document.getElementById('rightArrow').style.left=rightValue+"px"	
-		document.getElementById('rightArrow').style.top=topValue+"px";
-			
-				
-		var ribbonleft=$(".sample-flipbook").offset().left+$(".sample-flipbook").width()/2-35;
-		var ribbontop=$(".sample-flipbook").offset().top;
-		document.getElementById('ribbon').style.left=ribbonleft+"px";
-		document.getElementById('ribbon').style.top=ribbontop+"px";
-		
-		var page=$(".sample-flipbook").turn("page");
-		var width=(($(".sample-flipbook").turn("pages")-4)/2-(page/2-1));
-		width=(width<=20?width:20);								
-		document.getElementById('stackleft').style.width=(width*2)+"px";
-		document.getElementById('stackleft').style.marginLeft=(36-width*2)+"px";
-		document.getElementById('stackleft').style.marginTop=26+"px";	
-		
-		var width1=page/2-1;
-		width1=(width1<=20?width1:20);
-		document.getElementById('stackright').style.width=(width1*2)+"px";
-		document.getElementById('stackright').style.marginLeft=1077+"px";
-		document.getElementById('stackright').style.marginTop=26+"px";
-		
-						
-
-		document.getElementById('leftMenu').style.left=($('#stackleft').offset().left+width-66)+"px";
-		document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
-	});
-	
-	
-	function setScroll(){	
-		var pn=$(".sample-flipbook").turn("page");	
-
-		if(pn<=1) return;
-		if(pn==2){			
-			$('.p3 #pagecontent').slimScroll({
-			position: 'right',
-		height: '710px',
-		width: '490px',
-		railVisible: true,
-			distance : '1px',
-		alwaysVisible: false
-			});	
-			return;
-		}
-		if(pn>=3){
-			if(pn%2==0){		
-				var classId="p"+pn;	
-				$('.'+classId+' #pagecontent').slimScroll({
-				position: 'left',
-			height: '710px',
-			width: '440px',
-			railVisible: true,
-				distance : '55px',
-			alwaysVisible: false	
-				});
-				
-				classId="p"+(pn+1);	
-				$('.'+classId+' #pagecontent').slimScroll({
-				position: 'right',
-			height: '710px',
-			width: '490px',
-			railVisible: true,
-				distance : '1px',
-			alwaysVisible: false	
-				});
-				return;
-			}
-			if(pn%2==1){
-				var classId="p"+pn;
-				$('.'+classId+' #pagecontent').slimScroll({
-				position: 'right',
-			height: '710px',
-			width: '490px',
-			railVisible: true,
-				distance : '1px',
-			alwaysVisible: false	
-				});
-				if(pn!==3){
-					classId="p"+(pn-1);
-					$('.'+classId+' #pagecontent').slimScroll({
-					position: 'left',
-				height: '710px',
-				width: '440px',
-				railVisible: true,
-					distance : '55px',
-				alwaysVisible: false	
-					});			
-				}
-			}
-		}
-		
-	}
-</script>
+<script src="temp.js"></script>
 </body>
 </html>

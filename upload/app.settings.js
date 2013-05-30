@@ -33,7 +33,7 @@ var config = {
 	 */
 	url: { 
 		enable: true,
-		html5: true,	// html5 replaces hash (!#) with backslashes / 
+		html5: false,	// html5 replaces hash (!#) with backslashes / 
 		
 		/**
 		 * puts backslash in the url, which can be used for sharing on facebook (lint feature). - requries .htaccess and metaTag plugin, to work properly.

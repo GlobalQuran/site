@@ -31,7 +31,8 @@ var layout = {
 	{		
 		gq.layout.displayStartup = function (success)
 		{
-			layout.view.load(success);			
+			layout.view.load(success);
+			layout.bind.load();
 			
 		};
 		gq.layout.display = function (success)
@@ -41,7 +42,7 @@ var layout = {
 		
 		gq.init();
 		
-		this.bind.load();				
+		//this.bind.load();				
 		
 		/*	TODO attach it with main gq functions					
 		gq.layout.ayahChanged = function ()
@@ -97,6 +98,7 @@ var layout = {
 			// translation list
 			if (layout.config.div.translationList)
 				$(layout.config.div.translationList).html(translationLanguageList);
+			
 		},
 		
 		page: function(quranArray)
@@ -345,6 +347,14 @@ var layout = {
 		
 		menu: function()
 		{
+			
+			$('.quranList').superscroll();
+			$('.translationList').superscroll();
+			$('.recitorList').superscroll();
+			
+			/**-------------------------------------------------------
+			 * 
+			 */
 			// opening menu
 			$('.btn-menu').live('click', function() {
 				

@@ -1,5 +1,5 @@
 
-.sample-flipbook{
+.flipbook{
 	background-image:url(../images/leftbookback.png);	
 	background-position: left top, right top;	
 	background-repeat:no-repeat;	
@@ -13,11 +13,11 @@
 	transition:margin-left 0.2s;
 }
 
-.sample-flipbook .page{
+.flipbook .page{
 	background-image:url(../images/pageR.png);
 }
 
-.sample-flipbook .page-wrapper{	
+.flipbook .page-wrapper{	
 	-webkit-perspective:2000px;
 	-moz-perspective:2000px;
 	-ms-perspective:2000px;
@@ -25,7 +25,7 @@
 	perspective:2000px;
 }
 
-.sample-flipbook .hard{	
+.flipbook .hard{	
 	//-webkit-box-shadow:inset 0 0 5px #666;
 	//-moz-box-shadow:inset 0 0 5px #666;
 	//-o-box-shadow:inset 0 0 5px #666;
@@ -34,10 +34,10 @@
 	font-weight:bold;
 }
 
-.sample-flipbook .odd{
+.flipbook .odd{
 	background-image:url(../images/pageL1.png);	
 }
-.sample-flipbook .odd #pagetop{
+.flipbook .odd #pagetop{
 	margin-left:70px; 
 	margin-top:32px; 
 	margin-bottom:27px;
@@ -47,20 +47,20 @@
 	display:block;
 
 }
-.sample-flipbook .odd #pagecontent{
+.flipbook .odd #pagecontent{
 	overflow:hidden; 
 	margin-left:100px;
 	width:390px;
-	height:710px;
+	height:500px;
 	align:left;
 }
-.sample-flipbook .odd #pagebottom{
+.flipbook .odd #pagebottom{
 	margin-left:70px; 
 	margin-top:25px;
 	width:440px;
 	height:30px;
 }
-.sample-flipbook .odd #pagebottom .share{
+.flipbook .odd #pagebottom .share{
 	background-image:url(../images/sharing.png);	
 	margin-left:0px; 
 	margin-top:30px;
@@ -68,7 +68,7 @@
 	height:22px;
 	cursor:pointer;
 }
-.sample-flipbook .even #pagebottom .share{
+.flipbook .even #pagebottom .share{
 	background-image:url(../images/sharing.png);	
 	margin-left:410px; 
 	margin-top:30px;
@@ -76,7 +76,7 @@
 	height:22px;
 	cursor:pointer;
 }
-.sample-flipbook .even #pagetop{
+.flipbook .even #pagetop{
 	 margin-left:30px; 
 	 margin-top:32px; 
 	 margin-bottom:27px;
@@ -86,20 +86,20 @@
 	 display:block;
 	
 }
-.sample-flipbook .even #pagecontent{
+.flipbook .even #pagecontent{
 	 overflow:hidden; 
 	 margin-left:60px;
 	 width:390px;
-	 height:710px;
+	 height:500px;
 }
-.sample-flipbook .even #pagebottom{
+.flipbook .even #pagebottom{
 	margin-left:40px; 
 	margin-top:25px;
 	width:430px;
 	height:30px;
 }
 
-.sample-flipbook .even{
+.flipbook .even{
 	background-image:url(../images/PageR1.png);	
 }
 
