@@ -5,7 +5,7 @@
 <!--[if IE 9 ]>    <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en" class="noie"> <!--<![endif]-->
 <head>
-<title>Global Quran</title>
+<title>Global Guarn</title>
 <link type="text/css" rel="stylesheet" href="css/default.css"></link>
 <link type="text/css" rel="stylesheet" href="css/recitorscroll.css"></link>
 <link type="text/css" rel="stylesheet" href="samples/basic/css/basic.css"></link>
@@ -13,19 +13,30 @@
 <link rel="stylesheet" href="images/themes/default/css/global.css" media="screen,print" />
 <link rel="stylesheet" href="images/themes/default/css/print.css" media="print" />
 
-
-
+<script type="text/javascript" src="extras/all.js"></script>
+<script type="text/javascript" src="scroll/jquery.js"></script>
+<script type="text/javascript" src="scroll/jquery-ui.min.js"></script>
+<script type="text/javascript" src="lib/turn.min.js"></script>
+<script src="javascript/jquery/jquery.qtip.min.js"></script>
+<script src="javascript/global.js"></script>	
+<script type="text/javascript" src="scroll/jquery.slimscroll.js"></script>
 <link href="SuperScroll/superfish.css" rel="stylesheet" type="text/css" media="all">
 <link href="SuperScroll/superfish-vertical.css" rel="stylesheet" type="text/css" media="all">
 <link href="SuperScroll/superscroll.css" rel="stylesheet" type="text/css" media="all">
+
+<script type="text/javascript" src="SuperScroll/jquery.touchwipe.1.1.1.js"></script>
+<script type="text/javascript" src="SuperScroll/superfish.js"></script>
+<script type="text/javascript" src="SuperScroll/supersubs.js"></script>
+<script type="text/javascript" src="SuperScroll/superscroll.js"></script>
 
 
 <link  href="RibbonScroll/ribbon.css" rel="stylesheet" type="text/css" media="all">
 <link  href="RibbonScroll/ribbonscroll.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
-<body>
 
+
+<body>
 <div class="header" align="center">
 <a href="#">HOME</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -39,7 +50,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="#">CONTACT US</a>
 </div>
-
 <!-- <h1><a href="#">Global Quran</a></h1> -->
 <div class="logo">
  <div><a href="#"><img src="pics/logo.png" class="logolink"/></a></div>
@@ -57,7 +67,7 @@
 					<li id="play"><a href="#" class="icon play">play</a></li>
 					<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center">
 						<span class="icon recitor">Select Recitor</span></a>
-						<ul class="sf-scrolling recitorList" items="8" style="width:150px;">
+						<ul class="sf-scrolling recitorList" items="8" style="width:150px;height:185px;">
 							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
 							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit (mujawwad)</a></li>
 							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Ahmed Ibn Ali Al-Ajamy</a></li>
@@ -140,17 +150,7 @@
 				<div style="height:59px;">
 					<ul class="book-sf-menu" >
 						<li class="book"> 
-						<ul class="quranList" items="10">
-							<li><p>loading...</p></li>
-						</ul>
-						</li>
-					</ul>				
-				</div>
-				
-				<div style="height:59px;">
-					<ul class="book-sf-menu" >
-						<li class="comment"> 
-						<ul class="sf-scrolling translationList" items="4">
+						<ul class="sf-scrolling" items="4">
 								<li><p>Menu1</p>
 									<ul>
 										<li><p>A</p>
@@ -173,9 +173,36 @@
 						</ul>
 						</li>
 					</ul>				
-				</div>		
-					
-				<div class="comment"></div>
+				</div>
+				
+				<div style="height:59px;">
+					<ul class="book-sf-menu" >
+						<li class="comment"> 
+						<ul class="sf-scrolling" items="4">
+								<li><p>Menu1</p>
+									<ul>
+										<li><p>A</p>
+										</li>
+										<li><p>B</p>						
+										</li>
+										</li>
+									</ul>
+								</li>
+								<li><p>Menu2</p>
+									<ul>
+										<li><p>C</p>						
+										<li><p>D</p>						
+										</li>
+									</ul>
+								</li>
+								<li><p>Menu3</p></li>
+								<li><p>Menu4</p></li>
+								<li><p>Menu5</p></li>
+						</ul>
+						</li>
+					</ul>				
+				</div>					
+
 				<div class="setting"></div>
 				<div class="zoom" >				
 					<div class="search">
@@ -284,30 +311,10 @@
 	<a class="t" href="#"></a>
 	&nbsp;
 	<a class="g" href="#"></a>	
-	<div class="copyright">  Copyright. GlobalQuran.com 2006-2013 </div>
+	<div class="copyright"> © Copyright. GlobalQuran.com 2006-2012 </div>
 </div>
 
-<script src="extras/all.js"></script>
-<script src="scroll/jquery.js"></script>
-<script src="scroll/jquery-ui.min.js"></script>
-<script src="lib/turn.min.js"></script>
-<script src="javascript/jquery/jquery.qtip.min.js"></script>
-<script src="javascript/global.js"></script>	
-<script src="scroll/jquery.slimscroll.js"></script>
-
-<script src="SuperScroll/jquery.touchwipe.1.1.1.js"></script>
-<script src="SuperScroll/superfish.js"></script>
-<script src="SuperScroll/supersubs.js"></script>
-<script src="SuperScroll/superscroll.js"></script>
-
-<script src="javascript/jquery/jquery.jplayer.js"></script>
-
-<script src="javascript/Quran.js"></script>
-<script src="javascript/GQ.js"></script>
-<script src="javascript/Layout.js"></script>
-<script src="app.settings.js"></script>
-
-<script>
+<script language="javascript">
 function showPlayer(){
 	$('.startplay').css('display','none');
 	$('.closeplayer').css('display','inherit');
@@ -511,7 +518,6 @@ $(document).ready(function(){
 		document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
 	});
 	
-	
 	function setScroll(){	
 		var pn=$(".sample-flipbook").turn("page");	
 
@@ -519,11 +525,11 @@ $(document).ready(function(){
 		if(pn==2){			
 			$('.p3 #pagecontent').slimScroll({
 			position: 'right',
-		height: '710px',
-		width: '490px',
-		railVisible: true,
+		    height: '710px',
+	    	width: '490px',
+		    railVisible: true,
 			distance : '1px',
-		alwaysVisible: false
+		    alwaysVisible: false
 			});	
 			return;
 		}
@@ -532,21 +538,21 @@ $(document).ready(function(){
 				var classId="p"+pn;	
 				$('.'+classId+' #pagecontent').slimScroll({
 				position: 'left',
-			height: '710px',
-			width: '440px',
-			railVisible: true,
+		    	height: '710px',
+			    width: '440px',
+		    	railVisible: true,
 				distance : '55px',
-			alwaysVisible: false	
+		    	alwaysVisible: false	
 				});
 				
 				classId="p"+(pn+1);	
 				$('.'+classId+' #pagecontent').slimScroll({
 				position: 'right',
-			height: '710px',
-			width: '490px',
-			railVisible: true,
+		    	height: '710px',
+			    width: '490px',
+		    	railVisible: true,
 				distance : '1px',
-			alwaysVisible: false	
+		    	alwaysVisible: false	
 				});
 				return;
 			}
@@ -554,21 +560,21 @@ $(document).ready(function(){
 				var classId="p"+pn;
 				$('.'+classId+' #pagecontent').slimScroll({
 				position: 'right',
-			height: '710px',
-			width: '490px',
-			railVisible: true,
+		    	height: '710px',
+			    width: '490px',
+		    	railVisible: true,
 				distance : '1px',
-			alwaysVisible: false	
+		    	alwaysVisible: false	
 				});
 				if(pn!==3){
 					classId="p"+(pn-1);
 					$('.'+classId+' #pagecontent').slimScroll({
 					position: 'left',
-				height: '710px',
-				width: '440px',
-				railVisible: true,
+			    	height: '710px',
+				    width: '440px',
+			    	railVisible: true,
 					distance : '55px',
-				alwaysVisible: false	
+			    	alwaysVisible: false	
 					});			
 				}
 			}

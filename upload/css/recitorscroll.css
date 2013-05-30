@@ -1,0 +1,41 @@
+/*
+ * SuperScroll v0.1b - jQuery plugin
+ * Copyright (c) 2012 Steve Elmer
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ * 	http://www.opensource.org/licenses/mit-license.php
+ * 	http://www.gnu.org/licenses/gpl.html
+ *
+ *
+ * This plugin automatically adds scrolling to suckerfish-style.
+ * If you use this, please expect bugs and report them
+ * to the jQuery Google Group with the word 'Superfish' in the subject line.
+ *
+ */
+
+/* If some of the links in the menu don't highlight correctly, remove the styles for :visited 
+   in the superfish.css file. 
+*/
+#recitor .sf-scroll-up, #recitor .sf-scroll-dn {	
+	width:			18px;
+	height:			15px;
+	margin:0 auto;
+}
+#recitor .sf-scroll-up:hover, #recitor .sf-scroll-dn:hover {	
+}
+#recitor .sf-uparrow,#recitor .sf-dnarrow, #recitor .sf-noarrow {
+	margin:			0 auto;
+	width:			10px;
+	height:			15px;
+	text-indent: 	-999em;
+	overflow:		hidden;
+	background:		url('updn-arrows-666666.png') no-repeat 0 0;
+}
+#recitor .sf-dnarrow {
+	background-position: -10px -100px;
+	
+}
+#recitor .sf-noarrow {
+	background-position: -10px -50px;
+	
+}
