@@ -27,6 +27,10 @@ var config = {
 		version: '4.0'
 	},
 		
+	/**
+	 * saving the current location to the bookmark if bookmark is enabled (true). false for disable
+	 */
+	bookmark: true,
 	
 	/**
 	 * control how url should be displayed or turn it off from here
@@ -85,7 +89,7 @@ var config = {
 		/**
 		 * swfPath flash player path for non html5 support
 		 */
-		swfPath: 'http://globalquran.com/images',
+		swfPath: 'http://globalquran.com/img',
 		
 		/**
 		 * audioPath audio data api path

@@ -442,8 +442,8 @@ table th, table td {
 .icon {
 	width: 16px;
 	height: 16px;
-	background: transparent url(./../images/tool/sprites.png) no-repeat 0 0;
-	-background-image:url(./../images/tool/sprites-8.png); /* ie6 fix */
+	background: transparent url(./../img/tool/sprites.png) no-repeat 0 0;
+	-background-image:url(./../img/tool/sprites-8.png); /* ie6 fix */
 	text-indent:-7000px;
 	overflow:hidden;
 	display: inline-block;
@@ -498,7 +498,7 @@ noscript p {
 	}
 	
 .closeplayer{
-	 background-image:url("./../images/jplayer/close.png");
+	 background-image:url("./../img/jplayer/close.png");
 	 position:absolute;
 	 margin-left:-5px;
 	 margin-top:-4px;
@@ -656,7 +656,7 @@ noscript p {
 		margin-left:-4px;
 	}
 	#playerNav{
-		background-image:url("./../images/jplayer/foreground.png");
+		background-image:url("./../img/jplayer/foreground.png");
 		height:63px;
 		width:450px;
 	}
@@ -664,7 +664,7 @@ noscript p {
 		height:63px;
 		width:450px;
 		position:absolute;		
-		background-image:url("./../images/jplayer/background.png");		
+		background-image:url("./../img/jplayer/background.png");		
 	}
 		.rtl #playerNavBox {
 			margin-right:0px;
@@ -1825,8 +1825,8 @@ div.hr {
 	height: 8px;
 	margin:auto;
 	margin-bottom:-7px;
-	background: transparent url(./../images/hr-line.png) no-repeat scroll center;
-	-background-image:url(./../images/hr-line-8.png); /* ie6 fix */
+	background: transparent url(./../img/hr-line.png) no-repeat scroll center;
+	-background-image:url(./../img/hr-line-8.png); /* ie6 fix */
 }
 div.hr hr {
 	margin:0px;
@@ -2091,7 +2091,7 @@ button::-moz-focus-inner { /*Remove button padding in FF*/
 		zoom:1;
 	}
 	.audioLoading {
-		background: url("./../images/progress-bar-loader.gif");
+		background: url("./../img/progress-bar-loader.gif");
 	}
 
 /* Component containers

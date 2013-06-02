@@ -1,0 +1,286 @@
+/* word by word */
+.word {
+		margin-left: 8px;
+		margin-right: 8px;
+		display:-moz-inline-stack;
+		display:inline-block;
+		zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+		*display: inline;
+	}
+	.staticWord {
+		padding: .2em .3em .2em .3em;
+	}
+	.staticWord .first, .staticWord .second {
+		text-align: center;
+	}
+	.staticWord:hover {
+		background-color:#ffffee;
+	}
+	.word .first {
+		display:block;
+		padding-top: .2em;
+		padding-bottom: .2em;
+	}
+	.word .second {
+		display: block;	
+	}
+	.word .tipsWord:hover {
+		cursor:help;
+		color: #3B5998;
+		text-decoration:overline;
+	}	
+/* quran signs */
+.sign {
+	font-family: me_quran,meQuran,Times New Roman;
+	color: #FB7600;
+	/* font-size: 0.9em; TODO*/
+	font-size: 70%;
+}
+
+.internal-sign {
+	font-family: me_quran,meQuran,Times New Roman;
+	color: green;
+	/* font-size: 0.65em; TODO*/
+	font-size: 70%;
+}
+
+.juz-sign {
+	width: 16px;
+	height: 16px;
+	background-position: 0 -80px;/* TODO juz sign in images */
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: 3px;
+}
+
+/* tajweed colors */
+.ghn {
+    color: #FF7E1E;
+}
+.color.ghn {
+	background-color: #FF7E1E;
+}
+.qlq {
+    color: #DD0008;
+}
+.color.qlq
+{
+	background-color: #DD0008;
+}
+.qlq:hover {
+    background-color: #F3A6A9;
+    color: #DD0008;
+    cursor: pointer;
+}
+.idgh_ghn {
+    color: #169200;
+}
+.color.idgh_ghn
+{
+	background-color: #169200;
+}
+.idgh_ghn:hover {
+    background-color: #9CE58E;
+    color: #169200;
+    cursor: pointer;
+}
+.idgh_w_ghn {
+    color: #169200;
+}
+.color.idgh_w_ghn
+{
+	background-color: #169200;
+}
+.idgh_w_ghn:hover {
+    background-color: #9CE58E;
+    color: #169200;
+    cursor: pointer;
+}
+.iqlb {
+    color: #26BFFD;
+}
+.color.iqlb
+{
+	background-color: #26BFFD;
+}
+.iqlb:hover {
+    background-color: #92E5FF;
+    color: #0099C5;
+    cursor: pointer;
+}
+.ikhf {
+    color: #9400A8;
+}
+.color.ikhf
+{
+	background-color: #9400A8;
+}
+.ikhf:hover {
+    background-color: #DAA6E1;
+    color: #9400A8;
+    cursor: pointer;
+}
+.ikhf_shfw {
+    color: #D500B7;
+}
+.color.ikhf_shfw
+{
+	background-color: #D500B7;
+}
+.ikhf_shfw:hover {
+    background-color: #F0A6E6;
+    color: #D500B7;
+    cursor: pointer;
+}
+.idghm_shfw {
+    color: #58B800;
+}
+.color.idghm_shfw
+{
+	background-color: #58B800;
+}
+.idghm_shfw:hover {
+    background-color: #BAE890;
+    color: #58B800;
+    cursor: pointer;
+}
+.slnt {
+    color: #AAAAAA;
+}
+.color.slnt
+{
+	background-color: #AAAAAA;
+}
+.ham_wasl {
+    color: #AAAAAA;
+}
+.color.ham_wasl
+{
+	background-color: #AAAAAA;
+}
+.ham_wasl:hover {
+    background-color: #D7D7D7;
+}
+.madda_necessary {
+    color: #000EBC;
+}
+.color.madda_necessary
+{
+	background-color: #000EBC;
+}
+.madda_obligatory {
+    color: #2144C1;
+}
+.color.madda_obligatory
+{
+	background-color: #2144C1;
+}
+.madda_permissible {
+    color: #4050FF;
+}
+.color.madda_permissible
+{
+	background-color: #4050FF;
+}
+.madda_normal {
+    color: #537FFF;
+}
+.color.madda_normal
+{
+	background-color: #537FFF;
+}
+.idgh_mus {
+    color: #A1A1A1;
+}
+.color.idgh_mus
+{
+	background-color: #A1A1A1;
+}
+.idgh_mus:hover {
+    background-color: #D7D7D7;
+}
+
+/* kids word by word colors */
+.wordColor1 {
+	color:#006AFF;
+}
+.wordColor2 {
+	color:#FFD800;
+}
+.wordColor3 {
+	color:#129308;
+}
+.wordColor4 {
+	color:#CE7706;
+}
+.wordColor5 {
+	color:#C90404;
+}
+.wordColor6 {
+	color:#CE0692;
+}
+.wordColor7 {
+	color:#A624F2;
+}
+.wordColor8 {
+	color:#6928E2;
+}
+.wordColor9 {
+	color:#0428C9;
+}
+.wordColor10 {
+	color:#04AFC9;
+}
+
+
+/* required fonts */
+@font-face {
+    font-family: 'me_quran';
+    src: url('./../../../fonts/me_quran-webfont.eot');
+    src: url('./../../../fonts/me_quran-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./../../../fonts/me_quran-webfont.woff') format('woff'),
+         url('./../../../fonts/me_quran-webfont.ttf') format('truetype'),
+         url('./../../../fonts/me_quran-webfont.svg#mequranRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: '_PDMS_Saleem_QuranFont';
+    src: url('./../../../fonts/pdms_saleem-webfont.eot');
+    src: url('./../../../fonts/pdms_saleem-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./../../../fonts/pdms_saleem-webfont.woff') format('woff'),
+         url('./../../../fonts/pdms_saleem-webfont.ttf') format('truetype'),
+         url('./../../../fonts/pdms_saleem-webfont.svg#') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'KFGQPC Uthman Taha Naskh';
+    src: url('./../../../fonts/kfc_naskh-webfont.eot');
+    src: url('./../../../fonts/kfc_naskh-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./../../../fonts/kfc_naskh-webfont.woff') format('woff'),
+         url('./../../../fonts/kfc_naskh-webfont.ttf') format('truetype'),
+         url('./../../../fonts/kfc_naskh-webfont.svg#KFGQPCUthmanTahaNaskhRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Scheherazade';
+    src: url('./../../../fonts/scheherazade-webfont.eot');
+    src: url('./../../../fonts/scheherazade-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./../../../fonts/scheherazade-webfont.woff') format('woff'),
+         url('./../../../fonts/scheherazade-webfont.ttf') format('truetype'),
+         url('./../../../fonts/scheherazade-webfont.svg#ScheherazadeRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'XB Zar';
+    src: url('./../../../fonts/xb_zar-webfont.eot');
+    src: url('./../../../fonts/xb_zar-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./../../../fonts/xb_zar-webfont.woff') format('woff'),
+         url('./../../../fonts/xb_zar-webfont.ttf') format('truetype'),
+         url('./../../../fonts/xb_zar-webfont.svg#XBZarRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

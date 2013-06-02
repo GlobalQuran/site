@@ -1,6 +1,6 @@
 
 .flipbook{
-	background-image:url(../images/leftbookback.png);	
+	background-image:url(../img/leftbookback.png);	
 	background-position: left top, right top;	
 	background-repeat:no-repeat;	
 	width:1110px;
@@ -14,7 +14,7 @@
 }
 
 .flipbook .page{
-	background-image:url(../images/pageR.png);
+	background-image:url(../img/pageR.png);
 }
 
 .flipbook .page-wrapper{	
@@ -35,7 +35,7 @@
 }
 
 .flipbook .odd{
-	background-image:url(../images/pageL1.png);	
+	background-image:url(../img/pageL1.png);	
 }
 .flipbook .odd #pagetop{
 	margin-left:70px; 
@@ -61,7 +61,7 @@
 	height:30px;
 }
 .flipbook .odd #pagebottom .share{
-	background-image:url(../images/sharing.png);	
+	background-image:url(../img/sharing.png);	
 	margin-left:0px; 
 	margin-top:30px;
 	width:26px;
@@ -69,7 +69,7 @@
 	cursor:pointer;
 }
 .flipbook .even #pagebottom .share{
-	background-image:url(../images/sharing.png);	
+	background-image:url(../img/sharing.png);	
 	margin-left:410px; 
 	margin-top:30px;
 	width:26px;
@@ -100,6 +100,6 @@
 }
 
 .flipbook .even{
-	background-image:url(../images/PageR1.png);	
+	background-image:url(../img/PageR1.png);	
 }
 

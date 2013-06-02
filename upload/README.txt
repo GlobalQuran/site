@@ -1,14 +1,14 @@
 = Changelog
 
-=== Following are things that have been changed in css/js/images
+=== Following are things that have been changed in css/js/img
 
 - deleted extra files and folders. (cleaned the structure)
 - css files path changed directly to /css/ folder only. now all css files are in css folder only.
-- /pics/ folder changed to /images/ folder
-- all js files are now located in /javascript/ folder and /javascript/jin-package/ folder. i have added to jin folder the files, which are undecided on how to handle them with older files.
+- /pics/ folder changed to /img/ folder
+- all js files are now located in /js/ folder and /js/jin-package/ folder. i have added to jin folder the files, which are undecided on how to handle them with older files.
 - ribonScroll, menuScroll and recitorScroll are now merged to 'scroll.css' file inside /css/ folder.
 - basic.css is changed to flipbook.css
-- /images/themes/default/global.css is changed to /css/quran.css  
+- /img/themes/default/global.css is changed to /css/quran.css  
 
 
 === Changes in the code

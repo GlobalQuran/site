@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>GlobalQuran.com New Layout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+  <div class="mainbar">
+      <div class="mainbar-inner">
+        <div class="container">
+          <a class="btn btn-mainbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+         
+          <div class="nav-collapse">
+            <ul class="nav pull-right">
+              <li><a href="http://blog.globalquran.com/forums/">Feedback</a></li>
+              <li><a href="http://labs.globalquran.com"><img src="http://labs.globalquran.com/img/favicon.png" width="18" /> Back to Lab</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+    	<header>
+	       <div class="row">
+		     	<a class="logo" href="#">GlobalQuran</a>
+		     	 <ul class="menu pull-right">
+	              <li class="active"><a href="#">Home</a></li>
+	              <li><a href="#about">About</a></li>
+	              <li><a href="#contact">Contact</a></li>
+	            </ul>
+		    </div>
+		    <div class="row">
+		    	<form class="form-search pull-right">
+					  <div class="input-append">
+		                <input class="search-query" id="query"  placeholder="Search" size="16" type="text"><button class="btn" type="button">Go</button>
+		              </div>
+				</form>
+		    </div>
+		</header>
+    	
+	    <div class="navbar">
+	      <div class="navbar-inner">
+	        <div class="container">
+	          
+	            <ul class="nav player">
+	              <li><a href="#"><i class="icon-step-backward"></i></a></li>
+	              <li><a href="#"><i class="icon-play"></i></a></li>
+	              <li><a href="#"><i class="icon-step-forward"></i></a></li>
+	              
+	              <li><span>0:00</span> <strong>/</strong> <span>0:07</span></li>
+	              <li><a href="#"><i class="icon-volume-up"></i></a></li>
+	              <li><a href="#"><i class="icon-repeat"></i></a></li>
+	              <li>
+					<div class="btn-group" data-toggle="buttons-radio">
+					  <button class="btn"><i class="icon-chevron-down"></i></button>
+					  <button class="btn"><i class="icon-chevron-up"></i></button>
+					</div>
+				  </li>
+	            </ul>
+	        </div>
+	      </div>
+	    </div>
+
+	  	<!-- Content/Menu Div -->
+	  	<div class="row">
+	 		<div class="span2 well ">
+	 			<div class="btn-group">					
+					<button class="btn"><i class="icon-zoom-out"></i></button>
+					<button class="btn"><i class="icon-zoom-in"></i></button>
+				</div>
+				<br />
+				<button class="btn btn-inverse btn-menu btn-recitor" data-for="recitor">Reci</button><br /><br />
+				<button class="btn btn-inverse btn-menu btn-quran" data-for="quran">Qura</button><br /><br />
+				<button class="btn btn-inverse btn-menu btn-translation" data-for="translation">Tran</button><br /><br />
+				<button class="btn btn-inverse btn-page btn-setting" data-for="setting">Sett</button><br /><br />
+				
+			</div>
+			
+			<div class="sideBarMenu" style="display:none;"><ul id="translationList"></ul></div>
+			<div class="sideBarMenu2" style="display:none;"></div>
+	 		
+	 		<div class="span4 quranContent" id="page1">
+	 			<div class="pageInfo"><span>Surah Title (meaning)</span> <div class="pull-right">0 of 604</div></div>
+	 			<div class="page">
+	 				<p>loading...</p>
+	 			</div>
+	 		</div>
+	 		
+	 		<div class="span4 quranContent" id="page2">
+	 			<div class="pageInfo"><span>Surah Title (meaning)</span> <div class="pull-right">0 of 604</div></div>
+	 			<div class="page">
+	 				<p>loading...</p>
+	 			</div>
+	 		</div>
+	  	</div>
+      
+      <hr>
+
+      <footer>
+        <p>&copy; GlobalQuran.com 2006 - 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../upload/js/jquery/jquery.js"></script>
+    <script src="../../upload/js/jquery/jquery.qtip.min.js"></script>
+	<script src="../../upload/js/jquery/jquery-ui-1.8.15.custom.min.js"></script>
+	<script src="../../upload/js/jquery/jquery.jplayer.js"></script>
+    
+    <script src="../../upload/js/Quran.js"></script>
+	<script src="../../upload/js/GQ.js"></script>
+<!-- 
+	<script src="js/bootstrap.js"></script>
+    <script src="js/global.js"></script>
+ -->	
+	<script src="layout.js"></script>
+	<script src="app.settings.js"></script>
+    
+  </body>
+</html>

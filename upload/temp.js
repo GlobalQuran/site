@@ -32,10 +32,7 @@ $(document).ready(function(){
 
 	$(window).load(function() {
 	
-	$(".leftMenu").hide();
-	$(".ribbon").hide();
-	$(".stackleft").hide();
-	$(".stackright").hide();
+	
 	var flipleft=Math.round($(".flipbook").offset().left);
 	var fliptop=Math.round($(".flipbook").offset().top);
 
