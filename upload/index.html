@@ -13,6 +13,8 @@
 <!-- <link type="text/css" rel="stylesheet" href="css/extra.css" /> -->
 <link type="text/css" rel="stylesheet" href="css/quran.css" media="screen,print" />
 
+<link type="text/css" rel="stylesheet" href="css/qtip.css"></link>
+
 <link type="text/css" rel="stylesheet" href="css/superfish.css"></link>
 
 <link type="text/css" rel="stylesheet" href="css/ribbon.css"></link>
@@ -39,14 +41,14 @@
 
 <!-- <h1><a href="#">Global Quran</a></h1> -->
 <div class="logo">
- <div><a href="#"><img src="images/logo.png" class="logolink"/></a></div>
+ <div><a href="#"><img src="img/logo.png" class="logolink"/></a></div>
 </div>
 
 <div id="gqMain">
 
 		<div class="closeplayer" style="display:none" onClick="hidePlayer();"></div>		
 		<div id="topNav">
-			<div class="startplay" style="background-image:url(images/jplayer/start1.png); width:65px;height:57px;margin-top:3px;margin-left:1px;">
+			<div class="startplay" style="background-image:url(img/jplayer/start1.png); width:65px;height:57px;margin-top:3px;margin-left:1px;">
 				<li id="play" onClick="showPlayer();"><a href="#" class="icon play" style="margin-left:26px;margin-top:20px;">play</a></li>
 			</div>
 			<div id="playerNavBox" style="display:none">
@@ -119,11 +121,11 @@
 <div class="quran-book">
 		<div class="stackleft" id="stackleft" style="display:none;"></div>
 		<div class="stackright" id="stackright" style="display:none;"></div>
-			<div class="leftArrow" id="leftArrow" onClick="turnLeftPage();">	
-				<img src="images/left.png"></img>
+			<div class="leftArrow" id="leftArrow" onClick="turnRightPage();">	
+				<img src="img/left.png"></img>
 			</div>
-			<div class="rightArrow" id="rightArrow" onClick="turnRightPage()">	
-				<img src="images/right.png"></img>
+			<div class="rightArrow" id="rightArrow" onClick="turnLeftPage();">	
+				<img src="img/right.png"></img>
 			</div>
 			<div class="ribbon" id="ribbon" style="display:none;">	
 				<ul class="sf-scrolling" items="37">
@@ -175,53 +177,49 @@
 			
 			
 			<div class="flipbook">
-				<div class="hard" style="background-image:url(images/frontcover.png)"></div>
-				<div class="hard" style="background-image:url(images/pageBR.png)"><div class="loader"><i></i></div></div> 
+				<div class="hard" style="background-image:url(img/frontcover.png)"></div>
+				<div class="hard" style="background-image:url(img/pageBR.png)">
+					</br></br></br></br></br></br></br>
+					<div id="pagecontent">
+						<a href="#">Continue</a><br><br>
+						<a href="#">From First Surah </a>
+					</div>
+				</div> 
 				
 				<!----------------- ------------------->
 				
 				<!-- page start -->
-				<div>
-					<div id="pagetop">
+				<div class="page">
+					<div class="header">
 						<div class="title" style="float: left; font-size: 12px;">
-							<div class="outtitle" style="display: inline; color: #b99c51;">Al
-								baqarah</div>
-							<div class="innertitle" style="display: inline">(The Cow)</div>
+							<div class="name" style="display: inline; color: #b99c51;">Al baqarah</div>
+							<div class="meaning" style="display: inline">(The Cow)</div>
 						</div>
 						<div class="pageinfo" style="float: right; font-size: 12px;">
-							<div class="pagenumber" style="display: inline; color: #b99c51;">2</div>
-							<div class="totalpage" style="display: inline">of 604</div>
+							<div class="number" style="display: inline; color: #b99c51;">2</div>
+							<div class="total" style="display: inline">of 604</div>
 						</div>
-
-					</div>
-					
-					<div id="pagecontent">
-						<div class="titlecontainer" style="background-image: url(images/page/titlecontainer.png); margin-top: 3px; width: 324px; height: 50px; margin: 20px; margin-left: 30px;"></div>
+					</div>					
+					<div class="content">
+						<div class="titlecontainer" style="background-image: url(img/page/titlecontainer.png); margin-top: 3px; width: 324px; height: 50px; margin: 20px; margin-left: 30px;">Surah here</div>
+						
 						<div class="arrows" style="margin-left: 70px; width: 37px;">
-							<div class="leftA"
-								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
-							<div
-								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
-							<div class="rightA"
-								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+							<div class="leftA" style="background-image: url(img/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA" style="background-image: url(img/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
 						</div>
 
 						<div style="font-size: 13px; margin-left: 10px;">
-							<div style="color: #666666;">In the Name of Allah, Most
-								Gracious, Most Merciful.</div>
-							<div style="color: #b99c51; margin-top: 2px;">etur
-								adipiscing elit. Sed diam sem, imperdiet aus</div>
+							<div style="color: #666666;">In the Name of Allah, Most	Gracious, Most Merciful.</div>
+							<div style="color: #b99c51; margin-top: 2px;">etur adipiscing elit. Sed diam sem, imperdiet aus</div>
 							<div style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
 						</div>
 
 
 						<div class="arrows" style="margin-left: 70px; width: 37px; margin-top: 10px;">
-							<div class="leftA"
-								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
-							<div
-								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
-							<div class="rightA"
-								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+							<div class="leftA" style="background-image: url(img/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA" style="background-image: url(img/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
 						</div>
 
 						<div style="font-size: 13px; margin-left: 10px;">
@@ -232,7 +230,7 @@
 							<div style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
 						</div>
 					</div>
-					<div id="pagebottom">
+					<div class="footer">
 						<div class="share"></div>
 					</div>
 				</div> 
@@ -240,8 +238,8 @@
 				
 				
 				<!-- page start -->
-				<div>
-					<div id="pagetop">
+				<div class="page">
+					<div class="pagetop">
 						<div class="title" style="float: left; font-size: 12px;">
 							<div class="outtitle" style="display: inline; color: #b99c51;">Al
 								baqarah</div>
@@ -253,16 +251,12 @@
 						</div>
 
 					</div>
-					<div id="pagecontent">
-						<div class="titlecontainer"
-							style="background-image: url(images/page/titlecontainer.png); margin-top: 3px; width: 324px; height: 50px; margin: 20px; margin-left: 30px;"></div>
+					<div class="pagecontent">
+						<div class="titlecontainer" style="background-image: url(img/page/titlecontainer.png); margin-top: 3px; width: 324px; height: 50px; margin: 20px; margin-left: 30px;"></div>
 						<div class="arrows" style="margin-left: 70px; width: 37px;">
-							<div class="leftA"
-								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
-							<div
-								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
-							<div class="rightA"
-								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+							<div class="leftA" style="background-image: url(img/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA"	style="background-image: url(img/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
 						</div>
 
 						<div style="font-size: 13px; margin-left: 10px;">
@@ -270,19 +264,15 @@
 								Gracious, Most Merciful.</div>
 							<div style="color: #b99c51; margin-top: 2px;">etur
 								adipiscing elit. Sed diam sem, imperdiet aus</div>
-							<div
-								style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
+							<div style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
 						</div>
 
 
 						<div class="arrows"
 							style="margin-left: 70px; width: 37px; margin-top: 10px;">
-							<div class="leftA"
-								style="background-image: url(images/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
-							<div
-								style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
-							<div class="rightA"
-								style="background-image: url(images/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
+							<div class="leftA" style="background-image: url(img/page/leftmark.png); width: 14px; height: 25px; float: left;"></div>
+							<div style="font-size: 12px; color: #b99c51; float: left; margin-top: 3px;">2</div>
+							<div class="rightA" style="background-image: url(img/page/rightmark.png); width: 15px; height: 25px; float: right;"></div>
 						</div>
 
 						<div style="font-size: 13px; margin-left: 10px;">
@@ -290,11 +280,10 @@
 								Gracious, Most Merciful.</div>
 							<div style="color: #b99c51; margin-top: 2px;">etur
 								adipiscing elit. Sed diam sem, imperdiet aus</div>
-							<div
-								style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
+							<div style="background-color: #666666; height: 2px; margin-top: 16px; width: 365px;"></div>
 						</div>
 					</div>
-					<div id="pagebottom">
+					<div class="pagebottom">
 						<div class="share"></div>
 					</div>
 				</div> 
@@ -303,17 +292,15 @@
 				
 				
 				<!------------------            ------------>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
+				<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+				<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+				<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+				<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+				<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+				<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 				
-				<div class="hard" style="background-image:url(images/pageL1.png);z-index:-5;"></div> 
-				<div class="hard" style="background-image:url(images/frontcover.png);z-index:-5;"></div>		
+				<div class="hard" style="background-image:url(img/pageL1.png);z-index:-5;"></div> 
+				<div class="hard" style="background-image:url(img/frontcover.png);z-index:-5;"></div>		
 			</div>
 </div>
 

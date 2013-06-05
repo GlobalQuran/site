@@ -41,7 +41,7 @@ var layout = {
 		});
 		
 		gq.bind.addAfter(layout.config.id, 'load.ayah', function () {
-			layout.ayahChanged();
+			//layout.ayahChanged();
 		});
 		
 		/*

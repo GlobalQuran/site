@@ -23,9 +23,26 @@ var gq = {
 		 * api settings
 		 */
 		api: {
-			url: 'http://api.globalquran.com/',
+			
+			/**
+			 * api key - required, from 4.0, they key is required for all api's request
+			 */
 			key: '',
-			version: '4.0'
+			
+			/**
+			 * supported version for this gq. this will pull data from the server according to its version. 
+			 */
+			version: '4.0',
+			
+			/**
+			 * data api url
+			 */
+			url: 'http://api.globalquran.com/',
+			
+			/**
+			 * audioPath audio data api path
+			 */
+			audioPath: 'http://audio.globalquran.com/',
 		},
 		
 		/**
@@ -59,8 +76,8 @@ var gq = {
 		
 		data: {
 			
-			enable: true, 
-			
+			enable: true,
+						
 			/**
 			 *  'page';     - Get Quran page by page.
 			 *  'surah';    - Get Quran surah by surah.
@@ -69,15 +86,16 @@ var gq = {
 			by: 'page', // surah or page
 			
 			/**
-			 *  pre-caching the data so next page loads quickly.
+			 *  pre-caching the data so next page / surah / juz loads quickly.
 			 *  
 			 *   false;      - disable precache functionality
+			 *   true;		- preload by above selected method. if it's page, then preload page, if its surah, then surah.
 			 *  'page';     - Get Quran page by page.
 			 *  'surah';    - Get Quran surah by surah.
 			 *  'juz';      - Get Quran juz by juz.
-			 *  'complete'; - Get Quran page by complete.
+			 *  'complete'; - Get Quran complete data.
 			 */
-			preload: 'juz' //TODO FIXME
+			preload: true
 		},
 		
 		player: {
@@ -91,12 +109,7 @@ var gq = {
 			 * swfPath flash player path for non html5 support
 			 */
 			swfPath: 'http://globalquran.com/img',
-			
-			/**
-			 * audioPath audio data api path
-			 */
-			audioPath: 'http://audio.globalquran.com/',
-			
+									
 			/**
 			 * preload three different settings for this 
 			 * = true;  - two players playing continuesly
@@ -163,10 +176,7 @@ var gq = {
 		wbwMouseOver: false,
 		
 		font: 'auto',
-		fontSize: 'medium',
-		
-		fullScreen: false,
-		view: ''
+		fontSize: 'medium'
 	},
 	
 	_gaID: 'UA-1019966-3',
@@ -178,7 +188,6 @@ var gq = {
 	 */
 	data: {
 		loaded: false,
-		ayahList: {},
 		quranList: {},
 		quran: {},		
 		languageCountryList: {},
@@ -206,6 +215,27 @@ var gq = {
 	setConfig: function (config) {
 		config = config || {};
 		this.config = $.extend(true, this.config, config);		
+	},
+	
+	/**
+	 * add new setting key and its value. good for caching and retriving back on user revisit.
+	 * @param name
+	 * @param value
+	 */
+	addSetting: function (name, value)
+	{
+		gq.settings[name] = value;
+		gq.save();
+	},
+	
+	/**
+	 * delete settings key and save
+	 * @param name
+	 */
+	removeSetting: function (name)
+	{
+		delete gq.settings[name];
+		gq.save();
 	},
 	
 	/**
@@ -541,8 +571,14 @@ var gq = {
 
 				if (gq.data.quran[quranBy])
 				{	
-					if (!gq.data.quran[quranBy][fromVerseNo] || !gq.data.quran[quranBy][toVerseNo])
-						notCached.push(quranBy);		
+					for (i=fromVerseNo; i<=toVerseNo; i++)
+					{
+						if (!gq.data.quran[quranBy][i])
+						{
+							notCached.push(quranBy);
+							break;
+						}
+					}
 				}
 				else
 					notCached.push(quranBy);	
@@ -622,7 +658,7 @@ var gq = {
 			{	
 				var type = gq.data.quranList[quranBy].type;
 				
-				verseObject.verseOrignal = verseObject.verse;
+				verseObject.plainText = verseObject.verse;
 				
 				gq.bind.load('before', 'quran.parse', window, quranBy, verseObject);
 
@@ -1379,6 +1415,7 @@ var gq = {
 			ready: function (event)
 			{
 				gq.player.load('new'); // already getting load from recitation change
+				gq.bind.load('after', 'jplayer.ready', event, event);
 			},				
 			ended: function (event)
 			{		
@@ -1398,6 +1435,7 @@ var gq = {
 				}
 				
 				$('.buffer').css('width', '0%');
+				gq.bind.load('after', 'jplayer.ended', event, event);
 			},
 			loadstart: function (event)
 			{
@@ -1405,19 +1443,23 @@ var gq = {
 				{
 					$(".progressBar").addClass("audioLoading");
 				}
+				gq.bind.load('after', 'jplayer.loadstart', event, event);
 			},
 			loadeddata: function (event)
 			{
 				$(".progressBar").removeClass("audioLoading");
 				gq._gaqPush(['_trackEvent', 'Audio', 'load', event.jPlayer.status.src]);
+				gq.bind.load('after', 'jplayer.loaddata', event, event);
 			},
 			seeking: function()
 			{
 				$(".progressBar").addClass("audioLoading");
+				gq.bind.load('after', 'jplayer.seeking', event, event);
 			},
 			seeked: function()
 			{
 				$(".progressBar").removeClass("audioLoading");
+				gq.bind.load('after', 'jplayer.seeked', event, event);
 			},
 			progress: function (event)
 			{
@@ -1443,6 +1485,8 @@ var gq = {
 				}
 				
 				$('.buffer').css('width', percent+'%');
+				
+				gq.bind.load('after', 'jplayer.progress', event, event);
 			},
 			play: function (event)
 			{
@@ -1450,6 +1494,7 @@ var gq = {
 				$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
 				$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 				$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
+				gq.bind.load('after', 'jplayer.play', event, event);
 			},
 			pause: function (event)
 			{
@@ -1464,12 +1509,16 @@ var gq = {
 								
 					gq.player._iBug++;
 				}
+				
+				gq.bind.load('after', 'jplayer.pause', event, event);
 			},
 			timeupdate: function (event)
 			{
 				$(".playingTime").text($.jPlayer.convertTime(event.jPlayer.status.currentTime));
 				$(".totalTime").text($.jPlayer.convertTime(event.jPlayer.status.duration));
 				$(".progressBar").slider("value", event.jPlayer.status.currentPercentRelative);
+				
+				gq.bind.load('after', 'jplayer.timeupdate', event, event);
 			},
 			error: function(event)
 			{
@@ -1484,6 +1533,8 @@ var gq = {
 						gq._gaqPush(['_trackEvent', 'Audio', 'Error::NO_SOLUTION']);
 				    break;
 				}
+				
+				gq.bind.load('after', 'jplayer.error', event, event);
 			}
 		},
 		
@@ -1711,9 +1762,9 @@ var gq = {
 				return false; // there is no verse 6237
 			
 			if (recitor.mp3)
-				files.mp3 = gq.config.player.audioPath+recitor.name+'/mp3/'+recitor.kbs+'kbs/'+verse+'.mp3';
+				files.mp3 = gq.config.api.audioPath+recitor.name+'/mp3/'+recitor.kbs+'kbs/'+verse+'.mp3';
 			if (recitor.ogg)
-				files.oga = gq.config.player.audioPath+recitor.name+'/ogg/'+recitor.kbs+'kbs/'+verse+'.ogg';
+				files.oga = gq.config.api.audioPath+recitor.name+'/ogg/'+recitor.kbs+'kbs/'+verse+'.ogg';
 						
 			return files;
 		},
@@ -1980,7 +2031,7 @@ var gq = {
 					return;
 				}
 				
-				gq.nextAyah();
+				gq.next('ayah');
 				gq.bind.load('after', 'load.ayah');
 				//gq.load.get(surah, ayah);
 				this._i = 0;
@@ -2367,16 +2418,6 @@ var gq = {
 	},
 	
 	/**
-	 * Enable or disable the fullscreen mode
-	 * @param enable true to enable and false to disable
-	 */	
-	setFullScreen: function (enable)
-	{
-		this.settings.fullScreen = enable;
-		this.save();
-	},
-	
-	/**
 	 * if argument was empty, then it will just return the current juz number, else it will set it.
 	 * @param juz (optional)
 	 * @returns {mixed} return current juz number if argument was not set (if set and current page is not same page, then it will return false and run gq.load)
@@ -2388,10 +2429,21 @@ var gq = {
 			juz = Quran._fixJuzNum(juz);
 			var verse = Quran.ayah.fromJuz(juz);
 			
-			if (this.page() != Quran.ayah.page(verse.surah, verse.ayah))
+			if (!this._isCurrent(surah, ayah))
 			{
 				this.load.get(verse.surah, verse.ayah);
 				return false;
+			}
+			else
+			{		
+				this.settings.surah = verse.surah;
+				this.settings.ayah = verse.ayah;
+				this.settings.page  = Quran.ayah.page(verse.surah, verse.ayah);
+				this.save();
+				this.url.update();
+				this.player.reset();
+				gq.bind.load('after', 'load.ayah');
+				
 			}
 		}
 		
@@ -2409,11 +2461,23 @@ var gq = {
 		{
 			page = Quran._fixPageNum(page);
 			var verse = Quran.ayah.fromPage(page);
-			
-			if (this.page() != Quran.ayah.page(verse.surah, verse.ayah))
+
+			if (!this._isCurrent(surah, ayah))
 			{
+				this.player.reset();
 				this.load.get(verse.surah, verse.ayah);
 				return false;
+			}
+			else
+			{		
+				this.settings.surah = verse.surah;
+				this.settings.ayah = verse.ayah;
+				this.settings.juz  = Quran.ayah.juz(verse.surah, verse.ayah);
+				this.save();
+				this.url.update();
+				this.player.reset();
+				gq.bind.load('after', 'load.ayah');
+				
 			}
 		}
 		
@@ -2432,15 +2496,16 @@ var gq = {
 			surah = Quran._fixSurahNum(surah);
 			var ayah = 1;
 			
-			if (this.page() != Quran.ayah.page(surah, ayah))
-			{
+			if (!this._isCurrent(surah, ayah))
+			{		
 				this.load.get(surah, ayah);
 				return false;
 			}
 			else
-			{
-				this.settings.surah = surah;
+			{		
 				this.settings.ayah = 1;
+				this.player.reset();
+				gq.bind.load('after', 'load.ayah');
 			}
 		}
 		
@@ -2460,7 +2525,7 @@ var gq = {
 			surah = Quran._fixSurahNum(surah);
 			ayah  = Quran._fixAyahNum(surah, ayah);
 			
-			if (this.page() != Quran.ayah.page(surah, ayah))
+			if (!this._isCurrent(surah, ayah))
 			{
 				this.load.get(surah, ayah);
 				return false;
@@ -2472,10 +2537,29 @@ var gq = {
 				this.player.load('new');
 				this.save();
 				this.url.update();
+				gq.bind.load('after', 'load.ayah');
 			}
 		}
 		
 		return this.settings.ayah;
+	},
+	
+	/**
+	 * check if current page, juz, surah is same as existing, or is it different. checks with gq.config.data.by
+	 * @param surah
+	 * @param ayah
+	 * @returns {Boolean}
+	 */
+	_isCurrent: function (surah, ayah)
+	{
+		if (gq.config.data.by == 'juz')
+			return (this.juz() == Quran.ayah.juz(surah, ayah));
+		else if (gq.config.data.by == 'surah')
+			return (this.surah() == surah);
+		else if (gq.config.data.by == 'complete')
+			return true;
+		else // page
+			return (this.page() == Quran.ayah.page(surah, ayah));
 	},
 	
 	/**
@@ -2493,102 +2577,66 @@ var gq = {
 	},
 	
 	/**
-	 * Move the pointer to next ayah, if the ayah dont exist, it will trigger load function to get next page and show next ayah of it.
-	 * @returns {mixed} object of Quran.ayah.next() if ayah already exist on the page, false if next ayah dont exist on page
+	 * move to next page, surah or juz. depend what is passed by moveBy or set in gq.config.data.by
+	 * 
+	 * @param moveBy (optional)
+	 * @returns void
 	 */
-	nextAyah: function ()
+	next: function (moveBy)
 	{
-		var verse = Quran.ayah.next(this.surah(), this.ayah());
+		moveBy = gq.config.data.by;
 		
-		if (verse.surah == this.surah() && verse.ayah == this.ayah())
-			return verse; // ayah already exist on the page
-	
-		this.settings.surah = verse.surah;
-		this.settings.ayah = verse.ayah;
-				
-		if (this.ayah(verse.surah, verse.ayah))
-			return verse; // ayah already exist on the page
-		else
-			return false;	
+		if (moveBy == 'ayah')
+			return this.load._nextAyah();
+		else if (moveBy == 'juz')
+			return this.load._nextJuz();
+		else if (moveBy == 'surah')
+			return this.load._nextSurah();
+		else 
+			return this.load._nextPage();
 	},
 	
 	/**
-	 * Move the pointer to previous ayah, if the ayah dont exist, it will trigger load function to get previous page and show previous ayah of it.
-	 * @returns {mixed} object of Quran.ayah.previous() if ayah already exist on the page, false if previous ayah dont exist on page
+	 * move to previous page, surah or juz. depend what is passed by moveBy or set in gq.config.data.by
+	 * 
+	 * @param moveBy (optional)
+	 * @returns void
 	 */
-	prevAyah: function ()
+	prev: function (moveBy)
 	{
-		var verse = Quran.ayah.prev(this.surah(), this.ayah());
+		moveBy = gq.config.data.by;
 		
-		if (verse.surah == this.surah() && verse.ayah == this.ayah())
-			return verse; // ayah already exist on the page
-
-		this.settings.surah = verse.surah;
-		this.settings.ayah = verse.ayah;
-				
-		if (this.ayah(verse.surah, verse.ayah))
-			return verse; // ayah already exist on the page
-		else
-			return false;
+		if (moveBy == 'ayah')
+			return this.load._prevAyah();
+		else if (moveBy == 'juz')
+			return this.load._prevJuz();
+		else if (moveBy == 'surah')
+			return this.load._prevSurah();
+		else 
+			return this.load._prevPage();
 	},
 	
 	/**
-	 * Move to next page
-	 * @returns {void}
-	 */
-	nextPage: function ()
-	{
-		return this.page(this.page()+1);
-	},
-	
-	/**
-	 * Move to previous page
-	 * @returns {void}
-	 */
-	prevPage: function ()
-	{
-		return this.page(this.page()-1);
-	},
-	
-	/**
-	 * Move to next surah
-	 * @returns {void}
-	 */
-	nextSurah: function () {
-		return this.surah(this.surah()+1);
-	},
-	
-	/**
-	 * Move to previous surah
-	 * @returns {void}
-	 */
-	prevSurah: function () {
-		return this.surah(this.surah()-1);
-	},
-
-	/**
-	 * Move to next juz
-	 * @returns {void}
-	 */
-	nextJuz: function () {
-		return this.juz(this.juz()+1);
-	},
-	
-	/**
-	 * Move to previous juz
-	 * @returns {void}
-	 */
-	prevJuz: function () {
-		return this.juz(this.juz()-1);
-	},
-	
-	/**
-	 * gets the list of surah&ayah numbers for a current page 
-	 * [NOTE] data is filled after load function gets triggered. if you want to get list before load function, then use Quran.ayah.listFromPage()
+	 * gets the list of surah&ayah numbers for a current page / juz or surah 
+	 * 
+	 * @param listBy (optional)
+	 * @param byNumber (optional)
 	 * @returns {object}
 	 */
-	ayahs: function () {	
-		return this.data.ayahList;
+	ayahList: function (listBy, byNumber)
+	{		
+		listBy = listBy || gq.config.data.by;
+		byNumber = byNumber || this._defaultByNumber();
+		
+		// if not searching and if data is request, then build ayahList
+		if (listBy == 'juz')
+			return Quran.ayah.listFromJuz(byNumber);
+		else if (listBy == 'surah')
+			return Quran.ayah.listFromSurah(byNumber);
+		else if (listBy == 'complete')
+			return {}; // ayah list of complete quran, not needed. This is useful for preload.
+		else
+			return Quran.ayah.listFromPage(byNumber);
 	},
 	
 	/**
@@ -2611,6 +2659,7 @@ var gq = {
 		onStart: function (callback)
 		{	
 			gq.bind.load('before', 'start');
+			gq.bind.load('before', 'load');
 			
 			gq._cookieRead();
 			gq.url.load();
@@ -2629,13 +2678,16 @@ var gq = {
 				}
 				
 				var isSuccess = (typeof(response) == 'object');	
-				
-				gq.bind.load('after', 'start', window, isSuccess);
-				
+												
 				if (callback)
 					callback.call(window, isSuccess);
 				
+				gq.bind.load('after', 'load', window, isSuccess);
 				gq.bind.load('after', 'load.ayah');
+				
+				gq.bind.load('after', 'start', window, isSuccess);
+				
+				gq.load.preload();
 				
 			}, true);
 		},
@@ -2663,6 +2715,7 @@ var gq = {
 			gq.data.ayahList =  Quran.ayah.listFromPage(this.settings.page);
 			gq.search._keyword = false; // disable search
 			gq.url.save();
+			gq.player.reset();
 			
 			gq.save();
 			gq._gaqPush(['_trackPageview', gq.url.page()]);
@@ -2679,6 +2732,8 @@ var gq = {
 				gq.bind.load('after', 'load.ayah');
 				
 				gq.player.load('play');
+				
+				gq.load.preload();
 			};
 			
 			
@@ -2777,7 +2832,7 @@ var gq = {
 					callback.call(window, response);
 			};
 			
-			$jsonp = $.support.cors ? '' : '.jsonp?callback=?';
+			$jsonp = ($.support.cors && !/complete/.test(url)) ? '' : '.jsonp?callback=?';
 			$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' });
 
 			$.getJSON(url+$jsonp, combineCallback);
@@ -2843,7 +2898,34 @@ var gq = {
 			}
 		},
 		
-		preload: function () {},
+		preload: function ()
+		{
+			if (!gq.config.data.preload) 
+				return; // disabled
+			
+			var loadBy, byNumber;
+			
+			if (gq.config.data.preload === true)
+				loadBy = gq.config.data.by;
+			else
+				loadBy = gq.config.data.preload;
+			
+			if (loadBy == 'complete')
+				byNumber = 1;
+			else if (loadBy == 'juz')
+				byNumber = (loadBy == gq.config.data.by) ? Quran._fixJuzNum(gq.juz()+1) : gq.juz();
+			else if (loadBy == 'surah')
+				byNumber = (loadBy == gq.config.data.by) ? Quran._fixSurahNum(gq.surah()+1) : gq.surah();
+			else
+				byNumber = (loadBy == gq.config.data.by) ? Quran._fixPageNum(gq.page()+1) : gq.page();
+			
+				
+			gq.bind.load('before', 'preload');
+			
+			this.dataOnly(loadBy, byNumber, function (response) {
+				gq.bind.load('after', 'preload', window, response);
+			});
+		},
 		
 		search: function (callback)
 		{
@@ -2892,6 +2974,96 @@ var gq = {
 			
 			
 			return byNumber;
+		},
+		
+		/**
+		 * Move the pointer to next ayah, if the ayah dont exist, it will trigger load function to get next page and show next ayah of it.
+		 * @returns {mixed} object of Quran.ayah.next() if ayah already exist on the page, false if next ayah dont exist on page
+		 */
+		_nextAyah: function ()
+		{
+			var verse = Quran.ayah.next(gq.surah(), gq.ayah());
+			
+			if (verse.surah == gq.surah() && verse.ayah == gq.ayah())
+				return verse; // ayah already exist on the page
+		
+			gq.settings.surah = verse.surah;
+			gq.settings.ayah = verse.ayah;
+					
+			if (gq.ayah(verse.surah, verse.ayah))
+				return verse; // ayah already exist on the page
+			else
+				return false;	
+		},
+		
+		/**
+		 * Move the pointer to previous ayah, if the ayah dont exist, it will trigger load function to get previous page and show previous ayah of it.
+		 * @returns {mixed} object of Quran.ayah.previous() if ayah already exist on the page, false if previous ayah dont exist on page
+		 */
+		_prevAyah: function ()
+		{
+			var verse = Quran.ayah.prev(gq.surah(), gq.ayah());
+			
+			if (verse.surah == gq.surah() && verse.ayah == gq.ayah())
+				return verse; // ayah already exist on the page
+
+			gq.settings.surah = verse.surah;
+			gq.settings.ayah = verse.ayah;
+					
+			if (gq.ayah(verse.surah, verse.ayah))
+				return verse; // ayah already exist on the page
+			else
+				return false;
+		},
+		
+		/**
+		 * Move to next page
+		 * @returns {void}
+		 */
+		_nextPage: function ()
+		{
+			return gq.page(gq.page()+1);
+		},
+		
+		/**
+		 * Move to previous page
+		 * @returns {void}
+		 */
+		_prevPage: function ()
+		{
+			return gq.page(gq.page()-1);
+		},
+		
+		/**
+		 * Move to next surah
+		 * @returns {void}
+		 */
+		_nextSurah: function () {
+			return gq.surah(gq.surah()+1);
+		},
+		
+		/**
+		 * Move to previous surah
+		 * @returns {void}
+		 */
+		_prevSurah: function () {
+			return gq.surah(gq.surah()-1);
+		},
+
+		/**
+		 * Move to next juz
+		 * @returns {void}
+		 */
+		_nextJuz: function () {
+			return gq.juz(gq.juz()+1);
+		},
+		
+		/**
+		 * Move to previous juz
+		 * @returns {void}
+		 */
+		_prevJuz: function () {
+			return gq.juz(gq.juz()-1);
 		}
 	},
 	
@@ -3016,7 +3188,7 @@ var gq = {
 				return;
 			}
 			
-			if (gq.config.url.by == 'page' || !this.is_html5())
+			if (gq.config.url.by == 'page' || !this.is_html5()) //TODO by page, surah, juz!!!
 				url = this.page();
 			else
 				url = this.ayah();

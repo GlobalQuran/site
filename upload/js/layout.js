@@ -21,7 +21,7 @@ var layout = {
 		title: '',  // if left empty, it will get html title - surah title will be prepended with this title TODO
 		
 		div: { //TODO not sure about this div & list
-			content: '.page',
+			content: '.page .content',
 			
 			quranList: '.quranList',
 			translationList: '.translationList', 
@@ -32,8 +32,7 @@ var layout = {
 	init: function ()
 	{	
 		gq.bind.addAfter(layout.config.id, 'start', function (success) {
-			layout.view.load(success);
-			layout.bind.load();
+			layout.bind.load_once();
 		});
 		
 		gq.bind.addAfter(layout.config.id, 'load', function (success) {
@@ -41,7 +40,7 @@ var layout = {
 		});
 		
 		gq.bind.addAfter(layout.config.id, 'load.ayah', function () {
-			layout.ayahChanged();
+			//layout.ayahChanged();
 		});
 		
 		/*
@@ -81,8 +80,7 @@ var layout = {
 	view: {
 		
 		load: function()
-		{			
-			console.log(gq.quran.text());
+		{
 			var html = this.page(gq.quran.text()),
 			quranList = this.quranList(gq.quran.quranList()),
 			translationLanguageList = this.translationLanguageList(gq.quran.languageList());
@@ -278,9 +276,29 @@ var layout = {
 		
 	},
 	
+	get: {
+		
+		page: function (pageNumber)
+		{
+			if (pageNumber < 1 || pageNumber > 604)
+				return;
+			
+			var verse = Quran.ayah.fromPage(pageNumber);
+			gq.load.get(verse.surah, verse.ayah);	// load first page
+			
+			this._page2(pageNumber+1);				// load second page
+		},
+		
+		_page2: function (pageNumber)
+		{
+			if (pageNumber != 604)	
+				gq.load.dataOnly('page', pageNumber); 
+		}
+	},
+	
 	bind: {
 		
-		load: function()
+		load_once: function()
 		{
 			this.quran();
 			this.menu();
@@ -296,7 +314,6 @@ var layout = {
 				else
 				{	
 					gq.prevAyah();
-					layout.ayahChanged();
 				}
 			}).live('nextAyah', function() {
 				if (gq.settings.playing)
@@ -304,40 +321,23 @@ var layout = {
 				else
 				{	
 					gq.nextAyah();
-					layout.ayahChanged();
 				}
 			}).live('nextPage', function() {
-				gq.player.reset();
 				gq.nextPage();
-				layout.ayahChanged();
-			}).live('prevPage', function() {
-				gq.player.reset();
+			}).live('prevPage', function() {				
 				gq.prevPage();
-				layout.ayahChanged();
 			}).live('nextSurah', function() {
-				gq.player.reset();
-				gq.nextSurah();
-				layout.ayahChanged();				
+				gq.nextSurah();				
 			}).live('prevSurah', function() {
-				gq.player.reset();
 				gq.prevSurah();
-				layout.ayahChanged();
 			}).live('customAyah', function(e, surah_no, ayah_no) {
-				gq.player.reset();
 				gq.ayah(surah_no, ayah_no);
-				layout.ayahChanged();
 			}).live('customSurah', function(e, surah_no) {
-				gq.player.reset();
 				gq.surah(surah_no);
-				layout.ayahChanged();
 			}).live('customPage', function(e, page_no) {
-				gq.player.reset();
 				gq.page(page_no);
-				layout.ayahChanged();
 			}).live('customJuz', function(e, juz_no) {
-				gq.player.reset();
 				gq.juz(juz_no);
-				layout.ayahChanged();
 			}).live('search', function(e, keyword)
 			{
 				gq.search.load(keyword);
@@ -352,38 +352,6 @@ var layout = {
 			$('.translationList').superscroll();
 			$('.recitorList').superscroll();
 			
-			/**-------------------------------------------------------
-			 * 
-			 */
-			// opening menu
-			$('.btn-menu').live('click', function() {
-				
-				if ($(this).hasClass('active'))
-				{
-					$('.btn-menu').removeClass('active');
-					$('.sideBarMenu,.sideBarMenu2').hide();
-					return false;
-				}
-				
-				$('.btn-menu').removeClass('active');
-				$(this).addClass('active');
-				$('.sideBarMenu,.sideBarMenu2').hide();
-				
-				var id = $(this).data('for'), 
-				list;
-				
-				if (id == 'recitor')
-					list = layout.view.recitorList();
-				else if (id == 'translation')
-					list = layout.view.translationLanguageList(gq.quran.languageList());
-				else
-					list = layout.view.quranList(gq.quran.quranList()); //quran
-				
-				$('.sideBarMenu').html(list)
-				.show();
-				
-				return false;				
-			});
 			
 			// open second menu for translation list
 			$('.translationLanguageList a').live('click', function() {

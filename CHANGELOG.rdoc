@@ -4,6 +4,7 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* NEW: gq.bind {} - added binds feature for attaching dynamic binds for apps and layout
 * NEW: gq.settings.counter - pages viewed counter added for keeping track of how many times user used GlobalQuran service.
 * NEW: gq.config.dataPreCache added
 * NEW: gq.url.bind, gq.url.update, gq.url.is_html5, gq.confiq.urlBy, gq.confiq.urlHTML5 is added
@@ -19,11 +20,17 @@ To download stable release, please use "switch tags" button and point to the lat
 * NEW: Quran.ayah.fromWord() added
 * NEW: Quran.verseNo.word() added
 * NEW: documenation added on js files
+* NEW: gq.next(); and gq.prev();
+* CHANGED: gq.next* and gq.prev* all to gq.load._next* and gq.load._prev*
+* CHANGED: gq.load() as gq.load.get(). 
 * CHANGED: gq.quran.parse.load() changed parameter from text to object of verse, also changed child functions too
 * CHANGED: layout.verseParse() changed parameter from text to object of verse, to support gq.quran.parse.load() - check above line changed
 * ChANGED: gq.quran.textNotCached to gq.quran.selectedStringNotCached() 
 * FIX: gq.player.status() fixed, if player has no status at all
 * REMVOED: scroll has been removed
+* REMOVED: gq.layout{}
+* REMOVED: gq.data.ayahLIst{}
+
 
 == Release v3.4.0
 

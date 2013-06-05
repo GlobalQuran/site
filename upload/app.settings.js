@@ -22,7 +22,6 @@ var config = {
 	 * api settings
 	 */
 	api: {
-		url: 'http://api.globalquran.com/',
 		key: '',
 		version: '4.0'
 	},
@@ -58,7 +57,12 @@ var config = {
 	
 	data: {
 		
-		enable: true, 
+		enable: true,
+		
+		/**
+		 * data api url
+		 */
+		url: 'http://api.globalquran.com/',
 		
 		/**
 		 *  'page';     - Get Quran page by page.
@@ -68,15 +72,16 @@ var config = {
 		by: 'page', // surah or page
 		
 		/**
-		 *  pre-caching the data so next page loads quickly.
+		 *  pre-caching the data so next page / surah / juz loads quickly.
 		 *  
 		 *   false;      - disable precache functionality
+		 *   true;		- preload by above selected method. if it's page, then preload page, if its surah, then surah.
 		 *  'page';     - Get Quran page by page.
 		 *  'surah';    - Get Quran surah by surah.
 		 *  'juz';      - Get Quran juz by juz.
-		 *  'complete'; - Get Quran page by complete.
+		 *  'complete'; - Get Quran complete data.
 		 */
-		preload: 'juz' //TODO FIXME
+		preload: true
 	},
 	
 	player: {

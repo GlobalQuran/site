@@ -201,7 +201,7 @@ li.sfHover > a > .sf-sub-indicator {
 /*** shadows for all but IE6 ***/
 /*
 .sf-shadow ul {
-	background:	url('../sf-images/shadow.png') no-repeat bottom right;
+	background:	url('../sf-img/shadow.png') no-repeat bottom right;
 	padding: 0 8px 9px 0;
 	-moz-border-radius-bottomleft: 17px;
 	-moz-border-radius-topright: 17px;
