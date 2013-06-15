@@ -1,0 +1,142 @@
+//
+// Book Page Ribbon
+// --------------------------------------------------
+
+
+
+.ribbon ul li {		
+	display:inline;
+	color:#80501C;
+	width:15px;
+	cursor:pointer;
+}
+
+.ribbon ul {	
+	text-align:center;
+	list-style:none;
+	position:relative;	
+	width: 15px;
+	margin-left:-18px;	
+}
+.ribbon li:hover {
+	visibility:		inherit; /* fixes IE7 'sticky bug' */
+	
+}
+.ribbon li {
+	float:			left;
+	position:		relative;
+}
+.ribbon a {
+	position:		relative;
+}
+.ribbon li:hover ul,
+.ribbon li.sfHover ul {
+	left:			0;
+	top:			2.5em; /* match top ul list item height */
+	z-index:		99;	
+}
+ul.ribbon li:hover li ul,
+ul.ribbon li.sfHover li ul {
+	top:			-999em;
+}
+ul.ribbon li li:hover ul,
+ul.ribbon li li.sfHover ul {
+	left:			10em; /* match ul width */
+	top:			0;
+}
+ul.ribbon li li:hover li ul,
+ul.ribbon li li.sfHover li ul {
+	top:			-999em;
+}
+ul.ribbon li li li:hover ul,
+ul.ribbon li li li.sfHover ul {
+	left:			10em; /* match ul width */
+	top:			0;
+}
+
+/*** DEMO SKIN ***/
+.ribbon {
+	float:			left;
+	margin-bottom:	1em;
+}
+.ribbon a {
+	/*
+	border-left:	1px solid #fff;
+	border-top:		1px solid #CFDEFF;
+	*/
+	padding: 		8px 18px 8px 12px;
+	text-decoration:none;
+	font-size:		12px;
+}
+.ribbon a, .ribbon a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+	/* color:			#13a; */
+	color:	#666666;
+}
+.ribbon li li a, .ribbon li li a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+	/* color:			#13a; */
+	color:	#666666;
+}
+.ribbon li {
+	
+	color: #666666;
+	/* background:	url("http://www.power-graphics.com/p7pmm/img/pmm_carbon_root.jpg"); */
+}
+.ribbon li li {
+	
+	color: #666666;
+	/* background:	url("http://www.power-graphics.com/p7pmm/img/pmm_carbon_subs.jpg") repeat scroll 0 0 transparent; */
+}
+.ribbon li li li {
+	
+	color: #666666;
+	/* background:	url("http://www.power-graphics.com/p7pmm/img/pmm_carbon_subs.jpg") repeat scroll 0 0 transparent; */
+}
+.ribbon li:hover, .ribbon li.sfHover,
+.ribbon a:focus, .ribbon a:hover, .ribbon a:active {
+	/* background-image: url("/img/03normal.png"); */
+	outline:		0;
+	color: #ff5200;
+}
+
+/*** arrows **/
+.ribbon a.sf-with-ul {
+	padding-right: 	1.65em;
+	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
+}
+.ribbon .sf-sub-indicator {
+	position:		absolute;
+	display:		block;
+	right:			.75em;
+	top:			1.05em; /* IE6 only */
+	width:			10px;
+	height:			10px;
+	text-indent: 	-999em;
+	overflow:		hidden;
+	background:		url('../img/arrows-666666.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+}
+/* point right for anchors in subs */
+.ribbon ul .sf-sub-indicator { background-position:  -10px 0; }
+.ribbon ul a > .sf-sub-indicator { background-position:  0 0; }
+/* apply hovers to modern browsers */
+.ribbon ul a:focus > .sf-sub-indicator,
+.ribbon ul a:hover > .sf-sub-indicator,
+.ribbon ul a:active > .sf-sub-indicator,
+.ribbon ul li:hover > a > .sf-sub-indicator,
+.ribbon ul li.sfHover > a > .sf-sub-indicator {
+	background-position: -10px 0; /* arrow hovers for modern browsers*/
+}
+
+/*** shadows for all but IE6 ***/
+/*
+.sf-shadow ul {
+	background:	url('../sf-img/shadow.png') no-repeat bottom right;
+	padding: 0 8px 9px 0;
+	-moz-border-radius-bottomleft: 17px;
+	-moz-border-radius-topright: 17px;
+	-webkit-border-top-right-radius: 17px;
+	-webkit-border-bottom-left-radius: 17px;
+}
+.sf-shadow ul.sf-shadow-off {
+	background: transparent;
+}
+*/

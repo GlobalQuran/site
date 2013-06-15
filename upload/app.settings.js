@@ -22,8 +22,26 @@ var config = {
 	 * api settings
 	 */
 	api: {
+		
+		/**
+		 * api key - required, from 4.0, they key is required for all api's request
+		 */
 		key: '',
-		version: '4.0'
+		
+		/**
+		 * supported version for this gq. this will pull data from the server according to its version. 
+		 */
+		version: '4.0',
+		
+		/**
+		 * data api url
+		 */
+		url: 'http://api.globalquran.com/',
+		
+		/**
+		 * audioPath audio data api path
+		 */
+		audioPath: 'http://audio.globalquran.com/',
 	},
 		
 	/**
@@ -89,17 +107,13 @@ var config = {
 		/**
 		 * off Toggle the player on and off
 		 */
-		enable: false,						
+		enable: false,
 		
 		/**
-		 * swfPath flash player path for non html5 support
+		 * start playing audio on start 
+		 * [Note] mobile dont support auto play, it must be gesture to play audio. 
 		 */
-		swfPath: 'http://globalquran.com/img',
-		
-		/**
-		 * audioPath audio data api path
-		 */
-		audioPath: 'http://audio.globalquran.com/',
+		autoPlay: false,
 		
 		/**
 		 * preload three different settings for this 
@@ -108,6 +122,11 @@ var config = {
 		 * = -1;    - just use only one player to play and load. This does not do preload. good for iphone or ipad
 		 */
 		preload: true,
+		
+		/**
+		 * swfPath flash player path for non html5 support
+		 */
+		swfPath: 'http://globalquran.com/img',
 		
 		/**
 		 * autoBitrate pass 'high' or 'low' for audio quality user wants

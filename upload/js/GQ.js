@@ -103,13 +103,14 @@ var gq = {
 			/**
 			 * off Toggle the player on and off
 			 */
-			enable: true,						
+			enable: false,
 			
 			/**
-			 * swfPath flash player path for non html5 support
+			 * start playing audio on start 
+			 * [Note] mobile dont support auto play, it must be gesture to play audio. 
 			 */
-			swfPath: 'http://globalquran.com/img',
-									
+			autoPlay: false,
+			
 			/**
 			 * preload three different settings for this 
 			 * = true;  - two players playing continuesly
@@ -117,6 +118,11 @@ var gq = {
 			 * = -1;    - just use only one player to play and load. This does not do preload. good for iphone or ipad
 			 */
 			preload: true,
+			
+			/**
+			 * swfPath flash player path for non html5 support
+			 */
+			swfPath: 'http://globalquran.com/img',
 			
 			/**
 			 * autoBitrate pass 'high' or 'low' for audio quality user wants
@@ -160,7 +166,7 @@ var gq = {
 		
 		selectedRecitor: null,
 		selectedLastRecitorBytes: '',
-		playing: true,
+		playing: false,
 		volume: 100,
 		muted: false,
 		repeat: false,
@@ -1546,6 +1552,9 @@ var gq = {
 			if (!gq.config.player.enable)
 				return; // player is off
 			
+			// set auto play value to playing.
+			gq.settings.playing = gq.config.player.autoPlay;
+			
 			if (this.isOS()) // pre-settings for iphone/ipod/ipad/mac
 			{
 				gq.settings.playing = false; // cant auto play in iphone
@@ -1888,6 +1897,15 @@ var gq = {
 		isPlaying: function ()
 		{
 			return !this.status().paused;
+		},		
+		
+		/**
+		 * check if one should continue playing next audio. false if audio is on pause or stop 
+		 * @returns {Boolean}
+		 */
+		isContinue: function ()
+		{
+			return gq.settings.playing;
 		},
 		
 		/**
@@ -2373,6 +2391,8 @@ var gq = {
 		{
 			gq.settings.font = fontFamily;
 			gq.save();
+			
+			gq.bind.load('after', 'font.family', window, fontFamily);
 		},
 		
 		/**
@@ -2383,6 +2403,8 @@ var gq = {
 		{
 			gq.settings.fontSize = size;
 			gq.save();
+			
+			gq.bind.load('after', 'font.size', window, size);
 		},
 		
 		/**
@@ -2584,7 +2606,7 @@ var gq = {
 	 */
 	next: function (moveBy)
 	{
-		moveBy = gq.config.data.by;
+		moveBy = moveBy || gq.config.data.by;
 		
 		if (moveBy == 'ayah')
 			return this.load._nextAyah();
@@ -2604,7 +2626,7 @@ var gq = {
 	 */
 	prev: function (moveBy)
 	{
-		moveBy = gq.config.data.by;
+		moveBy = moveBy || gq.config.data.by;
 		
 		if (moveBy == 'ayah')
 			return this.load._prevAyah();
@@ -2833,7 +2855,15 @@ var gq = {
 			};
 			
 			$jsonp = ($.support.cors && !/complete/.test(url)) ? '' : '.jsonp?callback=?';
-			$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' });
+			$.ajaxSetup({
+				cache: true, 
+				jsonpCallback: 'quranData',
+				'error': function(XMLHttpRequest, textStatus, errorThrown)
+				{   
+					gq.bind.load('after', 'load.error', window, XMLHttpRequest, textStatus, errorThrown);
+					gq._gaqPush(['_trackEvent', 'Error', 'Oopss!!!, Something went wrong.']);
+				}
+			});
 
 			$.getJSON(url+$jsonp, combineCallback);
 		},
@@ -2854,6 +2884,16 @@ var gq = {
 			
 			if (response.languageSelected)
 				gq.settings.selectedLanguage = response.languageSelected;
+		},
+		
+		/**
+		 * refresh the current page with new settings, if any set.
+		 * 
+		 * @param callback (optional)
+		 */
+		refresh: function (callback)
+		{
+			this.get(gq.surah(), gq.ayah(), callback)
 		},
 		
 		/**
@@ -2898,6 +2938,9 @@ var gq = {
 			}
 		},
 		
+		/**
+		 * preloading data according to the gq.config.data.preload settings.
+		 */
 		preload: function ()
 		{
 			if (!gq.config.data.preload) 
@@ -2984,6 +3027,13 @@ var gq = {
 		{
 			var verse = Quran.ayah.next(gq.surah(), gq.ayah());
 			
+			// if player is playing, then move to next ayah using player next
+			if (gq.player.isContinue())
+			{
+				gq.player.next();
+				return verse;
+			}
+			
 			if (verse.surah == gq.surah() && verse.ayah == gq.ayah())
 				return verse; // ayah already exist on the page
 		
@@ -3003,6 +3053,13 @@ var gq = {
 		_prevAyah: function ()
 		{
 			var verse = Quran.ayah.prev(gq.surah(), gq.ayah());
+			
+			// if player is playing, then move to previous ayah using player previous
+			if (gq.player.isContinue())
+			{
+				gq.player.prev();
+				return verse;
+			}
 			
 			if (verse.surah == gq.surah() && verse.ayah == gq.ayah())
 				return verse; // ayah already exist on the page
@@ -3351,6 +3408,7 @@ var gq = {
 		
 		/**
 		 * load all the stored custom functions for before/after execution.
+		 * [NOTE] if any bind callback returns false, then it will stop the execution.
 		 * 
 		 * @param position {bool} true for before method execution and false for after method execution
 		 * @param name {string} method name must be proper valid name, else it wont load provided method name 
@@ -3360,7 +3418,8 @@ var gq = {
 		load: function (position, name, $this)
 		{					
 			var $this = $this || window,
-				args = [], i;
+				args = [], i, $returnTemp,
+				$return = undefined;
 			
 			// check if there are any other arguments, then build array of arguments
 			if (arguments.length > 3)
@@ -3375,8 +3434,14 @@ var gq = {
 			{
 				$.each(this._customBindFunctions[position][name], function(id, func)
 				{
-					func.apply($this, args);
+					$returnTemp = func.apply($this, args);
+					if ($returnTemp === false) // if returned value is false
+						return false;
+					else if (typeof $returnTemp !== 'undefined') // add latest value to the return var, until all binds return there values. only the last callback return value is saved, if the return value is set.
+						$return = $returnTemp;
 				});
+				
+				return $return;
 			}
 		},
 		
@@ -3433,6 +3498,7 @@ var gq = {
 		{
 			return this._add(id, name, func, false);
 		},
+		
 		
 		/**
 		 * remove custom callback from specific method for before/after execution

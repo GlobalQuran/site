@@ -31,33 +31,63 @@ var layout = {
 	
 	init: function ()
 	{	
+		// loading for the first time
 		gq.bind.addAfter(layout.config.id, 'start', function (success) {
-			layout.bind.load_once();
+			layout.view.startup(success);
+			layout.bind.startup();
 		});
 		
+		// loading new page on every request, even trigger on start (check above block)
 		gq.bind.addAfter(layout.config.id, 'load', function (success) {
 			layout.view.load(success);
+			layout.bind.load();
 		});
 		
+		// when ayah is changed or new ayah is set through page, juz, surah or direct jump
 		gq.bind.addAfter(layout.config.id, 'load.ayah', function () {
-			//layout.ayahChanged();
+			layout.set.ayahChanged();
 		});
+		
+		// play
+		gq.bind.addAfter(layout.config.id, 'player.play', function (volume) {
+			layout.set.play();
+		});
+		
+		// pause
+		gq.bind.addAfter(layout.config.id, 'player.pause', function (volume) {
+			layout.set.pause();
+		});
+		
+		// stop
+		gq.bind.addAfter(layout.config.id, 'player.stop', function (volume) {
+			layout.set.stop();
+		});
+		
+		// volume
+		gq.bind.addAfter(layout.config.id, 'player.volume', function (volume) {
+			layout.set.volume(volume);
+		});
+		
+		// muted
+		gq.bind.addAfter(layout.config.id, 'player.muted', function () {
+			layout.set.muted();
+		});
+		
+		// unmuted
+		gq.bind.addAfter(layout.config.id, 'player.unmuted', function () {
+			layout.set.unmuted();
+		});
+		
+		
+		// font size changing
+		gq.bind.addAfter(layout.config.id, 'font.size', function (size) {
+			layout.set.fontSize(size);
+		});
+		
 		
 		/*
 		TODO attach it with main gq functions					
-		
-		gq.layout.volume = function (value)
-		{
-			layout.volume(value);
-		};
-		gq.layout.play = function ()
-		{
-			layout.play();
-		};
-		gq.layout.stop = function ()
-		{
-			layout.stop();
-		};
+				
 		gq.layout.recitorList = function ()
 		{
 			layout.recitorList();
@@ -79,15 +109,10 @@ var layout = {
 	
 	view: {
 		
-		load: function()
+		startup: function ()
 		{
-			var html = this.page(gq.quran.text()),
-			quranList = this.quranList(gq.quran.quranList()),
+			var quranList = this.quranList(gq.quran.quranList()),
 			translationLanguageList = this.translationLanguageList(gq.quran.languageList());
-			
-			// page content
-			if (layout.config.div.content)
-				$(layout.config.div.content).html(html);
 			
 			// quran list
 			if (layout.config.div.quranList)
@@ -96,7 +121,15 @@ var layout = {
 			// translation list
 			if (layout.config.div.translationList)
 				$(layout.config.div.translationList).html(translationLanguageList);
+		},
+		
+		load: function()
+		{
+			var html = this.page(gq.quran.text());
 			
+			// page content
+			if (layout.config.div.content)
+				$(layout.config.div.content).html(html);			
 		},
 		
 		page: function(quranArray)
@@ -108,7 +141,7 @@ var layout = {
 				if (quran.ayah == 1)
 					html += layout.view.surahTitle(quran.surah, quran.ayah);
 
-				html += '<div class="ayahs '+quran.surah+'-'+quran.ayah+'">';
+				html += '<div class="ayahs '+quran.surah+'-'+quran.ayah+'" data-verse="'+Quran.verseNo.ayah(surah, ayah)+'">';
 				html += '<a href="'+gq.url.ayah(quran.surah, quran.ayah)+'" class="ayahNumber" data-verse="'+quran.verseNo+'"><span class="icon leftBracket"> ( </span>'+quran.ayah+'<span class="icon rightBracket"> ) </span></a>';
 	
 				$.each(quran['list'], function(quranBy, text)
@@ -293,303 +326,586 @@ var layout = {
 		{
 			if (pageNumber != 604)	
 				gq.load.dataOnly('page', pageNumber); 
+		},
+		
+		_isPageExist: function (pageNumber)
+		{
+			$('p'+pageNumber);
+		}
+	},
+	
+	set: {
+		
+		ayahChanged: function ()
+		{
+			this._ayahSelect();			// select ayah
+			this._title();				// change browser title
+			this._checkNavButtons();	// enable / disable nav buttons
+		},
+		
+		_ayahSelect: function ()
+		{
+			// remove class selected for ayah
+			$(layout.config.div.content+' .selected').removeClass('selected');
+			
+			// add class selected for ayah
+			if (!gq.search.isActive())
+				$('.'+gq.surah()+'-'+gq.ayah()).addClass('selected');
+		},
+		
+		_title: function ()
+		{
+			var surahTitle, title;
+			
+			if (gq.search.isActive())
+				surahTitle = gq.data.search.query+' found '+gq.data.search.paging.total_rows+' rows ';
+			//else if (gq.quran.length() == 1 && gq.quran.detail(gq.settings.selectedBy).language_code == 'ar') //FIXME check on detail function
+			//	var surahTitle = Quran.surah.name(gq.surah(), 'arabic_name');
+			else
+				surahTitle = Quran.surah.name(gq.surah(), 'english_name')+' ('+Quran.surah.name(gq.surah(), 'english_meaning')+')';
+			
+			title = gq.search.isActive() ? surahTitle+' - '+layout.config.title : gq.surah()+':'+gq.ayah()+' '+surahTitle+' - '+layout.config.title;
+			
+			if ($.browser.msie) /* ie6+ error fix */
+				document.title = title;
+			else
+				$('title').text(title);
+		},
+		
+		_checkNavButtons: function () //FIXME for ayahChanged bind
+		{
+			$('a.prevPage, a.nextPage').removeClass('disable');
+			if (gq.page() == 1)
+				$('a.prevPage').addClass('disable');
+			else if (gq.page() == 604)
+				$('a.nextPage').addClass('disable');
+			$('.pageOn').text(gq.page());
+		},
+		
+		play: function ()
+		{
+			$('.play, .pause').removeClass('play').addClass('pause');
+			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //TODO REPLACE THIS
+			
+			if (gq.player.status().noVolume) //TODO CHECK THIS
+				$('#volume').hide();
+			
+			// TODO this.recitorKbs(gq.player.recitorBy());	
+		},
+		
+		pause: function ()
+		{
+			$('.play, .pause').removeClass('pause').addClass('play');
+		},
+		
+		stop: function ()
+		{
+			$('.play, .pause').removeClass('pause').addClass('play');
+			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide(); // TODO REPLACE THIS
+		},		
+		
+		volume: function (volume)
+		{
+			$('.volumePercent').text(volume+'%');
+			$('.volume').removeClass('full').removeClass('med').removeClass('low').removeClass('muted');
+			
+			if (volume == 100)
+				$('.volume').addClass('full');
+			else if (volume > 40)
+				$('.volume').addClass('med');
+			else
+				$('.volume').addClass('low');
+		},
+		
+		muted: function ()
+		{
+			$('.volume').addClass('muted');
+		},
+		
+		unmuted: function ()
+		{
+			$('.volume').removeClass('muted');
+		},
+		
+		fontSize: function (size)
+		{			
+			size = size || gq.font.getSize();
+							
+			$(layout.config.div.content).removeClass('smaller').removeClass('small').removeClass('medium').removeClass('large').removeClass('larger').removeClass('larger-x').removeClass('larger-xx')
+			.addClass(size);
+		},
+		
+		/**
+		 * changing font size with in and out
+		 * @param io 'in' or 'out'
+		 */
+		zoom: function (io)
+		{
+			var size = gq.font.getSize(); 
+			
+			if (io == 'in') // zooming in
+			{
+				switch (size)
+				{
+					case 'smaller':
+						gq.font.setSize('small');
+						break;
+					case 'small':
+						gq.font.setSize('medium');
+						break;
+					case 'medium':
+						gq.font.setSize('large');
+						break;
+					case 'large':
+						gq.font.setSize('larger');
+						break;
+					case 'larger':
+						gq.font.setSize('larger-x');
+						break;
+					case 'larger-x':
+						gq.font.setSize('larger-xx');
+						break;
+					default:
+						gq.font.setSize('medium');
+				}
+			}
+			else 	// zooming out
+			{
+				switch (size)
+				{
+					case 'larger-xx':
+						gq.font.setSize('larger-x');
+						break;
+					case 'larger-x':
+						gq.font.setSize('larger');
+						break;
+					case 'larger':
+						gq.font.setSize('medium');
+						break;
+					case 'medium':
+						gq.font.setSize('small');
+						break;
+					case 'small':
+						gq.font.setSize('smaller');
+						break;
+					default:
+						gq.font.setSize('medium');
+				}
+			}
+			
+			
+			size = gq.font.getSize(); // get new value and change zoom buttons now 
+			 
+			// zoom in and out buttons set
+			$('a.zoomOUT, a.zoomIN').removeClass('disable');
+			
+			if (size == 'smaller')
+				$('a.zoomOUT').addClass('disable');
+			else if (size == 'larger-xx')
+				$('a.zoomIN').addClass('disable');
 		}
 	},
 	
 	bind: {
 		
-		load_once: function()
+		startup: function ()
 		{
-			this.quran();
-			this.menu();
-			this.link();
-			this.keyboard();
+			this._menu.startup();
+			this._quranContent.startup();
+			this._navigation.startup();
+			this._player.startup();
+			this._settings.startup();
+			this._tools.startup();
+			this._keyboard();
 		},
 		
-		quran: function()
-		{
-			$('body').live('prevAyah', function() {
-				if (gq.settings.playing)
-					gq.player.prev();
-				else
-				{	
-					gq.prevAyah();
-				}
-			}).live('nextAyah', function() {
-				if (gq.settings.playing)
-					gq.player.next();
-				else
-				{	
-					gq.nextAyah();
-				}
-			}).live('nextPage', function() {
-				gq.nextPage();
-			}).live('prevPage', function() {				
-				gq.prevPage();
-			}).live('nextSurah', function() {
-				gq.nextSurah();				
-			}).live('prevSurah', function() {
-				gq.prevSurah();
-			}).live('customAyah', function(e, surah_no, ayah_no) {
-				gq.ayah(surah_no, ayah_no);
-			}).live('customSurah', function(e, surah_no) {
-				gq.surah(surah_no);
-			}).live('customPage', function(e, page_no) {
-				gq.page(page_no);
-			}).live('customJuz', function(e, juz_no) {
-				gq.juz(juz_no);
-			}).live('search', function(e, keyword)
+		load: function () {},
+		
+		_quranContent: {
+			
+			startup: function ()
 			{
-				gq.search.load(keyword);
-				layout.searchLoading(true);
-			});
+				this.ayahMouseOver();
+			},
+		
+			ayahMouseOver: function ()
+			{
+				// mouse over
+				$(".ayah").live({
+			        mouseenter:
+			           function()
+			           {
+							if ($(this).parent('.group').length != 0)
+								$(this).parent('.group').addClass('mouseOver');
+							else
+								$(this).addClass('mouseOver');
+			           },
+			        mouseleave:
+			           function()
+			           {
+							if ($(this).parent('.group').length != 0)
+								$(this).parent('.group').removeClass('mouseOver');
+							else
+								$(this).removeClass('mouseOver');
+			           }
+			       }
+			    );
+			}
 		},
 		
-		menu: function()
-		{
+		_menu: {
 			
-			$('.quranList').superscroll();
-			$('.translationList').superscroll();
-			$('.recitorList').superscroll();
-			
-			
-			// open second menu for translation list
-			$('.translationLanguageList a').live('click', function() {
-				
-				var lang = $(this).data('lang'),
-				offset = $(this).offset();
-								
-				$('.sideBarMenu2').html(layout.view.translationList(gq.quran.translationList(lang)))
-				.css('top', offset.top)
-				.show()
-				.css('height', $('.translationList li').length * 40);
-				
-				return false;
-			});
-			
-			
-			// select menu link
-			$('a[data-quran]').live('click', function()
-			{				
-				if ($(this).hasClass('active')) // if already selected
-				{
-					$(this).removeClass('active');
-					gq.quran.remove($(this).data('quran'));
-					gq.quran.load();
-					gq._gaqPush(['_trackEvent', 'QuranBy', 'remove',  $(this).text()]);
-				}
-				else // not selected yet, so select quran
-				{
-					$(this).addClass('active');
-					gq.quran.add($(this).data('quran'));
-					gq.quran.load();
-					gq._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
-				}
-				
-				$('.sideBarMenu, .sideBarMenu2').hide(); // if its open, then close it
-				$('.btn-menu').removeClass('active');
-							
-				return false;
-			});
-			
-			$('.recitorList a').live('click', function() // TODO
+			startup: function()
 			{
-				quranBy = $(this).attr('data-recitor-id');
-				
-				if (quranBy == 'auto' && !$(this).hasClass('active')) // remove all other selection on default (auto) selection
-				{
-					$('.recitorList .active').removeClass('active');
-					$(this).addClass('active');
-					gq.recitor.reset();
-				}
-				else if ($(this).hasClass('active'))
-				{
-					$(this).removeClass('active');
-					gq._gaqPush(['_trackEvent', 'Audio', 'recitorRemove', $(this).text()]);
-					gq.recitor.remove(quranBy);
-				}
-				else
-				{
-					$(this).addClass('active');
-					gq._gaqPush(['_trackEvent', 'Audio', 'recitorAdd', $(this).text()]);
-					gq.recitor.add(quranBy);
-				}
-				
-				if (gq.recitor.length == 0) // if none selected, select auto
-					$('.recitorList [data-recitor-id="auto"]').addClass('active');
-				else
-					$('.recitorList [data-recitor-id="auto"]').removeClass('active');
-							
-				
-				gq.player.reset();
-				gq.recitor.load();
-			});
-		},
-		
-		link: function()
-		{			
-			//TODO below is check on it and change it if need to
-			$('.ayahNumber, .bismillah, .prevSurah, .nextSurah').live('click', function() {
-				gq.player.reset();
-				var verse = Quran.ayah.fromVerse($(this).attr('data-verse'));
-				gq.ayah(verse.surah, verse.ayah);
-				layout.ayahChanged();
-				return false;
-			});
+				this.quran();
+				this.translation();
+				this.recitor();				
+			},
 			
-			$('.prevAyah').live('click', function() {
-				$('body').trigger('prevAyah');
-				return false;
-			});
-			
-			$('.nextAyah').live('click', function() {
-				$('body').trigger('nextAyah');
-				return false;
-			});
-
-			$('.nextPage').live('click', function() {
-				$('body').trigger('nextPage');
-				return false;
-			});
-
-			$('.prevPage').live('click', function() {
-				$('body').trigger('prevPage');
-				return false;
-			});
-
-			$('.customAyah').live('change', function() {
-				$('body').trigger('customAyah', [$('.customSurah').val(), $(this).val()]);
-			});
-
-			$('.customSurah').live('change', function() {
-				$('body').trigger('customSurah', $(this).val());
-			});
-
-			$('.customPage').live('change', function() {
-				$('body').trigger('customPage', $(this).val());
-			});
-
-			$('.customJuz').live('change', function() {
-				$('body').trigger('customJuz', $(this).val());
-			});
-			
-			$('.volume').live('click', function() {
-				layout.volume(gq.settings.volume, !$(this).hasClass('muted'));
-				return false;
-			});
-			
-			$('.play').live('click', function() {
-				layout.play();
-				return false;
-			});
-			
-			$('.pause').live('click', function() {
-				layout.pause();
-				return false;
-			});
-			
-			$('.repeat').live('click', function() {
-				layout.repeat(!$(this).hasClass('active'));
-				return false;
-			});
-			
-			$('.repeatEach').live('change', function() {
-				gq.player.repeatEach($(this).val());
-			});
-			
-			$('.repeatTimes').live('change', function() {
-				gq.player.repeatTimes($(this).val());
-			});
-			
-			$('.audioDelay').live('change', function() {
-				gq.player.audioDelay($(this).val());
-			});
-			
-			$('#showSigns, #showAlef, #wbwMouseOver').live('click', function()
+			quran: function ()
 			{
-				gq.settings.showAlef = $('#showAlef').is(':checked');
-				gq.settings.showSigns = $('#showSigns').is(':checked');
-				gq.settings.wbwMouseOver = $('#wbwMouseOver').is(':checked');
-				gq.load(gq.surah(), gq.ayah());
-			});
-			
-			$('#quranFont').live('change', function() {
-				gq.font.setFamily($(this).val());
-				gq.load(gq.surah(), gq.ayah());
-			});
-			
-			$('#searchForm').submit(function() {
-				$('body').trigger('search', [$('#search').val()]);
-				return false;
-			});
-						
-			
-			
-			$('.bandwidthList a').live('click', function()
-			{
-				$('.bandwidthList .active').removeClass('active');
-				$(this).addClass('active');
+				$('.quranList').superscroll();
 				
-				gq._gaqPush(['_trackEvent', 'Audio', 'bandwidth',  $(this).attr('data-kbs')]);
-				gq.recitor.add(gq.player.recitorBy(), $(this).attr('data-kbs'));
-				gq.player.reset();
-				gq.recitor.load();			
-			});
-			
-			
-			
-			
-			// langauge search
-			$('#languageSearch').live('keyup', function() {
-				layout.translationList(false, ($('#languageSearch').val() != $('#languageSearch').attr('placeholder')) ? $('#languageSearch').val() : '');
-				return false;
-			});
-			
-			// show more quran, langauge list
-			$('#quranList .more, #translationList .more').live('click', function() {
-				$list = $(this).parents('ul');
-				if ($list.attr('id') == 'quranList')
-					layout.quranList(gq.quran.quranList());
-				else
-					layout.translationList(true, ($('#languageSearch').val() != $('#languageSearch').attr('placeholder')) ? $('#languageSearch').val() : '');
-				
-				$list.append('<li><a href="#" class="less"><span class="txt">Less &uArr;</span></a></li>');
-				
-				return false;
-			});
-			
-			$('.wbwDirection').live('click', function() 
-			{
-				var languageTo = $(this).text();
-				var languageFrom = (languageTo == 'EN') ? 'AR' : 'EN'; 
-				$(this).text(languageFrom);			
-				gq.settings.wbwDirection = (languageTo == 'EN') ? 'english2arabic' : 'arabic2english';
-				gq.load(gq.surah(), gq.ayah());
-				
-				return false;
-			});
-		},
-		
-		player: function(){},//TODO
-		settings: function(){},//TODO
-		search: function(){},//TODO
-		
-		zoom: function()
-		{
-			// zoomIN, zoomOUT
-			$('.zoom-in, .zoom-out').live('click', function()
-			{
-				var zoom = $(this).hasClass('zoom-in');			
-				if ($(this).hasClass('disable'))
-					return false;
-				
-				layout.fontSize(zoom);//FIXME
+				// select menu link
+				$('a[data-quran]').live('click', function()
+				{				
+					if ($(this).hasClass('active')) // if already selected
+					{
+						$(this).removeClass('active');
+						gq.quran.remove($(this).data('quran'));
+						gq.quran.load();
+						gq._gaqPush(['_trackEvent', 'QuranBy', 'remove',  $(this).text()]);
+					}
+					else // not selected yet, so select quran
+					{
+						$(this).addClass('active');
+						gq.quran.add($(this).data('quran'));
+						gq.quran.load();
+						gq._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
+					}
 					
-				return false;
-			});
+					$('.sideBarMenu, .sideBarMenu2').hide(); // if its open, then close it
+					$('.btn-menu').removeClass('active');
+								
+					return false;
+				});
+			},
+			
+			translation: function ()
+			{
+				$('.translationList').superscroll();
+				
+				// open second menu for translation list
+				$('.translationLanguageList a').live('click', function() {
+					
+					var lang = $(this).data('lang'),
+					offset = $(this).offset();
+									
+					$('.sideBarMenu2').html(layout.view.translationList(gq.quran.translationList(lang)))
+					.css('top', offset.top)
+					.show()
+					.css('height', $('.translationList li').length * 40);
+					
+					return false;
+				});
+			},
+			
+			recitor: function ()
+			{
+				$('.recitorList').superscroll();
+												
+				
+				$('.recitorList a').live('click', function() // TODO
+				{
+					quranBy = $(this).attr('data-recitor-id');
+					
+					if (quranBy == 'auto' && !$(this).hasClass('active')) // remove all other selection on default (auto) selection
+					{
+						$('.recitorList .active').removeClass('active');
+						$(this).addClass('active');
+						gq.recitor.reset();
+					}
+					else if ($(this).hasClass('active'))
+					{
+						$(this).removeClass('active');
+						gq._gaqPush(['_trackEvent', 'Audio', 'recitorRemove', $(this).text()]);
+						gq.recitor.remove(quranBy);
+					}
+					else
+					{
+						$(this).addClass('active');
+						gq._gaqPush(['_trackEvent', 'Audio', 'recitorAdd', $(this).text()]);
+						gq.recitor.add(quranBy);
+					}
+					
+					if (gq.recitor.length == 0) // if none selected, select auto
+						$('.recitorList [data-recitor-id="auto"]').addClass('active');
+					else
+						$('.recitorList [data-recitor-id="auto"]').removeClass('active');
+								
+					
+					gq.player.reset();
+					gq.recitor.load();
+				});
+			}
 		},
 		
-		keyboard: function()
+		_navigation:
+		{			
+			startup: function ()
+			{
+				this.links();
+				this.urlHasChange();
+			},
+			
+			links: function ()
+			{
+				//TODO below is check on it and change it if need to
+				$('.ayahNumber, .prevSurah, .nextSurah').live('click', function() {
+					gq.player.reset();
+					var verse = Quran.ayah.fromVerse($(this).attr('data-verse'));
+					gq.ayah(verse.surah, verse.ayah);
+					layout.ayahChanged();
+					return false;
+				});
+				
+				$('.prevAyah').live('click', function() {
+					$('body').trigger('prevAyah');
+					return false;
+				});
+				
+				$('.nextAyah').live('click', function() {
+					$('body').trigger('nextAyah');
+					return false;
+				});	
+			},
+			
+			urlHashChange: function ()
+			{
+				$(window).bind('hashchange', function(e) {
+					if (gq.url.load())
+					{
+						if (gq.search.isActive())
+							gq.load();
+						else
+							gq.load(gq.settings.surah, gq.settings.ayah);
+					};
+				});
+			}
+		},
+		
+		_player:	{
+			
+			startup: function ()
+			{
+				this.progressBar();
+				this.selectBandwidth();
+				this.actions();
+			},
+			
+			progressBar: function ()
+			{
+				$('.progressBar').qtip(
+				{
+					position: {
+						my: 'top center',
+						at: 'bottom center',
+						target: 'mouse',
+						adjust: {
+							x: 0, y: 16,
+							mouse: true  // Can be ommited (e.g. default behaviour)
+						}
+					},
+					style: {
+						tip: true,
+						classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
+					}			
+				});
+			},
+			
+			selectBandwidth: function ()
+			{
+				$('.bandwidthList a').live('click', function()
+				{
+					$('.bandwidthList .active').removeClass('active');
+					$(this).addClass('active');
+					
+					gq._gaqPush(['_trackEvent', 'Audio', 'bandwidth',  $(this).attr('data-kbs')]);
+					gq.recitor.add(gq.player.recitorBy(), $(this).attr('data-kbs'));
+					gq.player.reset();
+					gq.recitor.load();			
+				});
+			},
+			
+			actions: function ()
+			{
+				//TODO check all the actions
+				$('.volume').live('click', function() {
+					layout.volume(gq.settings.volume, !$(this).hasClass('muted'));
+					return false;
+				});
+				
+				$('.play').live('click', function() {
+					layout.play();
+					return false;
+				});
+				
+				$('.pause').live('click', function() {
+					layout.pause();
+					return false;
+				});
+				
+				$('.repeat').live('click', function() {
+					layout.repeat(!$(this).hasClass('active'));
+					return false;
+				});
+				
+				$('.repeatEach').live('change', function() {
+					gq.player.repeatEach($(this).val());
+				});
+				
+				$('.repeatTimes').live('change', function() {
+					gq.player.repeatTimes($(this).val());
+				});
+				
+				$('.audioDelay').live('change', function() {
+					gq.player.audioDelay($(this).val());
+				});
+			}
+		},
+		
+		_settings: {
+			
+			startup: function ()
+			{
+				this.zoomFont();
+				this.setFontFamily();
+				this.showSign();
+				this.wordBywordDirection();
+			},
+			
+			zoomFont: function()
+			{
+				// zoomIN, zoomOUT
+				$('.zoom-in, .zoom-out').live('click', function()
+				{
+					var zoom = $(this).hasClass('zoom-in');			
+					if ($(this).hasClass('disable'))
+						return false;
+					
+					layout.fontSize(zoom);//FIXME
+						
+					return false;
+				});
+			},
+			
+			setFontFamily: function ()
+			{
+				$('#quranFont').live('change', function() {
+					gq.font.setFamily($(this).val());
+					gq.load.refresh();
+				});
+			},
+			
+			showSign: function ()
+			{
+				$('#showSigns, #showAlef, #wbwMouseOver').live('click', function()
+				{
+					gq.settings.showAlef = $('#showAlef').is(':checked');
+					gq.settings.showSigns = $('#showSigns').is(':checked');
+					gq.settings.wbwMouseOver = $('#wbwMouseOver').is(':checked');
+					gq.load.refresh();
+				});
+			},
+			
+			wordBywordDirection: function ()
+			{						
+				$('.wbwDirection').live('click', function() 
+				{
+					var languageTo = $(this).text();
+					var languageFrom = (languageTo == 'EN') ? 'AR' : 'EN'; 
+					$(this).text(languageFrom);			
+					gq.settings.wbwDirection = (languageTo == 'EN') ? 'english2arabic' : 'arabic2english';
+					gq.load.refresh();
+					
+					return false;
+				});
+			}
+		},
+		
+		_tools: {
+			
+			startup: function ()
+			{
+				this.bookmark();
+				this.print();
+				this.placeholder_Fix();
+			},
+			
+			print: function ()
+			{
+				//print page
+				$('.print').click(function() {
+					window.print();
+					return false;
+				});
+			},
+			
+			bookmark: function ()
+			{
+				//bookmark page
+				$("a.bookmark").click(function(e)
+				{
+					e.preventDefault(); // this will prevent the anchor tag from going the user off to the link
+					var bookmarkUrl = this.href;
+					var bookmarkTitle = this.title;
+					
+					if (window.sidebar) { // For Mozilla Firefox Bookmark
+						window.sidebar.addPanel(bookmarkTitle, bookmarkUrl,"");
+					} else if( window.external || document.all) { // For IE Favorite
+						window.external.AddFavorite( bookmarkUrl, bookmarkTitle);
+					} else if(window.opera) { // For Opera Browsers
+						$("a.jQueryBookmark").attr("href",bookmarkUrl);
+						$("a.jQueryBookmark").attr("title",bookmarkTitle);
+						$("a.jQueryBookmark").attr("rel","sidebar");
+					} else { // for other browsers which does not support
+						alert('Your browser does not support this bookmark action');
+						return false;
+					}
+				});
+			},
+			
+			placeholder_Fix: function ()
+			{
+				// place holder crossBrowser fix by hagenBurger - http://www.hagenburger.net/BLOG/HTML5-Input-Placeholder-Fix-With-jQuery.html
+				$('[placeholder]').focus(function()
+				{
+					var input = $(this);
+					if (input.val() == input.attr('placeholder')) {
+						input.val('');
+					}
+					else
+						input.removeClass('placeholder');
+				})
+				.blur(function()
+				{
+					var input = $(this);
+					if (input.val() == '' || input.val() == input.attr('placeholder')) {
+						input.addClass('placeholder');
+						input.val(input.attr('placeholder'));
+					}
+				}).blur().parents('form').submit(function() {
+					$(this).find('[placeholder]').each(function() {
+						var input = $(this);
+						if (input.val() == input.attr('placeholder')) {
+							input.val('');
+						}
+					});
+				});
+			}
+		},
+		
+		_keyboard: function()
 		{
 			$(document).keydown(function (e)
 			{

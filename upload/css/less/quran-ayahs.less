@@ -1,0 +1,85 @@
+//
+// Quran ayah selection styles
+// --------------------------------------------------
+
+#gqContent .bismillah {
+		display:block;
+		margin:auto;
+		margin-bottom: 1em;
+	}
+	
+	
+.ayahs {
+		
+	}
+	.ayahs.ltr, .ayahs .ltr {
+		text-align:left;
+	}
+	.ayahs.rtl, .ayahs .rtl {
+		text-align:right;
+	}
+	.ayahs .ayah:hover, .ayahs .group:hover, .ayahs .mouseOver {
+		background-color: #ffffee;	
+	}
+	.ayahs .selected, .ayahs .selected:hover {
+		background-color: #f9fbff;
+	}
+	.single .ayah, .book .ayah {
+		text-align:justify;
+		display:inline;
+		line-height: 1.5em;		
+	}
+	.single .ayahs, .book .ayahs {
+		padding: .5em .2em .5em .3em;	
+	}
+	.book .colume {
+		width: 49%;
+		float: right;
+		margin-left: 4px;
+		margin-right: 4px;
+	}
+	.group {
+		padding: .5em .2em .5em .3em;
+	}
+	.group .ayah {
+		margin-bottom: 12px;
+		padding: 4px;
+	}
+	.ltr .group .ayah {
+		margin-left: 90px;
+	}
+	.rtl .group .ayah {
+		margin-right:90px;
+	}
+	.ltr .ayahs .group .ayahNumber {
+		float: left;
+		color:#999;
+		font-weight: bold;
+	}
+	.rtl .ayahs .group .ayahNumber {
+		float: right;
+		color:#999;
+		font-weight: bold;
+	}
+	.ltr .ltr .foundin, .ltr .rtl .foundin, .foundin {
+		text-align:left;
+		font-size:60%;
+		color:#999;
+		margin-top:.5em;
+		margin-bottom:.5em;
+	}
+		.rtl .ltr .foundin, .ltr .rtl .foundin {
+			text-align:right;
+		}
+		.foundin .active {
+			border-bottom:#999 1px dotted;
+		}
+		.foundin a, .foundin a:active, .foundin a:focus, .foundin a:visited {
+			color:#999;
+		}
+		.foundin a:hover, .foundin .showAll, .foundin .hideAll {
+			color:#6699cc !important;
+		}
+		.foundin .showAll, .foundin .hideAll {
+			font-weight: bold;
+		}

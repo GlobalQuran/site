@@ -6,20 +6,27 @@
 <!--[if !IE]><!--> <html lang="en" class="noie"> <!--<![endif]-->
 <head>
 <title>Global Quran</title>
+<link rel="stylesheet/less" type="text/css" href="css/less/gq.less" />
+
+
+
 <link type="text/css" rel="stylesheet" href="css/default.css"></link>
 
 
 <link type="text/css" rel="stylesheet" href="css/flipbook.css"></link>
-<!-- <link type="text/css" rel="stylesheet" href="css/extra.css" /> -->
+
 <link type="text/css" rel="stylesheet" href="css/quran.css" media="screen,print" />
 
 <link type="text/css" rel="stylesheet" href="css/qtip.css"></link>
 
 <link type="text/css" rel="stylesheet" href="css/superfish.css"></link>
 
-<link type="text/css" rel="stylesheet" href="css/ribbon.css"></link>
 
 <link type="text/css" rel="stylesheet" href="css/scroll.css"></link>
+
+
+<script type="text/javascript"> less = {env: "development"};</script>
+<script src="js/less.js" type="text/javascript"></script>
 
 
 </head>
@@ -44,79 +51,83 @@
  <div><a href="#"><img src="img/logo.png" class="logolink"/></a></div>
 </div>
 
-<div id="gqMain">
-
-		<div class="closeplayer" style="display:none" onClick="hidePlayer();"></div>		
-		<div id="topNav">
-			<div class="startplay" style="background-image:url(img/jplayer/start1.png); width:65px;height:57px;margin-top:3px;margin-left:1px;">
-				<li id="play" onClick="showPlayer();"><a href="#" class="icon play" style="margin-left:26px;margin-top:20px;">play</a></li>
-			</div>
-			<div id="playerNavBox" style="display:none">
-				<ul id="playerNav">
-					<li id="play"><a href="#" class="icon play">play</a></li>
-					<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center">
-						<span class="icon recitor">Select Recitor</span></a>
-						<ul class="sf-scrolling recitorList" items="8" style="width:150px;">
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit (mujawwad)</a></li>
-							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Ahmed Ibn Ali Al-Ajamy</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
-							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Abdul Basit</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
-							<li><a href="#" class="txt active" data-recitor-id="en.idHere">Default</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
-							<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
-						</ul>
-					</li>
-					<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
-					<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
-					
-					<li id="progressBar">
-						<div class="progressBar ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" title="0:00"  area-describedby="ui-tooltip-0">
-							<span class="buffer" style="width: 70%;"></span>
-							<div style="width: 7%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-							<a style="left: 7%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-						</div>
-					</li>
-					
-					<!-- <li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
-					<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
-						<ul class="bandwidthList">
-							<li><a href="#" class="txt" data-kbs="32">32 kbs</a></li>
-							<li><a href="#" class="txt" data-kbs="64">64 kbs</a></li>
-							<li><a href="#" class="txt" data-kbs="128">128 kbs</a></li>
-							<li><a href="#" class="txt active" data-kbs="192">192 kbs</a></li>
-						</ul>
-					</li> -->
-					<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
-						<ul>
-							<!--<li class="volumePercent">68%</li>-->
-							<li><div class="volumeBar ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div style="height: 60%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div><a style="bottom: 60%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></li>
-						</ul>
-					</li>
-					<li id="repeat" class="dropOption "><a href="#" class="dropLink tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
-						<ul class="repeatOptions">
-							<li><label>Repeat Each</label> <select class="repeatEach" name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
-							<li><label>Repeat Times</label> <select class="repeatTimes" name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
-							<li><label>Delay</label> <select class="audioDelay" name="audioDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
-						</ul>
-					</li>
-				</ul>				
-			</div>
-		</div>		
-
+<!-- 
+<div id="player">
+	
+	<div class="closeplayer" style="display:none" onClick="hidePlayer();"></div>		
+	
+	<div id="topNav">
 		
+		<div class="startplay" style="background-image:url(img/jplayer/start1.png); width:65px;height:57px;margin-top:3px;margin-left:1px;">
+			<li id="play" onClick="showPlayer();"><a href="#" class="icon play" style="margin-left:26px;margin-top:20px;">play</a></li>
+		</div>
+		
+	</div>	
 </div>			
+-->
 
+<div id="player">
+	<a href="#"><i class="icon play"></i></a>
+	<ul id="playerNav">
+		<li id="play"><a href="#" class="icon play">play</a></li>
+		<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center">
+			<span class="icon recitor">Select Recitor</span></a>
+			<ul class="sf-scrolling recitorList" items="8" style="width:150px;">
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit (mujawwad)</a></li>
+				<li><a href="#" class="txt active" data-recitor-id="en.idHere">Ahmed Ibn Ali Al-Ajamy</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+				<li><a href="#" class="txt active" data-recitor-id="en.idHere">Abdul Basit</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+				<li><a href="#" class="txt active" data-recitor-id="en.idHere">Default</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+				<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+			</ul>
+		</li>
+		<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
+		<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
+		
+		<li id="progressBar">
+			<div class="progressBar ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" title="0:00"  area-describedby="ui-tooltip-0">
+				<span class="buffer" style="width: 70%;"></span>
+				<div style="width: 7%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+				<a style="left: 7%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+			</div>
+		</li>
+		
+		<!-- <li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
+		<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
+			<ul class="bandwidthList">
+				<li><a href="#" class="txt" data-kbs="32">32 kbs</a></li>
+				<li><a href="#" class="txt" data-kbs="64">64 kbs</a></li>
+				<li><a href="#" class="txt" data-kbs="128">128 kbs</a></li>
+				<li><a href="#" class="txt active" data-kbs="192">192 kbs</a></li>
+			</ul>
+		</li> -->
+		<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="icon volume full">Volume</span></a>
+			<ul>
+				<!--<li class="volumePercent">68%</li>-->
+				<li><div class="volumeBar ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div style="height: 60%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div><a style="bottom: 60%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></li>
+			</ul>
+		</li>
+		<li id="repeat" class="dropOption "><a href="#" class="dropLink tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
+			<ul class="repeatOptions">
+				<li><label>Repeat Each</label> <select class="repeatEach" name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
+				<li><label>Repeat Times</label> <select class="repeatTimes" name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
+				<li><label>Delay</label> <select class="audioDelay" name="audioDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
+			</ul>
+		</li>
+	</ul>				
+</div>
 
 <div class="quran-book">
 		<div class="stackleft" id="stackleft" style="display:none;"></div>

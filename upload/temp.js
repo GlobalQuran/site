@@ -44,7 +44,7 @@ $(window).load(function()
 	document.getElementById('leftMenu').style.left=(flipleft-35)+"px";
 	document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
 			
-	document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
+	// dont add this document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
 	
 	var leftValue=flipleft-160;
 	document.getElementById('leftArrow').style.left=leftValue+"px";
@@ -178,7 +178,7 @@ $(window).resize(function() {
 	document.getElementById('leftMenu').style.left=(flipleft-35)+"px";
 	document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
 		
-	document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
+	// dont add this  document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
 
 	var leftValue=flipleft-160;
 	var topValue=fliptop+$(".flipbook").height()/2-$(".leftArrow").height()/2;	

@@ -1,0 +1,22 @@
+/**
+ * @author Basit (i@basit.me || http://Basit.me)
+ * 
+ * Online Quran Project
+ * http://GlobalQuran.com/
+ *
+ * Copyright 2011, imegah.com
+ * Simple Public License (Simple-2.0)
+ * http://www.opensource.org/licenses/Simple-2.0
+ * 
+ */
+@charset "utf-8";
+
+
+noscript p { 
+	margin: 10px; 
+	padding: 10px; 
+	border: 1px solid #cc3; 
+	background: #ff9;
+	font-size: 200%;
+	font-weight: bold; 
+}
