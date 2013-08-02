@@ -2,8 +2,66 @@
 // Player
 // --------------------------------------------------
 
+.player {
+	width: 380px;
+	margin-top: -50px;
+	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 4px 6px 6px 6px;
+	background-color: rgba(0,0,0,0.5);
+
+	.border-radius (6px);
+
+	.options {
+		width: 320px;
+		display: inline-block;
+		.ie7-inline-block();
+		background-color: #ebebeb;
+		padding: 2px 2px 2px 30px;
+		margin: 4px 4px 4px -30px;
+
+		.border-radius (6px);		
+	}
+	
+	a, a:visited, a:link, a:hover {
+		text-decoration: none;
+		color: #535353;
+	}
+	
+	a:hover {
+		color: @linkColor;
+	}
+	
+	.duration {
+		color: @gray;
+		font-size: @fontSizeSmall;
+	}
+	
+	.play {
+		width: 45px;
+		height: 45px;
+		display: inline-block;
+		.ie7-inline-block();
+		background: url("@{img}/jplayer/playbg.png") no-repeat;
+		z-index: 10;
+		position: relative;
+		
+		i {
+			font-size: 20px;
+			display: inline-block;
+			.ie7-inline-block();
+			margin-top: 13px;
+			margin-left: 16px;
+		}
+	}
+
+} // player end
+
+
+
 .closeplayer{
-	 background-image:url("../../img/jplayer/close.png");
+	 background-image:url("@{img}/jplayer/close.png");
 	 position:absolute;
 	 margin-left:-5px;
 	 margin-top:-4px;
@@ -71,19 +129,9 @@
 	#topNav #prevPage a, #topNav #nextPage a {
 		margin:0;
 	}
-	#topNav #play span{
-		width:16px;
-		height:15px;
-	}
-	#topNav #prevPage a {
-		margin-right:-4px;		
-	}
-	.rtl #topNav #prevPage a {
-		margin-right:0px;
-		margin-left:-4px;
-	}
+	
 	#playerNav{
-		background-image:url("../img/jplayer/foreground.png");
+		background-image:url("@{img}/jplayer/foreground.png");
 		height:63px;
 		width:450px;
 	}
@@ -91,49 +139,12 @@
 		height:63px;
 		width:450px;
 		position:absolute;		
-		background-image:url("../img/jplayer/background.png");		
+		background-image:url("@{img}/jplayer/background.png");		
 	}
-		.rtl #playerNavBox {
-			margin-right:0px;
-			margin-left: 260px;	
-		}
-		.smallFrame #playerNavBox {
-			margin-right: 2px;
-		}
-		.rtl.smallFrame #playerNavBox {
-			margin-right: 0px;
-			margin-left: 2px;
-		}
-		.rtl #playerNav {
-			*position:static; /* ie6+ fix */
-		}
-		#pageNav {
-			float: right;
-			z-index: 1;
-		}
-		.rtl #pageNav {
-			float:left;
-		}	
-		.pageOn, .totalPages, .bold {
-			font-size:120%;
-			font-weight:bold;
-			margin-left: 3px;
-			margin-right: 6px;
-		}
-		.currentAyah, .sep {
-			font-size:120%;
-			font-weight:bold;
-			margin-left: 2px;
-			margin-right: 2px;
-		}
 		.recitorList {
 			display:block;
 			width: 420px;
 			
-		}
-		.rtl .recitorList {
-			position:absolute;
-			right: 0;	
 		}
 			.recitorList li {
 				float:left;
@@ -216,8 +227,7 @@
   	*display:inline;
 	vertical-align:top;
 	zoom:1;
-	margin-top:25px;
-	margin-left:30px;
+	margin-top: 3px;
 }
 	.buffer {
 		height: 100%;
@@ -231,14 +241,14 @@
 		zoom:1;
 	}
 	.audioLoading {
-		background: url("../img/progress-bar-loader.gif");
+		background: url("@{img}/tool/progress-bar-loader.gif");
 	}
 
 /* Component containers
 ----------------------------------*/
 .ui-widget-content { background-color: #eeeeee/*{bgColorContent}*/; color: #222222/*{fcContent}*/; }
 .ui-widget-content a { color: #222222/*{fcContent}*/; }
-.ui-widget-header { background-color: #3B5998/*{bgColorHeader}*/; color: #222222/*{fcHeader}*/; }
+.ui-widget-header { background-color: #5b6d6f/*{bgColorHeader}*/; color: #222222/*{fcHeader}*/; }
 .ui-widget-header a { color: #222222/*{fcHeader}*/; }
 
 /* Interaction states

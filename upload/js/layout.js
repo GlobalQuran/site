@@ -384,7 +384,7 @@ var layout = {
 		
 		play: function ()
 		{
-			$('.play, .pause').removeClass('play').addClass('pause');
+			$('.icon-play, icon-stop').removeClass('icon-play').removeClass("icon-stop").addClass('icon-pause');
 			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //TODO REPLACE THIS
 			
 			if (gq.player.status().noVolume) //TODO CHECK THIS
@@ -395,26 +395,26 @@ var layout = {
 		
 		pause: function ()
 		{
-			$('.play, .pause').removeClass('pause').addClass('play');
+			$('.icon-play').removeClass('icon-pause').addClass('icon-play');
 		},
 		
 		stop: function ()
 		{
-			$('.play, .pause').removeClass('pause').addClass('play');
+			$('.icon-stop, icon-play').removeClass('icon-pause').addClass('icon-play');
 			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide(); // TODO REPLACE THIS
 		},		
 		
 		volume: function (volume)
 		{
 			$('.volumePercent').text(volume+'%');
-			$('.volume').removeClass('full').removeClass('med').removeClass('low').removeClass('muted');
+			$('.volume').removeClass('icon-volume-up').removeClass('icon-volume-down').removeClass('icon-volume-off').removeClass('muted');
 			
 			if (volume == 100)
-				$('.volume').addClass('full');
-			else if (volume > 40)
-				$('.volume').addClass('med');
+				$('.volume').addClass('icon-volume-up');
+			else if (volume < 10)
+				$('.volume').addClass('icon-volume-off');
 			else
-				$('.volume').addClass('low');
+				$('.volume').addClass('icon-volume-down');
 		},
 		
 		muted: function ()

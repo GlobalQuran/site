@@ -155,4 +155,4 @@ var config = {
 };
 
 layout.setConfig(config);		// set configuration
-layout.start();					// load application
+//layout.start();					// start the application

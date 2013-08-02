@@ -1,0 +1,116 @@
+
+
+.leftMenu{
+	cursor:pointer;
+	//width:65px; 
+	height:250px;
+	z-index:1;
+	position:absolute;			
+}
+.stackleft{
+	background: url(../img/pagestackleft.png) repeat-x;	
+	position:absolute;			
+	height:827px;	
+	z-index:1;
+}
+.stackright{
+	background: url(../img/pagestackleft.png) repeat-x;	
+	position:absolute;			
+	height:824px;	
+	
+	z-index:1;
+}
+.leftArrow{
+	position:absolute;
+	width:72px;
+	height:69px;
+	z-index:100;
+	cursor:pointer;
+}
+.rightArrow{
+	position:absolute;
+	width:72px;
+	height:69px;
+	z-index:100;
+	cursor:pointer;
+}
+
+.leftMenu .book{
+	background:url(../img/book.png);
+	width:74px;
+	height:59px;
+	margin-left:0px;
+	cursor:pointer;	
+}
+
+.leftMenu .setting{
+	background:url(../img/setting.png);
+	width:74px;
+	margin-left:-4px;
+	height:59px;
+	cursor:pointer;
+}
+.leftMenu .zoom{
+	background:url(../img/zoom.png);
+	width:74px;
+	margin-left:-6px;
+	height:59px;
+	cursor:pointer;
+}
+.search{
+	background:url(../img/zoomback.png);
+	width:260px;
+	height:59px;
+	margin-left:72px;
+	visibility:hidden;
+}
+.searchButton{
+	background:url(../img/zoomok.png);
+	width:35px;
+	height:34px;
+	margin-left:215px;
+	margin-top:-35px;
+}
+#searchText{
+	font-size:15px;
+	color: #979797;
+    height: 32px;
+	width:180px;
+	margin-top:10px;
+	margin-left:10px;
+    padding-left: 10px;
+    text-decoration: none;
+    background-image: url('../img/zoomtext.png');   
+    border-radius: 1px; /*up to date browsers support this, but you can add prefixes if you want*/
+	vertical-align: top;
+	display:inline;
+}
+.searchlist{
+	color: #979797;
+	font-size:12px;   
+	width: 193px;
+	border-width:1px;
+	margin-top:1px;
+	margin-left:10px;    
+    text-decoration: none;
+    background-image: url('../img/zoomlist.png');
+	background-repeat:repeat-y;
+	font-size:15px;
+}
+
+.searchlistitem:hover{	
+	background-image: url('../img/zoommouseover.png');
+	width:199px;
+	height:23px;
+		margin:0 auto;
+		color: white
+	
+}
+.searchlistitem{
+	margin:0 auto;
+	width:199px;
+	height:23px;
+	
+}
+
+

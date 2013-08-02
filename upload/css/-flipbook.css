@@ -1,3 +1,55 @@
+.quran {
+	width: 1112px;
+	margin:0 auto;
+}
+
+.quran-book  a{
+	cursor:pointer;
+}
+
+.book{
+	background-image:url(../img/leftbookback.png);	
+	background-position: left top, right top;	
+	background-repeat:no-repeat;	
+	width:1112px;
+	height:928px;
+	margin:0 auto;
+	-webkit-transition:margin-left 0.2  s;
+	-moz-transition:margin-left 0.2s;
+	-ms-transition:margin-left 0.2s;
+	-o-transition:margin-left 0.2s;
+	transition:margin-left 0.2s;
+}
+
+.book .page-wrapper{	
+	-webkit-perspective:2000px;
+	-moz-perspective:2000px;
+	-ms-perspective:2000px;
+	-o-perspective:2000px;
+	perspective:2000px;
+}
+
+.book .hard.front, .book .hard.back {
+	background-image:url(../img/frontcover.png)
+}
+
+.book .hard.inside.right {
+	background-image:url(../img/pbr.png)
+}
+.book .hard.inside.left {
+	background-image:url(../img/pbl.png)
+}
+
+.book .page{
+	background-image:url(../img/pageR1.png);
+}
+
+.book .odd{
+	background-image:url(../img/pageL1.png);	
+}
+
+
+
 .book .hard{	
 	/*-webkit-box-shadow:inset 0 0 5px #666;
 	-moz-box-shadow:inset 0 0 5px #666;

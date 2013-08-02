@@ -29,7 +29,7 @@ $(document).ready(function()
 	});
 	
 	for(var i=1;i<=114;i++)
-		$('.ribbon .sf-scrolling')[0].innerHTML+="<li>"+i+"</li>";
+	;//	$('.ribbon .sf-scrolling')[0].innerHTML+="<li>"+i+"</li>";
 	
 	$('.ribbon .sf-scrolling').superscroll();
 	$('#recitor  .sf-scrolling').superscroll();
@@ -38,8 +38,9 @@ $(document).ready(function()
 
 $(window).load(function()
 {	
-	var flipleft=Math.round($(".flipbook").offset().left);
-	var fliptop=Math.round($(".flipbook").offset().top);	
+	/*
+	var flipleft=Math.round($(".book").offset().left);
+	var fliptop=Math.round($(".book").offset().top);	
 
 	document.getElementById('leftMenu').style.left=(flipleft-35)+"px";
 	document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
@@ -48,20 +49,20 @@ $(window).load(function()
 	
 	var leftValue=flipleft-160;
 	document.getElementById('leftArrow').style.left=leftValue+"px";
-	var topValue=fliptop+$(".flipbook").height()/2-$(".leftArrow").height()/2;	
+	var topValue=fliptop+$(".book").height()/2-$(".leftArrow").height()/2;	
 	document.getElementById('leftArrow').style.top=topValue+"px";
 	
 	
-	var rightValue=flipleft+$(".flipbook").width()+120;
+	var rightValue=flipleft+$(".book").width()+120;
 	document.getElementById('rightArrow').style.left=rightValue+"px";	
 	document.getElementById('rightArrow').style.top=topValue+"px";
 	setScroll();
-
+*/
 	
 	var flag = false;		
 	var prevPageNum = 0;
 	
-	$(".flipbook").turn({	
+	$(".book").turn({	
         acceleration: true,	
 	    gradients: !$.isTouch,	
 		autoCenter: true,
@@ -71,7 +72,7 @@ $(window).load(function()
 	{
 		if(page == 1)
 		{
-			$(".flipbook").css("background-image","url(img/leftbookback.png)");
+			$(".book").css("background-image","url(img/leftbookback.png)");
 			$(".stackleft").hide();
 			$(".stackright").hide();
 			hidePlayer();
@@ -81,8 +82,8 @@ $(window).load(function()
 		{
 			setScroll();
 		//<!-- pagestackleft width control---->				
-			
-			var width=(($(".flipbook").turn("pages")-4)/2-(page/2-1));
+/*			
+			var width=(($(".book").turn("pages")-4)/2-(page/2-1));
 			width=(width<=20?width:20);								
 			document.getElementById('stackleft').style.width=(width*2)+"px";
 			document.getElementById('stackleft').style.marginLeft=(36-width*2)+"px";
@@ -96,19 +97,22 @@ $(window).load(function()
 					
 			$(".stackleft").show();
 			$(".stackright").show();
-			$(".flipbook").css("background-image","url(img/leftbookback.png),url(img/rightbookback.png)");
+			$(".book").css("background-image","url(img/leftbookback.png),url(img/rightbookback.png)");
 			document.getElementById('leftMenu').style.left=($('#stackleft').offset().left+width-66)+"px";
 			document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
+*/
 		}
 		
-		if(page >= 2 && page < $(".flipbook").turn("pages"))
+		if(page >= 2 && page < $(".book").turn("pages"))
 		{		
+/*
 			$(".leftMenu").show();		
-			var ribbonleft=$(".flipbook").offset().left+$(".flipbook").width()/2-52;
-			var ribbontop=$(".flipbook").offset().top;
+			var ribbonleft=$(".book").offset().left+$(".book").width()/2-52;
+			var ribbontop=$(".book").offset().top;
 			document.getElementById('ribbon').style.left=ribbonleft+"px";
 			document.getElementById('ribbon').style.top=ribbontop+"px";
 			$(".ribbon").show();		
+*/
 		}  
 		else
 		{
@@ -120,7 +124,7 @@ $(window).load(function()
 	.bind("turning", function(event, page, view)
 	{	
 		// if(page>=2)
-		//	$(".flipbook").css("background-image","url(img/bookback.png)");	
+		//	$(".book").css("background-image","url(img/bookback.png)");	
 		
 		if (page == 1) 
 		{
@@ -135,22 +139,22 @@ $(window).load(function()
 	{							
 		coverflag = true;
 		flag = true;
-		prevPageNum = $(".flipbook").turn("page");
+		prevPageNum = $(".book").turn("page");
 		$(".ribbon").hide();
 		console.log('prev page: '+prevPageNum);
 	})
 	.bind("turned", function(event, page, view) 
 	{		
-		if(flag && $(".flipbook").turn("page") != $(".flipbook").turn("pages") && $(".flipbook").turn("page") != 1)
+		if(flag && $(".book").turn("page") != $(".book").turn("pages") && $(".book").turn("page") != 1)
 			$(".ribbon").show();
-		if( $(".flipbook").turn("page") == $(".flipbook").turn("pages")-2)
+		if( $(".book").turn("page") == $(".book").turn("pages")-2)
 		{
 			$(".stackleft").hide();
 		}		
 	})
 	.bind("released", function(event, page, view)
 	{
-		if(flag && prevPageNum == $(".flipbook").turn("page") && $(".flipbook").turn("page") != 1 &&  $(".flipbook").turn("page") < $(".flipbook").turn("pages"))
+		if(flag && prevPageNum == $(".book").turn("page") && $(".book").turn("page") != 1 &&  $(".book").turn("page") < $(".book").turn("pages"))
 		{
 			$(".stackleft").show();
 			$(".leftMenu").show();
@@ -162,18 +166,18 @@ $(window).load(function()
 });
 	
 function turnLeftPage(){
-	var pageNumber=$(".flipbook").turn("page");
-	if($(".flipbook").turn("hasPage",pageNumber-1))
-		$(".flipbook").turn("previous");
+	var pageNumber=$(".book").turn("page");
+	if($(".book").turn("hasPage",pageNumber-1))
+		$(".book").turn("previous");
 }
 function turnRightPage(){
-	var pageNumber=$(".flipbook").turn("page");
-	if($(".flipbook").turn("pages")-pageNumber > 2)
-		$(".flipbook").turn("next");
+	var pageNumber=$(".book").turn("page");
+	if($(".book").turn("pages")-pageNumber > 2)
+		$(".book").turn("next");
 }
 $(window).resize(function() {	
-	var flipleft=Math.round($(".flipbook").offset().left);
-	var fliptop=Math.round($(".flipbook").offset().top);
+	var flipleft=Math.round($(".book").offset().left);
+	var fliptop=Math.round($(".book").offset().top);
 
 	document.getElementById('leftMenu').style.left=(flipleft-35)+"px";
 	document.getElementById('leftMenu').style.top=(fliptop+130)+"px";
@@ -181,22 +185,22 @@ $(window).resize(function() {
 	// dont add this  document.getElementById('gqMain').style.marginLeft=(flipleft-10)+"px";
 
 	var leftValue=flipleft-160;
-	var topValue=fliptop+$(".flipbook").height()/2-$(".leftArrow").height()/2;	
+	var topValue=fliptop+$(".book").height()/2-$(".leftArrow").height()/2;	
 	document.getElementById('leftArrow').style.left=leftValue+"px";	
 	document.getElementById('leftArrow').style.top=topValue+"px";
 	
-	var rightValue=flipleft+$(".flipbook").width()+120;
+	var rightValue=flipleft+$(".book").width()+120;
 	document.getElementById('rightArrow').style.left=rightValue+"px";	
 	document.getElementById('rightArrow').style.top=topValue+"px";
 		
 			
-	var ribbonleft=$(".flipbook").offset().left+$(".flipbook").width()/2-35;
-	var ribbontop=$(".flipbook").offset().top;
+	var ribbonleft=$(".book").offset().left+$(".book").width()/2-35;
+	var ribbontop=$(".book").offset().top;
 	document.getElementById('ribbon').style.left=ribbonleft+"px";
 	document.getElementById('ribbon').style.top=ribbontop+"px";
 	
-	var page=$(".flipbook").turn("page");
-	var width=(($(".flipbook").turn("pages")-4)/2-(page/2-1));
+	var page=$(".book").turn("page");
+	var width=(($(".book").turn("pages")-4)/2-(page/2-1));
 	width=(width<=10?width:10);								
 	document.getElementById('stackleft').style.width=(width*2)+"px";
 	document.getElementById('stackleft').style.marginLeft=(36-width*2)+"px";
@@ -216,7 +220,7 @@ $(window).resize(function() {
 
 
 function setScroll(){	
-	var pn=$(".flipbook").turn("page");	
+	var pn=$(".book").turn("page");	
 
 	if(pn<=1) return;
 	if(pn==2){			
