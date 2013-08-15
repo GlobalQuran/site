@@ -98,7 +98,7 @@ var has3d,
 
     // Size of the active zone of each corner
 
-    cornerSize: 270 // [MODIFED]
+    cornerSize: 250 // [MODIFED]
 
   },
 
@@ -310,6 +310,7 @@ turnMethods = {
           var prop = turnMethods._pageSize.call(this, page, true);
           element.css({width: prop.width, height: prop.height});
           data.pageWrap[page].css(prop);
+          data.pageWrap[page].removeClass('right').removeClass('left').addClass((prop.left == 'auto') ? 'right' : 'left');  // [ADDED] add right or left class for pages     
 
         }
 
@@ -2002,7 +2003,7 @@ flipMethods = {
         
     	 // [ADDED]
     	 height = this.height()/2;					
-		 csz = 100;  
+		 csz = 65;  
     	
 		 // [MODIFIED] 
         if (point.y<height)

@@ -2,84 +2,80 @@
 // Quran ayah selection styles
 // --------------------------------------------------
 
-#gqContent .bismillah {
-		display:block;
-		margin:auto;
-		margin-bottom: 1em;
-	}
+.ayah-group {
 	
+	margin-top: 20px;
 	
-.ayahs {
+	.ayah {
+
+		color: #72716b;
+		font-size: 13px;
+		margin-top: 15px;
+
+		&.quran-text {
+			color: @grayDark;
+			font-family: 'me quran';
+			font-size: 26px;
+			line-height: 40px;
+			word-spacing: 4px;
+		}
 		
-	}
-	.ayahs.ltr, .ayahs .ltr {
-		text-align:left;
-	}
-	.ayahs.rtl, .ayahs .rtl {
-		text-align:right;
-	}
-	.ayahs .ayah:hover, .ayahs .group:hover, .ayahs .mouseOver {
-		background-color: #ffffee;	
-	}
-	.ayahs .selected, .ayahs .selected:hover {
-		background-color: #f9fbff;
-	}
-	.single .ayah, .book .ayah {
-		text-align:justify;
-		display:inline;
-		line-height: 1.5em;		
-	}
-	.single .ayahs, .book .ayahs {
-		padding: .5em .2em .5em .3em;	
-	}
-	.book .colume {
-		width: 49%;
-		float: right;
-		margin-left: 4px;
-		margin-right: 4px;
-	}
-	.group {
-		padding: .5em .2em .5em .3em;
-	}
-	.group .ayah {
-		margin-bottom: 12px;
-		padding: 4px;
-	}
-	.ltr .group .ayah {
-		margin-left: 90px;
-	}
-	.rtl .group .ayah {
-		margin-right:90px;
-	}
-	.ltr .ayahs .group .ayahNumber {
-		float: left;
-		color:#999;
-		font-weight: bold;
-	}
-	.rtl .ayahs .group .ayahNumber {
-		float: right;
-		color:#999;
-		font-weight: bold;
-	}
-	.ltr .ltr .foundin, .ltr .rtl .foundin, .foundin {
-		text-align:left;
-		font-size:60%;
-		color:#999;
-		margin-top:.5em;
-		margin-bottom:.5em;
-	}
-		.rtl .ltr .foundin, .ltr .rtl .foundin {
-			text-align:right;
+		.number {
+			font-size: 13px;
+			white-space: nowrap;
+
+			&:hover {
+				text-decoration: none;
+			}
+			
+			.icon-ayah-bracket-left, .icon-ayah-bracket-right {
+				margin: 0 5px -7px 5px;
+				display: inline-block;
+				width: 11px;
+				height: 23px;
+				background-repeat: no-repeat;
+			}
+			
+			.icon-ayah-bracket-left {
+				background-image: url("@{img}/quran/bracket-left.png");
+			}
+			
+			.icon-ayah-bracket-right {
+				background-image: url("@{img}/quran/bracket-right.png");
+			}
 		}
-		.foundin .active {
-			border-bottom:#999 1px dotted;
+		
+		&.text-zoom {
+			font-size: 18px;
 		}
-		.foundin a, .foundin a:active, .foundin a:focus, .foundin a:visited {
-			color:#999;
+		
+		&.wds {
+			word-spacing: 4px;
 		}
-		.foundin a:hover, .foundin .showAll, .foundin .hideAll {
-			color:#6699cc !important;
+		
+		.by {
+			width: 260px;
+			display: block;
 		}
-		.foundin .showAll, .foundin .hideAll {
-			font-weight: bold;
+		
+	} // end .ayah
+	
+	&.selected {
+		
+		.ayah {
+			.number {
+				color: #12575b;
+				&:hover {color: #12575b;}
+		
+				.icon-ayah-bracket-left {
+					background-image: url("@{img}/quran/bracket-left-hover.png");
+				}
+				
+				.icon-ayah-bracket-right {
+					background-image: url("@{img}/quran/bracket-right-hover.png");
+				}
+			}
 		}
+	}
+
+} // end .ayah-group

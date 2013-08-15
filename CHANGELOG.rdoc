@@ -4,6 +4,10 @@ To download stable release, please use "switch tags" button and point to the lat
 
 == Head - unstable
 
+* NEW: implemented turn4.js flip effects
+* NEW: favicon has been changed
+* NEW: logo design
+* NEW: layout design
 * NEW: gq.bind {} - added binds feature for attaching dynamic binds for apps and layout
 * NEW: gq.settings.counter - pages viewed counter added for keeping track of how many times user used GlobalQuran service.
 * NEW: gq.config.dataPreCache added

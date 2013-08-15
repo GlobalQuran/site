@@ -1,0 +1,103 @@
+//
+// Quran Book Pages Styles
+// --------------------------------------------------
+
+// .quran .book is importing this style, so it assuming it starts at .quran { .book {...THIS STYLE...}}
+
+.page-wrapper.right {
+	.page {
+		.header, .content, .footer {
+			position: relative;
+			left: -40px;
+		}
+	}
+} // end .page-wrapper.right
+
+.page, .hard {
+	
+	.header {
+		font-size: @fontSizeSmall;
+		font-weight: bold;
+		margin-top: 55px;
+
+		.title {
+
+			float: left;
+			margin-left: 70px;
+		
+			.name {
+				color: @linkColor;
+			}
+			
+			.meaning {
+				color: @gray;
+			}
+			
+			a:hover {
+				text-decoration: none;
+			}
+		} // end .title
+		
+		.pageinfo {
+			
+			float: right;
+			margin-right: 45px;
+			
+			.number {
+				color: @linkColor;
+			}
+			
+			a:hover {
+				text-decoration: none;
+			}
+		}
+		
+	} // end .header
+
+	.content {
+	
+		clear: both;
+		margin-top: 115px;
+		margin-left: 115px;
+		margin-right: 85px;
+	
+background-color: red;
+		height: 700px;
+		overflow: hidden;
+	
+		.title {
+			background-image: url("@{img}/quran/titlecontainer.png");
+			width: 324px; 
+			height: 50px; 
+			margin: 20px auto;
+	
+			.prevSurah, .nextSurah, h2 {
+				display: inline-block;
+				width: 100px;
+				height: inherit;
+				float: left;
+				font-size: inherit;
+	
+				.icon-chevron-left, .icon-chevron-right {
+					visibility: hidden;
+				}
+			}
+			
+			h2 {
+				width: 120px;
+				text-align: center;
+				// background: rgba(54, 25, 25, .5); // for testing only
+				margin: 0;
+				overflow: hidden;
+			}
+		} // end .title
+
+		hr {
+			border-top-color: transparent;
+			border-bottom-color: lighten(@grayLight, 13%);
+		}
+		
+	} // end .content
+	
+	
+} // end .page

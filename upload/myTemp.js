@@ -1,8 +1,8 @@
 yepnope({
 	test : Modernizr.csstransforms,
-	yep: ['js/turn4/turn.js'],
-	//yep: ['js/jin-package/turn.min.js'],
-	nope: ['js/turn4/turn.html4.min.js'],
+	yep: ['/js/turn4/turn.js'],
+	//yep: ['/js/jin-package/turn.min.js'],
+	nope: ['/js/turn4/turn.html4.min.js'],
 	complete: function () {
 		// Create the flipbook
 
@@ -11,7 +11,7 @@ yepnope({
 				direction: 'rtl',
 				turnCorners: 'tl,tr',
 				autoCenter: true,
-				acceleration: true,
+//				acceleration: true,
 				
 				when: {
 					// first page
@@ -32,6 +32,6 @@ yepnope({
 						}
 					}
 				}
-		});
+		}).turn('next');
 	}
 });
