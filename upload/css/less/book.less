@@ -4,7 +4,7 @@
 
 .quran {
 	
-	width: 1112px;
+	width: @bookWidth;
 	margin: 0 auto;
 
 	a {
@@ -13,8 +13,8 @@
 	
 	.book {
 		
-		width:1112px;
-		height:928px;
+		width:@bookWidth;
+		height:@bookHeight;
 		margin:0 auto;
 	
 		background-position: left top, right top;	
@@ -67,7 +67,9 @@
 		// book pages style
 		@import "book-page.less";
 		
-		
 	} // end .book
+
+	// book optoins styles - like ribbon, menu, stack effect...
+	@import "stack-effect.less";
 	
 } // end .quran

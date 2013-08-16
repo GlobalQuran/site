@@ -54,16 +54,34 @@
 		
 	} // end .header
 
+	.footer {
+	
+		margin-top: 35px;
+		margin-right: 40px;
+		float: right;
+			
+		.share {
+			font-size: 24px;
+			color: @grayLight;
+			
+			&:hover {
+				color: @grayDarker;
+				text-decoration: none;
+			}		
+		}
+		
+	} // end .footer
+
 	.content {
 	
 		clear: both;
 		margin-top: 115px;
 		margin-left: 115px;
-		margin-right: 85px;
+		margin-right: 75px;
+		padding-right: 10px;
 	
-background-color: red;
 		height: 700px;
-		overflow: hidden;
+		overflow: auto;
 	
 		.title {
 			background-image: url("@{img}/quran/titlecontainer.png");
@@ -94,7 +112,7 @@ background-color: red;
 
 		hr {
 			border-top-color: transparent;
-			border-bottom-color: lighten(@grayLight, 13%);
+			border-bottom-color: lighten(@grayLight, 20%);
 		}
 		
 	} // end .content

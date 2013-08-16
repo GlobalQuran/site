@@ -18,9 +18,18 @@ yepnope({
 					first: function (event)
 					{
 						$('.hard.right').removeClass('fixed');
+						stackEffect(0);
 					},
 					
-					// page turned
+					// turning page
+					turning: function (event, page, pageObj)
+					{
+						// hide stack effect on cover turn
+						if (page <= 1)
+							$('.stack').hide();
+					},
+					
+					// turned page
 					turned: function (event, page, pageObj)
 					{
 						console.log('page:'+page);
@@ -30,8 +39,51 @@ yepnope({
 						{
 							$('.hard.right').addClass('fixed');
 						}
+						
+						stackEffect(page);
 					}
 				}
-		}).turn('next');
+		})
+		.turn('next')
+		;
 	}
 });
+
+function stackEffect (page)
+{
+	var totalPages = $('.book').turn('pages'),
+	pagesLeft = totalPages - page,
+	maxWidth = 22,
+	maxLeftMargin = 35;
+	
+	// if pages left is greater then the max width, then use maxWidth, else use pages left as width of the stack effect
+	if (pagesLeft > maxWidth)
+	{
+		$('.stack.left').width(maxWidth);
+		// stack left width needs margin-left to adjust according to the set width
+		$('.stack.left').css('margin-left', maxLeftMargin - maxWidth);
+	}
+	else
+	{
+		$('.stack.left').width(pagesLeft);
+		$('.stack.left').css('margin-left', maxLeftMargin - pagesLeft);
+	}
+	
+	// if current page is greater then max width, then use max width, else use current page number as width of the right stack effect	
+	if (page > maxWidth)
+		$('.stack.right').width(maxWidth);
+	else
+		$('.stack.right').width((page == 1 ? 0 : page));
+	
+	
+	// if page is greater then 1 and not visible, then show. we used greater then 1, because on closing the cover, it wont conflict with hide on turning the cover
+	if (page > 1 && !$('.stack').is(':visible'))
+		$('.stack').show();
+	
+	// show right stack effect after on 3rd page.
+	if (page <= 3)
+		$('.stack.right').hide();
+	else 
+		$('.stack.right').show();
+	
+}

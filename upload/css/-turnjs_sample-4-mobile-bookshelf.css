@@ -22,19 +22,7 @@ body {
 	z-index:1;
 	position:absolute;			
 }
-.stackleft{
-	background: url(../img/pagestackleft.png) repeat-x;	
-	position:absolute;			
-	height:827px;	
-	z-index:1;
-}
-.stackright{
-	background: url(../img/pagestackleft.png) repeat-x;	
-	position:absolute;			
-	height:824px;	
-	
-	z-index:1;
-}
+
 .leftArrow{
 	position:absolute;
 	width:72px;

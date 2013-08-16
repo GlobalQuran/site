@@ -1,0 +1,22 @@
+//
+// Pages stack effect styles
+// --------------------------------------------------
+
+.options {
+	
+	.stack {
+
+		background: url("@{img}/book/stack-effect.png") repeat-x;
+		height:@bookHeight;
+		width: 22px;
+		position: absolute;
+		margin-top: -(@bookHeight - 50);
+		margin-left: 13px;
+		z-index:999;
+
+		&.right {
+			margin-left: (@bookWidth - 36);
+		}				
+	}
+	
+} // end .options
