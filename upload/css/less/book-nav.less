@@ -1,0 +1,25 @@
+//
+// Quran Book Navigation button
+// --------------------------------------------------
+
+.bookNav {
+		
+	width: 60px;
+	height: 60px;
+	display: block;
+	position:absolute;
+	margin-top: -(@bookHeight / 2);
+	z-index: 1;
+	background-repeat: no-repeat;
+
+	&.next {
+		background-image: url("@{img}/book/ui/asl.png");
+		left: 30px;
+	}
+	
+	&.prev {
+		background-image: url("@{img}/book/ui/asr.png");
+		right: 30px;
+	}
+			
+} // end .nav

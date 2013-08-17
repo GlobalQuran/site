@@ -1,55 +1,4 @@
 
-
-.leftMenu{
-	cursor:pointer;
-	//width:65px; 
-	height:250px;
-	z-index:1;
-	position:absolute;			
-}
-.stackleft{
-	background: url(../img/pagestackleft.png) repeat-x;	
-	position:absolute;			
-	height:827px;	
-	z-index:1;
-}
-.stackright{
-	background: url(../img/pagestackleft.png) repeat-x;	
-	position:absolute;			
-	height:824px;	
-	
-	z-index:1;
-}
-.leftArrow{
-	position:absolute;
-	width:72px;
-	height:69px;
-	z-index:100;
-	cursor:pointer;
-}
-.rightArrow{
-	position:absolute;
-	width:72px;
-	height:69px;
-	z-index:100;
-	cursor:pointer;
-}
-
-.leftMenu .book{
-	background:url(../img/book.png);
-	width:74px;
-	height:59px;
-	margin-left:0px;
-	cursor:pointer;	
-}
-
-.leftMenu .setting{
-	background:url(../img/setting.png);
-	width:74px;
-	margin-left:-4px;
-	height:59px;
-	cursor:pointer;
-}
 .leftMenu .zoom{
 	background:url(../img/zoom.png);
 	width:74px;
@@ -112,5 +61,3 @@
 	height:23px;
 	
 }
-
-

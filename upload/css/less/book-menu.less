@@ -1,0 +1,55 @@
+//
+// Quran Book Menu
+// --------------------------------------------------
+
+.menu {
+	list-style: none;
+	z-index: 1000;
+	position: absolute;
+	top: -(@bookHeight - 100);
+	left: -10px;
+	width: 19px;
+	overflow: hidden;
+
+	&:hover {
+		left: -63px;
+		width: 73px;
+	}
+	
+
+	-webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+
+	.item {
+		display: block;
+		width: 73px;
+		height: 73px;
+		background-repeat: no-repeat;
+		background-image: url("@{img}/book/ui/menu-item-bg.png");
+		
+		&:hover {
+			background-image: url("@{img}/book/ui/menu-item-bg-hover.png");
+		}
+
+		i {
+			color: @white;
+			font-size: 30px;
+			display: block;
+			padding-top: 20px;
+			padding-left: 30px
+		}
+		
+		&:hover {
+			text-decoration: none;
+		}
+		
+		.badge {
+			float: left;
+			padding: 3px;			
+		}
+	}
+	
+			
+} // end .menu

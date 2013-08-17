@@ -1256,14 +1256,78 @@
 			<!--  -->
 		</div> <!-- /.book -->
 		
-		<div class="options" ignore="1">
+		<!-- navigation for turning pages -->
+		<a href="#" class="bookNav next"></a>
+		<a href="#" class="bookNav prev"></a>
+		
+		<div class="options">
+			
+			<!-- stack effect -->
 			<div class="stack left" style="display:none;"></div>
 			<div class="stack right" style="display:none;"></div>
+						
+			<!-- book menu -->
+			<ul class="menu">
+				<li>
+					<a href="#" class="item" title="Quran"><i class="icon-book"></i></a>
+					<ul class="book-list quran hide">
+						<li><a href="#">Word by Word</a></li>
+						<li><a href="#" class="active">Uthmani</a></li>
+					</ul>
+				</li>
+				<li><a href="#" class="item" title="Translation, Tafsir & Transliteration"><i class="icon-tumblr"></i></a></li>
+				<li><a href="#" class="item" title="Settings"><i class="icon-cog"></i></a></li>
+				<li><a href="#" class="item" title="Search"><i class="icon-search"></i></a></li>
+				<li><a href="#" class="item" title="Updates and Latest News"><span class="badge badge-important">9</span> <i class="icon-road"></i></a></li>
+			</ul>
+			
+			
+			<!--  -- >
+			<div class="leftMenu">	
+				<div style="height:59px;">
+					<ul class="book-sf-menu" >
+						<li class="book"> 
+							<ul class="quranList" items="10">
+								<li><p>loading...</p></li>
+							</ul>
+						</li>
+					</ul>				
+				</div>
+				
+				<div style="height:59px;">
+					<ul class="book-sf-menu" >
+						<li class="comment"> 
+							<ul class="translationList" items="6">
+								<li><p>loading...</p></li>
+							</ul>
+						</li>
+					</ul>				
+				</div>		
+					
+				<div class="zoom" >				
+					<div class="search">
+						<input type="text" id="searchText"/>
+						<div class="searchButton"></div>				
+						<div class="searchlist">
+							<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
+						</div>				
+					</div>
+				</div>
+			</div> <!-- /.leftMenu -->
+			<!--  -->
+			
 		</div>		
 		
 	</div><!-- /.quran -->
 	
-	<div style="height:45px;"></div>
 <!-- 	
 	<div id="player">
 		<a href="#"><i class="icon play"></i></a>
@@ -1329,61 +1393,13 @@
 	</div>
  -->
  <!-- 
-			<div class="stackleft" id="stackleft" style="display:none;"></div>
-			<div class="stackright" id="stackright" style="display:none;"></div>
-				<div class="leftArrow" id="leftArrow" onClick="turnRightPage();">	
-					<img src="img/left.png"></img>
-				</div>
-				<div class="rightArrow" id="rightArrow" onClick="turnLeftPage();">	
-					<img src="img/right.png"></img>
-				</div>
+				
 				<div class="ribbon" id="ribbon" style="display:none;">	
 					<ul class="sf-scrolling" items="37">
 	
 					</ul>	
 				</div>
 				
-				<div class="leftMenu" id="leftMenu" style="display:none;">	
-					<div style="height:59px;">
-						<ul class="book-sf-menu" >
-							<li class="book"> 
-								<ul class="quranList" items="10">
-									<li><p>loading...</p></li>
-								</ul>
-							</li>
-						</ul>				
-					</div>
-					
-					<div style="height:59px;">
-						<ul class="book-sf-menu" >
-							<li class="comment"> 
-								<ul class="translationList" items="6">
-									<li><p>loading...</p></li>
-								</ul>
-							</li>
-						</ul>				
-					</div>		
-						
-					<div class="comment"></div>
-					<div class="setting"></div>
-					<div class="zoom" >				
-						<div class="search">
-							<input type="text" id="searchText"/>
-							<div class="searchButton"></div>				
-							<div class="searchlist">
-								<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
-								<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
-							</div>				
-						</div>
-					</div>
-				</div>
 			 -->
 	
 	<div class="footer">
