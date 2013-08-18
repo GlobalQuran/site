@@ -53,20 +53,19 @@ function stackEffect (page)
 {
 	var totalPages = $('.book').turn('pages'),
 	pagesLeft = totalPages - page,
-	maxWidth = 22,
-	maxLeftMargin = 35;
+	maxWidth = 22;
 	
 	// if pages left is greater then the max width, then use maxWidth, else use pages left as width of the stack effect
 	if (pagesLeft > maxWidth)
 	{
 		$('.stack.left').width(maxWidth);
 		// stack left width needs margin-left to adjust according to the set width
-		$('.stack.left').css('margin-left', maxLeftMargin - maxWidth);
+		$('.stack.left').css('margin-left', -maxWidth);
 	}
 	else
 	{
 		$('.stack.left').width(pagesLeft);
-		$('.stack.left').css('margin-left', maxLeftMargin - pagesLeft);
+		$('.stack.left').css('margin-left', -pagesLeft);
 	}
 	
 	// if current page is greater then max width, then use max width, else use current page number as width of the right stack effect	

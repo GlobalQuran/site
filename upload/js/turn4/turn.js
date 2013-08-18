@@ -98,7 +98,7 @@ var has3d,
 
     // Size of the active zone of each corner
 
-    cornerSize: 250 // [MODIFED]
+    cornerSize: 100 // [MODIFED]
 
   },
 

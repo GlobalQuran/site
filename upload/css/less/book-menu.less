@@ -7,30 +7,28 @@
 	z-index: 1000;
 	position: absolute;
 	top: -(@bookHeight - 100);
-	left: -10px;
-	width: 19px;
-	overflow: hidden;
-
-	&:hover {
-		left: -63px;
-		width: 73px;
-	}
-	
-
-	-webkit-transition-duration: 0.5s;
-    -moz-transition-duration: 0.5s;
-    -o-transition-duration: 0.5s;
-    transition-duration: 0.5s;
+	left: -97px;
+	width: 73px;
 
 	.item {
 		display: block;
-		width: 73px;
+	  	position: relative;
+		overflow: hidden;
+    	left: 53px;
+    	width: 19px;
 		height: 73px;
 		background-repeat: no-repeat;
 		background-image: url("@{img}/book/ui/menu-item-bg.png");
+    
+	    -webkit-transition-duration: 0.5s;
+	    -moz-transition-duration: 0.5s;
+	    -o-transition-duration: 0.5s;
+	    transition-duration: 0.5s;
 		
 		&:hover {
 			background-image: url("@{img}/book/ui/menu-item-bg-hover.png");
+    		width: 73px;
+    		left: 0;
 		}
 
 		i {
