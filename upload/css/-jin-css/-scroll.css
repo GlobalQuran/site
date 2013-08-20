@@ -49,30 +49,3 @@
 .ribbon .sf-noarrow {
 	background-position: -10px -50px;
 }
-
-
-/******* Menu Scroll */
-.book-sf-menu .sf-scroll-up,.book-sf-menu  .sf-scroll-dn {
-	background-color:	#f5f5f5;
-	width:			100%;
-	padding:		0.5em 0;
-}
-.book-sf-menu .sf-scroll-up:hover, .book-sf-menu .sf-scroll-dn:hover {
-	background-color:	#f9f9f9;
-}
-.book-sf-menu .sf-uparrow, .book-sf-menu .sf-dnarrow, .book-sf-menu .sf-noarrow {
-	margin:			0 auto;
-	width:			10px;
-	height:			10px;
-	text-indent: 	-999em;
-	overflow:		hidden;
-	background:		url('../img/updn-arrows-666666.png') no-repeat 0 0;
-}
-.book-sf-menu .sf-dnarrow {
-	background-position: -10px -100px;
-}
-.book-sf-menu .sf-noarrow {
-	background-position: -10px -50px;
-}
-
-

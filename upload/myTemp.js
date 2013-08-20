@@ -46,6 +46,9 @@ yepnope({
 		})
 		.turn('next')
 		;
+		
+		// scroll up and down arrows
+		$('.menu-list').superscroll();
 	}
 });
 

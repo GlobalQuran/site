@@ -1,0 +1,87 @@
+//
+// Quran Book Menu - List for Quran & Translation
+// --------------------------------------------------
+
+.menu-list {
+	
+	&, &  ul {
+		list-style: none;
+		width: 210px;
+		position: absolute;
+		top: 0px;
+		left: 74px;
+		background-color: rgba(255, 255, 255, 0.9);
+		margin: 0;
+		padding:0;
+	}
+	
+	ul {		
+		left: 210px;
+	} // end ul (sub menu)
+
+	li {
+		position: relative;
+		
+		ul {
+			display: none;
+		}
+		
+		&:hover ul {
+			display: block;
+		}
+	}
+
+	li a {
+		
+		display: block;
+		padding: 17px 10px 16px 20px;
+		border-bottom: 1px solid #c8c8c8;
+		border-top:    1px solid #fff;
+		border-left-width: 1px;
+		border-right-width: 1px;
+
+		color: #666;
+		font-size: 15px;
+		font-weight: bold;
+
+		&:hover, &.active {
+			color: #fff;
+			background-image: url("@{img}/book/ui/menu-list-hover.png");
+			background-repeat: repeat-x;
+			border-top-color: #090c0c;
+			border-left: 1px solid #000;
+			border-right: 1px solid #000;
+			text-decoration: none;
+		}
+		
+		&.active {
+			background-image: url("@{img}/book/ui/menu-list-active.png");
+		}
+	
+	} // end li a	
+
+	
+	/* Menu Scroll */
+	.sf-scroll {
+		background-color: rgba(255, 255, 255, 0.9);
+		display: block;
+		border-bottom: 1px solid #c8c8c8;
+		border-top:    1px solid #fff;
+		border-left-width: 1px;
+		border-right-width: 1px;
+		text-align:center;
+	
+		&:hover, &.active {
+			color: #fff;
+			background-image: url("@{img}/book/ui/menu-list-active.png");
+			background-repeat: repeat-x;
+			text-decoration: none;
+		}
+		
+		i {
+			color: #666;
+		}
+		
+	} // end .sf-scroll
+			
+} // end .menu-list

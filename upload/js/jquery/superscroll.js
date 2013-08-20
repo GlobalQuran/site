@@ -48,10 +48,10 @@
 		// Put up/dn arrows on top/bottom of menu and hide to desired number of items
 		this.each(function() {
 			var total = $(this).children("li").length;
-			var limit = $(this).attr('items');
-	
+			var limit = $(this).data('items');
 			if (total > limit) {
-				$(this).children("li:first").before('<div class="sf-scroll up"><i class="icon-caret-up"></i></div>');
+				$(this).children("li:first").before('<div class="sf-scroll up" style="display:none;"><i class="icon-caret-up"></i></div>');
+				$(this).find('.sf-scroll.up').css('margin-top', -$(this).find('.sf-scroll.up').height());
 				$(this).children("li:last").after('<div class="sf-scroll dn"><div class="icon-caret-down"></div></div>');
 			}
 			$(this).children("li").reverse().each(function() {
@@ -82,18 +82,18 @@
 			function() { 
 				scroll = true;  // continue while hover is in effect
 				var $$ = $(this);
-				var i = $$.parent().attr('interval');
+				var i = 300;//$$.parent().attr('interval');
 				var up = function() {
 					if (!scroll) return;
 					if ($$.parent().find("> li:first:visible").length > 0) {
 						// Hide arrow when no further scrolling is possible
-						$$.find('> div').toggleClass('sf-uparrow', false).toggleClass('sf-noarrow', true);
+						$$.hide(); // $$.find('> div').toggleClass('sf-uparrow', false).toggleClass('sf-noarrow', true);
 						return;
 					}
 					mv($$.parent().find('> li').reverse());
 					// Show other arrow when scrolling becomes possible for it
 					if ($$.parent().find("> li:last:visible").length <= 0)
-						$$.parent().find('div.sf-scroll.dn > div').toggleClass('sf-dnarrow', true).toggleClass('sf-noarrow', false);
+						$$.parent().find('div.sf-scroll.dn').show(); //$$.parent().find('div.sf-scroll.dn > div').toggleClass('sf-dnarrow', true).toggleClass('sf-noarrow', false);
 					setTimeout(function(){up();}, i);
 				}
 				up(); 
@@ -104,18 +104,18 @@
 			function() { 
 				scroll = true;  // continue while hover is in effect
 				var $$ = $(this);
-				var i = $$.parent().attr('interval');
+				var i = 300;//$$.parent().attr('interval');
 				var dn = function() {
 					if (!scroll) return;
 					if ($$.parent().find("> li:last:visible").length > 0) {
 						// Hide arrow when no further scrolling is possible
-						$$.find('> div').toggleClass('sf-dnarrow', false).toggleClass('sf-noarrow', true);
+						$$.hide(); //$$.find('> div').toggleClass('sf-dnarrow', false).toggleClass('sf-noarrow', true);
 						return;
 					}
 					mv($$.parent().find('> li'));
 					// Show other arrow when scrolling becomes possible for it
 					if ($$.parent().find("> li:first:visible").length <= 0)
-						$$.parent().find('div.sf-scroll.up > div').toggleClass('sf-uparrow', true).toggleClass('sf-noarrow', false);
+						$$.parent().find('div.sf-scroll.up').show(); // $$.parent().find('div.sf-scroll.up > div').toggleClass('sf-uparrow', true).toggleClass('sf-noarrow', false);
 					setTimeout(function(){dn();}, i);
 				}
 				dn();
