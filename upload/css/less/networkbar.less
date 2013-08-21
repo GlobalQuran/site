@@ -4,10 +4,40 @@
 
 .networkbar {
 	
+	margin-bottom: 0px;
+	min-height:  @networkbar-height;
+	
 	// add border color on top of the selection
+	.nav a {
+		border-top: transparent 2px solid;
+	}
+	.nav a:hover {
+		border-top:@brand-success 2px solid;
+	}
 	.nav .active > a,
 	.nav .active > a:hover {
-	  border-top:@linkColor 2px solid;
+		border-top:@link-color 2px solid;
+	}
+	
+	.nav-sub a:hover {
+		border-top:@link-color 2px solid;
+	}
+	
+	.navbar-inner {
+		min-height: @networkbar-height;
+	}
+	
+	.navbar-text {
+		line-height: @networkbar-height;
+	}
+	
+	.divider-vertical {
+		height: @networkbar-height;
+	}
+	
+	.nav > li > a {
+		// Vertically center the text given @navbarHeight
+		padding: ((@networkbar-height - @line-height-base) / 2) 15px ((@networkbar-height - @line-height-base) / 2);
 	}
 }
 

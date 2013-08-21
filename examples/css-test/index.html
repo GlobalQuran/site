@@ -15,7 +15,7 @@
 	
 	
 	<script type="text/javascript"> less = {env: "development"};</script>
-	<script src="../../upload/js/less.js" type="text/javascript"></script>
+	<script src="../../upload/js/extras/less.js" type="text/javascript"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -31,59 +31,62 @@
 
   <body>
 
-	 <div class="navbar networkbar navbar-inverse navbar-fixed-top">
+	 <div class="navbar networkbar navbar-inverse navbar-static-top" role="navigation">
       <div class="navbar-inner">
           <div class="nav-collapse">
-            <ul class="nav pull-right">
+             <ul class="nav navbar-nav">
+              <li class="active"><a href="http://GlobalQuran.com">Quran</a></li>
+              <li><a href="http://MuslimSalat.com">Salat</a></li>
+              <li><a href="http://MuslimMarkaz.com">Markaz</a></li>
+            </ul>
+            
+            <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="http://labs.globalquran.com"><img src="http://labs.globalquran.com/img/favicon.png" width="18" /> Lab</a></li>
               <li><a href="http://v2.globalquran.com">v2</a></li>
               <li><a href="http://docs.globalquran.com">Documentation</a></li>
               <li><a href="http://blog.globalquran.com">Blog</a></li>
             </ul>
-             <ul class="nav">
-              <li class="active"><a href="http://GlobalQuran.com">Quran</a></li>
-              <li><a href="http://MuslimSalat.com">Salat</a></li>
-              <li><a href="http://MuslimMarkaz.com">Markaz</a></li>
-            </ul>
           </div><!--/.nav-collapse -->
       </div>
     </div><!--/.networkbar -->
-	<br/><br/><br/><br/><!-- if two bar is added on header - remove if network bar is removed -->
+	<!-- if two bar is added on header - remove if network bar is removed -->
 	
-    <div class="navbar navbar-fixed-top networkbar-space">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="http://GlobalQuran.com">GlobalQuran.com</a>
-          <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> Anonymouse
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="user_settings.php">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="?logout">Sign Out</a></li>
-            </ul>
-          </div>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="application.php">My Apps</a></li>
-              <li><a href="#contact">My Projects</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+	      <div class="navbar-header">
+	      	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	      	 	<span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	         </button>
+	          <a class="navbar-brand" href="http://GlobalQuran.com">GlobalQuran.com</a>
+	      </div>
+	      
+	      <div class="collapse navbar-collapse navbar-ex1-collapse"> 
+	          <ul class="nav navbar-nav">
+	            <li class="active"><a href="index.php">Home</a></li>
+	            <li><a href="application.php">My Apps</a></li>
+	            <li><a href="#contact">My Projects</a></li>
+	          </ul>
+	                             
+	          <ul class="nav navbar-nav navbar-right">
+	            <li class="dropdown">
+			        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i> Anonymouse <b class="caret"></b></a>
+			        <ul class="dropdown-menu">
+			           <li><a href="user_settings.php">Profile</a></li>
+			            <li class="divider"></li>
+			            <li><a href="?logout">Sign Out</a></li>
+			        </ul>
+			     </li>
+	          </ul>
+	      </div><!--/.nav-collapse -->
+	    </div><!-- /.container -->
     </div>
     
     
 
-      <div class="alert alert-block">
+      <div class="alert alert-warning container">
 		  <a class="close" data-dismiss="alert" href="#">×</a>
 		  <h4 class="alert-heading">Warning!</h4>
 		  Warning note here
@@ -92,7 +95,7 @@
     <div id="container" class="container">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
+      <div class="jumbotron">
         <h1>Apps, API, Code and much more!</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
@@ -100,18 +103,18 @@
 
       <!-- Example row of columns -->
       <div class="row">
-        <div class="span4">
+        <div class="col-sm-4">
           <h2>My Apps</h2>
            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
-        <div class="span4">
+        <div class="col-sm-4">
           <h2>Contribution</h2>
            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn" href="#">View details &raquo;</a></p>
        </div>
-        <div class="span4">
+        <div class="col-sm-4">
           <h2>Code</h2>
           <p>Link to api, documentation, download code, download area, blog....</p>
           <p><a class="btn" href="#">View details &raquo;</a></p>

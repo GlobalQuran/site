@@ -11,17 +11,16 @@
 	padding: 4px 6px 6px 6px;
 	background-color: rgba(0,0,0,0.5);
 
-	.border-radius (6px);
+	border-radius: 6px;
 
 	.options {
 		width: 320px;
 		display: inline-block;
-		.ie7-inline-block();
 		background-color: #ebebeb;
 		padding: 2px 2px 2px 30px;
 		margin: 4px 4px 4px -30px;
 
-		.border-radius (6px);		
+		border-radius: 6px;		
 	}
 	
 	a, a:visited, a:link, a:hover {
@@ -30,19 +29,18 @@
 	}
 	
 	a:hover {
-		color: @linkColor;
+		color: @link-color;
 	}
 	
 	.duration {
 		color: @gray;
-		font-size: @fontSizeSmall;
+		font-size: @font-size-small;
 	}
 	
 	.play {
 		width: 45px;
 		height: 45px;
 		display: inline-block;
-		.ie7-inline-block();
 		background: url("@{img}/jplayer/playbg.png") no-repeat;
 		z-index: 10;
 		position: relative;
@@ -50,7 +48,6 @@
 		i {
 			font-size: 20px;
 			display: inline-block;
-			.ie7-inline-block();
 			margin-top: 13px;
 			margin-left: 16px;
 		}

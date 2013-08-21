@@ -16,7 +16,7 @@
 .page, .hard {
 	
 	.header {
-		font-size: @fontSizeSmall;
+		font-size: @font-size-small;
 		font-weight: bold;
 		margin-top: 55px;
 
@@ -26,7 +26,7 @@
 			margin-left: 35px;
 		
 			.name {
-				color: @linkColor;
+				color: @link-color;
 			}
 			
 			.meaning {
@@ -44,7 +44,7 @@
 			margin-right: 45px;
 			
 			.number {
-				color: @linkColor;
+				color: @link-color;
 			}
 			
 			a:hover {
@@ -62,10 +62,10 @@
 			
 		.share {
 			font-size: 24px;
-			color: @grayLight;
+			color: @gray-light;
 			
 			&:hover {
-				color: @grayDarker;
+				color: @gray-darker;
 				text-decoration: none;
 			}		
 		}
@@ -112,7 +112,7 @@
 
 		hr {
 			border-top-color: transparent;
-			border-bottom-color: lighten(@grayLight, 20%);
+			border-bottom-color: lighten(@gray-light, 20%);
 		}
 		
 	} // end .content

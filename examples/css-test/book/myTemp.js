@@ -1,8 +1,8 @@
 yepnope({
 	test : Modernizr.csstransforms,
-	yep: ['/js/turn4/turn.js'],
+	yep: ['../../../upload/js/turn4/turn.js'],
 	//yep: ['/js/jin-package/turn.min.js'],
-	nope: ['/js/turn4/turn.html4.min.js'],
+	nope: ['../../../upload/js/turn4/turn.html4.min.js'],
 	complete: function () {
 		// Create the flipbook
 
