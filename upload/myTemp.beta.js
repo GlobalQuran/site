@@ -1,10 +1,19 @@
+progressLoading(5);
+yepnope.addPrefix("preload", function(resource) {
+	  resource.noexec = true;
+	  return resource;
+});
 yepnope({
 	test : Modernizr.csstransforms,
 	yep: ['/js/turn4/turn.js'],
 	//yep: ['/js/jin-package/turn.min.js'],
 	nope: ['/js/turn4/turn.html4.min.js'],
+	load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', '/img/book/ui/menu-item-bg-hover.png'],
 	complete: function () {
 		// Create the flipbook
+		progressLoading(10);
+		$('.loadingSite').hide();
+		$('.quran').removeClass('hide');
 
 		$('.book').turn({
 				gradients: false,//!$.isTouch,
@@ -26,7 +35,10 @@ yepnope({
 					{
 						// hide stack effect on cover turn
 						if (page <= 1)
+						{
 							$('.stack').hide();
+							$('.menu').hide();
+						}
 					},
 					
 					// turned page
@@ -40,10 +52,18 @@ yepnope({
 							$('.hard.right').addClass('fixed');
 						}
 						
+						if (page > 1)
+							$('.menu').show();
+						
 						stackEffect(page);
 					}
 				}
-		});
+		})
+		.turn('next')
+		;
+		
+		// scroll up and down arrows
+		$('.menu-list').superscroll();
 	}
 });
 

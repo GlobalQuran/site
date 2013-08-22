@@ -2,13 +2,19 @@
 // Quran Book Menu - List for Quran & Translation
 // --------------------------------------------------
 
+.active .menu-list {
+	display: block;
+}
+
 .menu-list {
 	
+	display: none;
+	top: 10px;
+
 	&, &  ul {
 		list-style: none;
 		width: 210px;
 		position: absolute;
-		top: 10px;
 		left: 120px;
 		background-color: rgba(255, 255, 255, 0.9);
 		margin: 0;
@@ -17,6 +23,7 @@
 	
 	ul {		
 		left: 210px;
+		top: 0px;
 	} // end ul (sub menu)
 
 	li {

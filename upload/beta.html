@@ -12,23 +12,84 @@
 		<link rel="stylesheet" type="text/css" href="/css/font-awesome-ie7.css" />
 	<![endif]-->
 	
-	<link rel="stylesheet" type="text/css" href="/css/gq.css" />
+	<link rel="stylesheet/less" type="text/css" href="/css/less/gq.less" />	
+	<script type="text/javascript"> less = {env: "development"};</script>
+	<script src="/js/extras/less.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="gq">
 	<div class="header">
 		<ul class="site-menu list-inline">
-			<li><a href="/">HOME</a></li>
-			<li><a href="http://docs.globalquran.com/">API</a></li>
-			<!-- <li><a href="#">DOWNLOAD</a></li> -->
-			<li><a href="http://blog.globalquran.com/about-us/">ABOUT US</a></li>
-			<li><a href="http://blog.globalquran.com/contact-us/">CONTACT US</a></li>
+			<li><a href="#">HOME</a></li>
+			<li><a href="#">CODE</a></li>
+			<li><a href="#">API</a></li>
+			<li><a href="#">DOWNLOAD</a></li>
+			<li><a href="#">ABOUT US</a></li>
+			<li><a href="#">CONTACT US</a></li>
 		</ul>
 	
 		<!--  -- ><h1><a href="#">Global Quran</a></h1><!-- -->
 	</div>
 	
-	<div class="quran">
+	<!-- 
+	<div id="player">
+		
+		<div class="closeplayer" style="display:none" onClick="hidePlayer();"></div>		
+		
+		<div id="topNav">
+			
+			<div class="startplay" style="background-image:url(img/jplayer/start1.png); width:65px;height:57px;margin-top:3px;margin-left:1px;">
+				<li id="play" onClick="showPlayer();"><a href="#" class="icon play" style="margin-left:26px;margin-top:20px;">play</a></li>
+			</div>
+			
+		</div>	
+	</div>			
+	-- >
+	
+	<div class="player">
+		<a href="#" class="play"><i class="icon-play"></i></a>
+ 		
+		<ul class="options list-list-inline">
+			<li><a href="#" class="backward"><i class="icon-backward"></i></a></li>
+			<li><a href="#" class="forward"><i class="icon-forward"></i></a></li>
+			<li><a href="#" class="recitor"><i class="icon-user"></i></a></li>
+			
+			<li id="progressBar">
+				<div class="progressBar ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" title="0:00"  area-describedby="ui-tooltip-0">
+					<span class="buffer" style="width: 70%;"></span>
+					<div style="width: 7%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+					<a style="left: 7%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+				</div>
+			</li>
+			
+			<li><span class="duration"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></span></li>
+			<li><a href="#"><i class="volume icon-volume-up"></i></a></li>
+
+			<li><a href="#"><i class="repeat icon-repeat"></i></a></li>
+		</ul>
+
+	</div>
+<!--  -->
+	
+	<!-- no javascript message, if javascript is disabled -->
+	<noscript>
+		<div class="no-js-message">
+			<div class="icon"><i class="icon-exclamation-sign"></i></div>
+			<p>We're sorry but this version <strong>requires</strong> JavaScript. Here are <a href="http://www.enable-javascript.com/">instructions on how to enable Javascript</a> in your web browser.</br></br>
+			You can also visit older version <a href="http://v2.globalquran.com">v2</a> and <a href="http://v3.globalquran.com">v3</a>, which support without javascript enabled.</p>
+		</div>
+	</noscript>
+	
+	<div class="loadingSite">
+		<div class="icon"><i class="icon-refresh icon-spin"></i></div>
+		<div class="progress progress-striped active">
+		  <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+		    <span class="sr-only">40% Complete (success)</span>
+		  </div>
+		</div>
+	</div>
+	
+	<div class="quran hide">
 		<div class="book">
 		
 			<!-- -->
@@ -36,14 +97,1177 @@
 			<!-- -->
 			<div class="hard right own-size"></div>
 			<!-- -->
-						
-			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+			
+			<!----------------- ------------------->
+			
+			<!-- page start -->
+			<div class="page">
+				<div class="header">
+					<div class="title">
+						<a href="#"><span class="name">Al Baqarah</span> <span class="meaning">(The Cow)</span></a>						
+					</div>
+					<div class="pageinfo">
+						<a href="#"><span class="number">2</span></a>
+						<span class="from">of</span>
+						<span class="total">604</span>
+					</div>
+				</div>					
+				<div class="content">
+									
+					<div class="title">
+						<a href="#" class="nextSurah"><i class="icon-chevron-right"></i></a>
+						<h2>Surah Name</h2>
+						<a href="#" class="prevSurah"><i class="icon-chevron-left"></i></a>
+					</div>
+
+					<div class="ayah-group">
+						<p class="ayah quran-text rtl" dir="rtl">كَذَٰلِكَ مَآ أَتَى
+							ٱلَّذِينَ مِن قَبْلِهِم مِّن رَّسُولٍ إِلَّا قَالُوا۟ سَاحِرٌ
+							أَوْ مَجْنُونٌ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>	
+						</p>
+
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							اسی طرح ان سے پہلے لوگوں کے پاس جو پیغمبر آتا وہ اس کو جادوگر
+							یا دیوانہ کہتے
+							<a href="#!/ur.jalandhry/51:52" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							 Likewise,
+							no Messenger came to those before them, but they said: "A
+							sorcerer or a madman!"
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group">
+						<p class="ayah quran-text rtl" dir="rtl">
+							أَتَوَاصَوْا۟ بِهِۦ<span class="sign">&nbsp;ۚ</span> بَلْ هُمْ
+							قَوْمٌ طَاغُونَ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							کیا یہ کہ ایک دوسرے کو اسی بات کی وصیت کرتے آئے ہیں بلکہ یہ
+							شریر لوگ ہیں
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							Have they
+							(the people of the past) transmitted this saying to these
+							(Quraish pagans)? Nay, they are themselves a people
+							transgressing beyond bounds (in disbelief)!
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-54">
+						<p class="ayah quran-text rtl" dir="rtl">فَتَوَلَّ عَنْهُمْ فَمَآ
+							أَنتَ بِمَلُومٍ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>	
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl"> تو
+							ان سے اعراض کرو۔ تم کو (ہماری) طرف سے ملامت نہ ہوگی
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							So turn
+							away (O Muhammad SAW) from them (Quraish pagans) you are not to
+							be blamed (as you have conveyed Allah's Message).
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-55">
+						<p class="ayah quran-text rtl" dir="rtl">وَذَكِّرْ فَإِنَّ
+							ٱلذِّكْرَىٰ تَنفَعُ ٱلْمُؤْمِنِينَ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							اور نصیحت کرتے رہو کہ نصیحت مومنوں کو نفع دیتی ہے
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							And remind
+							(by preaching the Quran, O Muhammad SAW) for verily, the
+							reminding profits the believers.
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-56">
+						<p class="ayah quran-text rtl" dir="rtl">وَمَا خَلَقْتُ ٱلْجِنَّ
+							وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:56" class="by">جالندہری</a>
+							اور میں نے جنوں اور انسانوں کو اس لئے پیدا کیا ہے کہ میری عبادت
+							کریں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:56" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And I
+							(Allah) created not the jinns and humans except they should
+							worship Me (Alone).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-57">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:57" class="number" data-verse="4732"><i class="icon-ayah-bracket-right"></i> 57 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">مَآ أُرِيدُ مِنْهُم مِّن
+							رِّزْقٍ وَمَآ أُرِيدُ أَن يُطْعِمُونِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:57" class="by">جالندہری</a>
+							میں ان سے طالب رزق نہیں اور نہ یہ چاہتا ہوں کہ مجھے (کھانا)
+							کھلائیں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:57" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> I seek not
+							any provision from them (i.e. provision for themselves or for
+							My creatures) nor do I ask that they should feed Me (i.e. feed
+							themselves or My creatures).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-58">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:58" class="number" data-verse="4733"><i class="icon-ayah-bracket-right"></i> 58 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">إِنَّ ٱللَّـهَ هُوَ
+							ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:58" class="by">جالندہری</a>
+							خدا ہی تو رزق دینے والا زور آور اور مضبوط ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:58" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Verily,
+							Allah is the All-Provider, Owner of Power, the Most Strong.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-59">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:59" class="number" data-verse="4734"><i class="icon-ayah-bracket-right"></i> 59 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَإِنَّ لِلَّذِينَ
+							ظَلَمُوا۟ ذَنُوبًا مِّثْلَ ذَنُوبِ أَصْحَـٰبِهِمْ فَلَا
+							يَسْتَعْجِلُونِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:59" class="by">جالندہری</a>
+							کچھ شک نہیں کہ ان ظالموں کے لئے بھی (عذاب کی) نوبت مقرر ہے جس
+							طرح ان کے ساتھیوں کی نوبت تھی تو ان کو مجھ سے (عذاب) جلدی نہیں
+							طلب کرنا چاہیئے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:59" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And verily,
+							for those who do wrong, there is a portion of torment like to
+							the evil portion of torment (which came for) their likes (of
+							old), so let them not ask Me to hasten on!
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-60">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:60" class="number" data-verse="4735"><i class="icon-ayah-bracket-right"></i> 60 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَوَيْلٌ لِّلَّذِينَ
+							كَفَرُوا۟ مِن يَوْمِهِمُ ٱلَّذِى يُوعَدُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:60" class="by">جالندہری</a> جس
+							دن کا ان کافروں سے وعدہ کیا جاتا ہے اس سے ان کے لئے خرابی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:60" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Then, woe
+							to those who disbelieve (in Allah and His Oneness Islamic
+							Monotheism) from (that) their Day which they have been promised
+							(for their punishment).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-1 selected">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:1" class="number" data-verse="4736"><i class="icon-ayah-bracket-right"></i> 1 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">بِسْمِ ٱللَّـهِ
+							ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ وَٱلطُّورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:1" class="by">جالندہری</a>
+							(کوہ) طور کی قسم
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:1" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> By the
+							Mount;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-2">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:2" class="number" data-verse="4737"><i class="icon-ayah-bracket-right"></i> 2 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَكِتَـٰبٍ مَّسْطُورٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:2" class="by">جالندہری</a> اور
+							کتاب کی جو لکھی ہوئی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:2" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							Book Inscribed.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-3">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:3" class="number" data-verse="4738"><i class="icon-ayah-bracket-right"></i> 3 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فِى رَقٍّ مَّنشُورٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:3" class="by">جالندہری</a>
+							کشادہ اوراق میں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:3" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> In
+							parchment unrolled.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-4">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:4" class="number" data-verse="4739"><i class="icon-ayah-bracket-right"></i> 4 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلْبَيْتِ ٱلْمَعْمُورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:4" class="by">جالندہری</a> اور
+							آباد گھر کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:4" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							Bait-ul-Ma'mur (the house over the heavens parable to the
+							Ka'bah at Makkah, continuously visited by the angels);
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-5">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:5" class="number" data-verse="4740"><i class="icon-ayah-bracket-right"></i> 5 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلسَّقْفِ ٱلْمَرْفُوعِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:5" class="by">جالندہری</a> اور
+							اونچی چھت کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:5" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							roof raised high (i.e. the heaven).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-6">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:6" class="number" data-verse="4741"><i class="icon-ayah-bracket-right"></i> 6 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلْبَحْرِ ٱلْمَسْجُورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:6" class="by">جالندہری</a> اور
+							ابلتے ہوئے دریا کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:6" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							sea kept filled (or it will be fire kindled on the Day of
+							Resurrection).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-7">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:7" class="number" data-verse="4742"><i class="icon-ayah-bracket-right"></i> 7 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">إِنَّ عَذَابَ رَبِّكَ
+							لَوَٰقِعٌ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:7" class="by">جالندہری</a> کہ
+							تمہارے پروردگار کا عذاب واقع ہو کر رہے گا
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:7" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Verily, the
+							Torment of your Lord will surely come to pass,
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-8">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:8" class="number" data-verse="4743"><i class="icon-ayah-bracket-right"></i> 8 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">مَّا لَهُۥ مِن دَافِعٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:8" class="by">جالندہری</a>
+							(اور) اس کو کوئی روک نہیں سکے گا
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:8" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> There is
+							none that can avert it;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-9">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:9" class="number" data-verse="4744"><i class="icon-ayah-bracket-right"></i> 9 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">يَوْمَ تَمُورُ ٱلسَّمَآءُ
+							مَوْرًا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:9" class="by">جالندہری</a> جس
+							دن آسمان لرزنے لگا کپکپا کر
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:9" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> On the Day
+							when the heaven will shake with a dreadful shaking,
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-10">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:10" class="number" data-verse="4745"><i class="icon-ayah-bracket-right"></i> 10 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَتَسِيرُ ٱلْجِبَالُ
+							سَيْرًا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:10" class="by">جالندہری</a>
+							اور پہاڑ اُڑنے لگے اون ہو کر
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:10" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And the
+							mountains will move away with a (horrible) movement.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-11">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:11" class="number" data-verse="4746"><i class="icon-ayah-bracket-right"></i> 11 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَوَيْلٌ يَوْمَئِذٍ
+							لِّلْمُكَذِّبِينَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:11" class="by">جالندہری</a> اس
+							دن جھٹلانے والوں کے لئے خرابی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:11" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Then woe
+							that Day to the beliers;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-12">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:12" class="number" data-verse="4747"><i class="icon-ayah-bracket-right"></i> 12 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">ٱلَّذِينَ هُمْ فِى خَوْضٍ
+							يَلْعَبُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:12" class="by">جالندہری</a> جو
+							خوض (باطل) میں پڑے کھیل رہے ہیں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:12" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Who are
+							playing in falsehood.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-13">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:13" class="number" data-verse="4748"><i class="icon-ayah-bracket-right"></i> 13 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">يَوْمَ يُدَعُّونَ إِلَىٰ
+							نَارِ جَهَنَّمَ دَعًّا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:13" class="by">جالندہری</a> جس
+							دن ان کو آتش جہنم کی طرف دھکیل دھکیل کر لے جائیں گے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:13" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> The Day
+							when they will be pushed down by force to the Fire of Hell,
+							with a horrible, forceful pushing.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-14">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:14" class="number" data-verse="4749"><i class="icon-ayah-bracket-right"></i> 14 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">هَـٰذِهِ ٱلنَّارُ ٱلَّتِى
+							كُنتُم بِهَا تُكَذِّبُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:14" class="by">جالندہری</a>
+							یہی وہ جہنم ہے جس کو تم جھوٹ سمجھتے تھے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:14" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> This is the
+							Fire which you used to belie.
+						</p>
+					</div>
+				</div>
+				<div class="footer">
+					<a href="#" class="share"><i class="icon-share"></i></a>
+				</div>
+			</div> 
+			<!-- /page end -->
+			
+			<!-- page start -->
+			<div class="page">
+				<div class="header">
+					<div class="title">
+						<a href="#"><span class="name">Al Baqarah</span> <span class="meaning">(The Cow)</span></a>						
+					</div>
+					<div class="pageinfo">
+						<a href="#"><span class="number">2</span></a>
+						<span class="from">of</span>
+						<span class="total">604</span>
+					</div>
+				</div>					
+				<div class="content">
+									
+					<div class="title">
+						<a href="#" class="nextSurah"><i class="icon-chevron-right"></i></a>
+						<h2>Surah Name</h2>
+						<a href="#" class="prevSurah"><i class="icon-chevron-left"></i></a>
+					</div>
+
+					<div class="ayah-group selected">
+						<p class="ayah quran-text rtl" dir="rtl">كَذَٰلِكَ مَآ أَتَى
+							ٱلَّذِينَ مِن قَبْلِهِم مِّن رَّسُولٍ إِلَّا قَالُوا۟ سَاحِرٌ
+							أَوْ مَجْنُونٌ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>	
+						</p>
+
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							اسی طرح ان سے پہلے لوگوں کے پاس جو پیغمبر آتا وہ اس کو جادوگر
+							یا دیوانہ کہتے
+							<a href="#!/ur.jalandhry/51:52" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							 Likewise,
+							no Messenger came to those before them, but they said: "A
+							sorcerer or a madman!"
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group">
+						<p class="ayah quran-text rtl" dir="rtl">
+							أَتَوَاصَوْا۟ بِهِۦ<span class="sign">&nbsp;ۚ</span> بَلْ هُمْ
+							قَوْمٌ طَاغُونَ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							کیا یہ کہ ایک دوسرے کو اسی بات کی وصیت کرتے آئے ہیں بلکہ یہ
+							شریر لوگ ہیں
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							Have they
+							(the people of the past) transmitted this saying to these
+							(Quraish pagans)? Nay, they are themselves a people
+							transgressing beyond bounds (in disbelief)!
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-54">
+						<p class="ayah quran-text rtl" dir="rtl">فَتَوَلَّ عَنْهُمْ فَمَآ
+							أَنتَ بِمَلُومٍ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>	
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl"> تو
+							ان سے اعراض کرو۔ تم کو (ہماری) طرف سے ملامت نہ ہوگی
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							So turn
+							away (O Muhammad SAW) from them (Quraish pagans) you are not to
+							be blamed (as you have conveyed Allah's Message).
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-55">
+						<p class="ayah quran-text rtl" dir="rtl">وَذَكِّرْ فَإِنَّ
+							ٱلذِّكْرَىٰ تَنفَعُ ٱلْمُؤْمِنِينَ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							اور نصیحت کرتے رہو کہ نصیحت مومنوں کو نفع دیتی ہے
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							And remind
+							(by preaching the Quran, O Muhammad SAW) for verily, the
+							reminding profits the believers.
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-56">
+						<p class="ayah quran-text rtl" dir="rtl">وَمَا خَلَقْتُ ٱلْجِنَّ
+							وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:56" class="by">جالندہری</a>
+							اور میں نے جنوں اور انسانوں کو اس لئے پیدا کیا ہے کہ میری عبادت
+							کریں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:56" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And I
+							(Allah) created not the jinns and humans except they should
+							worship Me (Alone).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-57">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:57" class="number" data-verse="4732"><i class="icon-ayah-bracket-right"></i> 57 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">مَآ أُرِيدُ مِنْهُم مِّن
+							رِّزْقٍ وَمَآ أُرِيدُ أَن يُطْعِمُونِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:57" class="by">جالندہری</a>
+							میں ان سے طالب رزق نہیں اور نہ یہ چاہتا ہوں کہ مجھے (کھانا)
+							کھلائیں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:57" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> I seek not
+							any provision from them (i.e. provision for themselves or for
+							My creatures) nor do I ask that they should feed Me (i.e. feed
+							themselves or My creatures).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-58">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:58" class="number" data-verse="4733"><i class="icon-ayah-bracket-right"></i> 58 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">إِنَّ ٱللَّـهَ هُوَ
+							ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:58" class="by">جالندہری</a>
+							خدا ہی تو رزق دینے والا زور آور اور مضبوط ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:58" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Verily,
+							Allah is the All-Provider, Owner of Power, the Most Strong.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-59">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:59" class="number" data-verse="4734"><i class="icon-ayah-bracket-right"></i> 59 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَإِنَّ لِلَّذِينَ
+							ظَلَمُوا۟ ذَنُوبًا مِّثْلَ ذَنُوبِ أَصْحَـٰبِهِمْ فَلَا
+							يَسْتَعْجِلُونِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:59" class="by">جالندہری</a>
+							کچھ شک نہیں کہ ان ظالموں کے لئے بھی (عذاب کی) نوبت مقرر ہے جس
+							طرح ان کے ساتھیوں کی نوبت تھی تو ان کو مجھ سے (عذاب) جلدی نہیں
+							طلب کرنا چاہیئے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:59" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And verily,
+							for those who do wrong, there is a portion of torment like to
+							the evil portion of torment (which came for) their likes (of
+							old), so let them not ask Me to hasten on!
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-60">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:60" class="number" data-verse="4735"><i class="icon-ayah-bracket-right"></i> 60 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَوَيْلٌ لِّلَّذِينَ
+							كَفَرُوا۟ مِن يَوْمِهِمُ ٱلَّذِى يُوعَدُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:60" class="by">جالندہری</a> جس
+							دن کا ان کافروں سے وعدہ کیا جاتا ہے اس سے ان کے لئے خرابی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:60" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Then, woe
+							to those who disbelieve (in Allah and His Oneness Islamic
+							Monotheism) from (that) their Day which they have been promised
+							(for their punishment).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-1 selected">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:1" class="number" data-verse="4736"><i class="icon-ayah-bracket-right"></i> 1 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">بِسْمِ ٱللَّـهِ
+							ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ وَٱلطُّورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:1" class="by">جالندہری</a>
+							(کوہ) طور کی قسم
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:1" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> By the
+							Mount;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-2">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:2" class="number" data-verse="4737"><i class="icon-ayah-bracket-right"></i> 2 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَكِتَـٰبٍ مَّسْطُورٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:2" class="by">جالندہری</a> اور
+							کتاب کی جو لکھی ہوئی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:2" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							Book Inscribed.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-3">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:3" class="number" data-verse="4738"><i class="icon-ayah-bracket-right"></i> 3 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فِى رَقٍّ مَّنشُورٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:3" class="by">جالندہری</a>
+							کشادہ اوراق میں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:3" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> In
+							parchment unrolled.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-4">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:4" class="number" data-verse="4739"><i class="icon-ayah-bracket-right"></i> 4 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلْبَيْتِ ٱلْمَعْمُورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:4" class="by">جالندہری</a> اور
+							آباد گھر کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:4" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							Bait-ul-Ma'mur (the house over the heavens parable to the
+							Ka'bah at Makkah, continuously visited by the angels);
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-5">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:5" class="number" data-verse="4740"><i class="icon-ayah-bracket-right"></i> 5 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلسَّقْفِ ٱلْمَرْفُوعِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:5" class="by">جالندہری</a> اور
+							اونچی چھت کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:5" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							roof raised high (i.e. the heaven).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-6">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:6" class="number" data-verse="4741"><i class="icon-ayah-bracket-right"></i> 6 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلْبَحْرِ ٱلْمَسْجُورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:6" class="by">جالندہری</a> اور
+							ابلتے ہوئے دریا کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:6" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							sea kept filled (or it will be fire kindled on the Day of
+							Resurrection).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-7">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:7" class="number" data-verse="4742"><i class="icon-ayah-bracket-right"></i> 7 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">إِنَّ عَذَابَ رَبِّكَ
+							لَوَٰقِعٌ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:7" class="by">جالندہری</a> کہ
+							تمہارے پروردگار کا عذاب واقع ہو کر رہے گا
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:7" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Verily, the
+							Torment of your Lord will surely come to pass,
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-8">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:8" class="number" data-verse="4743"><i class="icon-ayah-bracket-right"></i> 8 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">مَّا لَهُۥ مِن دَافِعٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:8" class="by">جالندہری</a>
+							(اور) اس کو کوئی روک نہیں سکے گا
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:8" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> There is
+							none that can avert it;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-9">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:9" class="number" data-verse="4744"><i class="icon-ayah-bracket-right"></i> 9 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">يَوْمَ تَمُورُ ٱلسَّمَآءُ
+							مَوْرًا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:9" class="by">جالندہری</a> جس
+							دن آسمان لرزنے لگا کپکپا کر
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:9" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> On the Day
+							when the heaven will shake with a dreadful shaking,
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-10">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:10" class="number" data-verse="4745"><i class="icon-ayah-bracket-right"></i> 10 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَتَسِيرُ ٱلْجِبَالُ
+							سَيْرًا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:10" class="by">جالندہری</a>
+							اور پہاڑ اُڑنے لگے اون ہو کر
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:10" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And the
+							mountains will move away with a (horrible) movement.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-11">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:11" class="number" data-verse="4746"><i class="icon-ayah-bracket-right"></i> 11 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَوَيْلٌ يَوْمَئِذٍ
+							لِّلْمُكَذِّبِينَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:11" class="by">جالندہری</a> اس
+							دن جھٹلانے والوں کے لئے خرابی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:11" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Then woe
+							that Day to the beliers;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-12">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:12" class="number" data-verse="4747"><i class="icon-ayah-bracket-right"></i> 12 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">ٱلَّذِينَ هُمْ فِى خَوْضٍ
+							يَلْعَبُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:12" class="by">جالندہری</a> جو
+							خوض (باطل) میں پڑے کھیل رہے ہیں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:12" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Who are
+							playing in falsehood.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-13">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:13" class="number" data-verse="4748"><i class="icon-ayah-bracket-right"></i> 13 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">يَوْمَ يُدَعُّونَ إِلَىٰ
+							نَارِ جَهَنَّمَ دَعًّا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:13" class="by">جالندہری</a> جس
+							دن ان کو آتش جہنم کی طرف دھکیل دھکیل کر لے جائیں گے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:13" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> The Day
+							when they will be pushed down by force to the Fire of Hell,
+							with a horrible, forceful pushing.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-14">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:14" class="number" data-verse="4749"><i class="icon-ayah-bracket-right"></i> 14 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">هَـٰذِهِ ٱلنَّارُ ٱلَّتِى
+							كُنتُم بِهَا تُكَذِّبُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:14" class="by">جالندہری</a>
+							یہی وہ جہنم ہے جس کو تم جھوٹ سمجھتے تھے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:14" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> This is the
+							Fire which you used to belie.
+						</p>
+					</div>
+				</div>
+				<div class="footer">
+					<a href="#" class="share"><i class="icon-share"></i></a>
+				</div>
+			</div> 
+			<!-- /page end -->
+			
+			<!-- page start -->
+			<div class="page">
+				<div class="header">
+					<div class="title">
+						<a href="#"><span class="name">Al Baqarah</span> <span class="meaning">(The Cow)</span></a>						
+					</div>
+					<div class="pageinfo">
+						<a href="#"><span class="number">2</span></a>
+						<span class="from">of</span>
+						<span class="total">604</span>
+					</div>
+				</div>					
+				<div class="content">
+									
+					<div class="title">
+						<a href="#" class="nextSurah"><i class="icon-chevron-right"></i></a>
+						<h2>Surah Name</h2>
+						<a href="#" class="prevSurah"><i class="icon-chevron-left"></i></a>
+					</div>
+
+					<div class="ayah-group">
+						<p class="ayah quran-text rtl" dir="rtl">كَذَٰلِكَ مَآ أَتَى
+							ٱلَّذِينَ مِن قَبْلِهِم مِّن رَّسُولٍ إِلَّا قَالُوا۟ سَاحِرٌ
+							أَوْ مَجْنُونٌ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>	
+						</p>
+
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							اسی طرح ان سے پہلے لوگوں کے پاس جو پیغمبر آتا وہ اس کو جادوگر
+							یا دیوانہ کہتے
+							<a href="#!/ur.jalandhry/51:52" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							 Likewise,
+							no Messenger came to those before them, but they said: "A
+							sorcerer or a madman!"
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group">
+						<p class="ayah quran-text rtl" dir="rtl">
+							أَتَوَاصَوْا۟ بِهِۦ<span class="sign">&nbsp;ۚ</span> بَلْ هُمْ
+							قَوْمٌ طَاغُونَ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							کیا یہ کہ ایک دوسرے کو اسی بات کی وصیت کرتے آئے ہیں بلکہ یہ
+							شریر لوگ ہیں
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							Have they
+							(the people of the past) transmitted this saying to these
+							(Quraish pagans)? Nay, they are themselves a people
+							transgressing beyond bounds (in disbelief)!
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-54">
+						<p class="ayah quran-text rtl" dir="rtl">فَتَوَلَّ عَنْهُمْ فَمَآ
+							أَنتَ بِمَلُومٍ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>	
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl"> تو
+							ان سے اعراض کرو۔ تم کو (ہماری) طرف سے ملامت نہ ہوگی
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							So turn
+							away (O Muhammad SAW) from them (Quraish pagans) you are not to
+							be blamed (as you have conveyed Allah's Message).
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-55">
+						<p class="ayah quran-text rtl" dir="rtl">وَذَكِّرْ فَإِنَّ
+							ٱلذِّكْرَىٰ تَنفَعُ ٱلْمُؤْمِنِينَ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							اور نصیحت کرتے رہو کہ نصیحت مومنوں کو نفع دیتی ہے
+							<a href="#!/ur.jalandhry/51:55" class="by">جالندہری</a>
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							And remind
+							(by preaching the Quran, O Muhammad SAW) for verily, the
+							reminding profits the believers.
+							<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-56">
+						<p class="ayah quran-text rtl" dir="rtl">وَمَا خَلَقْتُ ٱلْجِنَّ
+							وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ
+							<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
+								<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
+							</a>
+						</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:56" class="by">جالندہری</a>
+							اور میں نے جنوں اور انسانوں کو اس لئے پیدا کیا ہے کہ میری عبادت
+							کریں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:56" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And I
+							(Allah) created not the jinns and humans except they should
+							worship Me (Alone).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-57">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:57" class="number" data-verse="4732"><i class="icon-ayah-bracket-right"></i> 57 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">مَآ أُرِيدُ مِنْهُم مِّن
+							رِّزْقٍ وَمَآ أُرِيدُ أَن يُطْعِمُونِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:57" class="by">جالندہری</a>
+							میں ان سے طالب رزق نہیں اور نہ یہ چاہتا ہوں کہ مجھے (کھانا)
+							کھلائیں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:57" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> I seek not
+							any provision from them (i.e. provision for themselves or for
+							My creatures) nor do I ask that they should feed Me (i.e. feed
+							themselves or My creatures).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-58">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:58" class="number" data-verse="4733"><i class="icon-ayah-bracket-right"></i> 58 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">إِنَّ ٱللَّـهَ هُوَ
+							ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:58" class="by">جالندہری</a>
+							خدا ہی تو رزق دینے والا زور آور اور مضبوط ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:58" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Verily,
+							Allah is the All-Provider, Owner of Power, the Most Strong.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-59">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:59" class="number" data-verse="4734"><i class="icon-ayah-bracket-right"></i> 59 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَإِنَّ لِلَّذِينَ
+							ظَلَمُوا۟ ذَنُوبًا مِّثْلَ ذَنُوبِ أَصْحَـٰبِهِمْ فَلَا
+							يَسْتَعْجِلُونِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:59" class="by">جالندہری</a>
+							کچھ شک نہیں کہ ان ظالموں کے لئے بھی (عذاب کی) نوبت مقرر ہے جس
+							طرح ان کے ساتھیوں کی نوبت تھی تو ان کو مجھ سے (عذاب) جلدی نہیں
+							طلب کرنا چاہیئے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:59" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And verily,
+							for those who do wrong, there is a portion of torment like to
+							the evil portion of torment (which came for) their likes (of
+							old), so let them not ask Me to hasten on!
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 51-60">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:60" class="number" data-verse="4735"><i class="icon-ayah-bracket-right"></i> 60 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَوَيْلٌ لِّلَّذِينَ
+							كَفَرُوا۟ مِن يَوْمِهِمُ ٱلَّذِى يُوعَدُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/51:60" class="by">جالندہری</a> جس
+							دن کا ان کافروں سے وعدہ کیا جاتا ہے اس سے ان کے لئے خرابی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/51:60" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Then, woe
+							to those who disbelieve (in Allah and His Oneness Islamic
+							Monotheism) from (that) their Day which they have been promised
+							(for their punishment).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-1 selected">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:1" class="number" data-verse="4736"><i class="icon-ayah-bracket-right"></i> 1 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">بِسْمِ ٱللَّـهِ
+							ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ وَٱلطُّورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:1" class="by">جالندہری</a>
+							(کوہ) طور کی قسم
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:1" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> By the
+							Mount;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-2">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:2" class="number" data-verse="4737"><i class="icon-ayah-bracket-right"></i> 2 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَكِتَـٰبٍ مَّسْطُورٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:2" class="by">جالندہری</a> اور
+							کتاب کی جو لکھی ہوئی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:2" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							Book Inscribed.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-3">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:3" class="number" data-verse="4738"><i class="icon-ayah-bracket-right"></i> 3 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فِى رَقٍّ مَّنشُورٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:3" class="by">جالندہری</a>
+							کشادہ اوراق میں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:3" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> In
+							parchment unrolled.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-4">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:4" class="number" data-verse="4739"><i class="icon-ayah-bracket-right"></i> 4 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلْبَيْتِ ٱلْمَعْمُورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:4" class="by">جالندہری</a> اور
+							آباد گھر کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:4" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							Bait-ul-Ma'mur (the house over the heavens parable to the
+							Ka'bah at Makkah, continuously visited by the angels);
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-5">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:5" class="number" data-verse="4740"><i class="icon-ayah-bracket-right"></i> 5 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلسَّقْفِ ٱلْمَرْفُوعِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:5" class="by">جالندہری</a> اور
+							اونچی چھت کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:5" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							roof raised high (i.e. the heaven).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-6">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:6" class="number" data-verse="4741"><i class="icon-ayah-bracket-right"></i> 6 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَٱلْبَحْرِ ٱلْمَسْجُورِ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:6" class="by">جالندہری</a> اور
+							ابلتے ہوئے دریا کی
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:6" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And by the
+							sea kept filled (or it will be fire kindled on the Day of
+							Resurrection).
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-7">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:7" class="number" data-verse="4742"><i class="icon-ayah-bracket-right"></i> 7 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">إِنَّ عَذَابَ رَبِّكَ
+							لَوَٰقِعٌ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:7" class="by">جالندہری</a> کہ
+							تمہارے پروردگار کا عذاب واقع ہو کر رہے گا
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:7" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Verily, the
+							Torment of your Lord will surely come to pass,
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-8">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:8" class="number" data-verse="4743"><i class="icon-ayah-bracket-right"></i> 8 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">مَّا لَهُۥ مِن دَافِعٍ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:8" class="by">جالندہری</a>
+							(اور) اس کو کوئی روک نہیں سکے گا
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:8" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> There is
+							none that can avert it;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-9">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:9" class="number" data-verse="4744"><i class="icon-ayah-bracket-right"></i> 9 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">يَوْمَ تَمُورُ ٱلسَّمَآءُ
+							مَوْرًا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:9" class="by">جالندہری</a> جس
+							دن آسمان لرزنے لگا کپکپا کر
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:9" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> On the Day
+							when the heaven will shake with a dreadful shaking,
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-10">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:10" class="number" data-verse="4745"><i class="icon-ayah-bracket-right"></i> 10 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">وَتَسِيرُ ٱلْجِبَالُ
+							سَيْرًا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:10" class="by">جالندہری</a>
+							اور پہاڑ اُڑنے لگے اون ہو کر
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:10" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> And the
+							mountains will move away with a (horrible) movement.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-11">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:11" class="number" data-verse="4746"><i class="icon-ayah-bracket-right"></i> 11 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">فَوَيْلٌ يَوْمَئِذٍ
+							لِّلْمُكَذِّبِينَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:11" class="by">جالندہری</a> اس
+							دن جھٹلانے والوں کے لئے خرابی ہے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:11" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Then woe
+							that Day to the beliers;
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-12">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:12" class="number" data-verse="4747"><i class="icon-ayah-bracket-right"></i> 12 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">ٱلَّذِينَ هُمْ فِى خَوْضٍ
+							يَلْعَبُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:12" class="by">جالندہری</a> جو
+							خوض (باطل) میں پڑے کھیل رہے ہیں
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:12" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> Who are
+							playing in falsehood.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-13">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:13" class="number" data-verse="4748"><i class="icon-ayah-bracket-right"></i> 13 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">يَوْمَ يُدَعُّونَ إِلَىٰ
+							نَارِ جَهَنَّمَ دَعًّا</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:13" class="by">جالندہری</a> جس
+							دن ان کو آتش جہنم کی طرف دھکیل دھکیل کر لے جائیں گے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:13" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> The Day
+							when they will be pushed down by force to the Fire of Hell,
+							with a horrible, forceful pushing.
+						</p>
+					</div>
+					<hr />
+					<div class="ayah-group 52-14">
+						<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/52:14" class="number" data-verse="4749"><i class="icon-ayah-bracket-right"></i> 14 <i class="icon-ayah-bracket-left"></i></a>
+						<p class="ayah quran-text rtl" dir="rtl">هَـٰذِهِ ٱلنَّارُ ٱلَّتِى
+							كُنتُم بِهَا تُكَذِّبُونَ</p>
+						<p class="ayah rtl text-zoom wds" dir="rtl">
+							<a href="#!/ur.jalandhry/52:14" class="by">جالندہری</a>
+							یہی وہ جہنم ہے جس کو تم جھوٹ سمجھتے تھے
+						</p>
+						<p class="ayah ltr" dir="ltr">
+							<a href="#!/en.hilali/52:14" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a> This is the
+							Fire which you used to belie.
+						</p>
+					</div>
+				</div>
+				<div class="footer">
+					<a href="#" class="share"><i class="icon-share"></i></a>
+				</div>
+			</div> 
+			<!-- /page end -->
+					
+			<!------------------            ------------>
+			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 			<div></div>
+			
+			<!------------------           -------------->
 			
 			<div class="hard left fixed own-size"></div>
 			<!--  -- >
@@ -61,11 +1285,11 @@
 			<div class="stack left" style="display:none;"></div>
 			<div class="stack right" style="display:none;"></div>
 						
-			<!-- book menu -- >
-			<ul class="menu">
+			<!-- book menu -->
+			<ul class="menu" style="display: none;">
 				<li>
 					<a href="#" class="item" title="Quran"><i class="icon-book"></i></a>
-					<ul class="menu-list quran-list-list" data-items="5">
+					<ul class="menu-list quran-list" data-items="5">
 						<li><a href="#">Word by Word</a></li>
 						<li><a href="#" class="active">Uthmani</a></li>
 						<li>
@@ -89,90 +1313,168 @@
 					</ul>
 				</li>
 				<li><a href="#" class="item" title="Translation, Tafsir & Transliteration"><i class="icon-tumblr"></i></a></li>
+				<li><a href="#" class="item" title="Settings"><i class="icon-cog"></i></a></li>
+				<li><a href="#" class="item" title="Search"><i class="icon-search"></i></a></li>
+				<li><a href="#" class="item" title="Updates and Latest News"><span class="badge badge-important">9</span> <i class="icon-road"></i></a></li>
 			</ul>
+			
+			
+			<!--  -- >
+			<div class="leftMenu">	
+				<div style="height:59px;">
+					<ul class="book-sf-menu" >
+						<li class="book"> 
+							<ul class="quranList" items="10">
+								<li><p>loading...</p></li>
+							</ul>
+						</li>
+					</ul>				
+				</div>
+				
+				<div style="height:59px;">
+					<ul class="book-sf-menu" >
+						<li class="comment"> 
+							<ul class="translationList" items="6">
+								<li><p>loading...</p></li>
+							</ul>
+						</li>
+					</ul>				
+				</div>		
+					
+				<div class="zoom" >				
+					<div class="search">
+						<input type="text" id="searchText"/>
+						<div class="searchButton"></div>				
+						<div class="searchlist">
+							<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Apple Script</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Asp</div>
+							<div class="searchlistitem">&nbsp;&nbsp;Basic</div>
+						</div>				
+					</div>
+				</div>
+			</div> <!-- /.leftMenu -->
 			<!--  -->
 			
 		</div>		
 		
 	</div><!-- /.quran -->
-
+	
+<!-- 	
+	<div id="player">
+		<a href="#"><i class="icon play"></i></a>
+		<ul id="playerNav">
+			<li id="play"><a href="#" class="icon play">play</a></li>
+			<li id="recitor" class="dropOption"><a href="#" class="dropLink tips" data-tips-position="right center">
+				<span class="icon recitor">Select Recitor</span></a>
+				<ul class="sf-scrolling recitorList" items="8" style="width:150px;">
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit (mujawwad)</a></li>
+					<li><a href="#" class="txt active" data-recitor-id="en.idHere">Ahmed Ibn Ali Al-Ajamy</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+					<li><a href="#" class="txt active" data-recitor-id="en.idHere">Abdul Basit</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+					<li><a href="#" class="txt active" data-recitor-id="en.idHere">Default</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Default</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Abdul Basit</a></li>
+					<li><a href="#" class="txt" data-recitor-id="en.idHere">Mishary</a></li>
+				</ul>
+			</li>
+			<li id="prevAyah"><a href="#" class="icon prevAyah">Previous Ayah</a></li>
+			<li id="nextAyah"><a href="#" class="icon nextAyah">Next Ayah</a></li>
+			
+			<li id="progressBar">
+				<div class="progressBar ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" title="0:00"  area-describedby="ui-tooltip-0">
+					<span class="buffer" style="width: 70%;"></span>
+					<div style="width: 7%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+					<a style="left: 7%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+				</div>
+			</li>
+			
+			 <li id="time"><span class="playingTime">0:00</span><span class="sep">/</span><span class="totalTime">0:00</span></li>
+			<li id="bandwidthOption" class="dropOption"><span class="dropLink tips" data-tips-position="right center" title="Audio Quality"><span class="bandwidthOption">192 kbs</span> <span class="icon arrowDown"></span></span>
+				<ul class="bandwidthList">
+					<li><a href="#" class="txt" data-kbs="32">32 kbs</a></li>
+					<li><a href="#" class="txt" data-kbs="64">64 kbs</a></li>
+					<li><a href="#" class="txt" data-kbs="128">128 kbs</a></li>
+					<li><a href="#" class="txt active" data-kbs="192">192 kbs</a></li>
+				</ul>
+			</li>
+			<li id="volume" class="dropOption"><a href="#" class="dropLink tips" title="Click to Mute Volume" data-tips-position="right center"><span class="volume icon-volume-up">Volume</span></a>
+				<ul>
+					<li class="volumePercent">68%</li>
+					<li><div class="volumeBar ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all"><div style="height: 60%;" class="ui-slider-range ui-widget-header ui-slider-range-min"></div><a style="bottom: 60%;" class="icon ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></li>
+				</ul>
+			</li>
+			<li id="repeat" class="dropOption "><a href="#" class="dropLink tips" data-tips-position="right center"><span class="icon repeat">Repeat Off</span></a>
+				<ul class="repeatOptions">
+					<li><label>Repeat Each</label> <select class="repeatEach" name="repeatEach"><option value="ayah">Ayah</option><option value="page">Page</option><option value="surah">Surah</option><option value="Juz">Juz</option></select></li>
+					<li><label>Repeat Times</label> <select class="repeatTimes" name="repeatTimes"><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5">x5</option><option value="6">x6</option><option value="7">x7</option><option value="8">x8</option><option value="9">x9</option><option value="0">&infin;</option></select></li>
+					<li><label>Delay</label> <select class="audioDelay" name="audioDelay"><option value="0">0 sec</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option><option value="4">4 sec</option><option value="5">5 sec</option><option value="5">5 sec</option><option value="6">6 sec</option><option value="7">7 sec</option><option value="8">8 sec</option><option value="9">9 sec</option><option value="ayah">Ayah Duration</option></select></li>
+				</ul>
+			</li>
+		</ul>				
+	</div>
+ -->
+ <!-- 
+				
+				<div class="ribbon" id="ribbon" style="display:none;">	
+					<ul class="sf-scrolling" items="37">
+	
+					</ul>	
+				</div>
+				
+			 -->
+	
 	<div class="footer">
 		<ul class="socialnetwork list-inline">
 			<li><a class="f" href="#"></a></li>
 			<li><a class="t" href="#"></a></li>
-			<!-- <li><a class="g" href="#"></a></li> -->
+			<li><a class="g" href="#"></a></li>
 		</ul>
 			
 		<div class="copyright">&copy; 2006 - 2013 GlobalQuran.com</div>
 	</div><!-- /.footer -->
 </div>
-<script type="text/html" id="tpl-surahTitle">
-	<div class="title">
-		<a href="#" class="nextSurah"><i class="icon-chevron-right"></i></a>
-		<h2>Surah Name</h2>
-		<a href="#" class="prevSurah"><i class="icon-chevron-left"></i></a>
-	</div>
-</script>
-<script type="text/html" id="tpl-page">
-	<div class="header">
-		<div class="title">
-			<a href="#"><span class="name">Al Baqarah</span> <span class="meaning">(The Cow)</span></a>						
-		</div>
-		<div class="pageinfo">
-			<a href="#"><span class="number">2</span></a>
-			<span class="from">of</span>
-			<span class="total">604</span>
-		</div>
-	</div>					
-	<div class="content">
-						
-		<div class="title">
-			<a href="#" class="nextSurah"><i class="icon-chevron-right"></i></a>
-			<h2>Surah Name</h2>
-			<a href="#" class="prevSurah"><i class="icon-chevron-left"></i></a>
-		</div>
 
-		<div class="ayah-group">
-			<p class="ayah quran-text rtl" dir="rtl">كَذَٰلِكَ مَآ أَتَى
-				ٱلَّذِينَ مِن قَبْلِهِم مِّن رَّسُولٍ إِلَّا قَالُوا۟ سَاحِرٌ
-				أَوْ مَجْنُونٌ
-				<a href="#!/ur.jalandhry+quran-uthmani+en.hilali/51:52" class="number" data-verse="4727">
-					<i class="icon-ayah-bracket-right"></i><span>52</span><i class="icon-ayah-bracket-left"></i>
-				</a>	
-			</p>
+<!-- disable jin-package for now, making our own one
+<script src="js/global.js"></script>	
 
-			<p class="ayah rtl text-zoom wds" dir="rtl">
-				اسی طرح ان سے پہلے لوگوں کے پاس جو پیغمبر آتا وہ اس کو جادوگر
-				یا دیوانہ کہتے
-				<a href="#!/ur.jalandhry/51:52" class="by">جالندہری</a>
-			</p>
-			<p class="ayah ltr" dir="ltr">
-				 Likewise,
-				no Messenger came to those before them, but they said: "A
-				sorcerer or a madman!"
-				<a href="#!/en.hilali/51:52" class="by">Dr. Muhammad Taqi-ud-Din al-Hilali and Dr. Muhammad Muhsin Khan</a>
-			</p>
-		</div>		
-	</div>
-	<div class="footer">
-		<!-- <a href="#" class="share"><i class="icon-share"></i></a> -->
-	</div>
-</script>
+<script src="js/jin-package/jquery.slimscroll.js"></script>
 
+<script src="js/jin-package/jquery.touchwipe.1.1.1.js"></script>
+<script src="js/jin-package/superfish.js"></script>
+<script src="js/jin-package/supersubs.js"></script>
+<script src="js/jin-package/superscroll.js"></script>
+ -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="/js/turn4/extras/modernizr.2.5.3.min.js"></script>
+<script src="/js/extras/progressLoading.js" onload="progressLoading(10);"></script>
+<script src="/js/turn4/extras/modernizr.2.5.3.min.js" onload="progressLoading(5);"></script>
 
 
-<script src="/js/jquery/jquery.jplayer.js"></script>
+<script src="/js/jquery/jquery.jplayer.js" onload="progressLoading(5);"></script>
 
-<script src="/js/jquery/jquery.touchwipe.js"></script>
-<script src="/js/jquery/superscroll.js"></script>
+<script src="/js/jquery/jquery.touchwipe.js" onload="progressLoading(5);"></script>
+<script src="/js/jquery/superscroll.js" onload="progressLoading(5);"></script>
 
-<script src="/js/Quran.js"></script>
-<script src="/js/GQ.js"></script>
-<script src="/js/layout.js"></script>
-<script src="/app.settings.js"></script>
+<script src="/js/Quran.js" onload="progressLoading(5);"></script>
+<script src="/js/GQ.js" onload="progressLoading(5);"></script>
+<script src="/js/layout.js" onload="progressLoading(5);"></script>
+<script src="/app.settings.js" onload="progressLoading(5);"></script>
 
-<script src="/myTemp.beta.js"></script>
+<script src="/myTemp.js" onload="progressLoading(20);"></script>
 </body>
 </html>

@@ -35,7 +35,10 @@ yepnope({
 					{
 						// hide stack effect on cover turn
 						if (page <= 1)
+						{
 							$('.stack').hide();
+							$('.menu').hide();
+						}
 					},
 					
 					// turned page
@@ -48,6 +51,9 @@ yepnope({
 						{
 							$('.hard.right').addClass('fixed');
 						}
+						
+						if (page > 1)
+							$('.menu').show();
 						
 						stackEffect(page);
 					}
