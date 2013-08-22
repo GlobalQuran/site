@@ -1,10 +1,19 @@
+progressLoading(5);
+yepnope.addPrefix("preload", function(resource) {
+	  resource.noexec = true;
+	  return resource;
+});
 yepnope({
 	test : Modernizr.csstransforms,
 	yep: ['/js/turn4/turn.js'],
 	//yep: ['/js/jin-package/turn.min.js'],
 	nope: ['/js/turn4/turn.html4.min.js'],
+	load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', '/img/book/ui/menu-item-bg-hover.png'],
 	complete: function () {
 		// Create the flipbook
+		progressLoading(10);
+		$('.loadingSite').hide();
+		$('.quran').removeClass('hide');
 
 		$('.book').turn({
 				gradients: false,//!$.isTouch,
