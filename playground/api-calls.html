@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>API Calls - Playground for GlobalQuran.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<link rel="stylesheet" type="text/css" href="../../upload/css/gq.css" />
+
+    <!--[if IE 7]>
+	  <link rel="stylesheet" href="../../upload/css/font-awesome-ie7.min.css">
+	<![endif]-->
+	
+    <link rel="shortcut icon" href="../../upload/favicon.ico">
+
+  <body>
+
+	 <br />	
+    <div id="container" class="container">
+      
+      <div class="row">
+        <div class="col-sm-12">
+        	<a href="all.html" class="pull-right">Go Back To All</a>
+			<h1>Quran, Translation & Recitor List <small>directly from the api <a href="http://docs.globalquran.com/API:Data/Quran_List">doc</a></small></h1>
+			
+			 <div class="row">
+				<div class="col-md-3">
+					<div id="quran-list-data"></div><br/>
+					<div id="trans-list-data"></div><br/>
+					<div id="recitor-list-data"></div>
+				</div>
+			</div>
+			<br/>
+		
+			<hr/>
+			
+			<h1>Get Surah <small><a href="http://docs.globalquran.com/API:Data/Surah">doc</a></small></h1>
+			<form method="GET" action="?" class="form-inline">
+				<input type="hidden" value="quran-simple" id="quranID" />
+				<div class="col-md-2">
+					<label for="surahNumber">Surah Number:</label>
+				</div>
+				<div class="col-md-2">
+					<input type="text" value="1" id="surahNumber" class="form-control"  placeholder="surah number'">
+				</div>
+				<button type="submit" id="newSurah" class="btn btn-primary">Load</button>
+			</form><br/><br/>
+			<div id="quran-text"></div><br/>
+		</div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; <a href="http://GlobalQuran.com">GlobalQuran.com</a> 2013</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="../../upload/js/Quran.js"></script>
+    <script>
+			Quran.init()
+			jQuery(function($) {
+				// Quran list & Recitor List 
+				$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' }); // define ajax setup
+				$.getJSON("http://api.globalquran.com/quran?jsoncallback=?", {
+				    format: "jsonp"
+				}, function(data)
+				{    
+				    /* Quran List */
+				    $("<select class='form-control'>").attr('id', 'quranList').appendTo("#quran-list-data");
+				    $("<option>").attr('selected', 'selected').html('Select Quran').appendTo('#quranList');
+				    $.each(data.quranList, function(quranID, by)
+				    {
+					if (by.format == 'text' && by.type == 'quran')
+				            $("<option>").val(quranID).html(by.english_name+' '+by.native_name).appendTo('#quranList');
+				    });
+				    
+				    
+				    /* Translation List */
+				    $("<select class='form-control'>").attr('id', 'transList').appendTo("#trans-list-data");
+				    $("<option>").attr('selected', 'selected').html('Select Translation').appendTo('#transList');
+				    $.each(data.quranList, function(quranID, by)
+				    {
+					if (by.format == 'text' && by.type == 'translation')
+				            $("<option>").val(quranID).html(by.english_name+' '+by.native_name).appendTo('#transList');
+				    });
+				    
+				    /* Recitor List */
+				    $("<select class='form-control'>").attr('id', 'recitorList').appendTo("#recitor-list-data");
+				    $("<option>").attr('selected', 'selected').html('Select Translation').appendTo('#recitorList');
+				    $.each(data.quranList, function(quranID, by)
+				    {
+						if (by.format == 'audio')
+				            $("<option>").val(quranID).html(by.english_name+' '+by.native_name).appendTo('#recitorList');
+				    });
+				    
+				    loadSurahText('quran-simple', $('#surahNumber').val());
+				    
+				    $("#quranList,#transList").change(function() {
+						loadSurahText($(this).val(), $('#surahNumber').val());
+					});
+				});
+			
+				
+				
+				$("#newSurah").click(function() {
+					
+					loadSurahText($('#quranID').val(), $('#surahNumber').val());
+					return false;
+				});
+				
+				
+				function loadSurahText (quranID, surahNo)
+				{					
+					$.ajaxSetup({ cache: true, jsonpCallback: 'quranData' }); // define ajax setup
+					$.getJSON("http://api.globalquran.com/surah/"+surahNo+"/"+quranID+"?jsoncallback=?", {
+					    format : "jsonp"
+					}, function(data)
+					{    
+						$("#quran-text").text('');
+					    $.each(data.quran, function(i, by)
+					    {
+							$.each(by, function (verseNo, line) {
+						    	$("<p>").html(line.surah+':'+line.ayah+' '+line.verse).appendTo("#quran-text");
+							});
+					    });
+					});
+					
+					$('#quranID').val(quranID);
+				}
+			});
+		</script>
+  </body>
+</html>

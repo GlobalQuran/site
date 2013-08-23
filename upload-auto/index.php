@@ -1,7 +1,5 @@
 <?php
-// html url to the application
-$api_url = 'http://GlobalQuran.com/';
-$api_key = '';
+include 'app.settings.php';
 
 ################## DO NOT EDIT BELOW THIS ###################################
 if (!$api_url)

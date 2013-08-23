@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Surah Ayah Words - Playground for GlobalQuran.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<link rel="stylesheet" type="text/css" href="../../upload/css/gq.css" />
+
+    <!--[if IE 7]>
+	  <link rel="stylesheet" href="../../upload/css/font-awesome-ie7.min.css">
+	<![endif]-->
+	
+    <link rel="shortcut icon" href="../../upload/favicon.ico">
+
+  <body>
+
+	 <br />	
+    <div id="container" class="container">
+      
+      <div class="row">
+        <div class="col-sm-12">
+        	<a href="all.html" class="pull-right">Go Back To All</a>
+        	<h1>How many words in ayah?</h1>
+        	<form method="GET" action="?" class="form-inline">
+				<div class="col-md-3">
+					<input type="text" class="form-control"   id="surah" placeholder="surah 2 and ayah 1 as '2:1'"/>
+				</div>
+				<button type="submit" id="count" class="btn btn-primary">How many words?</button>
+			</form>
+			
+			<br/><br/>
+			<div id="words"></div>
+			
+			<hr/>
+			
+			<h1>What is the word id?</h1>
+        	<form method="GET" action="?" class="form-inline">
+				<div class="col-md-3">
+					<input type="text" class="form-control"   id="word" placeholder="surah 2 and ayah 2 and word 5 as '2:2:5'"/>
+				</div>
+				<button type="submit" id="location" class="btn btn-primary">Get Word ID?</button>
+			</form>
+			
+			<br/><br/>
+			<div id="location-text"></div>
+			
+			<hr/>
+			
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; <a href="http://GlobalQuran.com">GlobalQuran.com</a> 2013</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="../../upload/js/Quran.js"></script>
+    <script>
+			Quran.init()
+			jQuery(function($) {
+				$('#count').on('click', function() {
+					var surah = $('#surah').val();
+					
+					sa = surah.split(':', 2);
+					surah = sa['0'];
+					ayah  = sa['1'];
+					
+					if (!ayah && !surah)
+					{
+						alert('please set ayah like this surah:ayah 2:10');
+						return false;
+					}
+					else if (!ayah)
+					{
+						ayahs = Quran.surah.detail(surah).ayahs;
+						$('#words').html('<h1>'+Quran.surah.name(surah, 'english_name')+' '+ayahs+' ayahs</h1>');
+						
+						li = '<ol>';
+						for (ayah=1; ayah<=ayahs; ayah++)
+						{
+							li += '<li>'+Quran.word.count(surah, ayah)+' words</li>';
+						};
+						li += '</ol>';
+						
+						$('#words').append(li);
+					}
+					else
+					{
+						$('#words').prepend(Quran.word.count(surah, ayah)+' words in the ayah '+ayah+' of surah '+Quran.surah.name(surah, 'english_name')+'<br>');
+					}
+		
+					
+					return false;
+				});
+				
+				// word location  script
+				$('#location').on('click', function() {
+					var surah = $('#word').val();
+					
+					sa = surah.split(':', 3);
+					surah = sa['0'];
+					ayah  = sa['1'];
+					word  = sa['2'];
+					
+					if (!ayah || !surah || !word )
+					{
+						alert('please set word like this surah:ayah:word 2:10:2');
+						return false;
+					}
+					else
+					{
+						$('#location-text').prepend(Quran.word.number(surah, ayah, word)+' is the id for the word '+word+' in ayah number '+ayah+' of surah '+Quran.surah.name(surah, 'english_name')+'<br>');
+					}
+		
+					
+					return false;
+				});
+			});
+		</script>
+  </body>
+</html>

@@ -23,8 +23,8 @@ var layout = {
 		div: { //TODO not sure about this div & list
 			content: '.page .content',
 			
-			quranList: '.quranList',
-			translationList: '.translationList', 
+			quranList: '.quran-list',
+			translationList: '.trans-list', 
 			recitorList: '.recitorList'
 		}
 	},
@@ -132,72 +132,6 @@ var layout = {
 				$(layout.config.div.content).html(html);			
 		},
 		
-		page: function(quranArray)
-		{
-			var html='', by, name;
-			
-			$.each(quranArray, function(verseNo, quran)
-			{
-				if (quran.ayah == 1)
-					html += layout.view.surahTitle(quran.surah, quran.ayah);
-
-				html += '<div class="ayahs '+quran.surah+'-'+quran.ayah+'" data-verse="'+Quran.verseNo.ayah(surah, ayah)+'">';
-				html += '<a href="'+gq.url.ayah(quran.surah, quran.ayah)+'" class="ayahNumber" data-verse="'+quran.verseNo+'"><span class="icon leftBracket"> ( </span>'+quran.ayah+'<span class="icon rightBracket"> ) </span></a>';
-	
-				$.each(quran['list'], function(quranBy, text)
-				{									
-					by 			= gq.quran.detail(quranBy);	
-					direction 	= (gq.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
-					
-					if((quranBy == 'quran-wordbyword' || quranBy == 'quran-kids') && gq.settings.wbwDirection == 'english2arabic')
-						name = by.english_name;
-					else
-						name = by.native_name || by.english_name;
-					
-					if (text.type == 'quran') // quran text
-					{	
-						fontFamily = "style=\"font-family: '"+gq.font.getFamily(quranBy)+"';\"";
-						quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids') ?  'quranText' : '';
-					}
-					else // translation text
-					{
-						fontFamily = '';
-						quranClass = '';
-					}
-					
-					html += '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+fontFamily+'><a href="'+gq.url.ayah(quran.surah, quran.ayah, quranBy)+'" class="quranID">'+name+'</a> '+text.verse+'</p>';
-				});
-				
-				html += '</div><div class="hr"><hr /></div>'; // closing ayahs
-			});
-								
-			return html;
-		},
-		
-		surahTitle: function (surah, ayah)
-		{
-			var html = '';
-			html += '<div class="surahTitle">';
-			if (surah < 114)
-				html += '<a href="'+gq.url.ayah((surah+1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah+1), 1)+'" class="icon nextSurah tips" data-tips-position="right center">Next Surah</a>';
-			
-			//if (gq.quran.length() == 1 && gq.quran.detail(by).language_code == 'ar')
-				html += '<span class="title">'+Quran.surah.name(surah, 'arabic_name')+'</span>';
-			//else
-			//	html += '<span class="title">'+Quran.surah.name(surah, 'english_name')+' <span class="sep">-</span> <span class="meaning">'+Quran.surah.name(surah, 'english_meaning')+'</span></span>';
-			
-			if (surah > 1)
-				html += '<a href="'+gq.url.ayah((surah-1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah-1), 1)+'" class="icon prevSurah tips" data-tips-position="left center">Previous Surah</a>';
-						
-			html += '</div>';
-			
-			if (surah != 1 && surah != 9)
-				html += '<div class="icon bismillah tips">In the name of Allah, Most Gracious, Most Merciful</div>';
-			
-			html += '<div class="hr"><hr /></div>';
-			
-			return html;
-		},
 		
 		surahList: function () //TODO
 		{
@@ -305,6 +239,73 @@ var layout = {
 			html = '<ul class="recitorList">'+html+'</ul>';
 			
 			return html;
+		},
+		
+		page: function(quranArray)
+		{
+			var html='', by, name;
+			
+			$.each(quranArray, function(verseNo, quran)
+			{
+				if (quran.ayah == 1)
+					html += layout.view.surahTitle(quran.surah, quran.ayah);
+
+				html += '<div class="ayahs '+quran.surah+'-'+quran.ayah+'" data-verse="'+Quran.verseNo.ayah(quran.surah, quran.ayah)+'">';
+				html += '<a href="'+gq.url.ayah(quran.surah, quran.ayah)+'" class="ayahNumber" data-verse="'+quran.verseNo+'"><span class="icon leftBracket"> ( </span>'+quran.ayah+'<span class="icon rightBracket"> ) </span></a>';
+	
+				$.each(quran['list'], function(quranBy, text)
+				{									
+					by 			= gq.quran.detail(quranBy);	
+					direction 	= (gq.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
+					
+					if((quranBy == 'quran-wordbyword' || quranBy == 'quran-kids') && gq.settings.wbwDirection == 'english2arabic')
+						name = by.english_name;
+					else
+						name = by.native_name || by.english_name;
+					
+					if (text.type == 'quran') // quran text
+					{	
+						fontFamily = "style=\"font-family: '"+gq.font.getFamily(quranBy)+"';\"";
+						quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids') ?  'quranText' : '';
+					}
+					else // translation text
+					{
+						fontFamily = '';
+						quranClass = '';
+					}
+					
+					html += '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+fontFamily+'><a href="'+gq.url.ayah(quran.surah, quran.ayah, quranBy)+'" class="quranID">'+name+'</a> '+text.verse+'</p>';
+				});
+				
+				html += '</div><div class="hr"><hr /></div>'; // closing ayahs
+			});
+								
+			return html;
+		},
+		
+		surahTitle: function (surah, ayah)
+		{
+			var html = '';
+			html += '<div class="surahTitle">';
+			if (surah < 114)
+				html += '<a href="'+gq.url.ayah((surah+1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah+1), 1)+'" class="icon nextSurah tips" data-tips-position="right center">Next Surah</a>';
+			
+			//if (gq.quran.length() == 1 && gq.quran.detail(by).language_code == 'ar')
+				html += '<span class="title">'+Quran.surah.name(surah, 'arabic_name')+'</span>';
+			//else
+			//	html += '<span class="title">'+Quran.surah.name(surah, 'english_name')+' <span class="sep">-</span> <span class="meaning">'+Quran.surah.name(surah, 'english_meaning')+'</span></span>';
+			
+			if (surah > 1)
+				html += '<a href="'+gq.url.ayah((surah-1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah-1), 1)+'" class="icon prevSurah tips" data-tips-position="left center">Previous Surah</a>';
+						
+			html += '</div>';
+			
+			if (surah != 1 && surah != 9)
+				html += '<div class="icon bismillah tips">In the name of Allah, Most Gracious, Most Merciful</div>';
+			
+			html += '<div class="hr"><hr /></div>';
+			
+			return html;
 		}
 		
 	},
@@ -366,10 +367,7 @@ var layout = {
 			
 			title = gq.search.isActive() ? surahTitle+' - '+layout.config.title : gq.surah()+':'+gq.ayah()+' '+surahTitle+' - '+layout.config.title;
 			
-			if ($.browser.msie) /* ie6+ error fix */
-				document.title = title;
-			else
-				$('title').text(title);
+			$('title').text(title);
 		},
 		
 		_checkNavButtons: function () //FIXME for ayahChanged bind
@@ -557,14 +555,23 @@ var layout = {
 			
 			startup: function()
 			{
+				this.parent_menu();				
 				this.quran();
 				this.translation();
-				this.recitor();				
+				//FIXME this.recitor();				
 			},
+			
+			parent_menu: function ()
+			{
+				$('.menu').on('click', '.item', function () {
+					console.log('menu bind working');
+					$(this).parent().toggleClass('active');
+				});
+			},			
 			
 			quran: function ()
 			{
-				$('.quranList').superscroll();
+				$('.menu-list').superscroll(); // this is for both quran and translation list
 				
 				// select menu link
 				$('a[data-quran]').live('click', function()
@@ -583,18 +590,13 @@ var layout = {
 						gq.quran.load();
 						gq._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
 					}
-					
-					$('.sideBarMenu, .sideBarMenu2').hide(); // if its open, then close it
-					$('.btn-menu').removeClass('active');
 								
 					return false;
 				});
 			},
 			
 			translation: function ()
-			{
-				$('.translationList').superscroll();
-				
+			{				
 				// open second menu for translation list
 				$('.translationLanguageList a').live('click', function() {
 					

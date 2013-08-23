@@ -11,7 +11,8 @@ we will be adding more scripts to help you build your own Quran project.
 
 * {Features List}[http://blog.globalquran.com/feature-list] - Complete list of features
 * {Online Demo}[http://GlobalQuran.com] - Live Online Demo
-* {Forum}[http://blog.globalquran.com/forums] - Talk to us about Ideas, Questions or Suggestions
+* {Online Demo2}[http://beta.GlobalQuran.com] - Live Online Demo (Beta)
+* {Forum}[https://github.com/imegah/GlobalQuran.com-code/issues] - Need Help? Got Ideas? Want to ask something?
 * {Blog}[http://blog.globalquran.com/] - Get to know what's new coming or has been came.
 * {About us}[http://blog.globalquran.com/about-us/] - About the project and people who are behind it.
 * {Documentation & Tutorials}[http://docs.globalquran.com] - Learn about code and also use our Quran data through REST API.
@@ -36,7 +37,7 @@ NOTE:: if you are installing this in wordpress, then try our easy to add {wordpr
 
 === 1. upload-auto - if you choose to use this.
 
-1. edit +index.php+ and change following settings:
+1. edit +app.settings.php+ and change following settings:
     $api_url = 'http://GlobalQuran.com/'; - pointing to main site. 
     $api_key = ''; - put your api key from .... (coming soon)
 2. save the file. 
@@ -56,12 +57,12 @@ Note:: you can edit any file in it and check it with online preview. - you can t
 
 == Help
 
-Need Help? or just want to suggest something!  Go to our {Forum}[http://blog.globalquran.com/forums] area and search our forum for Q&A or just Ask one.
+Need Help? or just want to suggest something!  Go to our {Forum}[https://github.com/imegah/GlobalQuran.com-code/issues] area and search our forum for Q&A or just Ask one.
 
     
 == Author
 
-{Basit}[http://www.Basit.me/] <i@Basit.me> - Please use {Forum}[http://blog.globalquran.com/forums] area to ask for support.
+{Basit}[http://www.Basit.me/] <i@Basit.me> - Please use {Forum}[https://github.com/imegah/GlobalQuran.com-code/issues] area to ask for support.
 
     
 == Thanks to
