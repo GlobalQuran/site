@@ -21,7 +21,7 @@ var layout = {
 		title: '',  // if left empty, it will get html title - surah title will be prepended with this title TODO
 		
 		div: { //TODO not sure about this div & list
-			content: '.page .content',
+			content: '.page',
 			
 			quranList: '.quran-list',
 			translationList: '.trans-list', 
@@ -138,7 +138,7 @@ var layout = {
 			var surahTitle = '';
 			$('.customSurah').html('');
 			
-			for (i=1; i<= 114; i++)
+			for (var i=1; i<= 114; i++)
 			{			
 				/* ie error, selectedBy undefined
 				if (gq.quran.length() == 1 && gq.quran.detail(gq.settings.selectedBy).language_code == 'ar')
@@ -153,16 +153,21 @@ var layout = {
 		
 		translationLanguageList: function (list)
 		{			
-			var html = '', classSelected;								
+			var html = '', li, classSelected;								
 			
 			$.each(list, function (langCode, lang)
 			{
 				classSelected = lang.selected ? 'active' : ''; 
-				html += '<li><a href="#" class="'+classSelected+'" data-lang="'+langCode+'">'+lang.name+'</a>';
+				li = '<li><a href="#" class="'+classSelected+'" data-lang="'+langCode+'">'+lang.name+'</a>';
 				
-					html += '<ul>'+layout.view.translationList(gq.quran.translationList(langCode))+'</ul>';
+					li += '<ul>'+layout.view.translationList(gq.quran.translationList(langCode))+'</ul>';
 				
-				html += '</li>';
+				li += '</li>';
+				
+				if (lang.selected)
+					html = li+html;
+				else
+					html += li;
 			});
 			
 			return html;
@@ -509,23 +514,23 @@ var layout = {
 		startup: function ()
 		{
 			this._menu.startup();
-			this._quranContent.startup();
+			this._quranPage.startup();
 			this._navigation.startup();
-			this._player.startup();
-			this._settings.startup();
+		//	this._player.startup();
+		//	this._settings.startup();
 			this._tools.startup();
 			this._keyboard();
 		},
 		
 		load: function () {},
 		
-		_quranContent: {
+		_quranPage: {
 			
 			startup: function ()
 			{
-				this.ayahMouseOver();
+				// FIXME this.ayahMouseOver();				
 			},
-		
+					
 			ayahMouseOver: function ()
 			{
 				// mouse over
@@ -557,15 +562,18 @@ var layout = {
 			{
 				this.parent_menu();				
 				this.quran();
-				this.translation();
 				//FIXME this.recitor();				
 			},
 			
 			parent_menu: function ()
 			{
 				$('.menu').on('click', '.item', function () {
-					console.log('menu bind working');
-					$(this).parent().toggleClass('active');
+					var li = $(this).parent();
+					
+					li.toggleClass('active');
+					li.siblings('li').removeClass('active'); // remove all other active menu's
+					
+					return false;
 				});
 			},			
 			
@@ -574,40 +582,23 @@ var layout = {
 				$('.menu-list').superscroll(); // this is for both quran and translation list
 				
 				// select menu link
-				$('a[data-quran]').live('click', function()
-				{				
+				$('.quran').on('click', 'a[data-quran]', function ()
+				{					
 					if ($(this).hasClass('active')) // if already selected
 					{
 						$(this).removeClass('active');
 						gq.quran.remove($(this).data('quran'));
-						gq.quran.load();
+						gq.quran.load(); // TODO - refresh both page
 						gq._gaqPush(['_trackEvent', 'QuranBy', 'remove',  $(this).text()]);
 					}
 					else // not selected yet, so select quran
 					{
 						$(this).addClass('active');
 						gq.quran.add($(this).data('quran'));
-						gq.quran.load();
+						gq.quran.load(); // TODO - refresh both page
 						gq._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
 					}
 								
-					return false;
-				});
-			},
-			
-			translation: function ()
-			{				
-				// open second menu for translation list
-				$('.translationLanguageList a').live('click', function() {
-					
-					var lang = $(this).data('lang'),
-					offset = $(this).offset();
-									
-					$('.sideBarMenu2').html(layout.view.translationList(gq.quran.translationList(lang)))
-					.css('top', offset.top)
-					.show()
-					.css('height', $('.translationList li').length * 40);
-					
 					return false;
 				});
 			},
@@ -656,8 +647,26 @@ var layout = {
 		{			
 			startup: function ()
 			{
-				this.links();
-				this.urlHasChange();
+//FIXME				this.links();
+				this.page();
+				this.urlHashChange();
+				
+			},
+			
+			/**
+			 * page navigation
+			 */
+			page: function ()
+			{				
+				$('.book-nav.next').on('click', function () {
+					$('.book').turn('next');
+					return false;
+				});
+				
+				$('.book-nav.prev').on('click', function () {
+					$('.book').turn('previous');
+					return false;
+				});
 			},
 			
 			links: function ()
@@ -700,7 +709,7 @@ var layout = {
 			
 			startup: function ()
 			{
-				this.progressBar();
+			//	this.progressBar();
 				this.selectBandwidth();
 				this.actions();
 			},
@@ -719,8 +728,9 @@ var layout = {
 						}
 					},
 					style: {
-						tip: true,
-						classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
+						tip: true
+					//	,
+					//	classes: ($.browser.msie && $.browser.version <= 7) ?  'ui-tooltip-dark' : 'ui-tooltip-youtube'
 					}			
 				});
 			},

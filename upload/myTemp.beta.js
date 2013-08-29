@@ -8,12 +8,17 @@ yepnope({
 	yep: ['/js/turn4/turn.js'],
 	//yep: ['/js/jin-package/turn.min.js'],
 	nope: ['/js/turn4/turn.html4.min.js'],
-	load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', '/img/book/ui/menu-item-bg-hover.png'],
+	load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', 'preload!/img/book/ui/menu-item-bg-hover.png'],
 	complete: function () {
 		// Create the flipbook
 		progressLoading(10);
 		$('.loadingSite').hide();
 		$('.quran').removeClass('hide');
+		
+		ignoreStartPages = $('.quranPages').prevAll().length;
+		
+		// build empty Quran pages
+		$('.quranPages').replaceWith(emptyPages(gq.config.data.by));
 
 		$('.book').turn({
 				gradients: false,//!$.isTouch,
@@ -38,6 +43,7 @@ yepnope({
 						{
 							$('.stack').hide();
 							$('.menu').hide();
+							$('.book-nav.prev').hide();
 						}
 					},
 					
@@ -45,21 +51,24 @@ yepnope({
 					turned: function (event, page, pageObj)
 					{
 						//console.log('page:'+page);
-						
-						// if page is not first and fixed class dosn't already exist, then add fixed class for making background border effect
-						if (!$('.hard.right').hasClass('fixed') && page > 1)
-						{
-							$('.hard.right').addClass('fixed');
-						}
-						
+						//console.log('pages:'+$('.book').turn('pages'));
+												
+						// cover is been open
 						if (page > 1)
+						{
 							$('.menu').show();
+							$('.book-nav.prev').show();
+							
+							// if page is not first and fixed class dosn't already exist, then add fixed class for making background border effect
+							if (!$('.hard.right').hasClass('fixed'))
+								$('.hard.right').addClass('fixed');
+						}
 						
 						stackEffect(page);
 					}
 				}
 		})
-		.turn('next')
+		//.turn('next')
 		;
 	}
 });
@@ -98,6 +107,22 @@ function stackEffect (page)
 	if (page <= 3)
 		$('.stack.right').hide();
 	else 
-		$('.stack.right').show();
+		$('.stack.right').show();	
+}
+
+function emptyPages (by)
+{
+	var pages = '', num;
 	
+	if (by == 'surah')
+		num = 114;
+	else
+		num = 604;
+	
+	for(var i=1;i<=num;i++)
+	{
+		pages += '<div><div class="loadingPage"><i class="icon icon-refresh icon-spin"></i></div></div>';
+	}
+	
+	return pages;
 }

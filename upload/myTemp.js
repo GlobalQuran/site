@@ -8,7 +8,7 @@ yepnope({
 	yep: ['/js/turn4/turn.js'],
 	//yep: ['/js/jin-package/turn.min.js'],
 	nope: ['/js/turn4/turn.html4.min.js'],
-	load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', '/img/book/ui/menu-item-bg-hover.png'],
+	load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', 'preload!/img/book/ui/menu-item-bg-hover.png'],
 	complete: function () {
 		// Create the flipbook
 		progressLoading(10);
