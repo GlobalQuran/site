@@ -6,6 +6,11 @@ This Repository have all the scripts to get you started for your Quran Project f
 
 we will be adding more scripts to help you build your own Quran project.
 
+== Production ready 
+
+Download production ready version from  {tag v3.4.0}[https://github.com/imegah/GlobalQuran.com-code/tree/v3.4.0]
+
+current head branch is in development mode only.
 
 == Quick Links
 
