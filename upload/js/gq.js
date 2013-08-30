@@ -2747,7 +2747,7 @@ var gq = {
 			gq.settings.ayah = ayah || 1;
 			gq.settings.juz = Quran.ayah.juz(surah, ayah);
 			gq.settings.page = Quran.ayah.page(surah, ayah);
-			gq.data.ayahList =  Quran.ayah.listFromPage(this.settings.page);
+			gq.data.ayahList =  Quran.ayah.listFromPage(gq.settings.page);
 			gq.search._keyword = false; // disable search
 			gq.url.save();
 			gq.player.reset();
@@ -2906,7 +2906,7 @@ var gq = {
 		 */
 		refresh: function (callback)
 		{
-			this.get(gq.surah(), gq.ayah(), callback)
+			this.get(gq.surah(), gq.ayah(), callback);
 		},
 		
 		/**
@@ -3167,9 +3167,7 @@ var gq = {
 						path = path[1];
 					else
 						path = location.pathname;
-				}
-				
-				
+				}				
 			}
 			else
 			{
