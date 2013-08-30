@@ -11,7 +11,6 @@
  * http://www.opensource.org/licenses/Simple-2.0
  * 
  */
-
 var layout = {
 		
 	config: {
@@ -29,70 +28,27 @@ var layout = {
 		}
 	},
 	
-	init: function ()
+	gq_init: function ()
 	{	
 		// loading for the first time
-		gq.bind.addAfter(layout.config.id, 'start', function (success) {
+		gq.bind.add(layout.config.id, 'start', function (success) {
 			layout.view.startup(success);
-			layout.bind.startup();
 		});
-		
+
 		// loading new page on every request, even trigger on start (check above block)
-		gq.bind.addAfter(layout.config.id, 'load', function (success) {
+		gq.bind.add(layout.config.id, 'load', function (success) {
 			layout.view.load(success);
-			layout.bind.load();
 		});
-		
+
 		// when ayah is changed or new ayah is set through page, juz, surah or direct jump
-		gq.bind.addAfter(layout.config.id, 'load.ayah', function () {
+		gq.bind.add(layout.config.id, 'load.ayah', function () {
 			layout.set.ayahChanged();
 		});
 		
-		// play
-		gq.bind.addAfter(layout.config.id, 'player.play', function (volume) {
-			layout.set.play();
-		});
-		
-		// pause
-		gq.bind.addAfter(layout.config.id, 'player.pause', function (volume) {
-			layout.set.pause();
-		});
-		
-		// stop
-		gq.bind.addAfter(layout.config.id, 'player.stop', function (volume) {
-			layout.set.stop();
-		});
-		
-		// volume
-		gq.bind.addAfter(layout.config.id, 'player.volume', function (volume) {
-			layout.set.volume(volume);
-		});
-		
-		// muted
-		gq.bind.addAfter(layout.config.id, 'player.muted', function () {
-			layout.set.muted();
-		});
-		
-		// unmuted
-		gq.bind.addAfter(layout.config.id, 'player.unmuted', function () {
-			layout.set.unmuted();
-		});
-		
-		
 		// font size changing
-		gq.bind.addAfter(layout.config.id, 'font.size', function (size) {
+		gq.bind.add(layout.config.id, 'font.size', function (size) {
 			layout.set.fontSize(size);
 		});
-		
-		
-		/*
-		TODO attach it with main gq functions					
-				
-		gq.layout.recitorList = function ()
-		{
-			layout.recitorList();
-		};
-		*/
 	},
 	
 	setConfig: function (config)
@@ -100,11 +56,10 @@ var layout = {
 		gq.setConfig(config);
 	},
 	
-	start: function ()
+	start: function () // this method get triggered in the end of the file
 	{		
-		this.init();
-		gq.init();
-		gq.load.onStart(); // display default languages
+		this.gq_init();
+		layout.bind.startup();
 	},
 	
 	view: {
@@ -125,6 +80,7 @@ var layout = {
 		
 		load: function()
 		{
+			console.log($('.book').turn('page'));
 			var html = this.page(gq.quran.text());
 			
 			// page content
@@ -346,7 +302,6 @@ var layout = {
 		{
 			this._ayahSelect();			// select ayah
 			this._title();				// change browser title
-			this._checkNavButtons();	// enable / disable nav buttons
 		},
 		
 		_ayahSelect: function ()
@@ -373,62 +328,7 @@ var layout = {
 			title = gq.search.isActive() ? surahTitle+' - '+layout.config.title : gq.surah()+':'+gq.ayah()+' '+surahTitle+' - '+layout.config.title;
 			
 			$('title').text(title);
-		},
-		
-		_checkNavButtons: function () //FIXME for ayahChanged bind
-		{
-			$('a.prevPage, a.nextPage').removeClass('disable');
-			if (gq.page() == 1)
-				$('a.prevPage').addClass('disable');
-			else if (gq.page() == 604)
-				$('a.nextPage').addClass('disable');
-			$('.pageOn').text(gq.page());
-		},
-		
-		play: function ()
-		{
-			$('.icon-play, icon-stop').removeClass('icon-play').removeClass("icon-stop").addClass('icon-pause');
-			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //TODO REPLACE THIS
-			
-			if (gq.player.status().noVolume) //TODO CHECK THIS
-				$('#volume').hide();
-			
-			// TODO this.recitorKbs(gq.player.recitorBy());	
-		},
-		
-		pause: function ()
-		{
-			$('.icon-play').removeClass('icon-pause').addClass('icon-play');
-		},
-		
-		stop: function ()
-		{
-			$('.icon-stop, icon-play').removeClass('icon-pause').addClass('icon-play');
-			$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide(); // TODO REPLACE THIS
 		},		
-		
-		volume: function (volume)
-		{
-			$('.volumePercent').text(volume+'%');
-			$('.volume').removeClass('icon-volume-up').removeClass('icon-volume-down').removeClass('icon-volume-off').removeClass('muted');
-			
-			if (volume == 100)
-				$('.volume').addClass('icon-volume-up');
-			else if (volume < 10)
-				$('.volume').addClass('icon-volume-off');
-			else
-				$('.volume').addClass('icon-volume-down');
-		},
-		
-		muted: function ()
-		{
-			$('.volume').addClass('muted');
-		},
-		
-		unmuted: function ()
-		{
-			$('.volume').removeClass('muted');
-		},
 		
 		fontSize: function (size)
 		{			
@@ -513,6 +413,7 @@ var layout = {
 		
 		startup: function ()
 		{
+			this._flipBook.startup();
 			this._menu.startup();
 			this._quranPage.startup();
 			this._navigation.startup();
@@ -522,7 +423,168 @@ var layout = {
 			this._keyboard();
 		},
 		
-		load: function () {},
+		_flipBook:  {
+			
+			startup: function ()
+			{
+				this.init();
+			},
+			
+			init: function ()
+			{
+				progressLoading(5);
+				yepnope.addPrefix("preload", function(resource) {
+					  resource.noexec = true;
+					  return resource;
+				});
+				yepnope({
+					test : Modernizr.csstransforms,
+					yep: ['/js/turn4/turn.js'],
+					//yep: ['/js/jin-package/turn.min.js'],
+					nope: ['/js/turn4/turn.html4.min.js'],
+					load: ['preload!/img/book/hcf.png', 'preload!/img/book/pbl.png', 'preload!/img/book/pbr.png', 'preload!/img/book/pl.png', 'preload!/img/book/pr.png', 'preload!/img/book/ui/menu-item-bg-hover.png'],
+					complete: function () {
+						
+						layout.bind._flipBook.flipBind.loaded();
+						
+						// Create the flipbook
+						$('.book').turn({
+								gradients: false,//!$.isTouch,
+								direction: 'rtl',
+								turnCorners: 'tl,tr',
+								autoCenter: true,
+//								acceleration: true,
+								
+								when: {
+									// first page
+									first: layout.bind._flipBook.flipBind.first,
+									
+									// turning page
+									turning: layout.bind._flipBook.flipBind.turning,
+									
+									// turned page
+									turned: layout.bind._flipBook.flipBind.turned
+								}
+						});
+					}
+				});
+			},
+			
+			flipBind: {
+				
+				loaded: function ()
+				{
+					progressLoading(10);
+					$('.loadingSite').hide();
+					$('.quran').removeClass('hide');
+					
+					ignoreStartPages = $('.quranPages').prevAll().length;
+					
+					// build empty Quran pages
+					$('.quranPages').replaceWith(layout.bind._flipBook._createEmptyPages(gq.config.data.by));
+				},
+				
+				first: function (event)
+				{
+					$('.hard.right').removeClass('fixed');
+					layout.bind._flipBook._stackEffect(0);
+				},
+				
+				// turning page
+				turning: function (event, page, pageObj)
+				{
+					if (page <= 1)
+						layout.bind._flipBook.flipBind.onBookClosed();
+				},
+				
+				// turned page
+				turned: function (event, page, pageObj)
+				{
+					//console.log('page:'+page);
+					//console.log('pages:'+$('.book').turn('pages'));
+											
+					// cover is been open
+					if (page > 1)
+						layout.bind._flipBook.flipBind.onBookOpen();
+					
+					layout.bind._flipBook._stackEffect(page);
+				},
+				
+				onBookOpen: function ()
+				{
+					$('.menu').show();
+					$('.book-nav.prev').show();
+					
+					// if page is not first and fixed class dosn't already exist, then add fixed class for making background border effect
+					if (!$('.hard.right').hasClass('fixed'))
+						$('.hard.right').addClass('fixed');
+				},
+				
+				onBookClosed: function ()
+				{
+					$('.stack').hide();
+					$('.menu').hide();
+					$('.book-nav.prev').hide();
+				}
+			
+			},
+			
+			_stackEffect: function (page)
+			{
+				var totalPages = $('.book').turn('pages'),
+				pagesLeft = totalPages - page,
+				maxWidth = 22;
+				
+				// if pages left is greater then the max width, then use maxWidth, else use pages left as width of the stack effect
+				if (pagesLeft > maxWidth)
+				{
+					$('.stack.left').width(maxWidth);
+					// stack left width needs margin-left to adjust according to the set width
+					$('.stack.left').css('margin-left', -maxWidth);
+				}
+				else
+				{
+					$('.stack.left').width(pagesLeft);
+					$('.stack.left').css('margin-left', -pagesLeft);
+				}
+				
+				// if current page is greater then max width, then use max width, else use current page number as width of the right stack effect	
+				if (page > maxWidth)
+					$('.stack.right').width(maxWidth);
+				else
+					$('.stack.right').width((page == 1 ? 0 : page));
+				
+				
+				// if page is greater then 1 and not visible, then show. we used greater then 1, because on closing the cover, it wont conflict with hide on turning the cover
+				if (page > 1 && !$('.stack').is(':visible'))
+					$('.stack').show();
+				
+				// show right stack effect after on 3rd page.
+				if (page <= 3)
+					$('.stack.right').hide();
+				else 
+					$('.stack.right').show();	
+			},
+			
+			_createEmptyPages: function (by)
+			{
+				var pages = '', num;
+				
+				if (by == 'surah')
+					num = 114;
+				else
+					num = 604;
+				
+				for(var i=1;i<=num;i++)
+				{
+					pages += '<div><div class="loadingPage"><i class="icon icon-refresh icon-spin"></i></div></div>';
+				}
+				
+				return pages;
+			}
+			
+			
+		},
 		
 		_quranPage: {
 			
@@ -712,6 +774,94 @@ var layout = {
 			//	this.progressBar();
 				this.selectBandwidth();
 				this.actions();
+			},
+			
+			gq_init: function ()
+			{
+				// play
+				gq.bind.add(layout.config.id, 'player.play', function (volume) {
+					layout.set.play();
+				});
+
+				// pause
+				gq.bind.add(layout.config.id, 'player.pause', function (volume) {
+					layout.set.pause();
+				});
+
+				// stop
+				gq.bind.add(layout.config.id, 'player.stop', function (volume) {
+					layout.set.stop();
+				});
+
+				// volume
+				gq.bind.add(layout.config.id, 'player.volume', function (volume) {
+					layout.set.volume(volume);
+				});
+
+				// muted
+				gq.bind.add(layout.config.id, 'player.muted', function () {
+					layout.set.muted();
+				});
+
+				// unmuted
+				gq.bind.add(layout.config.id, 'player.unmuted', function () {
+					layout.set.unmuted();
+				});
+
+
+				/*
+				TODO attach it with main gq functions					
+						
+				gq.layout.recitorList = function ()
+				{
+					layout.recitorList();
+				};
+				*/
+			},
+			
+			play: function ()
+			{
+				$('.icon-play, icon-stop').removeClass('icon-play').removeClass("icon-stop").addClass('icon-pause');
+				$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //TODO REPLACE THIS
+				
+				if (gq.player.status().noVolume) //TODO CHECK THIS
+					$('#volume').hide();
+				
+				// TODO this.recitorKbs(gq.player.recitorBy());	
+			},
+			
+			pause: function ()
+			{
+				$('.icon-play').removeClass('icon-pause').addClass('icon-play');
+			},
+			
+			stop: function ()
+			{
+				$('.icon-stop, icon-play').removeClass('icon-pause').addClass('icon-play');
+				$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide(); // TODO REPLACE THIS
+			},		
+			
+			volume: function (volume)
+			{
+				$('.volumePercent').text(volume+'%');
+				$('.volume').removeClass('icon-volume-up').removeClass('icon-volume-down').removeClass('icon-volume-off').removeClass('muted');
+				
+				if (volume == 100)
+					$('.volume').addClass('icon-volume-up');
+				else if (volume < 10)
+					$('.volume').addClass('icon-volume-off');
+				else
+					$('.volume').addClass('icon-volume-down');
+			},
+			
+			muted: function ()
+			{
+				$('.volume').addClass('muted');
+			},
+			
+			unmuted: function ()
+			{
+				$('.volume').removeClass('muted');
 			},
 			
 			progressBar: function ()
@@ -1004,6 +1154,7 @@ var layout = {
 			});
 		}
 		
-	}
-	
+	}	
 };
+
+layout.start();

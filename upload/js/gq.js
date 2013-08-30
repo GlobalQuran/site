@@ -245,6 +245,15 @@ var gq = {
 	},
 	
 	/**
+	 * starts the application
+	 */
+	start: function ()
+	{
+		gq.init();						
+		gq.load.onStart();
+	},
+	
+	/**
 	 * language object holds all the site languages
 	 * TODO still need to add more functions here
 	 */

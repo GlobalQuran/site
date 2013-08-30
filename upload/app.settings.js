@@ -154,5 +154,5 @@ var config = {
 	// keyword, url - change/format, player... other config				
 };
 
-layout.setConfig(config);		// set configuration
-layout.start();					// start the application
+gq.setConfig(config);			// set configuration
+gq.start();						// start the application
