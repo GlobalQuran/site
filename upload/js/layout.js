@@ -19,12 +19,10 @@ var layout = {
 		
 		title: '',  // if left empty, it will get html title - surah title will be prepended with this title TODO
 		
-		div: { //TODO not sure about this div & list
-			content: '.page',
-			
+		div: { 			
 			quranList: '.quran-list',
 			translationList: '.trans-list', 
-			recitorList: '.recitorList'
+			recitorList: '.recitor-list' // TODO
 		}
 	},
 	
@@ -32,22 +30,12 @@ var layout = {
 	{	
 		// loading for the first time
 		gq.bind.add(layout.config.id, 'start', function (success) {
-			layout.view.startup(success);
-		});
-
-		// loading new page on every request, even trigger on start (check above block)
-		gq.bind.add(layout.config.id, 'load', function (success) {
-			layout.view.load(success);
+			layout.get.startup(success);
 		});
 
 		// when ayah is changed or new ayah is set through page, juz, surah or direct jump
 		gq.bind.add(layout.config.id, 'load.ayah', function () {
 			layout.set.ayahChanged();
-		});
-		
-		// font size changing
-		gq.bind.add(layout.config.id, 'font.size', function (size) {
-			layout.set.fontSize(size);
 		});
 	},
 	
@@ -64,28 +52,12 @@ var layout = {
 	
 	view: {
 		
-		startup: function ()
-		{
-			var quranList = this.quranList(gq.quran.quranList()),
-			translationLanguageList = this.translationLanguageList(gq.quran.languageList());
-			
-			// quran list
-			if (layout.config.div.quranList)
-				$(layout.config.div.quranList).html(quranList);
-			
-			// translation list
-			if (layout.config.div.translationList)
-				$(layout.config.div.translationList).html(translationLanguageList);
-		},
 		
 		load: function()
-		{
-			console.log($('.book').turn('page'));
-			var html = this.page(gq.quran.text());
-			
+		{			
 			// page content
-			if (layout.config.div.content)
-				$(layout.config.div.content).html(html);			
+			//if (layout.config.div.content)
+			//	$(layout.config.div.content).html(this.page(gq.quran.text()));			
 		},
 		
 		
@@ -202,97 +174,217 @@ var layout = {
 			return html;
 		},
 		
-		page: function(quranArray)
-		{
-			var html='', by, name;
+		page: {
 			
-			$.each(quranArray, function(verseNo, quran)
+			body: function (page)
 			{
-				if (quran.ayah == 1)
-					html += layout.view.surahTitle(quran.surah, quran.ayah);
-
-				html += '<div class="ayahs '+quran.surah+'-'+quran.ayah+'" data-verse="'+Quran.verseNo.ayah(quran.surah, quran.ayah)+'">';
-				html += '<a href="'+gq.url.ayah(quran.surah, quran.ayah)+'" class="ayahNumber" data-verse="'+quran.verseNo+'"><span class="icon leftBracket"> ( </span>'+quran.ayah+'<span class="icon rightBracket"> ) </span></a>';
-	
-				$.each(quran['list'], function(quranBy, text)
-				{									
-					by 			= gq.quran.detail(quranBy);	
-					direction 	= (gq.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
+				var html = '', verse, surah, ayah;
+				
+				verse = Quran.ayah.fromPage(page);
+				surah = verse.surah;
+				ayah = verse.ayah;
+				
+				html = this.header(surah, ayah);
+				html += this.content(page);
+				html += this.footer(surah, ayah);
+				
+				return html;
+				
+			},
+			
+			header: function (surah, ayah)
+			{
+				var html = '', total, current;
+				
+				if (gq.config.data.by == 'surah')
+				{
+					current = surah;
+					total = 114;
+				}
+				else // page
+				{
+					current = Quran.ayah.page(surah, ayah);
+					total = 604;
+				}
+				
+				html = 
+					'<div class="header">\
+						<div class="title">\
+							<a href="'+gq.url.ayah(surah, 1)+'"><span class="name">'+Quran.surah.name(surah, 'english_name')+'</span> <span class="meaning">('+Quran.surah.name(surah, 'english_meaning')+')</span></a>\
+						</div>\
+						<div class="pageinfo">\
+							<a href="'+gq.url.page(current)+'"><span class="number">'+current+'</span></a>\
+							<span class="from">of</span>\
+							<span class="total">'+total+'</span>\
+						</div>\
+					</div>';
+				
+				return html;
+			},
+			
+			footer: function (surah, ayah)
+			{
+				var html = '';
+				
+				html = 
+					'<div class="footer">\
+						<!--<a href="#" class="share"><i class="icon-share"></i></a>-->\
+					</div>';
+				
+				return html;
+			},
+			
+			content: function (page)
+			{
+				var html='', quranHtml='', transHtml='', by, direction, name, surah, ayah, fontFamily, textZoom,
+				quranArray = gq.quran.text(gq.config.data.by, page);
+				
+				html += '<div class="content">';
+				
+				$.each(quranArray, function(verseNo, quran)
+				{
+					surah = quran.surah;
+					ayah  = quran.ayah;
+					verseNo = quran.verseNo;
+					quranHtml=''; transHtml='';
 					
-					if((quranBy == 'quran-wordbyword' || quranBy == 'quran-kids') && gq.settings.wbwDirection == 'english2arabic')
-						name = by.english_name;
-					else
-						name = by.native_name || by.english_name;
-					
-					if (text.type == 'quran') // quran text
-					{	
-						fontFamily = "style=\"font-family: '"+gq.font.getFamily(quranBy)+"';\"";
-						quranClass = (quranBy != 'quran-wordbyword' && quranBy != 'quran-kids') ?  'quranText' : '';
-					}
-					else // translation text
+					if (quran.ayah == 1)
 					{
-						fontFamily = '';
-						quranClass = '';
+						html += layout.view.page.surahTitle(surah);
+						html += layout.view.page.bismillah(surah);
 					}
 					
-					html += '<p class="ayah '+quranClass+' '+direction+'" dir="'+direction+'" '+fontFamily+'><a href="'+gq.url.ayah(quran.surah, quran.ayah, quranBy)+'" class="quranID">'+name+'</a> '+text.verse+'</p>';
+					html += '<div class="ayah-group a'+verseNo+'" data-verse="'+verseNo+'">';
+							
+					$.each(quran['list'], function(quranBy, text)
+					{									
+						by 			= gq.quran.detail(quranBy);	
+						direction 	= (gq.quran.direction(quranBy) == 'right') ? 'rtl' : 'ltr';
+						name 		= by.native_name || by.english_name;
+												
+						if (text.type == 'quran') // quran text
+						{	
+							fontFamily = "style=\"font-family: '"+gq.font.getFamily(quranBy)+"';\"";
+							quranHtml += '<p class="ayah quran-text '+direction+'" dir="'+direction+'" '+fontFamily+'>'+text.verse+' \
+										<a href="'+gq.url.ayah(surah, ayah)+'" class="number" data-verse="'+verseNo+'"><i class="icon-ayah-bracket-right"></i><span>'+ayah+'</span><i class="icon-ayah-bracket-left"></i></a>\
+									</p>';
+						}
+						else // translation text
+						{
+							textZoom = (gq.quran.direction(quranBy) == 'right') ? 'text-zoom' : '';
+							transHtml += '<p class="ayah '+textZoom+' '+direction+'" dir="'+direction+'">'+text.verse+'\
+										<a href="'+gq.url.ayah(surah, ayah, quranBy)+'" class="by">'+name+'</a>\
+									</p>';
+						}
+					});
+					
+					html += quranHtml+transHtml;					
+					html += '</div><hr />'; // closing ayahs
 				});
 				
-				html += '</div><div class="hr"><hr /></div>'; // closing ayahs
-			});
-								
-			return html;
-		},
-		
-		surahTitle: function (surah, ayah)
-		{
-			var html = '';
-			html += '<div class="surahTitle">';
-			if (surah < 114)
-				html += '<a href="'+gq.url.ayah((surah+1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah+1), 1)+'" class="icon nextSurah tips" data-tips-position="right center">Next Surah</a>';
+				html += '</div>'; // /.content
+									
+				return html;
+			},
 			
-			//if (gq.quran.length() == 1 && gq.quran.detail(by).language_code == 'ar')
-				html += '<span class="title">'+Quran.surah.name(surah, 'arabic_name')+'</span>';
-			//else
-			//	html += '<span class="title">'+Quran.surah.name(surah, 'english_name')+' <span class="sep">-</span> <span class="meaning">'+Quran.surah.name(surah, 'english_meaning')+'</span></span>';
-			
-			if (surah > 1)
-				html += '<a href="'+gq.url.ayah((surah-1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah-1), 1)+'" class="icon prevSurah tips" data-tips-position="left center">Previous Surah</a>';
+			surahTitle: function (surah)
+			{
+				var html = '';
+					
+				html += '<div class="title">';
+				
+				if (surah < 114)
+					html += '<a href="'+gq.url.ayah((surah+1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah+1), 1)+'" class="nextSurah"><i class="icon-chevron-right"></i></a>';
+				else
+					html += '<span class="nextSurah"></span>';
+				
+				html += '<h2>'+Quran.surah.name(surah, 'arabic_name')+'</h2>';
+				
+				if (surah > 1)
+					html += '<a href="'+gq.url.ayah((surah-1), 1)+'" data-verse="'+Quran.verseNo.ayah((surah-1), 1)+'" class="prevSurah"><i class="icon-chevron-left"></i></a>';
 						
-			html += '</div>';
+				html +=	'</div>';
+				
+				return html;
+			},
 			
-			if (surah != 1 && surah != 9)
-				html += '<div class="icon bismillah tips">In the name of Allah, Most Gracious, Most Merciful</div>';
-			
-			html += '<div class="hr"><hr /></div>';
-			
-			return html;
-		}
-		
+			bismillah: function (surah)
+			{
+				if (surah != 1 && surah != 9)
+					return '<div class="pull-left bismillah">In the name of Allah, Most Gracious, Most Merciful</div>';
+				else
+					return '';
+			}
+		}		
 	},
 	
 	get: {
 		
-		page: function (pageNumber)
+		startup: function ()
 		{
-			if (pageNumber < 1 || pageNumber > 604)
-				return;
-			
-			var verse = Quran.ayah.fromPage(pageNumber);
-			gq.load.get(verse.surah, verse.ayah);	// load first page
-			
-			this._page2(pageNumber+1);				// load second page
+			this.quranList();
+			this.translationList();
 		},
 		
-		_page2: function (pageNumber)
-		{
-			if (pageNumber != 604)	
-				gq.load.dataOnly('page', pageNumber); 
+		page: {
+			
+			refresh: function ()
+			{
+				this.load(gq.page());
+			},
+			
+			load: function (page)
+			{
+				if (page == 0)
+					page = 1;				
+				
+				if (page < 1 || page > 604)
+					return;
+				
+				var flipBookPage = layout.get.page._fixPageNumber(page, true);
+			
+				var verse = Quran.ayah.fromPage(page);
+				// load first page
+				gq.load.get(verse.surah, verse.ayah, function () 
+				{
+					$('.p'+flipBookPage).html(layout.view.page.body(page));
+				});			
+				
+				// lazy load second page
+				this._loadSidePage($('.p'+page).hasClass('even') ? (page+1) : (page-1));
+			},
+			
+			_loadSidePage: function (page)
+			{
+				if (page < 1 || page > 604)
+					return;
+				
+				var flipBookPage = layout.get.page._fixPageNumber(page, true);
+				
+				gq.load.dataOnly(gq.config.data.by, page, function ()
+				{
+					$('.p'+flipBookPage).html(layout.view.page.body(page));
+				}); 
+			},
+			
+			_fixPageNumber: function (page, add)
+			{
+				return add ? (page + ignoreBookStartPages) : (page - ignoreBookStartPages);
+			}
 		},
 		
-		_isPageExist: function (pageNumber)
-		{
-			$('p'+pageNumber);
+		quranList: function ()
+		{			
+			// quran list
+			if (layout.config.div.quranList)
+				$(layout.config.div.quranList).html(layout.view.quranList(gq.quran.quranList()));
+		},
+		
+		translationList: function ()
+		{		
+			// translation list
+			if (layout.config.div.translationList)
+				$(layout.config.div.translationList).html(layout.view.translationLanguageList(gq.quran.languageList()));
 		}
 	},
 	
@@ -428,6 +520,8 @@ var layout = {
 			startup: function ()
 			{
 				this.init();
+				this.next();
+				this.prev();
 			},
 			
 			init: function ()
@@ -470,6 +564,22 @@ var layout = {
 				});
 			},
 			
+			next: function ()
+			{				
+				$('.book-nav.next').on('click', function () {
+					$('.book').turn('next');
+					return false;
+				});
+			},
+			
+			prev: function ()
+			{			
+				$('.book-nav.prev').on('click', function () {
+					$('.book').turn('previous');
+					return false;
+				});
+			},
+			
 			flipBind: {
 				
 				loaded: function ()
@@ -478,7 +588,7 @@ var layout = {
 					$('.loadingSite').hide();
 					$('.quran').removeClass('hide');
 					
-					ignoreStartPages = $('.quranPages').prevAll().length;
+					ignoreBookStartPages = $('.quranPages').prevAll().length;
 					
 					// build empty Quran pages
 					$('.quranPages').replaceWith(layout.bind._flipBook._createEmptyPages(gq.config.data.by));
@@ -495,11 +605,15 @@ var layout = {
 				{
 					if (page <= 1)
 						layout.bind._flipBook.flipBind.onBookClosed();
+					
+					layout.get.page.load(layout.get.page._fixPageNumber(page, false));
 				},
 				
 				// turned page
 				turned: function (event, page, pageObj)
 				{
+					//console.log(ignoreBookStartPages);
+					//console.log('page:'+layout.bind._flipBook._fixPageNumber(page));
 					//console.log('page:'+page);
 					//console.log('pages:'+$('.book').turn('pages'));
 											
@@ -636,6 +750,11 @@ var layout = {
 					li.siblings('li').removeClass('active'); // remove all other active menu's
 					
 					return false;
+				})
+				.on('close', function ()
+				{
+					// hide menu
+					$('ul.menu > li').removeClass('active');
 				});
 			},			
 			
@@ -650,17 +769,31 @@ var layout = {
 					{
 						$(this).removeClass('active');
 						gq.quran.remove($(this).data('quran'));
-						gq.quran.load(); // TODO - refresh both page
 						gq._gaqPush(['_trackEvent', 'QuranBy', 'remove',  $(this).text()]);
 					}
 					else // not selected yet, so select quran
 					{
 						$(this).addClass('active');
 						gq.quran.add($(this).data('quran'));
-						gq.quran.load(); // TODO - refresh both page
 						gq._gaqPush(['_trackEvent', 'QuranBy', 'add',  $(this).text()]);
 					}
-								
+					
+					layout.get.page.refresh();				
+					
+					// rebuild list - to keep selected menu on top
+					if ($(this).parents('.trans-list').length)
+						layout.get.translationList();	
+					else
+						layout.get.quranList();
+					
+					$('.menu').trigger('close'); // hide menu
+					
+					return false;
+				});
+				
+				$('.quran-list').on('click', 'a[data-lang]', function ()
+				{
+					// do nothing for clicking on language only
 					return false;
 				});
 			},
@@ -709,65 +842,28 @@ var layout = {
 		{			
 			startup: function ()
 			{
-//FIXME				this.links();
-				this.page();
 				this.urlHashChange();
-				
 			},
 			
-			/**
-			 * page navigation
-			 */
-			page: function ()
-			{				
-				$('.book-nav.next').on('click', function () {
-					$('.book').turn('next');
-					return false;
-				});
-				
-				$('.book-nav.prev').on('click', function () {
-					$('.book').turn('previous');
-					return false;
-				});
-			},
 			
-			links: function ()
-			{
-				//TODO below is check on it and change it if need to
-				$('.ayahNumber, .prevSurah, .nextSurah').live('click', function() {
-					gq.player.reset();
-					var verse = Quran.ayah.fromVerse($(this).attr('data-verse'));
-					gq.ayah(verse.surah, verse.ayah);
-					layout.ayahChanged();
-					return false;
-				});
-				
-				$('.prevAyah').live('click', function() {
-					$('body').trigger('prevAyah');
-					return false;
-				});
-				
-				$('.nextAyah').live('click', function() {
-					$('body').trigger('nextAyah');
-					return false;
-				});	
-			},
 			
 			urlHashChange: function ()
 			{
 				$(window).bind('hashchange', function(e) {
 					if (gq.url.load())
 					{
+						/*
 						if (gq.search.isActive())
 							gq.load();
 						else
-							gq.load(gq.settings.surah, gq.settings.ayah);
+						*/
+							layout.get.page.refresh();
 					};
 				});
 			}
 		},
 		
-		_player:	{
+		_player:	{ //TODO
 			
 			startup: function ()
 			{
@@ -810,7 +906,7 @@ var layout = {
 
 
 				/*
-				TODO attach it with main gq functions					
+				TO DO attach it with main gq functions					
 						
 				gq.layout.recitorList = function ()
 				{
@@ -822,12 +918,12 @@ var layout = {
 			play: function ()
 			{
 				$('.icon-play, icon-stop').removeClass('icon-play').removeClass("icon-stop").addClass('icon-pause');
-				$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //TODO REPLACE THIS
+				$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').show(); //TO DO REPLACE THIS
 				
 				if (gq.player.status().noVolume) //TODO CHECK THIS
 					$('#volume').hide();
 				
-				// TODO this.recitorKbs(gq.player.recitorBy());	
+				// TO DO this.recitorKbs(gq.player.recitorBy());	
 			},
 			
 			pause: function ()
@@ -838,7 +934,7 @@ var layout = {
 			stop: function ()
 			{
 				$('.icon-stop, icon-play').removeClass('icon-pause').addClass('icon-play');
-				$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide(); // TODO REPLACE THIS
+				$('#recitor, #nextAyah, #prevAyah, #progressBar, #time, #bandwidthOption, #volume, #repeat').hide(); // TO DO REPLACE THIS
 			},		
 			
 			volume: function (volume)
@@ -965,7 +1061,7 @@ var layout = {
 			{
 				$('#quranFont').live('change', function() {
 					gq.font.setFamily($(this).val());
-					gq.load.refresh();
+					layout.get.page.refresh();
 				});
 			},
 			
@@ -976,7 +1072,7 @@ var layout = {
 					gq.settings.showAlef = $('#showAlef').is(':checked');
 					gq.settings.showSigns = $('#showSigns').is(':checked');
 					gq.settings.wbwMouseOver = $('#wbwMouseOver').is(':checked');
-					gq.load.refresh();
+					layout.get.page.refresh();
 				});
 			},
 			
@@ -988,7 +1084,7 @@ var layout = {
 					var languageFrom = (languageTo == 'EN') ? 'AR' : 'EN'; 
 					$(this).text(languageFrom);			
 					gq.settings.wbwDirection = (languageTo == 'EN') ? 'english2arabic' : 'arabic2english';
-					gq.load.refresh();
+					layout.get.page.refresh();
 					
 					return false;
 				});
