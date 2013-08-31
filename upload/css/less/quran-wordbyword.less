@@ -9,29 +9,39 @@
 	display:inline-block;
 	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
 	*display: inline;
-}
-.staticWord {
-	padding: .2em .3em .2em .3em;
-}
-.staticWord .first, .staticWord .second {
-	text-align: center;
-}
-.staticWord:hover {
-	background-color:#ffffee;
-}
-.word .first {
-	display:block;
-	padding-top: .2em;
-	padding-bottom: .2em;
-}
-.word .second {
-	display: block;	
-}
-.word .tipsWord:hover {
-	cursor:help;
-	color: #3B5998;
-	text-decoration:overline;
-}
-.en .second {
-	font-size: 20%;
-}
+
+	&.staticWord {
+		padding: .2em .3em .2em .3em;
+
+		&:hover {
+			background-color:#ffffee;
+		}
+		
+		.first, .second {
+			text-align: center;
+		}
+		
+	}
+	
+	.first, .second {
+		display: block;
+	}
+	
+	.first {
+		padding-top: .2em;
+		padding-bottom: .2em;
+	}
+	
+	.second {
+		&.en {
+			font-size: 75%;
+		}
+	}
+
+	.tipsWord:hover {
+		cursor:help;
+		color: #3B5998;
+		text-decoration:overline;
+	}
+	
+} // end .word

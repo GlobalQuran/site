@@ -44,7 +44,7 @@ yepnope({
 					// turned page
 					turned: function (event, page, pageObj)
 					{
-						console.log('page:'+page);
+						//console.log('page:'+page);
 						
 						// if page is not first and fixed class dosn't already exist, then add fixed class for making background border effect
 						if (!$('.hard.right').hasClass('fixed') && page > 1)
