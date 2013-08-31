@@ -241,11 +241,12 @@ var layout = {
 				
 				html += '<div class="content">';
 				
-				$.each(quranArray, function(verseNo, quran)
+				$.each(quranArray, function(i, quran)
 				{
 					surah = quran.surah;
 					ayah  = quran.ayah;
-					verseNo = quran.verseNo;
+					verseNo = Quran.verseNo.ayah(surah, ayah);
+
 					quranHtml=''; transHtml='';
 					
 					if (quran.ayah == 1)
@@ -783,8 +784,6 @@ var layout = {
 					// rebuild list - to keep selected menu on top
 					if ($(this).parents('.trans-list').length)
 						layout.get.translationList();	
-					else
-						layout.get.quranList();
 					
 					$('.menu').trigger('close'); // hide menu
 					

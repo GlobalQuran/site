@@ -877,24 +877,31 @@ var gq = {
 				var text = verseObject.verse;
 				var words = text.split('$');
 				var verse_html = '';
+				
 				$.each(words, function(i, verse) {
 					if (verse)
 					{
 						var verse = verse.split('|');
+					
+						if (verse.length <= 1) // if its not proper required array, then dont do anything - because it is probally parsed code already or overright from some other func
+						{
+							verse_html += verse[0];
+							return;
+						}
 					    
 						if (gq.settings.wbwDirection == 'english2arabic')
 						{
 							if (gq.settings.wbwMouseOver)
 								verse_html += '<span class="word"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
-								verse_html += '<span class="word staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quranText second rtl" dir="rtl">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quran-text second rtl" dir="rtl">'+verse[0]+'</span></span>';
 						}
 						else
 						{
 							if (gq.settings.wbwMouseOver)
-								verse_html += '<span class="word"><span class="ar quranText tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word"><span class="ar quran-text tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
-								verse_html += '<span class="word staticWord"><span class="ar quranText top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
+								verse_html += '<span class="word staticWord"><span class="ar quran-text top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
 						}
 					}
 				});
@@ -920,20 +927,26 @@ var gq = {
 					if (verse)
 					{
 						var verse = verse.split('|');
+						
+						if (verse.length <= 1) // if its not proper required array, then dont do anything - because it is probally parsed code already or overright from some other func
+						{
+							verse_html += verse[0];
+							return;
+						}					    
 					    
 						if (gq.settings.wbwDirection == 'english2arabic')
 						{
 							if (gq.settings.wbwMouseOver)
 								verse_html += '<span class="word wordColor'+color+'"><span class="en tipsWord" title="'+verse[0]+'">'+verse[1]+'</span></span>';
 							else
-								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quranText second rtl" dir="rtl">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="en first ltr" dir="ltr">'+verse[1]+'</span><span class="ar quran-text second rtl" dir="rtl">'+verse[0]+'</span></span>';
 						}
 						else
 						{
 							if (gq.settings.wbwMouseOver)
-								verse_html += '<span class="word wordColor'+color+'"><span class="ar quranText tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
+								verse_html += '<span class="word wordColor'+color+'"><span class="ar quran-text tipsWord" title="'+verse[1]+'">'+verse[0]+'</span></span>';
 							else
-								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="ar quranText top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
+								verse_html += '<span class="word wordColor'+color+' staticWord"><span class="ar quran-text top first rtl" dir="rtl">'+verse[0]+'</span><span class="en second ltr" dir="ltr">'+verse[1]+'</span></span>'; 
 						}
 					}
 					
