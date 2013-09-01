@@ -55,7 +55,7 @@ var gq = {
 		 */
 		url: { 
 			enable: true,
-			html5: true,	// html5 replaces hash (!#) with backslashes / 
+			html5: true,	// html5 replaces hash (#) with backslashes / 
 			
 			/**
 			 * puts backslash in the url, which can be used for sharing on facebook (lint feature). - requries .htaccess and metaTag plugin, to work properly.
@@ -3222,7 +3222,10 @@ var gq = {
 					verse = Quran.ayah.fromPage(path['2']);
 					gq.settings.surah = verse.surah;
 					gq.settings.ayah = verse.ayah;
-				}		
+				}
+				
+				gq.settings.page = Quran.ayah.page(gq.settings.surah, gq.settings.ayah);
+				gq.settings.juz  = Quran.ayah.juz(gq.settings.surah, gq.settings.ayah);
 				
 				gq.player.reset();
 			
@@ -3242,7 +3245,10 @@ var gq = {
 					verse = Quran.ayah.fromPage(path['1']);
 					gq.settings.surah = verse.surah;
 					gq.settings.ayah = verse.ayah;
-				}		
+				}
+				
+				gq.settings.page = Quran.ayah.page(gq.settings.surah, gq.settings.ayah);
+				gq.settings.juz  = Quran.ayah.juz(gq.settings.surah, gq.settings.ayah);
 				
 				gq.player.reset();
 			
@@ -3315,7 +3321,7 @@ var gq = {
 					path = gq.config.url.startWith;
 			}
 			else
-				path = '!#';
+				path = '#';
 			
 			return path;
 		},
