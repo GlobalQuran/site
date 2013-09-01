@@ -60,23 +60,25 @@ var layout = {
 			//	$(layout.config.div.content).html(this.page(gq.quran.text()));			
 		},
 		
-		
-		surahList: function () //TODO
+		surahContent: function ()
 		{
-			var surahTitle = '';
-			$('.customSurah').html('');
+			var html;
 			
-			for (var i=1; i<= 114; i++)
-			{			
-				/* ie error, selectedBy undefined
-				if (gq.quran.length() == 1 && gq.quran.detail(gq.settings.selectedBy).language_code == 'ar')
-					surahTitle = Quran.surah.name(i, 'arabic_name');
-				else
-				*/
-					surahTitle = Quran.surah.name(i, 'english_name');
-				
-				$('.customSurah').append('<option value="'+i+'">'+surahTitle+'</option>');
-			}
+			html = 
+				'<div class="header">\
+					<div class="title">\
+						<span class="meaning">Contents</span>\
+					</div>\
+				</div>\
+				<div class="content">\
+					<ul class="list-unstyled">';
+			
+			for (var surah=1; surah<= 114; surah++)
+				html += '<li><a href="'+gq.url.ayah(surah, 1)+'">'+surah+'. '+Quran.surah.name(surah, 'english_name')+'</a></li>';
+						
+			html +=	'</ul></div>';
+			
+			return html;
 		},
 		
 		translationLanguageList: function (list)
@@ -325,13 +327,14 @@ var layout = {
 		{
 			this.quranList();
 			this.translationList();
+			this.surahContent();			
 		},
 		
 		page: {
 			
 			refresh: function ()
 			{
-				this.load(gq.page());
+				this.load(gq.load._defaultByNumber());
 			},
 			
 			load: function (page)
@@ -350,9 +353,9 @@ var layout = {
 				{
 					$('.p'+flipBookPage).html(layout.view.page.body(page));
 				});			
-				
+	
 				// lazy load second page
-				this._loadSidePage($('.p'+page).hasClass('even') ? (page+1) : (page-1));
+				this._loadSidePage($('.p'+flipBookPage).hasClass('even') ? (page+1) : (page-1));
 			},
 			
 			_loadSidePage: function (page)
@@ -371,6 +374,11 @@ var layout = {
 			_fixPageNumber: function (page, add)
 			{
 				return add ? (page + ignoreBookStartPages) : (page - ignoreBookStartPages);
+			},
+			
+			flip: function (page)
+			{
+				$('.book').turn('page', this._fixPageNumber(page, true));
 			}
 		},
 		
@@ -386,6 +394,11 @@ var layout = {
 			// translation list
 			if (layout.config.div.translationList)
 				$(layout.config.div.translationList).html(layout.view.translationLanguageList(gq.quran.languageList()));
+		},
+		
+		surahContent: function ()
+		{
+			$('.surah-content').html(layout.view.surahContent());
 		}
 	},
 	
@@ -849,6 +862,7 @@ var layout = {
 			urlHashChange: function ()
 			{
 				$(window).bind('hashchange', function(e) {
+					
 					if (gq.url.load())
 					{
 						/*
@@ -857,6 +871,8 @@ var layout = {
 						else
 						*/
 							layout.get.page.refresh();
+						
+						layout.get.page.flip(gq.load._defaultByNumber());
 					};
 				});
 			}
