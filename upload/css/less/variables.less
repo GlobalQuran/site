@@ -249,7 +249,7 @@
 @networkbar-height:                22px;
 
 // Basics of a navbar
-@navbar-height:                    50px;
+@navbar-height:                    40px;
 @navbar-margin-bottom:             @line-height-computed;
 @navbar-default-color:             #fff;
 @navbar-default-bg:                #b99c45;
@@ -310,6 +310,32 @@
 @navbar-inverse-toggle-hover-bg:            #333;
 @navbar-inverse-toggle-icon-bar-bg:         #fff;
 @navbar-inverse-toggle-border-color:        #333;
+
+// plain navbar
+//
+// Reset inverted navbar basics
+@navbar-plain-color:             #777;
+@navbar-plain-bg:                #fafafa;
+@navbar-plain-border:            darken(@navbar-plain-bg, 12%);
+
+// Navbar links
+@navbar-plain-link-color:                #777;
+@navbar-plain-link-hover-color:          @brand-primary;
+@navbar-plain-link-hover-bg:             @navbar-plain-bg;
+@navbar-plain-link-active-color:         @brand-primary;
+@navbar-plain-link-active-bg:            @navbar-plain-bg;
+@navbar-plain-link-disabled-color:       #ccc;
+@navbar-plain-link-disabled-bg:          transparent;
+
+// Navbar brand label
+@navbar-plain-brand-color:               @navbar-plain-link-color;
+@navbar-plain-brand-hover-color:         darken(@navbar-plain-link-color, 10%);
+@navbar-plain-brand-hover-bg:            transparent;
+
+// Navbar toggle
+@navbar-plain-toggle-hover-bg:           #ddd;
+@navbar-plain-toggle-icon-bar-bg:        #ccc;
+@navbar-plain-toggle-border-color:       #ddd;
 
 
 // Navs

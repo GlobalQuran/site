@@ -23,76 +23,58 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
 <!--    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">-->
 <!--    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">-->
 <!--    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">-->
 <!--    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">-->
 
-  <body>
-
-	 <div class="navbar networkbar navbar-inverse navbar-static-top" role="navigation">
-      <div class="navbar-inner">
-          <div class="nav-collapse">
-             <ul class="nav navbar-nav">
-              <li class="active"><a href="http://GlobalQuran.com">Quran</a></li>
-              <li><a href="http://MuslimSalat.com">Salat</a></li>
-              <li><a href="http://MuslimMarkaz.com">Markaz</a></li>
-            </ul>
-            
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="http://labs.globalquran.com"><img src="http://labs.globalquran.com/img/favicon.png" width="18" /> Lab</a></li>
-              <li><a href="http://v2.globalquran.com">v2</a></li>
-              <li><a href="http://docs.globalquran.com">Documentation</a></li>
-              <li><a href="http://blog.globalquran.com">Blog</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-      </div>
-    </div><!--/.networkbar -->
-	<!-- if two bar is added on header - remove if network bar is removed -->
-	
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-	      <div class="navbar-header">
-	      	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-	      	 	<span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	         </button>
-	          <a class="navbar-brand" href="http://GlobalQuran.com">GlobalQuran.com</a>
-	      </div>
-	      
-	      <div class="collapse navbar-collapse navbar-ex1-collapse"> 
-	          <ul class="nav navbar-nav">
-	            <li class="active"><a href="index.php">Home</a></li>
-	            <li><a href="application.php">My Apps</a></li>
-	            <li><a href="#contact">My Projects</a></li>
-	          </ul>
-	                             
-	          <ul class="nav navbar-nav navbar-right">
-	            <li class="dropdown">
-			        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i> Anonymouse <b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-			           <li><a href="user_settings.php">Profile</a></li>
-			            <li class="divider"></li>
-			            <li><a href="?logout">Sign Out</a></li>
-			        </ul>
-			     </li>
-	          </ul>
-	      </div><!--/.nav-collapse -->
-	    </div><!-- /.container -->
-    </div>
-    
-    
-
-      <div class="alert alert-warning container">
-		  <a class="close" data-dismiss="alert" href="#">×</a>
-		  <h4 class="alert-heading">Warning!</h4>
-		  Warning note here
-	  </div>
+  <body class="plain">
 	
     <div id="container" class="container">
+    	
+    	<div id="logo">
+			<a href="/" title="Global Quran"><img src="http://globalquran.com/img/logo-alternate.png" alt="logo"></a>
+		</div>
+		<!-- if two bar is added on header - remove if network bar is removed -->
+		
+	    <div class="navbar navbar-default" role="navigation">
+	      <div class="container">
+		      <div class="navbar-header">
+		      	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		      	 	<span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		         </button>
+		      </div>
+		      
+		      <div class="collapse navbar-collapse navbar-ex1-collapse"> 
+		          <ul class="nav navbar-nav">
+		            <li class="active"><a href="index.php">Home</a></li>
+		            <li><a href="application.php">My Apps</a></li>
+		            <li><a href="#contact">My Projects</a></li>
+		          </ul>
+		                             
+		          <ul class="nav navbar-nav navbar-right">
+		            <li class="dropdown">
+				        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i> Anonymouse <b class="caret"></b></a>
+				        <ul class="dropdown-menu">
+				           <li><a href="user_settings.php">Profile</a></li>
+				            <li class="divider"></li>
+				            <li><a href="?logout">Sign Out</a></li>
+				        </ul>
+				     </li>
+		          </ul>
+		      </div><!--/.nav-collapse -->
+		    </div><!-- /.container -->
+	    </div>
+	    
+	    <div class="alert alert-warning ">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Warning!</h4>
+			  Warning note here
+		  </div>
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="jumbotron">

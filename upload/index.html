@@ -61,7 +61,63 @@
 		<div class="book">
 		
 			<div class="hard front own-size"></div>
-			<div class="hard right own-size"></div>
+			<div class="hard right own-size donation-page">
+				<div class="header">
+					<div class="title">
+						<span class="meaning">Quran app version 4.0</span>						
+					</div>
+				</div>
+				<div class="content">
+					<h3>Donation <small>Goal: <span class="donation-goal">$?</span></small></h3>
+					<p>We are raising money for the Quran Project <br/>as it is an ongoing project that needs continual support.</p>
+					<div class="donation-box col-md-5" data-color="#5bc0de" data-size="150"></div>
+					<div class="col-md-6 donate-button">
+						<br/><br/>
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="payPalForm">
+				            <input type="hidden" name="cmd" value="_donations" />
+				            <input type="hidden" name="item_name" value="Donating for Quran" />
+				
+				            <!-- Your PayPal email: -->
+				            <input type="hidden" name="business" value="donate@globalquran.com" />
+				
+				            <!-- PayPal will send an IPN notification to this URL: -->
+				            <input type="hidden" name="notify_url" value="http://GlobalQuran.com/donate/ipn.php" />
+				
+				            <!-- The return page to which the user is navigated after the donations is complete: -->
+				            <input type="hidden" name="return" value="http://GlobalQuran.com/donate/thankyou.php" />
+				            <input type="hidden" name="cancel_return" value="http://GlobalQuran.com" />
+				
+				            <!-- Signifies that the transaction data will be passed to the return page by POST -->
+				            <input type="hidden" name="rm" value="2" />
+				
+				
+							<!-- 	General configuration variables for the paypal landing page. Consult
+				            		http://www.paypal.com/IntegrationCenter/ic_std-variable-ref-donate.html for more info  -->
+				
+				            <input type="hidden" name="cbt" value="Go Back To The Site" />
+				            <input type="hidden" name="no_shipping" value="1" />
+				            <input type="hidden" name="lc" value="US" />
+				            <input type="hidden" name="currency_code" value="USD" />
+				
+				
+				            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
+				
+				            <!-- You can change the image of the button: -->
+				            <button type="submit" name="submit" class="btn btn-primary btn-lg ">Donate for Quran</button>
+				            <br/>
+				            <label class="as-anonymous checkbox-inline"><input type="checkbox" name="custom" value="is_anonymous=1" />As Anonymous</label>
+				
+				          <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+					    </form>
+					</div>
+					
+					<div class="clearfix"></div><br/><br/>
+					<div class="donation-list" style="display:none;">
+						<h4>We thank all the donors</h4>
+					</div>
+				</div><!-- /.content -->
+			</div><!-- /.hard .donation-page -->
+			
 			<div class="page surah-content"><div class="loadingPage"><i class="icon icon-refresh icon-spin"></i></div></div>
 			
 			<div class="quranPages"></div>
@@ -129,10 +185,12 @@
 
 <script src="/js/jquery/jquery.touchwipe.js" onload="progressLoading(5);"></script>
 <script src="/js/jquery/superscroll.js" onload="progressLoading(5);"></script>
+<script src="/js/jquery/jquery.easy-pie-chart.min.js"></script>
 
 <script src="/js/Quran.js" onload="progressLoading(5);"></script>
 <script src="/js/gq.js" onload="progressLoading(5);"></script>
 <script src="/js/layout.js" onload="progressLoading(5);"></script>
 <script src="/app.settings.js" onload="progressLoading(5);"></script>
+<script src="/js/donation.js" onload="get_donation();"></script>
 </body>
 </html>
