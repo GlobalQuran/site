@@ -137,7 +137,7 @@
 				            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
 				
 				            <!-- You can change the image of the button: -->
-				            <button type="submit" name="submit" class="btn btn-primary btn-lg ">Donate for Quran</button>
+				            <button type="submit" name="submit" class="btn btn-success btn-lg ">Donate for Quran</button>
 				            <br/>
 				            <label class="as-anonymous checkbox-inline"><input type="checkbox" name="custom" value="is_anonymous=1" />As Anonymous</label>
 				
@@ -1347,7 +1347,7 @@
 			<div class="stack right" style="display:none;"></div>
 						
 			<!-- book menu -->
-			<ul class="menu" style="display: none;">
+			<ul class="menu">
 				<li class="">
 					<a href="#" class="item" title="Quran"><i class="icon-book"></i></a>
 					<ul class="menu-list quran-list" data-items="5">
@@ -1377,7 +1377,24 @@
 				<li><a href="#" class="item" title="Settings"><i class="icon-cog"></i></a></li>
 				<li><a href="#" class="item" title="Search"><i class="icon-search"></i></a></li>
 				<li><a href="http://bug.globalquran.com" target="_blank" class="item" title="Report Bug or Get Help"><i class="icon-bug text-danger"></i></a></li>
-				<li><a href="#" class="item" title="Updates and Latest News"><span class="badge badge-important">9</span> <i class="icon-road"></i></a></li>
+				<li class="active">
+					<a href="#" class="item" title="Annoucements"><span class="badge">92</span> <i class="icon-bullhorn"></i></a>
+					<ul class="news">
+						<li class="header"><h4><a href="#" class="pull-right"><i class="icon-remove"></i></a> Announcements</h4></li>
+						<li>
+							<h3>Breaking News</h3>
+							<p>Everyone became muslim on such and such date, this is cool.
+							<br/><a href="#">Read more...</a></p>
+						</li>
+						<li class="footer">
+							<p>For more updates, check out...</p>
+							<a href="#" target="_blank"><i class="icon-book"></i> Blog</a>
+							<a href="#" target="_blank"><i class="icon-twitter"></i></a>
+							<a href="#" target="_blank"><i class="icon-facebook-sign"></i></a>
+							<a href="#" target="_blank"><i class="icon-envelope" title="subscribe for updates" ></i></a>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</div>		
 		
@@ -1480,6 +1497,7 @@
 <script src="js/jin-package/superscroll.js"></script>
  -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="/js/jquery/jquery.js"></script>
 <script>$('.no_js').removeClass();</script>
 <script src="/js/extras/progressLoading.js" onload="progressLoading(10);"></script>
 <script src="/js/turn4/extras/modernizr.2.5.3.min.js" onload="progressLoading(5);"></script>
