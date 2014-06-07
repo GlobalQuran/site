@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Test GlobalQuran.com Layout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" type="text/css" href="../../../upload/css/gq.css"/>
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="../../../upload/css/font-awesome-ie7.min.css">
+    <![endif]-->
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!--    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">-->
+    <!--    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">-->
+    <!--    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">-->
+    <!--    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">-->
+
+<body class="plain plain-quran">
+
+<header class="fixed">
+    <div class="row">
+        <div class="col-sm-4 hidden-xs">
+            <a href="/" title="Global Quran" class="logo">GlobalQuran.com</a>
+        </div>
+        <div class="col-sm-6 col-xs-8">
+            <h1 class="continue"><a href="#" class="no-underline">Al-Anbiyaa <small>Keep Listening </small> <span class="label label-primary">33:45</span></a></h1>
+            <h1 class="continue"><a href="#" class="no-underline">Al-Anbiyaa <small>Keep Reading </small> <span class="label label-primary">33:45</span></a></h1>
+        </div>
+        <div class="col-sm-1 col-xs-2 hidden-print icons">
+
+        </div>
+        <div class="col-sm-1 col-xs-1 hidden-print icons">
+
+        </div>
+    </div>
+    <hr style="margin-top: 0px;"/>
+</header>
+
+<div class="row">
+    <div class="col-sm-12 surah-list">
+        <ul class="list-unstyled list-inline">
+
+        </ul>
+    </div>
+
+    <div class="col-sm-12">
+        <footer>
+            <hr>
+            <p>&copy; <a href="http://GlobalQuran.com">GlobalQuran.com</a> 2014</p>
+        </footer>
+    </div>
+</div>
+
+<script src="/upload/js/jquery/jquery.js"></script>
+<!--<script src="/upload/js/extras/bootstrap.min.js"></script>-->
+<script src="/upload/js/Quran.js"></script>
+<script>
+    jQuery(function($) {
+        var detail;
+
+        for(i=1;i<=114;i++)
+        {
+            detail = Quran.surah.detail(i);
+            $('.surah-list ul').append('<li><a href="#"><span class="surah-name">'+detail.english_name+'</span> <span class="surah-number">'+i+'</span> <span class="surah-meaning">'+detail.english_meaning+'</span></a></li>');
+        }
+    });
+</script>
+</body>
+</html>
