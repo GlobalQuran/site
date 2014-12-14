@@ -5,7 +5,7 @@
  * Online Quran Project
  * http://GlobalQuran.com/
  *
- * Copyright 2011, imegah.com
+ * Copyright 2014, imegah.com
  * Simple Public License (Simple-2.0)
  * http://www.opensource.org/licenses/Simple-2.0
  * 
@@ -31,7 +31,7 @@ var config = {
 		/**
 		 * supported version for this gq. this will pull data from the server according to its version. 
 		 */
-		version: '4.0',
+		version: '5.0',
 		
 		/**
 		 * data api url
@@ -41,7 +41,7 @@ var config = {
 		/**
 		 * audioPath audio data api path
 		 */
-		audioPath: 'http://audio.globalquran.com/',
+		audioPath: 'http://audio.globalquran.com/'
 	},
 		
 	/**
@@ -70,7 +70,7 @@ var config = {
 		 * 'page'; 		- url page by page navigation
 		 * 'ayah'; 		- url ayah by ayah navigation
 		 */
-		by: 'page'
+		by: 'ayah'
 	},
 	
 	data: {
@@ -87,7 +87,7 @@ var config = {
 		 *  'surah';    - Get Quran surah by surah.
 		 *  'juz';      - Get Quran juz by juz.
 		 */
-		by: 'page', // surah or page
+		by: 'surah', // surah or page
 		
 		/**
 		 *  pre-caching the data so next page / surah / juz loads quickly.

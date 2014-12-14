@@ -1,3 +1,5 @@
+@import "variables.less";
+
 //
 // Quran Book
 // --------------------------------------------------
@@ -68,24 +70,27 @@
 		} // end .hard
 
 		// book pages style
-		@import "book-page.less";
+		@import "book-page";
 		
 	} // end .book
 	
-	@import "book-nav.less";
+	@import "book-nav";
 	
 	.options {
 		
 		position: relative;
 
 		// book optoins styles - like ribbon, menu, stack effect...
-		@import "book-stack-effect.less";
-		@import "book-ribbon.less";
-		@import "book-menu.less";
-		@import "book-menu-list.less";
-		@import "book-news.less";
+		@import "book-stack-effect";
+		@import "book-ribbon";
+		@import "book-menu";
+		@import "book-menu-list";
+		@import "book-news";
 		
 	
 	} // end .options	
 	
 } // end .quran
+
+@import "page-surah-content.less";
+@import "page-donation.less";

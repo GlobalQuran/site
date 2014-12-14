@@ -1,179 +1,77 @@
-<!doctype html>
-<html class="gq no_js">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Global Quran</title>
-	<meta name="description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
-	<meta name="keywords" content="Quran, Quran Text, Translation, Recitation, Authentic, Precise, Accurate, Verified, Qur'an, Al-Qur'an, Kuran, Koran, Search Quran, Roots, Recite, Tartil, Tarteel, Translations, Audio, Listen, Search, Code, API, Download, الكريم, القرآن ,العالمي" />
-		
-	<meta property="og:site_name" content="GlobalQuran.com" />
-	<meta property="og:title" content="Global Quran - القرآن العالمي" />
-	<meta property="og:description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
-	<meta property="og:url" content="http://GlobalQuran.com" />
-	<meta property="og:image" content="http://GlobalQuran.com/img/logo.png" /><!-- TODO logo for facebook -->
-	<meta property="og:type" content="book" />
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-	
-	<!--[if lt IE 7]>
-		<link rel="stylesheet" type="text/css" href="/css/font-awesome-ie7.css" />
-	<![endif]-->
-	
-	<link rel="stylesheet" type="text/css" href="/css/gq.css" />
-</head>
-<body>
-<div class="gq">
-	<div class="header">
-		<ul class="site-menu list-inline">
-			<li><a href="/">HOME</a></li>
-			<li><a href="http://labs.globalquran.com/">LAB</a></li>
-			<li><a href="http://docs.globalquran.com">API</a></li>
-			<!-- <li><a href="#">DOWNLOAD</a></li> -->
-			<li><a href="http://blog.globalquran.com/about-us">ABOUT US</a></li>
-			<li><a href="http://blog.globalquran.com/contact-us">CONTACT US</a></li>
-		</ul>
-	
-		<!--  -- ><h1><a href="#">Global Quran</a></h1><!-- -->
-	</div>
-	
-	
-	<!-- no javascript message, if javascript is disabled -->
-	<noscript>
-		<div class="no-js-message">
-			<div class="icon"><i class="icon-exclamation-sign"></i></div>
-			<p>We're sorry but this version <strong>requires</strong> JavaScript. Here are <a href="http://www.enable-javascript.com/">instructions on how to enable Javascript</a> in your web browser.</br></br>
-			You can also visit older version <a href="http://v2.globalquran.com">v2</a> and <a href="http://v3.globalquran.com">v3</a>, which support without javascript enabled.</p>
-		</div>
-	</noscript>
-	
-	<div class="loadingSite">
-		<div class="icon"><i class="icon-refresh icon-spin"></i></div>
-		<div class="progress progress-striped active">
-		  <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-		    <span class="sr-only">40% Complete (success)</span>
-		  </div>
-		</div>
-	</div>
-	
-	<div class="quran hide">
-		<div class="book">
-		
-			<div class="hard front own-size"></div>
-			<div class="hard right own-size donation-page">
-				<div class="header">
-					<div class="title">
-						<span class="meaning">Quran app version 4.0</span>						
-					</div>
-				</div>
-				<div class="content">
-					<h3>Donation <small>Goal: <span class="donation-goal">$?</span></small></h3>
-					<p>We are raising money for the Quran Project <br/>as it is an ongoing project that needs continual support.</p>
-					<div class="donation-box col-md-5" data-color="#5bc0de" data-size="150"></div>
-					<div class="col-md-6 donate-button">
-						<br/><br/>
-						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="payPalForm">
-				            <input type="hidden" name="cmd" value="_donations" />
-				            <input type="hidden" name="item_name" value="Donating for Quran" />
-				
-				            <!-- Your PayPal email: -->
-				            <input type="hidden" name="business" value="donate@globalquran.com" />
-				
-				            <!-- PayPal will send an IPN notification to this URL: -->
-				            <input type="hidden" name="notify_url" value="http://GlobalQuran.com/donate/ipn.php" />
-				
-				            <!-- The return page to which the user is navigated after the donations is complete: -->
-				            <input type="hidden" name="return" value="http://GlobalQuran.com/donate/thankyou.php" />
-				            <input type="hidden" name="cancel_return" value="http://GlobalQuran.com" />
-				
-				            <!-- Signifies that the transaction data will be passed to the return page by POST -->
-				            <input type="hidden" name="rm" value="2" />
-				
-				
-							<!-- 	General configuration variables for the paypal landing page. Consult
-				            		http://www.paypal.com/IntegrationCenter/ic_std-variable-ref-donate.html for more info  -->
-				
-				            <input type="hidden" name="cbt" value="Go Back To The Site" />
-				            <input type="hidden" name="no_shipping" value="1" />
-				            <input type="hidden" name="lc" value="US" />
-				            <input type="hidden" name="currency_code" value="USD" />
-				
-				
-				            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
-				
-				            <!-- You can change the image of the button: -->
-				            <button type="submit" name="submit" class="btn btn-primary btn-lg ">Donate for Quran</button>
-				            <br/>
-				            <label class="as-anonymous checkbox-inline"><input type="checkbox" name="custom" value="is_anonymous=1" />As Anonymous</label>
-				
-				          <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-					    </form>
-					</div>
-					
-					<div class="clearfix"></div><br/><br/>
-					<div class="donation-list" style="display:none;">
-						<h4>We thank all the donors</h4>
-					</div>
-				</div><!-- /.content -->
-			</div><!-- /.hard .donation-page -->
-			
-			<div class="page surah-content"><div class="loadingPage"><i class="icon icon-refresh icon-spin"></i></div></div>
-			
-			<div class="quranPages"></div>
-			<div></div><!-- TODO Replace this page or remove it (check after removing) -->
-			<div class="hard left fixed own-size"></div>
-			
-			<!--  -- >
-			<div class="hard back own-size"></div>
-			<!--  -->
-		</div> <!-- /.book -->
-		
-		<!-- navigation for turning pages -->
-		<a href="#" class="book-nav next"></a>
-		<a href="#" class="book-nav prev" style="display: none;"></a>
-		
-		<div class="options">
-			
-			<!-- stack effect -->
-			<div class="stack left" style="display:none;"></div>
-			<div class="stack right" style="display:none;"></div>
-						
-			<!-- book menu -->
-			<ul class="menu" style="display: none;">
-				<li>
-					<a href="#" class="item" title="Quran"><i class="icon-book"></i></a>
-					<ul class="menu-list quran-list" data-items="9">
-						<li><a href="#">loading...</a></li>
-					</ul>
-				</li>
-				<li>
-					<a href="#" class="item" title="Translation, Tafsir & Transliteration"><i class="icon-tumblr"></i></a>
-					<ul class="menu-list trans-list" data-items="8">
-						<li><a href="#">loading...</a></li>
-					</ul>
-				</li>
-				<li><a href="http://bug.globalquran.com" target="_blank" class="item" title="Report Bug or Get Help"><i class="icon-bug text-danger"></i></a></li>
-				<!--  -- >
-				<li><a href="#" class="item" title="Settings"><i class="icon-cog"></i></a></li>
-				<li><a href="#" class="item" title="Search"><i class="icon-search"></i></a></li>
-				<li><a href="#" class="item" title="Updates and Latest News"><span class="badge badge-important">9</span> <i class="icon-road"></i></a></li>
-				<!-- -->
-			</ul>			
-		</div>		
-		
-	</div><!-- /.quran -->
-	
-	<div class="footer">
-		<ul class="socialnetwork list-inline">
-			<li><a class="f" href="http://facebook.com/GlobalQuran"></a></li>
-			<li><a class="t" href="https://twitter.com/GlobalQuran"></a></li>
-			<!-- <li><a class="g" href="#"></a></li> -->
-		</ul>
-			
-		<div class="copyright">&copy; 2006 - 2013 GlobalQuran.com</div>
-	</div><!-- /.footer -->
+    <meta charset="UTF-8">
+    <title>Global Quran</title>
+    <meta name="description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
+    <meta name="keywords" content="Quran, Quran Text, Translation, Recitation, Authentic, Precise, Accurate, Verified, Qur'an, Al-Qur'an, Kuran, Koran, Search Quran, Roots, Recite, Tartil, Tarteel, Translations, Audio, Listen, Search, Code, API, Download, الكريم, القرآن ,العالمي" />
+
+    <meta property="og:site_name" content="GlobalQuran.com" />
+    <meta property="og:title" content="Global Quran - القرآن العالمي" />
+    <meta property="og:description" content="Browse, Search, and Listen to the Holy Quran. With accurate quran text and quran translations in various languages." />
+    <meta property="og:url" content="http://GlobalQuran.com" />
+    <meta property="og:image" content="http://GlobalQuran.com/img/logo.png" /><!-- TODO logo for facebook -->
+    <meta property="og:type" content="book" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="/css/gq.css"/>
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="/css/font-awesome-ie7.min.css">
+    <![endif]-->
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!--    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">-->
+    <!--    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">-->
+    <!--    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">-->
+    <!--    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">-->
+
+<body class="plain plain-quran">
+
+<header class="fixed">
+    <div class="row">
+        <div class="col-sm-4 hidden-xs">
+            <a href="/" title="Global Quran" class="logo">GlobalQuran.com</a>
+        </div>
+        <div class="col-sm-6 col-xs-8">
+            <h1 class="continue"><a href="#" class="no-underline">Al-Anbiyaa <small>continue reading... </small> <span class="label label-primary">33:45</span></a></h1>
+
+        </div>
+        <div class="col-sm-1 col-xs-2 hidden-print icons">
+
+        </div>
+        <div class="col-sm-1 col-xs-1 hidden-print icons">
+
+        </div>
+    </div>
+    <hr style="margin-top: 0px;"/>
+</header>
+
+<div class="row">
+    <div class="col-sm-12 surah-list">
+        <ul class="list-unstyled list-inline">
+
+        </ul>
+    </div>
+
+    <div class="col-sm-12">
+        <footer>
+            <hr>
+            <p>&copy; <a href="http://GlobalQuran.com">GlobalQuran.com</a> 2014</p>
+        </footer>
+    </div>
 </div>
+
+<script src="/js/jquery/jquery.js"></script>
+<!--<script src="/upload/js/extras/bootstrap.min.js"></script>-->
+<script src="/js/Quran.js"></script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script>$('.no_js').removeClass();</script>
@@ -192,5 +90,16 @@
 <script src="/js/layout.js" onload="progressLoading(5);"></script>
 <script src="/app.settings.js" onload="progressLoading(5);"></script>
 <script src="/js/donation.js" onload="get_donation();"></script>
+<script>
+    jQuery(function($) {
+        var detail;
+
+        for(i=1;i<=114;i++)
+        {
+            detail = Quran.surah.detail(i);
+            $('.surah-list ul').append('<li><a href="#"><span class="surah-name">'+detail.english_name+'</span> <span class="surah-number">'+i+'</span> <span class="surah-meaning">'+detail.english_meaning+'</span></a></li>');
+        }
+    });
+</script>
 </body>
 </html>
