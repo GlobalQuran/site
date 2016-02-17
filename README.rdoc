@@ -1,3 +1,5 @@
+If you are interested on contributing to our latest application or just want to download and test, please visit - https://github.com/GlobalQuran/mobile-app
+
 = GlobalQuran.com - Code + API
 
 بسم الله الرحمن الرحيم - In the name of Allah, Most Gracious, Most Merciful
