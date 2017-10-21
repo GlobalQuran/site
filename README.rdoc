@@ -86,7 +86,7 @@ See the {CHANGELOG.rdoc}[https://github.com/imegah/GlobalQuran.com-code/blob/mas
 
 == License
 
-Copyright (c) 2006-2013 GlobalQuran.com
+Copyright (c) 2006-2017 GlobalQuran.com
 
 GlobalQuran.com-code is free software released under the {Simple Public License (Simple-2.0)}[http://www.opensource.org/licenses/Simple-2.0].
     
